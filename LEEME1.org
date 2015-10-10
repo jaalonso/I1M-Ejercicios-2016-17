@@ -1,0 +1,184 @@
+LEEME1.org
+Creación del directorio de ejercicios de I1M.
+José A. Alonso Jiménez <jalonso@us.es>
+Sevilla, 5 de Septiembre de 2015
+=============================================================================
+
++ Añadir el fichero al control de versiones
+     git init
+     git add .
+     git commit -am "Estado inicial"
+  Crea el directorio [[./haq/.git][.git]]
+
++ Escribir .gitignore con el siguiente contenido 
+     dist
+     cabal-dev
+     *.o
+     *.hi
+     *.chi
+     *.chs.h
+     *.dyn_o
+     *.dyn_hi
+     .hpc
+     .hsenv
+     .cabal-sandbox/
+     cabal.sandbox.config
+     *.prof
+     *.aux
+     *.hp
+     .stack-work/
+     LEEME1.org
+     TAGS
+
++ Configurar Cabal
+     cabal init
+  Crea los ficheros [[./I1M.cabal][I1M.cabal]], [[./Setup.hs][Setup.hs]] y [[./LICENSE][LICENSE]].
+
++ Copiar a src/I1M/Temas los archivos T1.hs, T2.hs y T3.hs
+
++ Editar [[./I1M.cabal][I1M.cabal]] para añadir los ficheros como sigue
+     exposed-modules:     I1M.Temas.T1
+                        , I1M.Temas.T2
+                        , I1M.Temas.T3
+  y su dependencia 
+     build-depends:       base >=4.8 && <4.9
+                        , QuickCheck >= 2.8
+
++ Escribir [[./LEEME.md][LEEME.md]].
+
++ Actualizar los cambios en git
+     git add I1M-Cod-Temas.cabal Setup.hs LICENSE LEEME.md
+     git commit -am "Incluida la configuración"
+
++ Crear un entorno local de Cabal
+     cabal sandbox init
+  Crea el fichero [[./haq/cabal.sandbox.config][cabal.sandbox.config]] y los directorios [[./haq/.cabal-sandbox][.cabal-sandbox]] y [[./haq/dist][dist]].
+
++ Configurar el proyecto 
+     cabal configure
+
++ Construir el proyecto
+     cabal install 
+
++ Probar el programa
+     > cabal repl
+
++ Empaquetarlo
+     git tag 0.0
+     cabal sdist
+  Crea dist/I1M-Cod-Temas-0.1.0.0.tar.gz
+
++ Comprobar que está completo
+     tar xfz dist/I1M-Cod-Temas-0.1.0.0.tar.gz
+     cd I1M-Cod-Temas-0.1.0.0
+     cabal configure
+     cabal build
+     cabal install
+
++ Procesar la documentación
+     cabal configure
+     cabal haddock --hyperlink-source
+  Crea el fichero [[./dist/doc/html/I1M-Cod-Temas/index.html][dist/doc/html/I1M-Cod-Temas/index.html]].
+
++ Se puede limpiar el directorio usando
+     cabal clean
+
++ Reconstrucción desde el inicio
+     cabal clean
+     cabal sandbox delete
+     cabal sandbox init
+     cabal configure
+     cabal install --only-dependencies
+     cabal build
+     cabal install
+     cabal configure --enable-tests
+     cabal install --only-dependencies --enable-tests
+     cabal test
+     cabal haddock --hyperlink-source
+
++ Crear en GitHub el repositorio I1M-Cod-Temas 
+
++ Subir al repositorio
+     git remote add origin git@github.com:jaalonso/I1M-Cod-Temas.git
+     git push origin master
+
+* Tests
+
++ Añadir a I1M-Cod-Temas.cabal la sección de tests 
+     test-suite test
+       type:                exitcode-stdio-1.0
+       hs-source-dirs:      test
+       main-is:             Main.hs 
+       other-modules:       T1Propiedades
+       build-depends:       I1M-Cod-Temas
+                          , base >=4.8
+                          , tasty >= 0.8
+                          , tasty-quickcheck >= 0.8
+                          , tasty-hunit >= 0.8
+       default-language:    Haskell2010
+
++ Crear el directorio test
+     mkdir test 
+
++ Cambiar al directorio test 
+     cd test 
+
++ Escribir Main.hs
+     import Test.Tasty
+     import Test.Tasty.QuickCheck
+     import Test.Tasty.HUnit
+     
+     import qualified T1Propiedades (tests)
+     
+     main :: IO ()
+     main = defaultMain tests
+     
+     tests =
+         testGroup "Comprobaciones"
+         [ T1Propiedades.tests
+         ]
+ 
++ Escribir T1Propiedades.hs
+
++ Configurar con tests
+     cabal configure --enable-tests
+
++ Instalar dependencias
+     cabal install --only-dependencies --enable-tests
+
++ Comprobar los tests 
+     cabal test 
+
+
+* Creación de página del proyecto en GH-Pages
+
++ Leer las instrucciones en
+  [[https://gist.github.com/chrisjacob/833223][Setup GitHub Pages "gh-pages" branch and "master" branch as subfolders of a parent project folder]].
+
++ Crear el directorio gh-pages
+     mkdir gh-pages 
+
++ Cambiar a gh-pages
+     cd gh-pages
+
++ Clonar el repositorio I1M-Cod-Temas
+     git clone git@github.com:jaalonso/I1M-Cod-Temas.git
+  Se crea el directorio I1M-Cod-Temas
+
++ Cambiar al directorio I1M-Cod-Temas
+     cd I1M-Cod-Temas
+
++ Crear la rama gh-pages (sin ningún padre)
+     git checkout --orphan gh-pages
+
++ Borra los ficheros antiguos
+     git rm -rf .
+
++ Escribir en index.html
+     En construcción.
+
++ Sincronizar con magit-status
+
++ Copiar los ficheros de dist/doc/html/I1M-Cod-Temas
+ 
+  

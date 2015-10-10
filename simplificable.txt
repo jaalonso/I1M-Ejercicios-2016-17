@@ -1,0 +1,1 @@
+-- Comentario: La definición anterior se puede simplificar.
