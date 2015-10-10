@@ -8,9 +8,17 @@ clase) y las soluciones definitivas.
 
 + **Relación 1**: Definiciones por composición sobre números, listas y
   booleanos.
-  ([Enunciado]() y
-   [Solución]()).
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_1.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_1_sol.hs)).
 + **Relación 2**: Definiciones con condicionales, guardas o patrones. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_2.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_2_sol.hs)).
 + **Relación 3**: Definiciones por comprensión.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_3.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_3_sol.hs)).
 + **Relación 4**: Definiciones por comprensión con cadenas: El cifrado César.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_4.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_4_sol.hs)).
 + **Relación 5**: Definiciones por recursión.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_5.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Rel_5_sol.hs)).
