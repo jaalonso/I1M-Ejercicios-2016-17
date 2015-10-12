@@ -36,11 +36,12 @@ import Test.QuickCheck
 --    minuscula2int 'z'  ==  25
 -- ---------------------------------------------------------------------
 
--- guache carruirui3 juanarcon manpende manvermor alvalvdom1
+-- guache carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1
+-- erisancha fracruzam josllagam juamorrom1
 minuscula2int :: Char -> Int
 minuscula2int c = ord c - ord 'a'
 
---blaruiher crimalrui abrdelrod
+--blaruiher crimalrui abrdelrod rubvilval
 minuscula3int :: Char -> Int
 minuscula3int c = ord c - 97 
 
@@ -54,11 +55,12 @@ minuscula3int c = ord c - 97
 --    mayuscula2int 'Z'  ==  25
 -- ---------------------------------------------------------------------
 
--- guache carruirui3 blatuiher crimalrui juanarcon manpende manvermor alvalvdom1
+-- guache carruirui3 blatuiher crimalrui juanarcon manpende manvermor
+-- alvalvdom1 manvazbar1 erisancha fracruzam josllagam juamorrom1
 mayuscula2int :: Char -> Int
 mayuscula2int c = ord c - ord 'A'
 
--- abrdelrod
+-- abrdelrod rubvilval
 mayuscula2int2 :: Char -> Int
 mayuscula2int2 c = ord c - 65
 
@@ -72,11 +74,12 @@ mayuscula2int2 c = ord c - 65
 --    int2minuscula 25  ==  'z'
 -- ---------------------------------------------------------------------
 
--- guache abrdelrod blaruiher crimalrui 
+-- guache abrdelrod blaruiher crimalrui rubvilval juamorrom1
 int2minuscula :: Int -> Char
 int2minuscula n = chr(n+97)
  
--- carruirui3 juanarcon manpende manvermor alvalvdom1
+-- carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1 erisancha
+-- fracruzam josllagam
 int2minuscula2 :: Int -> Char
 int2minuscula2 n = chr(n + ord 'a')
 
@@ -90,11 +93,12 @@ int2minuscula2 n = chr(n + ord 'a')
 --    int2mayuscula 25  ==  'Z'
 -- ---------------------------------------------------------------------
 
--- guache abrdelrod 
+-- guache abrdelrod rubvilval juamorrom1
 int2mayuscula :: Int -> Char
 int2mayuscula n = chr(n+65)
 
--- carruirui3 blaruiher crimalrui juanarcon manpende manvermor alvalvdom1
+-- carruirui3 blaruiher crimalrui juanarcon manpende manvermor alvalvdom1 
+-- manvazbar1 erisancha fracruzam josllagam
 int2mayuscula2 :: Int -> Char
 int2mayuscula2 n = chr(n + ord 'A')
 
@@ -113,7 +117,8 @@ int2mayuscula2 n = chr(n + ord 'A')
 --    desplaza (-3) 'B'  ==  'Y'
 -- ---------------------------------------------------------------------
 
--- guache juanarcon manpende manvermor alvalvdom1
+-- guache juanarcon manpende manvermor alvalvdom1 erisancha manvazbar1
+-- fracruzam rubvilval josllagam juamorrom1
 desplaza :: Int -> Char -> Char
 desplaza n c 
     |elem c ['a'..'z'] = int2minuscula (mod (minuscula2int c + n) 26)
@@ -145,8 +150,13 @@ desplaza3 n c | c `elem` ['a'..'z'] = chr ((ord c-97+n) `mod` 26+97)
 -- ---------------------------------------------------------------------
 
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 rubvilval juamorrom1
 codifica :: Int -> String -> String
 codifica n xs = [desplaza n x | x <- xs]
+
+-- fracruzam josllagam
+codifica2 :: Int -> String -> String
+codifica2 n xs = map (desplaza n) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Comprobar con QuickCheck que para cualquier entero n y
@@ -155,6 +165,7 @@ codifica n xs = [desplaza n x | x <- xs]
 -- ---------------------------------------------------------------------
  
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 fracruzam rubvilval josllagam juamorrom1
 
 -- La propiedad es
 prop_codifica :: Int -> String -> Bool
@@ -173,6 +184,7 @@ prop_codifica n cs = codifica (-n) (codifica n cs) == cs
 -- ---------------------------------------------------------------------
 
 -- carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 fracruzam rubvilval juamorrom1
 tabla :: [Float]
 tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01, 
           0.70, 6.25, 0.44, 0.01,  4.97, 3.15, 6.71, 
@@ -186,11 +198,11 @@ tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01,
 --    porcentaje 2 5  ==  40.0  
 -- ---------------------------------------------------------------------
 
--- carruirui3 manvermor alvalvdom1
+-- carruirui3 manvermor alvalvdom1 juamorrom1
 porcentaje :: Int -> Int -> Float
 porcentaje n m = 100 * (fromIntegral n) / (fromIntegral m)
 
--- juanarcon manpende abrdelrod
+-- juanarcon manpende abrdelrod erisancha fracruzam rubvilval
 porcentaje2 :: Int -> Int -> Float
 porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 
@@ -207,19 +219,23 @@ porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 letras :: String -> String
 letras xs = [x | x <- xs, x `elem` ['A'..'Z'] || x `elem` ['a'..'z']]
 
--- guache
+-- guache erisancha
 letras2 :: String -> String
 letras2 xs = [x | x <- xs, elem x (ys++zs)]
     where ys = ['a'..'z']
           zs = ['A'..'Z']
 
--- manpende
+-- manpende manvazbar1 rubvilval
 letras3 :: String -> String
 letras3 xs = [x | x <- xs, elem x (['a'..'z']++['A'..'Z'])]
 
 -- abrdelrod
 letras4 :: String -> String
 letras4 xs = [x | x <- xs, x /= desplaza 1 x]
+
+-- alvalvdom1
+letras5 :: String -> String
+letras5 xs = [x | x <- xs, isAlpha x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. Definir la función
@@ -233,7 +249,8 @@ letras4 xs = [x | x <- xs, x /= desplaza 1 x]
 ocurrencias :: Eq a => a -> [a] -> Int
 ocurrencias x xs = sum [1 | a <- xs, x == a]
 
--- guache manpende manvermor abrdelrod
+-- guache manpende manvermor abrdelrod erisancha manvazbar1 fracruzam
+-- rubvilval 
 ocurrencias2 :: Eq a => a -> [a] -> Int
 ocurrencias2 x xs = length [y | y <- xs, x==y]
 
@@ -242,7 +259,8 @@ ocurrencias2 x xs = length [y | y <- xs, x==y]
 -- de un elemento x en una lista xs es igual que en su inversa.
 -- ---------------------------------------------------------------------
 
--- guache manpende manvermor alvalvdom1 abrdelrod
+-- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
+-- fracruzam rubvilval
 
 -- La propiedad es 
 prop_ocurrencia_inv :: Int -> [Int] -> Bool
@@ -258,7 +276,8 @@ prop_ocurrencia_inv x xs = ocurrencias x xs == ocurrencias x (reverse xs)
 -- la suma del número de ocurrencias de x en xs y en ys.
 -- ---------------------------------------------------------------------
  
--- guache manpende manvermor alvalvdom1 abrdelrod
+-- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
+-- fracruzam rubvilval
 -- La propiedad es
 prop_ocurrencia_conc :: Int -> [Int] -> [Int] -> Bool
 prop_ocurrencia_conc x xs ys = 
@@ -279,7 +298,8 @@ prop_ocurrencia_conc x xs ys =
 -- Nota: Se puede usar la función toLower (ver http://bit.ly/1vSxhhd )
 -- ---------------------------------------------------------------------
 
--- guache carruirui3 manvermor alvalvdom1 abrdelrod
+-- guache carruirui3 manvermor alvalvdom1 abrdelrod erisancha fracruzam
+-- rubvilval 
 frecuencias :: String -> [Float]
 frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
     where ys = [toLower x | x <- xs]
@@ -294,7 +314,8 @@ frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
 --    chiCuad [3,5,6] [5,6,3]  ==  3.9666667
 -- ---------------------------------------------------------------------
 
--- carruirui3 manvermor alvalvdom1
+-- carruirui3 manvermor alvalvdom1 manpende erisancha manvazbar1 fracruzam 
+-- rubvilval
 chiCuad :: [Float] -> [Float] -> Float
 chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 
@@ -304,7 +325,8 @@ chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 -- iguales. 
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache manvermor abrdelrod alvalvdom1
+-- carruirui3 guache manvermor abrdelrod alvalvdom1 manpende erisancha
+-- manvazbar1 rubvilval fracruzam
 
 -- La propiedad es
 prop_chiCuad_1 :: [Float] -> [Float] -> Bool
@@ -322,7 +344,8 @@ prop_chiCuad_1 xs ys = (chiCuad xs ys == 0) == (xs == ys)
 -- propiedad.
 -- ---------------------------------------------------------------------
 
--- guache manvermor alvalvdom1
+-- guache manvermor alvalvdom1 manpende erisancha manvazbar1 fracruzam 
+-- rubvilval
 -- La propiedad es
 prop_chiCuad_2 :: [Float] -> [Float] -> Property
 prop_chiCuad_2 xs ys = 
@@ -338,7 +361,7 @@ prop_chiCuad_2 xs ys =
 -- forma que se verifique en los 100 tests.
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache manvermor
+-- carruirui3 guache manvermor manpende erisancha fracruzam rubvilval
 
 -- La propiedad es
 prop_chiCuad :: [Float] -> [Float] -> Bool
@@ -359,7 +382,8 @@ prop_chiCuad xs ys =
 --    [rota n "abc" | n <- [0..5]]  ==  ["abc","bca","cab","abc","bca","cab"]
 -- ---------------------------------------------------------------------
 
--- guache alvalvdom1
+-- guache alvalvdom1 carruirui3 manpende erisancha manvazbar1 fracruzam
+-- rubvilval
 rota :: Int -> [a] -> [a]
 rota n [] = []
 rota n xs = drop m xs ++ take m xs
@@ -375,7 +399,8 @@ rota2 n xs = drop n xs ++ take n xs
 -- que rotando xs (n+m) veces, donde n y m son números no nulos.
 -- ---------------------------------------------------------------------
 
--- guache manvermor abrdelrod alvalvdom1
+-- guache manvermor abrdelrod alvalvdom1 carruirui3 manpende erisancha
+-- manvazbar1 rubvilval fracruzam
 
 -- La propiedad es
 prop_rota :: Int -> Int -> [Int] -> Property
@@ -406,7 +431,7 @@ prop_rota n m xs =
 --    "Todo Para Nada"
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1
+-- manvermor alvalvdom1 fracruzam rubvilval
 descifra :: String -> String
 descifra xs =  codifica (-factor) xs
     where factor = head (posiciones (minimum tabChi) tabChi)
@@ -417,3 +442,9 @@ posiciones x xs = [i | (x',i) <- zip xs [0..n], x == x']
     where n = length xs - 1
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- carruirui3 erisancha
+descifra2 :: String -> String
+descifra2 xs =  codifica (-factor) xs
+    where factor = head (posiciones (minimum tabChi) tabChi)
+          tabChi = [chiCuad (rota n (frecuencias xs)) tabla | n <- [0..25]]
