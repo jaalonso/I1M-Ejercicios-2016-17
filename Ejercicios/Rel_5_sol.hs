@@ -41,7 +41,7 @@ potencia x n = x * (potencia x (n-1))
 
 -- La propiedad es
 prop_potencia :: Integer -> Integer -> Property
-prop_potencia x n = n>=0 ==> potencia x n == x^n
+prop_potencia x n = n >= 0 ==> potencia x n == x^n
 
 -- La comprobación es
 --   *Main> quickCheck prop_potencia
