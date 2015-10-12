@@ -27,7 +27,7 @@ import Data.List
 --    potencia 2 3  ==  8
 -- ---------------------------------------------------------------------
 
--- guache pabmorgar manvermor
+-- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 potencia :: Integer -> Integer -> Integer
 potencia x 0 = 1
 potencia x n = x * (potencia x (n-1))
@@ -37,11 +37,11 @@ potencia x n = x * (potencia x (n-1))
 -- equivalente a la predefinida (^).
 -- ---------------------------------------------------------------------
 
--- guache pabmorgar manvermor
+-- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 
 -- La propiedad es
 prop_potencia :: Integer -> Integer -> Property
-prop_potencia x n = n >= 0 ==> potencia x n == x^n
+prop_potencia x n = n>=0 ==> potencia x n == x^n
 
 -- La comprobación es
 --   *Main> quickCheck prop_potencia
@@ -61,7 +61,7 @@ prop_potencia x n = n >= 0 ==> potencia x n == x^n
 --    mcd 30 45  ==  15
 -- ---------------------------------------------------------------------
 
--- guache pabmorgar manvermor
+-- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 mcd :: Integer -> Integer -> Integer
 mcd a 0 = a
 mcd a b = mcd b (mod a b)
@@ -85,9 +85,9 @@ prop_mcd a b = and[a/=b,a>0,b>0] ==> mcd a b >=1 && mcd a b <= min a b
 --    *Main> quickCheck prop_mcd
 --    +++ OK, passed 100 tests.
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 prop_mcd2 :: Integer -> Integer -> Property
-prop_mcd2 a b = a > 0 && b> 0 ==> mcd  a b >= 1 && mcd a b <= min a b
+prop_mcd2 a b = a > 0 && b > 0 ==> mcd a b >= 1 && mcd a b <= min a b
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Teniendo en cuenta que buscamos el máximo común
@@ -96,7 +96,7 @@ prop_mcd2 a b = a > 0 && b> 0 ==> mcd  a b >= 1 && mcd a b <= min a b
 -- esta propiedad y comprobarla.  
 -- ---------------------------------------------------------------------
 
--- guache
+-- guache erisancha
 -- La propiedad es
 prop_mcd_div :: Integer -> Integer -> Property
 prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
@@ -105,7 +105,7 @@ prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
 --    *Main> quickCheck prop_mcd_div
 --    +++ OK, passed 100 tests.
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1
 prop_mcd_div2 :: Integer -> Integer -> Property
 prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 
@@ -123,7 +123,7 @@ prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 --    pertenece 4 [2,3,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- guache manvermor
+-- guache manvermor carruirui3 manvazbar1 erisancha
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece x []     = False
 pertenece x (y:ys) = x == y || pertenece x ys
@@ -141,7 +141,7 @@ pertenece1 x (y:ys) | x == y    = True
 -- a elem. 
 -- ---------------------------------------------------------------------
 
--- guache pabmorgar manvermor
+-- guache pabmorgar manvermor carruirui3 manvazbar1 erisancha
 
 -- La propiedad es
 prop_pertenece :: Eq a => a -> [a] -> Bool
@@ -154,12 +154,12 @@ prop_pertenece x xs = pertenece x xs == elem x xs
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.1. Definir por recursión la función
 --    concatenaListas :: [[a]] -> [a]
--- tal que (concatenaListas xss) es la lista obtenida concatenando las listas de
--- xss. Por ejemplo,
+-- tal que (concatenaListas xss) es la lista obtenida concatenando las
+-- listas de xss. Por ejemplo,
 --    concatenaListas [[1..3],[5..7],[8..10]]  ==  [1,2,3,5,6,7,8,9,10]
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 concatenaListas :: [[a]] -> [a]
 concatenaListas []       = [] 
 concatenaListas (xs:xss) = xs ++  concatenaListas xss
@@ -169,7 +169,7 @@ concatenaListas (xs:xss) = xs ++  concatenaListas xss
 -- equivalente a concat. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 
 -- La propiedad es
 prop_concat :: Eq a => [[a]] -> Bool
@@ -188,7 +188,7 @@ prop_concat xss = concatenaListas xss == concat xss
 --    coge (-3) [4..12]  ==  []
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 alvalvdom1 erisancha
 coge :: Int -> [a] -> [a]
 coge n  _ | n <= 0 = [] 
 coge n []          = [] 
@@ -199,7 +199,7 @@ coge n (x:xs)      = x : coge (n-1) xs
 -- take. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 alvalvdom1 erisancha
 
 -- La propiedad es
 prop_coge :: Int -> [Int] -> Bool
@@ -215,9 +215,10 @@ prop_coge n xs = coge n xs == take n xs
 -- tal que (sumaCuadradosR n) es la suma de los cuadrados de los números
 -- de 1 a n. Por ejemplo, 
 --    sumaCuadradosR 4  ==  30 
+--    sumaCuadradosR 0  ==   0 
 -- ---------------------------------------------------------------------
  
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 erisancha
 sumaCuadradosR :: Integer -> Integer
 sumaCuadradosR 0 = 0
 sumaCuadradosR n = n^2 + sumaCuadradosR (n-1)
@@ -227,7 +228,7 @@ sumaCuadradosR n = n^2 + sumaCuadradosR (n-1)
 -- n(n+1)(2n+1)/6. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 erisancha
 -- La propiedad es
 prop_SumaCuadrados :: Integer -> Property
 prop_SumaCuadrados n =  
@@ -245,7 +246,7 @@ prop_SumaCuadrados n =
 --    sumaCuadradosC 4  ==  30 
 -- ---------------------------------------------------------------------
 
---pabmorgar manvermor
+--pabmorgar manvermor carruirui3 erisancha
 sumaCuadradosC :: Integer -> Integer
 sumaCuadradosC n = sum [x^2 | x <- [1..n]]
 
@@ -255,11 +256,12 @@ sumaCuadradosC n = sum [x^2 | x <- [1..n]]
 -- naturales. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 erisancha
 
 -- La propiedad es
 prop_sumaCuadradosR :: Integer -> Property
-prop_sumaCuadradosR n = n>=0 ==> sumaCuadradosR n == sumaCuadradosC n 
+prop_sumaCuadradosR n =
+    n >= 0 ==> sumaCuadradosR n == sumaCuadradosC n 
 
 -- La comprobación es
 --    ghci> quickCheck prop_sumaCuadradosR
@@ -273,7 +275,7 @@ prop_sumaCuadradosR n = n>=0 ==> sumaCuadradosR n == sumaCuadradosC n
 --    digitosR 320274  ==  [3,2,0,2,7,4]
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3 erisancha
 digitosR :: Integer -> [Integer]
 digitosR n = reverse (digitosR1 n)
 
@@ -289,7 +291,7 @@ digitosR1 n | n < 10    = [n]
 -- Indicación: Usar las funciones show y read.
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 digitosC :: Integer -> [Integer]
 digitosC n = [read [c] | c <- show n ]
 
@@ -298,7 +300,7 @@ digitosC n = [read [c] | c <- show n ]
 -- digitosC son equivalentes.
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 
 -- La propiedad es
 prop_digitos :: Integer -> Property
@@ -317,9 +319,14 @@ prop_digitos n = n>= 0 ==> digitosC n == digitosR n
 --    sumaDigitosR 20045 == 11
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor 
 sumaDigitosR :: Integer -> Integer
 sumaDigitosR n = sum (digitosR n)
+
+-- carruirui3
+sumaDigitosR2 :: Integer -> Integer
+sumaDigitosR2 0 = 0
+sumaDigitosR2 n = n `mod` 10 + sumaDigitosR2 (n `div` 10)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.2. Definir, sin usar recursión, la función 
@@ -330,7 +337,7 @@ sumaDigitosR n = sum (digitosR n)
 --    sumaDigitosNR 20045 == 11
 -- ---------------------------------------------------------------------
 
--- pabmorgar  manvermor
+-- pabmorgar  manvermor carruirui3
 sumaDigitosNR :: Integer -> Integer
 sumaDigitosNR n = sum (digitosC n)
 
@@ -339,7 +346,7 @@ sumaDigitosNR n = sum (digitosC n)
 -- y sumaDigitosNR son equivalentes.
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 
 -- La propiedad es
 prop_sumaDigitos :: Integer -> Property
@@ -359,7 +366,7 @@ prop_sumaDigitos n = n>= 0 ==> sumaDigitosNR n == sumaDigitosR n
 --    listaNumeroR [0,0,1]    == 1
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruiui3
 listaNumeroR :: [Integer] -> Integer
 listaNumeroR []     = 0 
 listaNumeroR (x:xs) = x*10^(length (xs)) + listaNumeroR xs
@@ -374,7 +381,7 @@ listaNumeroR (x:xs) = x*10^(length (xs)) + listaNumeroR xs
 --    listaNumeroC [0,0,1]    == 1
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 listaNumeroC :: [Integer] -> Integer
 listaNumeroC xs = sum [y*10^n | (y,n) <- zip (reverse xs) [0..]]
 
@@ -383,7 +390,7 @@ listaNumeroC xs = sum [y*10^n | (y,n) <- zip (reverse xs) [0..]]
 -- listaNumeroR y listaNumeroC son equivalentes.
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 -- La propiedad es
 prop_listaNumero :: [Integer] -> Bool
 prop_listaNumero xs = listaNumeroC xs == listaNumeroR xs 
@@ -402,7 +409,7 @@ prop_listaNumero xs = listaNumeroC xs == listaNumeroR xs
 --    capicua 4     =  True
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 capicua :: Integer -> Bool
 capicua n =  digitosR n == reverse (digitosR n)
 
@@ -417,8 +424,11 @@ capicua n =  digitosR n == reverse (digitosR n)
 --    mayorExponenteR 2 60   ==  2
 -- ---------------------------------------------------------------------
 
-mayorExponenteR :: Integer -> Integer -> Integer 
-mayorExponenteR a b = undefined
+-- carruirui3
+mayorExponenteR :: Integer -> Integer -> Integer
+mayorExponenteR a b 
+    | mcd a b == 1 = 0
+    | otherwise    = 1 + mayorExponenteR a (b `div` a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Definir, por comprensión, la función 
@@ -447,12 +457,11 @@ mayorExponenteC a b = undefined
 --    aproximaPiC 1000 == 3.1406380562059946
 -- ---------------------------------------------------------------------
 
--- pabmorgar
+-- pabmorgar carruirui3
 aproximaPiC n = sqrt (6*sum[1/x^2| x <- [1..n]])
 
 -- manvermor
 aproximaPiC2 n = sqrt (sum [6/x^2 | x <- [1..n]])
-
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.2. Definir, por recursión, la función aproximaPiR tal
@@ -463,7 +472,7 @@ aproximaPiC2 n = sqrt (sum [6/x^2 | x <- [1..n]])
 --    aproximaPiR 1000 == 3.1406380562059946
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 aproximaPiR n = sqrt(6*aproximaPiR'  n)
     where aproximaPiR' 1 = 1 
           aproximaPiR' n = 1/n^2 + aproximaPiR' (n-1)
@@ -473,7 +482,7 @@ aproximaPiR n = sqrt(6*aproximaPiR'  n)
 -- en el ejercicio 2.1 es equivalente a la función gcd
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 
 -- La propiedad es
 prop_mcd_gcd :: Integer -> Integer -> Bool
@@ -497,7 +506,7 @@ prop_mcd_gcd a b = mcd a b == gcd a b
 --    mcdE 0 0    ==  0
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 mcdE :: Integer -> Integer -> Integer
 mcdE a 0 = abs a
 mcdE a b = mcdE b (mod a b)
@@ -507,7 +516,7 @@ mcdE a b = mcdE b (mod a b)
 -- son equivalentes. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor
+-- pabmorgar manvermor carruirui3
 
 -- La propiedad es
 prop_mcdE_gcd :: Integer -> Integer -> Bool
@@ -537,7 +546,7 @@ prop_mcdE_esDivisor a b =
 --    *Main> quickCheck prop_mcdE_esDivisor
 --    +++ OK, passed 100 tests.
 
--- manvermor
+-- manvermor carruirui3
 prop_mcdE_esDivisor2 :: Integer -> Integer -> Property
 prop_mcdE_esDivisor2 a b = 
     c /= 0 ==> mod a c == 0 && mod b c == 0
