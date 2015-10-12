@@ -96,6 +96,14 @@ xor1b x y | x == True  && y == True  = False
  
 -- Comentario: La definición anterior se puede simplificar.
 
+-- albtorval
+xor1c x y | and [x == True,  y == False] = True
+          | and [x == False, y == True]  = True
+          | and [x == True,  y == True]  = False
+          | and [x == False, y == False] = False
+
+-- Comentario: La definición anterior se puede simplificar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir la función 
 --    xor2 :: Bool -> Bool -> Bool
