@@ -42,7 +42,7 @@ sumaDeCuadrados n = sum [x^2 | x <- [1..n]]
 -- manvermor erisancha carruirui3 alvalvdom1 carmengar pabmorgar
 -- alelobcan josllagam jespergue juanarcon blaruiher rubvilval isrbelnun
 -- javperlag fracruzam silgongal carboncar manvazbar1 manpende
--- juamorrom1 paocabper 
+-- juamorrom1 paocabper irecasmat
 replica :: Int -> a -> [a]
 replica n x = [x | _ <- [1..n]]
 
@@ -56,7 +56,8 @@ replica n x = [x | _ <- [1..n]]
 -- guache carmengar manvermor erisancha carruirui3 lucgamgal alvalvdom1 
 -- pedjaecar pabmorgar josllagam fracruzam jespergue juanarcon blaruiher
 -- ivaruicam isrbelnun javperlag abrdelrod carboncar manvazbar1 manpende
--- silgongal rubvilval juamorrom1 marcamde3 paocabper alelobcan
+-- silgongal rubvilval juamorrom1 marcamde3 paocabper alelobcan irecasmat
+-- marvilmor
 suma :: Integer -> Integer
 suma n = sum [x | x <- [1..n]]
 
@@ -127,7 +128,7 @@ linea7 n = take (fromIntegral n) [sum [1..n-1]+1..]
 -- carmengar manvermor erisancha carruirui3 lucgamgal alvalvdom1 josllagam
 -- pabmorgar jespergue juanarcon blaruiher isrbelnun javperlag fracruzam
 -- abrdelrod silgongal irecasmat rubvilval manvazbar1 juamorrom1
--- marcamde3 manpende paocabper marvilmor alelobcan
+-- marcamde3 manpende paocabper marvilmor alelobcan marvilmor
 triangulo :: Integer -> [[Integer]]
 triangulo n = [linea x | x <- [1..n]]
 
@@ -150,7 +151,7 @@ perfectos n = [x | x <- [1..n], sum (factores x) - x == x]
 
 factores n = [x | x <- [1..n], mod n x == 0]
 
--- guache carruirui3 lucgamgal juanarcon paocabper juamorrom1
+-- guache carruirui3 lucgamgal juanarcon paocabper juamorrom1 marvilmor
 perfectos2 :: Int -> [Int]
 perfectos2 n = [x | x <- [1..n-1], x == sum (init (factores x))]
 
@@ -203,7 +204,7 @@ factores8 n = [x | x <- [1..n], mod n x ==0]
 -- ---------------------------------------------------------------------
 
 -- carmengar erisancha pabmorgar alvalvdom1 ivaruicam blaruiher
--- abrdelrod manvazbar1 manpende 
+-- abrdelrod manvazbar1 manpende alelobcan marvilmor
 numeroAbundante :: Int -> Bool
 numeroAbundante n = sum (factores n) - n > n
 
@@ -215,7 +216,7 @@ numeroAbundante2 n = and [n < sum (init (factores n))]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- carruirui3 manvermor lucgamgal juanarcon silgongal
+-- carruirui3 manvermor lucgamgal juanarcon silgongal irecasmat
 numeroAbundante3 :: Int -> Bool
 numeroAbundante3 n = sum (factores n) > 2*n
 
@@ -248,7 +249,7 @@ numeroAbundante7 n = n < sum [x | x <- [1..n-1], mod n x == 0]
 -- carmengar carruirui3 erisancha manvermor lucgamgal pabmorgar
 -- josllagam alvalvdom1 josllagam fracruzam ivaruicam abrdelrod
 -- juanarcon blaruiher silgongal rubvilval manvazbar1 juamorrom1
--- manpende paocabper isrbelnun
+-- manpende paocabper isrbelnun irecasmat alelobcan marvilmor
 numerosAbundantesMenores :: Int -> [Int]
 numerosAbundantesMenores n = [x | x <- [1..n], numeroAbundante x]
 
@@ -270,8 +271,8 @@ numerosAbundantesMenores2 n =
 -- ---------------------------------------------------------------------
 
 -- carmengar guache carruirui3 manvermor erisancha lucgamgal pabmorgar
--- alvalvdom1 josllagam fracruzam juanarcon blaruiher silgongal
--- rubvilval juamorrom1 manpende paocabper isrbelnun
+-- alvalvdom1 josllagam fracruzam juanarcon blaruiher silgongal marvilmor
+-- rubvilval juamorrom1 manpende paocabper isrbelnun irecasmat alelobcan
 todosPares :: Int -> Bool
 todosPares n = all even (numerosAbundantesMenores n)
 
@@ -292,7 +293,7 @@ todosPares3 n = [x | x <- xs, even x] == xs
 -- valor de dicho número.
 -- ---------------------------------------------------------------------
 
--- guache carmengar manpende
+-- guache carmengar manpende isrbelnun
 primerAbundanteImpar :: Int
 primerAbundanteImpar = 
     head [x | x <- [1,3..], x< sum (init(factores x))]
@@ -301,7 +302,7 @@ primerAbundanteImpar =
 
 -- guache carruirui3 manvermor erisancha lucgamgal pabmorgar alvalvdom1
 -- fracruzam josllagam juanarcon blaruiher silgongal rubvilval
--- manvazbar1 juamorrom1 paocabper 
+-- manvazbar1 juamorrom1 paocabper irecasmat alelobcan marvilmor
 primerAbundanteImpar3 :: Int
 primerAbundanteImpar3 = head [x | x<- [1,3..], numeroAbundante x]
 
@@ -320,7 +321,8 @@ primerAbundanteImpar3 = head [x | x<- [1,3..], numeroAbundante x]
 -- ---------------------------------------------------------------------
 
 -- carmengar erisancha guache carruirui3 carmengar josllagam abrdelrod
--- paocabper carboncar blaruiher manpende silgongal 
+-- paocabper carboncar blaruiher manpende silgongal alelobcan isrbelnun
+-- marvilmor
 euler1 :: Int -> Int
 euler1 n = sum [x | x <- [1..n-1], rem x 3 == 0 || rem x 5 == 0]
 
@@ -329,14 +331,14 @@ euler1b :: Int -> Int
 euler1b n = sum [x | x <- [1..n-1], multiplo x 3 ||  multiplo x 5]
     where multiplo x y = x `mod` y == 0
 
--- alvalvdom1 lucgamgal fracruzam juanarcon manvazbar1 ivaruicam juamorrom1
+-- alvalvdom1 lucgamgal fracruzam juanarcon manvazbar1 ivaruicam
+-- juamorrom1 irecasmat 
 euler1c :: Int -> Int
 euler1c n = sum [x | x <- [1..n-1], x `mod` 3 == 0 || x `mod` 5 == 0]
 
 -- rubvilval
 euler1d :: Int -> Int
 euler1d n = sum [x | x <- [3..n-1], gcd x 3 == 3 || gcd x 5 == 5]
-
 
 -- Cálculo: euler1 1000 = 233168
 
@@ -352,7 +354,8 @@ euler1d n = sum [x | x <- [3..n-1], gcd x 3 == 3 || gcd x 5 == 5]
 
 -- carmengar guache carruirui3 manvermor erisancha lucgamgal pabmorgar
 -- fracruzam abrdelrod juanarcon carboncar blaruiher silgongal rubvilval
--- manvazbar1 manpende ivaruicam josllagam juamorrom1
+-- manvazbar1 manpende ivaruicam josllagam juamorrom1 irecasmat
+-- alelobcan isrbelnun 
 circulo :: Int -> Int
 circulo n = length [(x,y) | x <- [0..n], y <- [0..n], x^2+y^2 < n^2]
  
@@ -370,7 +373,8 @@ circulo n = length [(x,y) | x <- [0..n], y <- [0..n], x^2+y^2 < n^2]
 
 -- carmengar guache manvermor carruirui3 alvalvdom1 erisancha lucgamgal
 -- pabmorgar fracruzam josllagam abrdelrod juanarcon blaruiher carboncar
--- rubvilval ivaruicam manvazbar1 juamorrom1
+-- rubvilval ivaruicam manvazbar1 juamorrom1 irecasmat alelobcan
+-- isrbelnun marvilmor
 aproxE :: Double -> [Double]
 aproxE n = [(1+1/m)**m | m <- [1..n]]
 
@@ -380,7 +384,7 @@ aproxE n = [(1+1/m)**m | m <- [1..n]]
 
 -- carmengar carruirui3 erisancha lucgamgal pabmorgar fracruzam 
 -- alvalvdom1 josllagam abrdelrod juanarcon blaruiher carboncar
--- rubvilval manvazbar1 juamorrom1
+-- rubvilval manvazbar1 juamorrom1 alelobcan isrbelnun marvilmor
 
 -- Sol.: El límite es el número e
  
@@ -396,13 +400,15 @@ aproxE n = [(1+1/m)**m | m <- [1..n]]
 -- Indicación: En Haskell, e se calcula como (exp 1).
 -- ---------------------------------------------------------------------
 
--- carmengar carruirui3 erisancha josllagam abrdelrod blaruiher manvazbar1
+-- carmengar carruirui3 erisancha josllagam abrdelrod blaruiher
+-- manvazbar1 
 errorAproxE :: Double -> Double
 errorAproxE x = head [n | n <- [1..], last(aproxE n) > (exp 1) - x]
 
 -- Comentario: La definición anterior se puede mejorar.
 
 -- pabmorgar lucgamgal fracruzam juanarcon rubvilval juamorrom1
+-- isrbelnun marvilmor
 errorAproxE2 :: Double -> Double
 errorAproxE2 x = head [m | m <- [1..], abs ((1+1/m)**m - exp(1)) < x]
 
@@ -420,8 +426,8 @@ errorAproxE2 x = head [m | m <- [1..], abs ((1+1/m)**m - exp(1)) < x]
 -- ---------------------------------------------------------------------
 
 -- carmengar manvermor carruirui3 erisancha lucgamgal pabmorgar
--- fracruzam josllagam alvalvdom1 juanarcon blaruiher rubvilval manvazbar1
--- abrdelrod ivaruicam juamorrom1 silgongal
+-- fracruzam josllagam alvalvdom1 juanarcon blaruiher rubvilval
+-- manvazbar1 abrdelrod ivaruicam juamorrom1 silgongal isrbelnun
 aproxLimSeno :: Double -> [Double]
 aproxLimSeno n = [sin (1/m)/(1/m)| m <- [1..n]]
 
@@ -430,8 +436,8 @@ aproxLimSeno n = [sin (1/m)/(1/m)| m <- [1..n]]
 -- ---------------------------------------------------------------------
 
 -- carmengar carruirui3 erisancha lucgamgal pabmorgar fracruzam:
--- alvalvdom1 josllagam juanarcon blaruiher rubvilval abrdelrod manvazbar1
--- juamorrom1 silgongal
+-- alvalvdom1 josllagam juanarcon blaruiher rubvilval abrdelrod
+-- manvazbar1 juamorrom1 silgongal isrbelnun marvilmor
 
 -- Sol.: El límite es 1
 
@@ -455,6 +461,7 @@ errorLimSeno x = head [n | n <- [1..], last (aproxLimSeno n) > 1 - x]
 -- Comentario: La definición anterior se puede mejorar.
 
 -- pabmorgar lucgamgal fracruzam juanarcon juamorrom1 silgongal
+-- isrbelnun marvilmor
 errorLimSeno2 :: Double -> Double
 errorLimSeno2 x = head [n | n <- [1..], abs (sin(1/n)/(1/n)- 1) < x]
 
@@ -471,7 +478,7 @@ errorLimSeno2 x = head [n | n <- [1..], abs (sin(1/n)/(1/n)- 1) < x]
 
 -- carmengar manvermor carruirui3 erisancha lucgamgal pabmorgar
 -- fracruzam josllagam juanarcon blaruiher rubvilval abrdelrod manpende
--- ivaruicam manvazbar1 juamorrom1
+-- ivaruicam manvazbar1 juamorrom1 isrbelnun marvilmor
 calculaPi :: Double -> Double
 calculaPi n = 4*sum [(-1)**m/(2*m+1)| m <- [0..n]]
 
@@ -488,6 +495,7 @@ calculaPi n = 4*sum [(-1)**m/(2*m+1)| m <- [0..n]]
 
 -- carmengar carruirui3 erisancha pabmorgar lucgamgal fracruzam
 -- juanarcon blaruiher rubvilval abrdelrod manvazbar1 juamorrom1
+-- isrbelnun 
 errorPi :: Double -> Double
 errorPi x = head [n | n <- [1..] , abs (pi - (calculaPi n)) < x]
 
@@ -505,8 +513,9 @@ errorPi x = head [n | n <- [1..] , abs (pi - (calculaPi n)) < x]
 -- ---------------------------------------------------------------------
 
 -- carruirui3 manvermor carmengar erisancha lucgamgal pabmorgar
--- alvalvdom1 fracruzam josllagam juanarcon blaruiher rubvilval
--- abrdelrod manpende ivaruicam manvazbar1 juamorrom1 silgongal
+-- marvilmor alvalvdom1 fracruzam josllagam juanarcon blaruiher
+-- rubvilval abrdelrod manpende ivaruicam manvazbar1 juamorrom1
+-- silgongal isrbelnun 
 pitagoricas :: Int -> [(Int,Int,Int)] 
 pitagoricas n = [(x,y,z) | x <- [1..n],
                            y <- [1..n],
@@ -525,7 +534,7 @@ pitagoricas n = [(x,y,z) | x <- [1..n],
 -- ---------------------------------------------------------------------
 
 -- guache carmengar carruirui3 manvermor lucgamgal pabmorgar fracruzam
--- alvalvdom1 blaruiher rubvilval 
+-- alvalvdom1 blaruiher rubvilval isrbelnun marvilmor
 numeroDePares :: (Int,Int,Int) -> Int
 numeroDePares (x,y,z) = length (filter even [x,y,z])
 
@@ -543,12 +552,12 @@ numeroDePares2 (x,y,z) = length [1 | n <- [x, y, z], even n]
 --    conjetura 10  ==  True
 -- ---------------------------------------------------------------------
 
--- carmengar blaruiher rubvilval josllagam manvazbar1
+-- carmengar blaruiher rubvilval josllagam manvazbar1 marvilmor
 conjetura :: Int -> Bool
 conjetura n = and (map odd (map numeroDePares (pitagoricas n)))
 
 -- carruirui3 erisancha pabmorgar fracruzam juanarcon alvalvdom1
--- juamorrom1 silgongal 
+-- juamorrom1 silgongal isrbelnun
 conjetura2 :: Int -> Bool
 conjetura2 n = and [odd (numeroDePares terna) | terna <- pitagoricas n]
 
@@ -590,6 +599,30 @@ conjetura3 n = and (map (odd . numeroDePares) (pitagoricas n))
 -- naturales, (a/2) es natural, por lo que a es par. CONTRADICCIÓN
 -- QED
 
+-- isrbelnun
+
+-- Hemos de probar que en todas las ternas pitagóricas hay un número
+-- impar de elementos pares. Lo haremos mediante REDUCCIÓN AL ABSURDO: 
+-- 
+-- CASO 1: Ningún par
+-- 
+-- imp^2+imp^2=imp^2
+-- imp+imp=imp
+-- CONTRADICCION: La suma de dos números impares siempre es un número par.
+-- 
+-- CASO 2: 2 elementos pares
+-- 
+-- a)
+-- imp^2+par^2=par^2
+-- imp+par=par
+-- CONTRADICCION: La suma de un número par y otro impar siempre es un
+-- número impar. 
+-- 
+-- b)
+-- par^2+par^2=imp^2
+-- par+par=imp
+-- CONTRADICCION: La suma de dos números pares siempre es un número par.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.1. (Problema 9 del Proyecto Euler). Una terna pitagórica
 -- es una terna de números naturales (a,b,c) tal que a<b<c y
@@ -614,7 +647,8 @@ ternasPitagoricas n = [(x,y,z) | z <- [1..n],
                                  let x = n-z-y,
                                  x^2 + y^2 == z^2]
 
--- pabmorgar erisancha juanarcon blaruiher rubvilval juamorrom1 silgongal
+-- pabmorgar erisancha juanarcon blaruiher rubvilval juamorrom1
+-- silgongal isrbelnun marvilmor
 ternasPitagoricas2 :: Integer -> [(Integer,Integer,Integer)]
 ternasPitagoricas2 x = [(a,b,c) | a <- [1..x],
                                   b <- [a+1..x],
@@ -637,9 +671,9 @@ ternasPitagoricas3 x = [(a,b,c) | a <- [1..x] , b <- [1..x] , c <- [1..x] ,
 -- Calcular el valor de euler9.
 -- ---------------------------------------------------------------------
 
--- carruirui3 manvermor lucgamgal pabmorgar fracruzam erisancha josllagam
--- juanarcon manpende alvalvdom1 rubvilval blaruiher abrdelrod manvazbar1
--- juamorrom1 silgongal
+-- carruirui3 manvermor lucgamgal pabmorgar fracruzam erisancha
+-- josllagam juanarcon manpende alvalvdom1 rubvilval blaruiher abrdelrod
+-- manvazbar1 juamorrom1 silgongal isrbelnun
 euler9 :: Integer
 euler9 = a*b*c where (a,b,c) = head (ternasPitagoricas 1000)
 
@@ -664,12 +698,13 @@ productoEscalar xs ys = sum [x | x<- zipWith (*) xs ys]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- guache carmengar manvermor carruirui3 lucgamgal pabmorgar fracruzam
--- alvalvdom1 rubvilval juanarcon abrdelrod manpende juamorrom1 silgongal
+-- guache carmengar manvermor carruirui3 lucgamgal pabmorgar fracruzam 
+-- alvalvdom1 rubvilval juanarcon abrdelrod manpende juamorrom1
+-- silgongal isrbelnun 
 productoEscalar2 :: [Int] -> [Int] -> Int 
 productoEscalar2 xs ys = sum [x*y | (x,y) <- zip xs ys ]
 
--- carruirui3 erisancha blaruiher manvazbar1
+-- carruirui3 erisancha blaruiher manvazbar1 marvilmor
 productoEscalar3 :: [Int] -> [Int] -> Int
 productoEscalar3 xs ys = sum (zipWith (*) xs ys)
 
@@ -686,7 +721,7 @@ productoEscalar3 xs ys = sum (zipWith (*) xs ys)
 sumaConsecutivos :: [Int] -> [Int]
 sumaConsecutivos xs = zipWith (+) xs (tail xs)
 
--- guache carruirui3 manvermor fracruzam alvalvdom1 manpende
+-- guache carruirui3 manvermor fracruzam alvalvdom1 manpende 
 sumaConsecutivos2 :: [Int] -> [Int]
 sumaConsecutivos2 [_] = []
 sumaConsecutivos2 xs = [x+y | (x,y) <- zip xs (tail xs)]
@@ -694,7 +729,7 @@ sumaConsecutivos2 xs = [x+y | (x,y) <- zip xs (tail xs)]
 -- Comentario: La definición anterior se puede simplificar.
 
 -- pabmorgar lucgamgal erisancha juanarcon rubvilval abrdelrod manvazbar1
--- juamorrom1 silgongal
+-- juamorrom1 silgongal isrbelnun
 -- La definición anterior sin el caso del lista de un solo elemento
 sumaConsecutivos3 :: [Int] -> [Int]
 sumaConsecutivos3 xs = [x+y | (x,y) <- zip xs (tail xs)]
@@ -734,7 +769,7 @@ densa3 xs = [y | y <- zip [length xs - 1, length xs - 2..] xs,
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam manvazbar1
+-- fracruzam manvazbar1 isrbelnun
 -- Igual que la definición 1, pero con menos paréntesis.
 densa4 :: [Int] -> [(Int,Int)]
 densa4 xs = 
@@ -780,7 +815,7 @@ personas = [("Cervantes","Literatura",1547,1616),
 
 -- guache carruirui3 manvermor lucgamgal pabmorgar alvalvdom1 erisancha
 -- juanarcon blaruiher rubvilval abrdelrod manpende fracruzam josllagam
--- manvazbar1 silgongal 
+-- manvazbar1 silgongal isrbelnun marvilmor
 nombres :: [(String,String,Int,Int)] -> [String]
 nombres bd = [a | (a,_,_,_) <- bd]
 
@@ -797,7 +832,7 @@ nombres bd = [a | (a,_,_,_) <- bd]
 musicos :: [(String,String,Int,Int)] -> [String]
 musicos bd = [a | (a,c,_,_) <- bd, c == "Musica"]
 
--- erisancha rubvilval fracruzam josllagam silgongal
+-- erisancha rubvilval fracruzam josllagam silgongal isrbelnun marvilmor
 musicos2 :: [(String,String,Int,Int)] -> [String]
 musicos2 bd = [x| (x, "Musica",_,_) <- bd]
 
@@ -814,7 +849,7 @@ musicos2 bd = [x| (x, "Musica",_,_) <- bd]
 
 -- guache carruirui3 manvermor lucgamgal pabmorgar alvalvdom1 erisancha
 -- juanarcon rubvilval abrdelrod manpende fracruzam josllagam manvazbar1
--- silgongal 
+-- silgongal isrbelnun marvilmor
 seleccion :: [(String,String,Int,Int)] -> String -> [String]
 seleccion bd m = [a | (a,c,_,_) <- bd, c == m]
 
@@ -829,7 +864,7 @@ seleccion bd m = [a | (a,c,_,_) <- bd, c == m]
 
 -- guache carruirui3 manvermor lucgamgal pabmorgar alvalvdom1 erisancha
 -- juanarcon blaruiher rubvilval abrdelrod fracruzam josllagam
--- manvazbar1 silgongal 
+-- manvazbar1 silgongal isrbelnun marvilmor
 musicos' :: [(String,String,Int,Int)] -> [String]
 musicos' bd = seleccion bd "Musica"
 
@@ -844,7 +879,7 @@ musicos' bd = seleccion bd "Musica"
 
 -- guache manvermor lucgamgal pabmorgar alvalvdom1 erisancha juanarcon
 -- blaruiher rubvilval abrdelrod manpende fracruzam josllagam manvazbar1
--- silgongal 
+-- silgongal marvilmor
 vivas :: [(String,String,Int,Int)] -> Int -> [String]
 vivas ps a = [c | (c,_,u,v) <- ps, u<=a && v>= a]
 
@@ -853,3 +888,7 @@ vivas ps a = [c | (c,_,u,v) <- ps, u<=a && v>= a]
 -- Además, las variables usan nombres más comprensibles.
 vivas2 :: [(String,String,Int,Int)] -> Int -> [String]
 vivas2 bd a = [n | (n,_,nac,def) <- bd, nac <= a && a <= def]
+
+-- isrbelnun
+vivas3 :: [(String,String,Int,Int)] -> Int -> [String]
+vivas3 bd a = [nom | (nom,_,nac,mue) <- bd, mue >= a, nac <= a]
