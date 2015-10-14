@@ -50,7 +50,7 @@ divisionSegura3 x y | y /= 0 = x/y
                     | otherwise = 9999
 
 -- erisancha, alebergon silgongal isrbelnun enrvalmor josllagam
--- ivaruicam 
+-- ivaruicam migandben
 divisionSegura4 x y | y /= 0 = x/y
                     | y == 0 = 9999
 
@@ -88,7 +88,7 @@ xor1 True  False = True
 xor1 False True  = True
 xor1 False False = False
 
--- fracruzam manpende josllagam  isrbelnun ivaruicam javoliher marcamde3
+-- fracruzam manpende josllagam  isrbelnun ivaruicam javoliher marcamde3 migandben
 xor1b x y | x == True  && y == True  = False
           | x == False && y == True  = True
           | x == True  && y == False = True
@@ -136,7 +136,7 @@ xor2b True  y = not y
 -- marvilmor ivaruicam blaruiher pabmorgar manvermor manpende enrvalmor
 -- josllagam isrbelnun juanarcon enrvalmor irecasmat manvazbar1
 -- fracruzam silgongal jespergue juamorrom1 javoliher alebergon
--- rubvilval marcamde3 
+-- rubvilval marcamde3  migandben
 xor3 :: Bool -> Bool -> Bool
 xor3 x y = (x || y) && not (x && y)
 
@@ -174,7 +174,7 @@ xor4c x y = (x || y) /= (x && y)
 -- Comentario: La definición anterior se puede mejorar.
 
 -- carmengar pabmorgar alvalvdom1 josllagam juanarcon ivaruicam
--- irecasmat enrvalmor silgongal juamorrom1 javoliher alebergon
+-- irecasmat enrvalmor silgongal juamorrom1 javoliher alebergon migandben
 xor4d :: Bool -> Bool -> Bool
 xor4d x y = x /= y
 
@@ -192,7 +192,7 @@ xor4e x y | x /= y    = True
 
 -- pabmorgar alvalvdom1 carruirui3 lucgamgal manvermor manpende juanarcon
 -- enrvalmor erisancha isrbelnun paocabper irecasmat enrvalmor
--- manvazbar1 silgongal juamorrom1 javoliher alebergon blaruiher
+-- manvazbar1 silgongal juamorrom1 javoliher alebergon blaruiher migandben
 
 -- La propiedad es
 prop_xor_equivalentes :: Bool -> Bool -> Bool
@@ -220,7 +220,7 @@ prop_xor_equivalentes x y =
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 paocabper lucgamgal blaruiher irecasmat marvilmor
--- fatvilpiz manpende carboncar marcamde3
+-- fatvilpiz manpende carboncar marcamde3 migandben
 mayorRectangulo :: (Num a, Ord a) => (a,a) -> (a,a) -> (a,a)
 mayorRectangulo (x,y) (u,v) = if x*y >=u*v then (x,y) else (u,v)
 
@@ -251,7 +251,7 @@ mayorRectangulo3 r1 r2 | fst r1*snd r1 >= fst r2*snd r2 = r1
 
 -- guache pabmorgar fracruzam marvilmor irecasmat carruirui3 manvermor
 -- manpende juanarcon ivaruicam irecasmat enrvalmor manvazbar1 silgongal
--- javoliher juamorrom1 alebergon jespergue carboncar marcamde3
+-- javoliher juamorrom1 alebergon jespergue carboncar marcamde3 migandben
 intercambia :: (a,b) -> (b,a)
 intercambia (x,y) = (y,x)
 
@@ -282,7 +282,7 @@ intercambia5 p = (snd p,fst p)
 -- blaruiher pabmorgar alvalvdom1 carruirui3 paocabper lucgamgal
 -- fracruzam ivaruicam manpende isrbelnun erisancha josllagam fatvilpiz
 -- manvermor juanarcon abrdelrod enrvalmor irecasmat manvazbar1 silgongal
--- juamorrom1 javoliher jespergue alebergon
+-- juamorrom1 javoliher jespergue alebergon migandben
 
 -- La propiedad es
 prop_intercambia :: (Int,Int) -> Bool
@@ -302,7 +302,7 @@ prop_intercambia p = intercambia (intercambia p) == p
  
 -- guache paocabper pabmorgar lucgamgal fracruzam manvermor manpende
 -- juanarcon abrdelrod ivaruicam enrvalmor irecasmat manvazbar1 juamorrom1 
--- javoliher alebergon carboncar marcamde3 
+-- javoliher alebergon carboncar marcamde3 migandben
 distancia :: (Double,Double) -> (Double,Double) -> Double
 distancia (x,y) (u,v) = sqrt((x-u)^2+(y-v)^2)
 
@@ -357,7 +357,7 @@ prop_triangular2 p1 p2 p3 =
 -- ---------------------------------------------------------------------
 
 -- guache manpende erisancha isrbelnun josllagam juanarcon abrdelrod
--- manvazbar1 carboncar
+-- manvazbar1 carboncar migandben
 ciclo :: [a] -> [a]
 ciclo [] = []
 ciclo xs = [last xs] ++ init xs
@@ -431,7 +431,8 @@ ciclo13 xs = drop 1 xs ++ [head xs]
 
 -- pabmorgar carruirui3 alvalvdom1 fracruzam manpende manvermor juanarcon
 -- isrbelnun josllagam lucgamgal juanarcon paocabper abrdelrod enrvalmor
--- irecasmat manvazbar1 juamorrom1 jespergue javoliher alebergon blaruiher
+-- irecasmat manvazbar1 juamorrom1 jespergue javoliher alebergon
+-- blaruiher migandben 
 
 -- La propiedad es
 prop_ciclo :: [Int] -> Bool 
@@ -450,7 +451,7 @@ prop_ciclo xs = length xs == length (ciclo xs)
 --    numeroMayor 5 2 ==  52
 -- ---------------------------------------------------------------------
 
--- guache paocabper alelobcan marcamde3
+-- guache paocabper alelobcan marcamde3 migandben
 numeroMayor :: (Num a, Ord a) => a -> a -> a
 numeroMayor x y = if x>=y then 10*x + y else 10*y +x
 
@@ -501,7 +502,7 @@ numeroMayor8 x y = 10*(max x y) + min x y
 -- ---------------------------------------------------------------------
 
 -- guache pabmorgar alvalvdom1 carruirui3 marvilmor juanarcon enrvalmor
--- irecasmat ivaruicam manvazbar1
+-- irecasmat ivaruicam manvazbar1 migandben
 numeroDeRaices :: (Num t, Ord t) => t -> t -> t -> Int
 numeroDeRaices a b c | d > 0     = 2
                      | d == 0    = 1
@@ -548,7 +549,7 @@ raices a b c
 -- Comentario: La definición anterior se puede mejorar.
 
 -- carruirui3 lucgamgal juanarcon paocabper enrvalmor manpende fracruzam 
--- juamorrom1 irecasmat alebergon
+-- juamorrom1 irecasmat alebergon migadben
 raices2 :: Double -> Double -> Double -> [Double]
 raices2 a b c | d <  0 = []
               | otherwise = [(-b + sqrt d)/(2*a), (-b - sqrt d)/(2*a)]
@@ -579,7 +580,7 @@ x ~=== y | abs (x - y) < 0.001   = True
 -- Comentario: La definición anterior se puede simplificar.
 
 -- alvalvdom1 fracruzam manpende carruirui3 josllagam lucgamgal
--- abrdelrod juanarcon manvazbar1 juamorrom1 alebergon
+-- abrdelrod juanarcon manvazbar1 juamorrom1 alebergon migandben
 x ~= y = abs(x-y) < 0.001
 
 -- --------------------------------------------------------------------- 
