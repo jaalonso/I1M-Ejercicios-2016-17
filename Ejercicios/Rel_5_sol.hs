@@ -28,7 +28,7 @@ import Data.List
 -- ---------------------------------------------------------------------
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
--- rubvilval manpende
+-- rubvilval manpende blaruiher carmengar juamorrom1
 potencia :: Integer -> Integer -> Integer
 potencia x 0 = 1
 potencia x n = x * (potencia x (n-1))
@@ -39,7 +39,7 @@ potencia x n = x * (potencia x (n-1))
 -- ---------------------------------------------------------------------
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
--- rubvilval manpende
+-- rubvilval manpende blaruiher carmengar juamorrom1
 
 -- La propiedad es
 prop_potencia :: Integer -> Integer -> Property
@@ -64,7 +64,7 @@ prop_potencia x n = n>=0 ==> potencia x n == x^n
 -- ---------------------------------------------------------------------
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
--- rubvilval manpende
+-- rubvilval manpende blaruiher carmengar
 mcd :: Integer -> Integer -> Integer
 mcd a 0 = a
 mcd a b = mcd b (mod a b)
@@ -89,7 +89,7 @@ prop_mcd a b = and[a/=b,a>0,b>0] ==> mcd a b >=1 && mcd a b <= min a b
 --    +++ OK, passed 100 tests.
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
--- rubvilval manpende 
+-- rubvilval manpende carmengar blaruiher
 prop_mcd2 :: Integer -> Integer -> Property
 prop_mcd2 a b = a > 0 && b > 0 ==> mcd a b >= 1 && mcd a b <= min a b
 
@@ -110,7 +110,8 @@ prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
 --    *Main> quickCheck prop_mcd_div
 --    +++ OK, passed 100 tests.
 
--- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 rubvilval
+-- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 rubvilval carmengar
+-- blaruiher
 prop_mcd_div2 :: Integer -> Integer -> Property
 prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 
@@ -129,7 +130,8 @@ prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 --    pertenece 4 [2,3,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- guache manvermor carruirui3 manvazbar1 erisancha rubvilval
+-- guache manvermor carruirui3 manvazbar1 erisancha rubvilval carmengar
+-- blaruiher
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece x []     = False
 pertenece x (y:ys) = x == y || pertenece x ys
@@ -148,6 +150,7 @@ pertenece1 x (y:ys) | x == y    = True
 -- ---------------------------------------------------------------------
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 erisancha rubvilval
+-- carmengar blaruiher
 
 -- La propiedad es
 prop_pertenece :: Eq a => a -> [a] -> Bool
@@ -496,7 +499,7 @@ aproximaPiR n = sqrt(6*aproximaPiR'  n)
 -- en el ejercicio 2.1 es equivalente a la función gcd
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor carruirui3 erisancha
+-- pabmorgar manvermor carruirui3 erisancha rubvilval
 
 -- La propiedad es
 prop_mcd_gcd :: Integer -> Integer -> Bool
@@ -520,7 +523,7 @@ prop_mcd_gcd a b = mcd a b == gcd a b
 --    mcdE 0 0    ==  0
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor carruirui3 erisancha
+-- pabmorgar manvermor carruirui3 erisancha rubvilval
 mcdE :: Integer -> Integer -> Integer
 mcdE a 0 = abs a
 mcdE a b = mcdE b (mod a b)
@@ -530,7 +533,7 @@ mcdE a b = mcdE b (mod a b)
 -- son equivalentes. 
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor carruirui3 erisancha
+-- pabmorgar manvermor carruirui3 erisancha rubvilval
 
 -- La propiedad es
 prop_mcdE_gcd :: Integer -> Integer -> Bool
@@ -560,7 +563,7 @@ prop_mcdE_esDivisor a b =
 --    *Main> quickCheck prop_mcdE_esDivisor
 --    +++ OK, passed 100 tests.
 
--- manvermor carruirui3 erisancha
+-- manvermor carruirui3 erisancha rubvilval
 prop_mcdE_esDivisor2 :: Integer -> Integer -> Property
 prop_mcdE_esDivisor2 a b = 
     c /= 0 ==> mod a c == 0 && mod b c == 0
@@ -575,7 +578,7 @@ prop_mcdE_esDivisor2 a b =
 -- comunes de a y b son divisores de (mcdE a b).
 -- ---------------------------------------------------------------------
 
--- pabmorgar erisancha
+-- pabmorgar erisancha rubvilval
 
 -- La propiedad es
 prop_mcdE_esMaximo :: Integer -> Integer -> Integer -> Property
@@ -611,12 +614,20 @@ mcdC a 0 = abs a
 mcdC a b = maximum [x | x <- [1..min (abs a) (abs b)], 
                         abs a `mod` x == 0 && abs b `mod` x == 0]
 
+-- rubvilval
+mcdC2 :: Integer -> Integer -> Integer
+mcdC2 0 b = abs b
+mcdC2 a 0 = abs a
+mcdC2 a b = last [x | x <- [1..abs a], mod a x == 0 && mod b x == 0]
+
+-- Comentario: La definición anterior se puede mejorar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 14.2. Comprobar con QuickCheck si las funciones mcdC y gcd
 -- son equivalentes. 
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha rubvilval
 
 -- La propiedad es
 prop_mcdC_gcd :: Integer -> Integer -> Bool
