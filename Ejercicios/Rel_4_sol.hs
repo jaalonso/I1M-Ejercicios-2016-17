@@ -38,11 +38,11 @@ import Test.QuickCheck
 
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1
 -- erisancha fracruzam josllagam juamorrom1 marvilmor lucgamgal
--- silgongal carmengar  
+-- silgongal carmengar  isrbelnun paocabper carboncar
 minuscula2int :: Char -> Int
 minuscula2int c = ord c - ord 'a'
 
---blaruiher crimalrui abrdelrod rubvilval pabmorgar
+--blaruiher crimalrui abrdelrod rubvilval pabmorgar alebergon
 minuscula3int :: Char -> Int
 minuscula3int c = ord c - 97 
 
@@ -56,9 +56,10 @@ minuscula3int c = ord c - 97
 --    mayuscula2int 'Z'  ==  25
 -- ---------------------------------------------------------------------
 
--- guache carruirui3 blatuiher crimalrui juanarcon manpende manvermor
--- alvalvdom1 manvazbar1 erisancha fracruzam josllagam juamorrom1 lucgamgal
--- marvilmor silgongal carmengar
+-- guache carruirui3 blatuiher crimalrui paocabper juanarcon manpende
+-- manvermor alvalvdom1 manvazbar1 erisancha fracruzam josllagam
+-- juamorrom1 lucgamgal marvilmor silgongal carmengar alebergon
+-- isrbelnun carboncar 
 mayuscula2int :: Char -> Int
 mayuscula2int c = ord c - ord 'A'
 
@@ -76,12 +77,13 @@ mayuscula2int2 c = ord c - 65
 --    int2minuscula 25  ==  'z'
 -- ---------------------------------------------------------------------
 
--- guache abrdelrod blaruiher crimalrui rubvilval juamorrom1 pabmorgar
+-- guache abrdelrod blaruiher crimalrui rubvilval juamorrom1 pabmorgar alebergon
 int2minuscula :: Int -> Char
 int2minuscula n = chr(n+97)
  
 -- carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1 erisancha
--- fracruzam josllagam marvilmor lucgamgal silgongal carmengar
+-- fracruzam josllagam marvilmor lucgamgal silgongal carmengar isrbelnun
+-- paocabper carboncar 
 int2minuscula2 :: Int -> Char
 int2minuscula2 n = chr(n + ord 'a')
 
@@ -101,7 +103,7 @@ int2mayuscula n = chr(n+65)
 
 -- carruirui3 blaruiher crimalrui juanarcon manpende manvermor alvalvdom1 
 -- manvazbar1 erisancha fracruzam josllagam marvilmor lucgamgal silgongal
--- carmengar
+-- carmengar alebergon isrbelnun paocabper carboncar
 int2mayuscula2 :: Int -> Char
 int2mayuscula2 n = chr(n + ord 'A')
 
@@ -121,14 +123,15 @@ int2mayuscula2 n = chr(n + ord 'A')
 -- ---------------------------------------------------------------------
 
 -- guache juanarcon manpende manvermor alvalvdom1 erisancha manvazbar1
--- fracruzam rubvilval josllagam juamorrom1 marvilmorm lucgamgal silgongal
+-- alebergon fracruzam rubvilval josllagam juamorrom1 marvilmorm
+-- lucgamgal silgongal isrbelnun paocabper 
 desplaza :: Int -> Char -> Char
 desplaza n c 
     |elem c ['a'..'z'] = int2minuscula (mod (minuscula2int c + n) 26)
     |elem c ['A'..'Z'] = int2mayuscula (mod (mayuscula2int c + n) 26)
     |otherwise         = c
 
--- carruirui3 blaruiher crimalrui pabmorgar carmengar
+-- carruirui3 blaruiher crimalrui pabmorgar carmengar carboncar
 desplaza2 :: Int -> Char -> Char
 desplaza2 n c 
     |c `elem` ['a'..'z'] = int2minuscula (n + minuscula2int c `mod` 26)
@@ -154,7 +157,7 @@ desplaza3 n c | c `elem` ['a'..'z'] = chr ((ord c-97+n) `mod` 26+97)
 
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
 -- erisancha manvazbar1 rubvilval juamorrom1 pabmorgar marvilmor lucgamgal
--- blaruiher silgongal carmengar
+-- blaruiher silgongal carmengar alebergon isrbelnun carboncar paocabper
 codifica :: Int -> String -> String
 codifica n xs = [desplaza n x | x <- xs]
 
@@ -169,8 +172,9 @@ codifica2 n xs = map (desplaza n) xs
 -- ---------------------------------------------------------------------
  
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
--- erisancha manvazbar1 fracruzam rubvilval josllagam juamorrom1 lucgamgal
--- pabmorgar blaruiher silgongal carmengar
+-- erisancha manvazbar1 fracruzam rubvilval josllagam juamorrom1
+-- lucgamgal pabmorgar blaruiher silgongal carmengar alebergon isrbelnun
+-- carboncar paocabper 
 
 -- La propiedad es
 prop_codifica :: Int -> String -> Bool
@@ -189,8 +193,9 @@ prop_codifica n cs = codifica (-n) (codifica n cs) == cs
 -- ---------------------------------------------------------------------
 
 -- carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
--- erisancha manvazbar1 fracruzam rubvilval juamorrom1 pabmorgar lucgamgal
--- josllagam blaruiher silgongal carmengar
+-- erisancha manvazbar1 fracruzam rubvilval juamorrom1 pabmorgar
+-- lucgamgal josllagam blaruiher silgongal carmengar alebergon isrbelnun
+-- paocabper carboncar 
 tabla :: [Float]
 tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01, 
           0.70, 6.25, 0.44, 0.01,  4.97, 3.15, 6.71, 
@@ -204,13 +209,13 @@ tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01,
 --    porcentaje 2 5  ==  40.0  
 -- ---------------------------------------------------------------------
 
--- carruirui3 manvermor alvalvdom1 juamorrom1 josllagam marvilmor lucgamgal 
--- blaruiher silgongal
+-- carruirui3 manvermor alvalvdom1 juamorrom1 josllagam marvilmor
+-- lucgamgal blaruiher silgongal alebergon carboncar paocabper
 porcentaje :: Int -> Int -> Float
 porcentaje n m = 100 * (fromIntegral n) / (fromIntegral m)
 
 -- juanarcon manpende abrdelrod erisancha fracruzam rubvilval pabmorgar
--- carmengar 
+-- carmengar isrbelnun
 porcentaje2 :: Int -> Int -> Float
 porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 
@@ -224,6 +229,7 @@ porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 -- ---------------------------------------------------------------------
 
 -- carruirui3 manvermor pabmorgar silgongal carmengar juamorrom1
+-- alebergon carboncar paocabper 
 letras :: String -> String
 letras xs = [x | x <- xs, x `elem` ['A'..'Z'] || x `elem` ['a'..'z']]
 
@@ -253,13 +259,13 @@ letras5 xs = [x | x <- xs, isAlpha x]
 --    ocurrencias 'a' "Salamanca"  ==  4  
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache alvalvdom1 pabmorgar silgongal
+-- carruirui3 guache alvalvdom1 pabmorgar silgongal alebergon
 ocurrencias :: Eq a => a -> [a] -> Int
 ocurrencias x xs = sum [1 | a <- xs, x == a]
 
 -- guache manpende manvermor abrdelrod erisancha manvazbar1 fracruzam
 -- juanarcon rubvilval josllagam marvilmor lucgamgal blaruiher carmengar 
--- juamorrom1
+-- juamorrom1 paocabper carbonar
 ocurrencias2 :: Eq a => a -> [a] -> Int
 ocurrencias2 x xs = length [y | y <- xs, x==y]
 
@@ -270,7 +276,7 @@ ocurrencias2 x xs = length [y | y <- xs, x==y]
 
 -- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
--- carmengar juamorrom1 josllagam
+-- carmengar juamorrom1 josllagam alebergon paocabper carboncar
 
 -- La propiedad es 
 prop_ocurrencia_inv :: Int -> [Int] -> Bool
@@ -288,7 +294,7 @@ prop_ocurrencia_inv x xs = ocurrencias x xs == ocurrencias x (reverse xs)
  
 -- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
--- carmengar juamorrom1 josllagam
+-- carmengar juamorrom1 josllagam alebergon paocabper carboncar
 
 -- La propiedad es
 prop_ocurrencia_conc :: Int -> [Int] -> [Int] -> Bool
@@ -312,7 +318,7 @@ prop_ocurrencia_conc x xs ys =
 
 -- guache carruirui3 manvermor alvalvdom1 abrdelrod erisancha fracruzam
 -- rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar
--- juamorrom1 josllagam
+-- juamorrom1 josllagam alebergon carboncar
 
 frecuencias :: String -> [Float]
 frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
@@ -330,7 +336,7 @@ frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
 
 -- carruirui3 manvermor alvalvdom1 manpende erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon marvilmor lucgamgal silgongal
--- blaruiher carmengar juamorrom1 josllagam
+-- blaruiher carmengar juamorrom1 josllagam alebergon carboncar
 chiCuad :: [Float] -> [Float] -> Float
 chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 
@@ -342,7 +348,7 @@ chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 
 -- carruirui3 guache manvermor abrdelrod alvalvdom1 manpende erisancha
 -- manvazbar1 rubvilval fracruzam pabmorgar juanarcon lucgamgal silgongal
--- blaruiher carmengar juamorrom1 josllagam
+-- blaruiher carmengar juamorrom1 josllagam alebergon
 
 -- La propiedad es
 prop_chiCuad_1 :: [Float] -> [Float] -> Bool
@@ -362,6 +368,7 @@ prop_chiCuad_1 xs ys = (chiCuad xs ys == 0) == (xs == ys)
 
 -- guache manvermor alvalvdom1 manpende erisancha manvazbar1 fracruzam 
 -- rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar
+-- alebergon
 
 -- La propiedad es
 prop_chiCuad_2 :: [Float] -> [Float] -> Property
@@ -380,6 +387,7 @@ prop_chiCuad_2 xs ys =
 
 -- carruirui3 guache manvermor manpende erisancha fracruzam rubvilval
 -- pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar juamorrom1
+-- alebergon
 
 -- La propiedad es
 prop_chiCuad :: [Float] -> [Float] -> Bool
@@ -402,7 +410,7 @@ prop_chiCuad xs ys =
 
 -- guache alvalvdom1 carruirui3 manpende erisancha manvazbar1 fracruzam
 -- rubvilval pabmorgar juanarcon marvilmor silgongal blaruiher carmengar
--- juamorrom1 josllagam
+-- juamorrom1 josllagam alebergon
 rota :: Int -> [a] -> [a]
 rota n [] = []
 rota n xs = drop m xs ++ take m xs
@@ -420,7 +428,7 @@ rota2 n xs = drop n xs ++ take n xs
 
 -- guache manvermor abrdelrod alvalvdom1 carruirui3 manpende erisancha
 -- manvazbar1 rubvilval fracruzam pabmogar juanarcon lucgamgal silgongal
--- blaruiher juamorrom1
+-- blaruiher juamorrom1 alebergon
 
 -- La propiedad es
 prop_rota :: Int -> Int -> [Int] -> Property
@@ -464,7 +472,7 @@ posiciones x xs = [i | (x',i) <- zip xs [0..n], x == x']
 -- Comentario: La definición anterior se puede simplificar.
 
 -- carruirui3 erisancha pabmorgar juanarcon marvilmor lucgamgal
--- carmengar
+-- carmengar alebergon
 descifra2 xs =  codifica (-factor) xs
     where factor = head (posiciones (minimum tabChi) tabChi)
           tabChi = [chiCuad (rota n (frecuencias xs)) tabla | n <- [0..25]]
