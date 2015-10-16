@@ -22,3 +22,6 @@ clase) y las soluciones definitivas.
 + **Relación 5**: Definiciones por recursión.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_5.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_5_sol.hs)).
++ **Relación 6**: Funciones sobre cadenas.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6_sol.hs)).
