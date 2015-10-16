@@ -1,5 +1,5 @@
--- I1M 2015-16: Rel_3.hs (2 de Octubre de 2015)
--- Definiciones por comprensión (Ejercicios resueltos)
+-- I1M 2015-16: Rel_3_sol.hs (2 de Octubre de 2015)
+-- Definiciones por comprensión 
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
