@@ -36,8 +36,16 @@ import Test.QuickCheck
 --    minuscula2int 'z'  ==  25
 -- ---------------------------------------------------------------------
 
+-- guache carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1
+-- erisancha fracruzam josllagam juamorrom1 marvilmor lucgamgal
+-- silgongal carmengar  isrbelnun paocabper carboncar
 minuscula2int :: Char -> Int
-minuscula2int c = undefined
+minuscula2int c = ord c - ord 'a'
+
+-- blaruiher crimalrui abrdelrod rubvilval pabmorgar alebergon ivaruicam
+-- migandben 
+minuscula3int :: Char -> Int
+minuscula3int c = ord c - 97 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -49,8 +57,16 @@ minuscula2int c = undefined
 --    mayuscula2int 'Z'  ==  25
 -- ---------------------------------------------------------------------
 
+-- guache carruirui3 blatuiher crimalrui paocabper juanarcon manpende
+-- manvermor alvalvdom1 manvazbar1 erisancha fracruzam josllagam
+-- juamorrom1 lucgamgal marvilmor silgongal carmengar alebergon
+-- isrbelnun carboncar 
 mayuscula2int :: Char -> Int
-mayuscula2int c = undefined
+mayuscula2int c = ord c - ord 'A'
+
+-- abrdelrod rubvilval pabmorgar ivaruiccam migandben
+mayuscula2int2 :: Char -> Int
+mayuscula2int2 c = ord c - 65
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -62,21 +78,36 @@ mayuscula2int c = undefined
 --    int2minuscula 25  ==  'z'
 -- ---------------------------------------------------------------------
 
+-- guache abrdelrod blaruiher crimalrui rubvilval juamorrom1 pabmorgar
+-- alebergon ivaruicam migandben
 int2minuscula :: Int -> Char
-int2minuscula n = undefined
+int2minuscula n = chr(n+97)
+ 
+-- carruirui3 juanarcon manpende manvermor alvalvdom1 manvazbar1 erisancha
+-- fracruzam josllagam marvilmor lucgamgal silgongal carmengar isrbelnun
+-- paocabper carboncar 
+int2minuscula2 :: Int -> Char
+int2minuscula2 n = chr(n + ord 'a')
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
 --    int2mayuscula :: Int -> Char
--- tal que (int2mayuscula n) es la letra mayúscula correspondiente al
+-- tal que (int2mayuscula n) es la letra minúscula correspondiente al
 -- entero n. Por ejemplo, 
 --    int2mayuscula 0   ==  'A'
 --    int2mayuscula 3   ==  'D'
 --    int2mayuscula 25  ==  'Z'
 -- ---------------------------------------------------------------------
 
+-- guache abrdelrod rubvilval juamorrom1 pabmorgar ivaruicam migandben
 int2mayuscula :: Int -> Char
-int2mayuscula n = undefined
+int2mayuscula n = chr(n+65)
+
+-- carruirui3 blaruiher crimalrui juanarcon manpende manvermor alvalvdom1 
+-- manvazbar1 erisancha fracruzam josllagam marvilmor lucgamgal silgongal
+-- carmengar alebergon isrbelnun paocabper carboncar
+int2mayuscula2 :: Int -> Char
+int2mayuscula2 n = chr(n + ord 'A')
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -93,8 +124,27 @@ int2mayuscula n = undefined
 --    desplaza (-3) 'B'  ==  'Y'
 -- ---------------------------------------------------------------------
 
+-- guache juanarcon manpende manvermor alvalvdom1 erisancha manvazbar1
+-- alebergon fracruzam rubvilval josllagam juamorrom1 marvilmorm
+-- lucgamgal silgongal isrbelnun paocabper ivaruicam migandben
 desplaza :: Int -> Char -> Char
-desplaza n c = undefined
+desplaza n c 
+    |elem c ['a'..'z'] = int2minuscula (mod (minuscula2int c + n) 26)
+    |elem c ['A'..'Z'] = int2mayuscula (mod (mayuscula2int c + n) 26)
+    |otherwise         = c
+
+-- carruirui3 blaruiher crimalrui pabmorgar carmengar carboncar
+desplaza2 :: Int -> Char -> Char
+desplaza2 n c 
+    |c `elem` ['a'..'z'] = int2minuscula (n + minuscula2int c `mod` 26)
+    |c `elem` ['A'..'Z'] = int2mayuscula (n + mayuscula2int c `mod` 26)
+    |otherwise           = c
+
+-- abrdelrod
+desplaza3 :: Int -> Char -> Char
+desplaza3 n c | c `elem` ['a'..'z'] = chr ((ord c-97+n) `mod` 26+97) 
+              | c `elem` ['A'..'Z'] = chr ((ord c-65+n) `mod` 26+65)
+              | otherwise = c
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Definir la función
@@ -107,20 +157,35 @@ desplaza n c = undefined
 --    "En Todo La Medida"
 -- ---------------------------------------------------------------------
 
+-- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 rubvilval juamorrom1 pabmorgar marvilmor lucgamgal
+-- blaruiher silgongal carmengar alebergon isrbelnun carboncar paocabper
+-- ivaruicam migandben 
 codifica :: Int -> String -> String
-codifica n xs = undefined
+codifica n xs = [desplaza n x | x <- xs]
+
+-- fracruzam josllagam
+codifica2 :: Int -> String -> String
+codifica2 n xs = map (desplaza n) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Comprobar con QuickCheck que para cualquier entero n y
 -- cualquier cadena cs se tiene que (codifica (-n) (codifica n cs)) es
 -- igual a cs.
 -- ---------------------------------------------------------------------
+ 
+-- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 fracruzam rubvilval josllagam juamorrom1
+-- lucgamgal pabmorgar blaruiher silgongal carmengar alebergon isrbelnun
+-- carboncar paocabper ivaruicam migandben
 
 -- La propiedad es
 prop_codifica :: Int -> String -> Bool
-prop_codifica n cs = undefined
+prop_codifica n cs = codifica (-n) (codifica n cs) == cs
 
 -- La comprobación es
+--   *Main> quickCheck prop_codifica
+--   +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -130,6 +195,10 @@ prop_codifica n cs = undefined
 -- la 'b' es 1.42%. 
 -- ---------------------------------------------------------------------
 
+-- carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
+-- erisancha manvazbar1 fracruzam rubvilval juamorrom1 pabmorgar
+-- lucgamgal josllagam blaruiher silgongal carmengar alebergon isrbelnun
+-- paocabper carboncar 
 tabla :: [Float]
 tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01, 
           0.70, 6.25, 0.44, 0.01,  4.97, 3.15, 6.71, 
@@ -143,8 +212,15 @@ tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01,
 --    porcentaje 2 5  ==  40.0  
 -- ---------------------------------------------------------------------
 
+-- carruirui3 manvermor alvalvdom1 juamorrom1 josllagam marvilmor
+-- lucgamgal blaruiher silgongal alebergon carboncar paocabper migandben
 porcentaje :: Int -> Int -> Float
-porcentaje n m = undefined
+porcentaje n m = 100 * (fromIntegral n) / (fromIntegral m)
+
+-- juanarcon manpende abrdelrod erisancha fracruzam rubvilval pabmorgar
+-- carmengar isrbelnun ivaruicam
+porcentaje2 :: Int -> Int -> Float
+porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -155,8 +231,28 @@ porcentaje n m = undefined
 --    letras "son las 8:45 de la noche"  ==  "sonlasdelanoche"
 -- ---------------------------------------------------------------------
 
+-- carruirui3 manvermor pabmorgar silgongal carmengar juamorrom1
+-- alebergon carboncar paocabper ivaruicammigandben
 letras :: String -> String
-letras xs = undefined
+letras xs = [x | x <- xs, x `elem` ['A'..'Z'] || x `elem` ['a'..'z']]
+
+-- guache erisancha marvilmor
+letras2 :: String -> String
+letras2 xs = [x | x <- xs, elem x (ys++zs)]
+    where ys = ['a'..'z']
+          zs = ['A'..'Z']
+
+-- manpende manvazbar1 rubvilval juanarcon josllagam blaruiher 
+letras3 :: String -> String
+letras3 xs = [x | x <- xs, elem x (['a'..'z']++['A'..'Z'])]
+
+-- abrdelrod lucgamgal
+letras4 :: String -> String
+letras4 xs = [x | x <- xs, x /= desplaza 1 x]
+
+-- alvalvdom1
+letras5 :: String -> String
+letras5 xs = [x | x <- xs, isAlpha x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. Definir la función
@@ -166,31 +262,52 @@ letras xs = undefined
 --    ocurrencias 'a' "Salamanca"  ==  4  
 -- ---------------------------------------------------------------------
 
+-- carruirui3 guache alvalvdom1 pabmorgar silgongal alebergon
 ocurrencias :: Eq a => a -> [a] -> Int
-ocurrencias x xs = undefined
+ocurrencias x xs = sum [1 | a <- xs, x == a]
+
+-- guache manpende manvermor abrdelrod erisancha manvazbar1 fracruzam
+-- juanarcon rubvilval josllagam marvilmor lucgamgal blaruiher carmengar 
+-- juamorrom1 paocabper carbonar ivaruicam migandben
+ocurrencias2 :: Eq a => a -> [a] -> Int
+ocurrencias2 x xs = length [y | y <- xs, x==y]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.2. Comprobar con QuickCheck si el número de ocurrencias
 -- de un elemento x en una lista xs es igual que en su inversa.
 -- ---------------------------------------------------------------------
 
+-- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
+-- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
+-- carmengar juamorrom1 josllagam alebergon paocabper carboncar ivaruicam
+-- migandben
+
 -- La propiedad es 
 prop_ocurrencia_inv :: Int -> [Int] -> Bool
-prop_ocurrencia_inv x xs = undefined
+prop_ocurrencia_inv x xs = ocurrencias x xs == ocurrencias x (reverse xs)
 
 -- La comprobación es
+--    *Main> quickCheck prop_ocurrencia_inv
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.3. Comprobar con QuickCheck si el número de ocurrencias
 -- de un elemento x en la concatenación de las listas xs e ys es igual a
 -- la suma del número de ocurrencias de x en xs y en ys.
 -- ---------------------------------------------------------------------
-
+ 
+-- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
+-- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
+-- carmengar juamorrom1 josllagam alebergon paocabper carboncar ivaruicam
+ -- migandben
 -- La propiedad es
 prop_ocurrencia_conc :: Int -> [Int] -> [Int] -> Bool
-prop_ocurrencia_conc x xs ys = undefined
+prop_ocurrencia_conc x xs ys = 
+    ocurrencias x (xs ++ ys) == ocurrencias x xs + ocurrencias x ys
 
 -- La comprobación es
+--    *Main> quickCheck prop_ocurrencia_conc
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -203,8 +320,14 @@ prop_ocurrencia_conc x xs ys = undefined
 -- Nota: Se puede usar la función toLower (ver http://bit.ly/1vSxhhd )
 -- ---------------------------------------------------------------------
 
+-- guache carruirui3 manvermor alvalvdom1 abrdelrod erisancha fracruzam
+-- rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar
+-- juamorrom1 josllagam alebergon carboncar ivaruicam
+
 frecuencias :: String -> [Float]
-frecuencias xs = undefined
+frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
+    where ys = [toLower x | x <- xs]
+          n  = length(letras xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.1. Definir la función
@@ -215,6 +338,9 @@ frecuencias xs = undefined
 --    chiCuad [3,5,6] [5,6,3]  ==  3.9666667
 -- ---------------------------------------------------------------------
 
+-- carruirui3 manvermor alvalvdom1 manpende erisancha manvazbar1
+-- fracruzam rubvilval pabmorgar juanarcon marvilmor lucgamgal silgongal
+-- blaruiher carmengar juamorrom1 josllagam alebergon carboncar migandben
 chiCuad :: [Float] -> [Float] -> Float
 chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 
@@ -224,11 +350,19 @@ chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 -- iguales. 
 -- ---------------------------------------------------------------------
 
+-- carruirui3 guache manvermor abrdelrod alvalvdom1 manpende erisancha
+-- manvazbar1 rubvilval fracruzam pabmorgar juanarcon lucgamgal silgongal
+-- blaruiher carmengar juamorrom1 josllagam alebergon ivaruicam migandben
+
 -- La propiedad es
 prop_chiCuad_1 :: [Float] -> [Float] -> Bool
-prop_chiCuad_1 xs ys = undefined
+prop_chiCuad_1 xs ys = (chiCuad xs ys == 0) == (xs == ys)
 
 -- La comprobación es
+--    *Main> quickCheck prop_chiCuad_1
+--    *** Failed! Falsifiable (after 2 tests and 2 shrinks): 
+--    [0.0]
+--    []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.3. A la vista de los contraejemplos del apartado
@@ -236,11 +370,18 @@ prop_chiCuad_1 xs ys = undefined
 -- propiedad.
 -- ---------------------------------------------------------------------
 
+-- guache manvermor alvalvdom1 manpende erisancha manvazbar1 fracruzam 
+-- rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar
+-- alebergon migandben
+
 -- La propiedad es
 prop_chiCuad_2 :: [Float] -> [Float] -> Property
-prop_chiCuad_2 xs ys = undefined
+prop_chiCuad_2 xs ys = 
+    xs /= [] && ys /= [] ==> (chiCuad xs ys == 0) == (xs == ys)
 
 -- La comprobación es
+--    *Main> quickCheck prop_chiCuad_2
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.3. A la vista del apartado anterior, el número de tests
@@ -248,11 +389,18 @@ prop_chiCuad_2 xs ys = undefined
 -- forma que se verifique en los 100 tests.
 -- ---------------------------------------------------------------------
 
+-- carruirui3 guache manvermor manpende erisancha fracruzam rubvilval
+-- pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar juamorrom1
+-- alebergon
+
 -- La propiedad es
-prop_chiCuad_3 :: [Float] -> [Float] -> Bool
-prop_chiCuad_3 xs ys = undefined
+prop_chiCuad :: [Float] -> [Float] -> Bool
+prop_chiCuad xs ys = 
+    (chiCuad xs ys == 0) == (xs == ys) || xs == [] || ys == []
 
 -- La comprobación es
+--    ghci> quickCheck prop_chiCuad
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14.1. Definir la función
@@ -264,8 +412,17 @@ prop_chiCuad_3 xs ys = undefined
 --    [rota n "abc" | n <- [0..5]]  ==  ["abc","bca","cab","abc","bca","cab"]
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 carruirui3 manpende erisancha manvazbar1 fracruzam
+-- rubvilval pabmorgar juanarcon marvilmor silgongal blaruiher carmengar
+-- juamorrom1 josllagam alebergon ivaruicam
 rota :: Int -> [a] -> [a]
-rota n xs = undefined
+rota n [] = []
+rota n xs = drop m xs ++ take m xs
+    where m = mod n (length xs)
+
+-- manvermor abrdelrod lucgamgal
+rota2 :: Int -> [a] -> [a]
+rota2 n xs = drop n xs ++ take n xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14.2. Comprobar con QuickCkeck si para cualquier lista xs
@@ -273,11 +430,25 @@ rota n xs = undefined
 -- que rotando xs (n+m) veces, donde n y m son números no nulos.
 -- ---------------------------------------------------------------------
 
+-- guache manvermor abrdelrod alvalvdom1 carruirui3 manpende erisancha
+-- manvazbar1 rubvilval fracruzam pabmogar juanarcon lucgamgal silgongal
+-- blaruiher juamorrom1 alebergon ivaruicam
+
 -- La propiedad es
 prop_rota :: Int -> Int -> [Int] -> Property
-prop_rota n m xs = undefined
+prop_rota n m xs =  
+    n /= 0 && m /= 0 ==> rota m (rota n xs) == rota (n+m) xs
 
 -- La comprobación es
+--    *Main> quickCheck prop_rota
+--    *** Failed! Falsifiable (after 79 tests and 52 shrinks): 
+--    220674372
+--    1926809277
+--    [0,0,1]
+
+-- Comentario: El error se debe a que el número de rotaciones del ejemplo 
+-- (220674372 + 1926809277) es un entero demasiado grande. Acotando los
+-- números de las rotaciones se puede verificar la propiedad.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15.1. Definir la función
@@ -292,5 +463,20 @@ prop_rota n m xs = undefined
 --    "Todo Para Nada"
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 fracruzam rubvilval silgongal juamorrom1
 descifra :: String -> String
-descifra xs = undefined
+descifra xs =  codifica (-factor) xs
+    where factor = head (posiciones (minimum tabChi) tabChi)
+          tabChi = [chiCuad (rota n tabla') tabla | n <- [0..25]]
+          tabla' = frecuencias xs
+  
+posiciones x xs = [i | (x',i) <- zip xs [0..n], x == x']
+    where n = length xs - 1
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- carruirui3 erisancha pabmorgar juanarcon marvilmor lucgamgal
+-- carmengar alebergon
+descifra2 xs =  codifica (-factor) xs
+    where factor = head (posiciones (minimum tabChi) tabChi)
+          tabChi = [chiCuad (rota n (frecuencias xs)) tabla | n <- [0..25]]
