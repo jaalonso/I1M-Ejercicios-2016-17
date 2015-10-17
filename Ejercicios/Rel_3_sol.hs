@@ -110,16 +110,18 @@ triangulo n = [linea m | m <- [1..n]]
 -- tal que (perfectos n) es la lista de todos los números perfectos
 -- menores que n. Por ejemplo,  
 --    perfectos 500  ==  [6,28,496]
--- Indicación: Usar la función factores del tema 5.
+--    perfectos 496  ==  [6,28]
 -- ---------------------------------------------------------------------
-
--- La función factores del tema es
-factores :: Int -> [Int]
-factores n = [x | x <- [1..n], n `mod` x == 0]
 
 -- La definición es
 perfectos :: Int -> [Int]
-perfectos n = [x | x <- [1..n], sum (init (factores x)) == x]
+perfectos n = [x | x <- [1..n-1], sum (factores x) == x]
+
+-- (factores n) es la lista de los factores de n, excluyendo a n. Por
+-- ejemplo, 
+--    factores 12  ==  [1,2,3,4,6]
+factores :: Int -> [Int]
+factores n = [x | x <- [1..n-1], n `mod` x == 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.1. Un número natural n se denomina abundante si es menor
