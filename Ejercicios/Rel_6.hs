@@ -132,6 +132,10 @@ prop_titulo xs = undefined
 -- la posición pos (comenzando en 0). Por ejemplo,
 --    ghci> buscaCrucigrama 'c' 1 7 ["ocaso", "casa", "ocupado"]
 --    ["ocupado"]
+--    ghci> buscaCrucigrama 'o' 4 5 ["ocaso", "casa", "ocupado"]
+--    ["ocaso"]
+--    ghci> buscaCrucigrama 'c' (-1) 7 ["ocaso", "casa", "ocupado"]
+--    []
 -- ---------------------------------------------------------------------
 
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]

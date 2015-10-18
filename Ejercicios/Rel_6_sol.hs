@@ -23,7 +23,7 @@ import Test.QuickCheck
 -- dígito d.
 -- ---------------------------------------------------------------------
 
--- carruirui3
+-- carruirui3 guache blaruiher alvalvdom1 manvermor
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
@@ -36,7 +36,7 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 -- Nota: Usar las funciones isDigit y digitToInt.
 -- ---------------------------------------------------------------------
 
--- carruirui3
+-- carruirui3 guache blaruiher alvalvdom1
 sumaDigitosR :: String -> Int
 sumaDigitosR "" = 0
 sumaDigitosR (x:xs) 
@@ -48,7 +48,7 @@ sumaDigitosR (x:xs)
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- carruirui3
+-- carruirui3 guache blaruiher alvalvdom1 manvermor
 
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
@@ -68,13 +68,10 @@ prop_sumaDigitosC xs = sumaDigitosC xs == sumaDigitosR xs
 -- minúscula y (toUpper c) que es el carácter c en mayúscula.
 -- ---------------------------------------------------------------------
 
--- guache
-mayusculaInicial2 :: String -> String
-mayusculaInicial2 []     = []
-mayusculaInicial2 (x:xs) = toUpper x : minuscula xs
-    where minuscula xs = [toLower x | x <- xs]
-
--- Comentario: La definición anterior se puede simplificar.
+-- guache alvalvdom1 blaruiher manvermor
+mayusculaInicial :: String -> String
+mayusculaInicial []     = []
+mayusculaInicial (x:xs) = toUpper x : [toLower x | x <- xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por recursión, la función
@@ -84,7 +81,7 @@ mayusculaInicial2 (x:xs) = toUpper x : minuscula xs
 --    mayusculaInicialRec "sEviLLa"  ==  "Sevilla"
 -- ---------------------------------------------------------------------
 
--- guache
+-- guache blaruiher
 mayusculaInicialRec :: String -> String
 mayusculaInicialRec []     = []
 mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
@@ -92,12 +89,18 @@ mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
 minuscula []     = []
 minuscula (x:xs) = toLower x : minuscula xs
 
+-- manvermor
+mayusculaInicialRec2 :: String -> String
+mayusculaInicialRec2 ""     = ""
+mayusculaInicialRec2 (x:xs) = 
+    toUpper x : (map toLower (mayusculaInicialRec2 xs))
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache
+-- guache blaruiher manvermor
 
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
@@ -124,10 +127,7 @@ prop_mayusculaInicial xs = mayusculaInicialRec xs == mayusculaInicial xs
 -- guache
 titulo :: [String] -> [String]
 titulo [] = []
-titulo (x:xs) = mayusculaInicial x : w
-    where w = [change x| x <- xs]
-
--- Comentario: La definición anterior se puede simplificar.
+titulo (x:xs) = mayusculaInicial x : [change x| x <- xs]
 
 change :: String -> String
 change xs | length xs < 4 = minuscula xs
@@ -145,9 +145,9 @@ change xs | length xs < 4 = minuscula xs
 -- guache
 tituloRec :: [String] -> [String]
 tituloRec [] = []
-tituloRec (x:xs) = mayusculaInicial x : guy xs
-    where guy []     = []
-          guy (x:xs) = change x : guy xs
+tituloRec (x:xs) = mayusculaInicial x : aux xs
+    where aux []     = []
+          aux (x:xs) = change x : aux xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que ambas definiciones son
@@ -172,10 +172,14 @@ prop_titulo xs = tituloRec xs == titulo xs
 -- la posición pos (comenzando en 0). Por ejemplo,
 --    ghci> buscaCrucigrama 'c' 1 7 ["ocaso", "casa", "ocupado"]
 --    ["ocupado"]
+--    ghci> buscaCrucigrama 'o' 4 5 ["ocaso", "casa", "ocupado"]
+--    ["ocaso"]
+--    ghci> buscaCrucigrama 'c' (-1) 7 ["ocaso", "casa", "ocupado"]
+--    []
 -- ---------------------------------------------------------------------
 
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigrama l pos lon ps = undefined
+buscaCrucigrama l pos lon ps =  undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Definir, por recursión, la función
@@ -209,8 +213,15 @@ prop_buscaCrucigrama = undefined
 --    posiciones "Salamamca" 'a'  ==  [1,3,5,8]
 -- ---------------------------------------------------------------------
 
+-- guache blaruiher manvermor
 posiciones :: String -> Char -> [Int]
-posiciones xs y = undefined
+posiciones xs y = [v | (u,v) <- zip xs [0..], y == u]
+
+-- alvalvdom1
+posiciones2 :: String -> Char -> [Int]
+posiciones2 xs y = [x | x <- [0..length xs - 1], xs !! x == y]
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por recursión, la función
@@ -221,18 +232,22 @@ posiciones xs y = undefined
 -- ---------------------------------------------------------------------
 
 posicionesR :: String -> Char -> [Int]
-posicionesR xs y = undefined
+posicionesR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
+-- guache
+
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
-prop_posiciones xs y = undefined
+prop_posiciones xs y = posicionesR xs y == posiciones xs y 
 
 -- La comprobación es
+--    *Main> quickCheck prop_posiciones
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Definir, por recursión, la función
@@ -246,8 +261,16 @@ prop_posiciones xs y = undefined
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
+-- blaruiher
 contieneR :: String -> String -> Bool
-contieneR = undefined
+contieneR []     [] = True
+contieneR (x:xs) [] = True
+contieneR []     ys = False
+contieneR (x:xs) ys
+    | isPrefixOf ys (x:xs) = True
+    | otherwise            = contieneR xs ys
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Definir, por comprensión, la función
