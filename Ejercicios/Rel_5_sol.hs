@@ -560,7 +560,7 @@ mayorExponenteC4 a b = maximum [n | n <- [0..b], b `mod` (a^n) == 0]
 -- ---------------------------------------------------------------------
 
 -- pabmorgar carruirui3 rubvilval erisancha alvalvdom1 blaruiher
--- manpende silgongal juanarcon abrdelrod alebergon fracruzam
+-- manpende silgongal juanarcon abrdelrod alebergon fracruzam josllagam 
 aproximaPiC n = sqrt (6*sum[1/x^2| x <- [1..n]])
 
 -- manvermor carmengar
@@ -576,12 +576,12 @@ aproximaPiC2 n = sqrt (sum [6/x^2 | x <- [1..n]])
 -- ---------------------------------------------------------------------
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha blaruiher
--- alvalvdom1 silgongal juanarcon alebergon fracruzam
+-- alvalvdom1 silgongal juanarcon alebergon fracruzam 
 aproximaPiR n = sqrt(6*aproximaPiR'  n)
     where aproximaPiR' 1 = 1 
           aproximaPiR' n = 1/n^2 + aproximaPiR' (n-1)
 
--- carmengar abrdelrod manpende
+-- carmengar abrdelrod manpende josllagam
 aproximaPiR2 1 = sqrt 6
 aproximaPiR2 n = sqrt ((6/n^2) + (aproximaPiR (n-1))^2)
 
