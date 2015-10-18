@@ -25,3 +25,6 @@ clase) y las soluciones definitivas.
 + **Relación 6**: Funciones sobre cadenas.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6_sol.hs)).
++ **Relación 7**: Estadística descriptiva.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_7.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_7_sol.hs)).
