@@ -161,7 +161,7 @@ desplaza3 n c | c `elem` ['a'..'z'] = chr ((ord c-97+n) `mod` 26+97)
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
 -- erisancha manvazbar1 rubvilval juamorrom1 pabmorgar marvilmor lucgamgal
 -- blaruiher silgongal carmengar alebergon isrbelnun carboncar paocabper
--- ivaruicam migandben 
+-- ivaruicam migandben javperlag
 codifica :: Int -> String -> String
 codifica n xs = [desplaza n x | x <- xs]
 
@@ -178,7 +178,7 @@ codifica2 n xs = map (desplaza n) xs
 -- guache carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
 -- erisancha manvazbar1 fracruzam rubvilval josllagam juamorrom1
 -- lucgamgal pabmorgar blaruiher silgongal carmengar alebergon isrbelnun
--- carboncar paocabper ivaruicam migandben
+-- carboncar paocabper ivaruicam migandben javperlag
 
 -- La propiedad es
 prop_codifica :: Int -> String -> Bool
@@ -199,7 +199,7 @@ prop_codifica n cs = codifica (-n) (codifica n cs) == cs
 -- carruirui3 juanarcon manpende manvermor alvalvdom1 abrdelrod
 -- erisancha manvazbar1 fracruzam rubvilval juamorrom1 pabmorgar
 -- lucgamgal josllagam blaruiher silgongal carmengar alebergon isrbelnun
--- paocabper carboncar 
+-- paocabper carboncar javperlag
 tabla :: [Float]
 tabla = [12.53, 1.42, 4.68, 5.86, 13.68, 0.69, 1.01, 
           0.70, 6.25, 0.44, 0.01,  4.97, 3.15, 6.71, 
@@ -219,7 +219,7 @@ porcentaje :: Int -> Int -> Float
 porcentaje n m = 100 * (fromIntegral n) / (fromIntegral m)
 
 -- juanarcon manpende abrdelrod erisancha fracruzam rubvilval pabmorgar
--- carmengar isrbelnun ivaruicam
+-- carmengar isrbelnun ivaruicam javperlag
 porcentaje2 :: Int -> Int -> Float
 porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 
@@ -233,7 +233,7 @@ porcentaje2 n m = fromIntegral n / fromIntegral m * 100
 -- ---------------------------------------------------------------------
 
 -- carruirui3 manvermor pabmorgar silgongal carmengar juamorrom1
--- alebergon carboncar paocabper ivaruicammigandben
+-- alebergon carboncar paocabper ivaruicammigandben javperlag
 letras :: String -> String
 letras xs = [x | x <- xs, x `elem` ['A'..'Z'] || x `elem` ['a'..'z']]
 
@@ -243,7 +243,7 @@ letras2 xs = [x | x <- xs, elem x (ys++zs)]
     where ys = ['a'..'z']
           zs = ['A'..'Z']
 
--- manpende manvazbar1 rubvilval juanarcon josllagam blaruiher 
+-- manpende manvazbar1 rubvilval juanarcon josllagam blaruiher isrbelnun
 letras3 :: String -> String
 letras3 xs = [x | x <- xs, elem x (['a'..'z']++['A'..'Z'])]
 
@@ -269,7 +269,7 @@ ocurrencias x xs = sum [1 | a <- xs, x == a]
 
 -- guache manpende manvermor abrdelrod erisancha manvazbar1 fracruzam
 -- juanarcon rubvilval josllagam marvilmor lucgamgal blaruiher carmengar 
--- juamorrom1 paocabper carbonar ivaruicam migandben isrbelnun
+-- juamorrom1 paocabper carbonar ivaruicam migandben isrbelnun javperlag
 ocurrencias2 :: Eq a => a -> [a] -> Int
 ocurrencias2 x xs = length [y | y <- xs, x==y]
 
@@ -281,7 +281,7 @@ ocurrencias2 x xs = length [y | y <- xs, x==y]
 -- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
 -- carmengar juamorrom1 josllagam alebergon paocabper carboncar ivaruicam
--- migandben isrbelnun
+-- migandben isrbelnun javperlag
 
 -- La propiedad es 
 prop_ocurrencia_inv :: Int -> [Int] -> Bool
@@ -300,7 +300,7 @@ prop_ocurrencia_inv x xs = ocurrencias x xs == ocurrencias x (reverse xs)
 -- guache manpende manvermor alvalvdom1 abrdelrod erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher
 -- carmengar juamorrom1 josllagam alebergon paocabper carboncar ivaruicam
- -- migandben isrbelnun
+ -- migandben isrbelnun javperlag
 
 -- La propiedad es
 prop_ocurrencia_conc :: Int -> [Int] -> [Int] -> Bool
@@ -331,7 +331,16 @@ frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
     where ys = [toLower x | x <- xs]
           n  = length(letras xs)
 
--- ---------------------------------------------------------------------
+-- javperlag 
+frecuencias2 :: String -> [Float]
+frecuencias2 xs =
+    [porcentaje (ocurrencias c xs + ocurrencias (toLower c) xs)
+                (length (letras xs))
+     | c <- ['A'..'Z']]
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- ------------------------------------------------------
 -- Ejercicio 13.1. Definir la función
 --    chiCuad :: [Float] -> [Float] -> Float
 -- tal que (chiCuad os es) es la medida chi cuadrado de las
@@ -343,7 +352,7 @@ frecuencias xs = [porcentaje (ocurrencias x ys) n | x <- ['a'..'z']]
 -- carruirui3 manvermor alvalvdom1 manpende erisancha manvazbar1
 -- fracruzam rubvilval pabmorgar juanarcon marvilmor lucgamgal silgongal
 -- blaruiher carmengar juamorrom1 josllagam alebergon carboncar
--- paocabper migandben 
+-- paocabper migandben isrbelnun javperlag
 chiCuad :: [Float] -> [Float] -> Float
 chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 
@@ -356,7 +365,7 @@ chiCuad os es = sum [((o-e)^2)/e | (o,e) <- zip os es]
 -- carruirui3 guache manvermor abrdelrod alvalvdom1 manpende erisancha
 -- manvazbar1 rubvilval fracruzam pabmorgar juanarcon lucgamgal silgongal
 -- blaruiher carmengar juamorrom1 josllagam alebergon ivaruicam
--- migandben paocabper 
+-- migandben paocabper isrbelnun javperlag
 
 -- La propiedad es
 prop_chiCuad_1 :: [Float] -> [Float] -> Bool
@@ -376,7 +385,7 @@ prop_chiCuad_1 xs ys = (chiCuad xs ys == 0) == (xs == ys)
 
 -- guache manvermor alvalvdom1 manpende erisancha manvazbar1 fracruzam 
 -- rubvilval pabmorgar juanarcon lucgamgal silgongal blaruiher carmengar
--- alebergon migandben paocabper
+-- alebergon migandben paocabper isrbelnun javperlag
 
 -- La propiedad es
 prop_chiCuad_2 :: [Float] -> [Float] -> Property
@@ -395,7 +404,7 @@ prop_chiCuad_2 xs ys =
 
 -- carruirui3 guache manvermor manpende erisancha fracruzam rubvilval
 -- pabmorgar juanarcon  paocabper lucgamgal silgongal blaruiher
--- carmengar juamorrom1 alebergon
+-- carmengar juamorrom1 alebergon isrbelnun javperlag
 
 -- La propiedad es
 prop_chiCuad :: [Float] -> [Float] -> Bool
@@ -418,15 +427,17 @@ prop_chiCuad xs ys =
 
 -- guache alvalvdom1 carruirui3 manpende erisancha manvazbar1 fracruzam
 -- rubvilval pabmorgar juanarcon marvilmor silgongal blaruiher carmengar
--- juamorrom1 josllagam alebergon ivaruicam
+-- juamorrom1 josllagam alebergon ivaruicam javperlag
 rota :: Int -> [a] -> [a]
 rota n [] = []
 rota n xs = drop m xs ++ take m xs
     where m = mod n (length xs)
 
--- manvermor abrdelrod lucgamgal paocabper
+-- isrbelnun
 rota2 :: Int -> [a] -> [a]
-rota2 n xs = drop n xs ++ take n xs
+rota2 n xs = drop (mod n (length xs)) xs ++ take (mod n (length xs)) xs
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14.2. Comprobar con QuickCkeck si para cualquier lista xs
@@ -436,7 +447,7 @@ rota2 n xs = drop n xs ++ take n xs
 
 -- guache manvermor abrdelrod alvalvdom1 carruirui3 manpende erisancha
 -- manvazbar1 rubvilval fracruzam pabmogar juanarcon lucgamgal silgongal
--- blaruiher juamorrom1 alebergon ivaruicam paocabper
+-- blaruiher juamorrom1 alebergon ivaruicam paocabper isrbelnun javperlag
 
 -- La propiedad es
 prop_rota :: Int -> Int -> [Int] -> Property
@@ -453,6 +464,18 @@ prop_rota n m xs =
 -- Comentario: El error se debe a que el número de rotaciones del ejemplo 
 -- (220674372 + 1926809277) es un entero demasiado grande. Acotando los
 -- números de las rotaciones se puede verificar la propiedad.
+
+-- isrbelnun
+
+-- La propiedad es
+prop_rota2 :: Int -> Int -> [Int] -> Property
+prop_rota2 n m xs = 
+    n /= 0 && m /= 0 && xs /= [] ==> rota m (rota n xs) == rota (n+m) xs
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- La comprobacion es
+-- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15.1. Definir la función
