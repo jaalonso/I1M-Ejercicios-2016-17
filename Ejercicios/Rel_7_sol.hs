@@ -37,8 +37,11 @@ import Test.QuickCheck
 --    media [4,8,4,5,9]  ==  6.0
 -- ---------------------------------------------------------------------
 
+-- ivaruicam juamorrom1 fracruzam carmengar
 media :: Floating a => [a] -> a
-media xs = undefined
+media xs = (sum xs) / fromIntegral (length xs)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. La mediana de una lista de valores es el valor de 
@@ -56,19 +59,29 @@ media xs = undefined
 --    mediana [9,6,8,4,3,2]  ==  5.0
 -- ---------------------------------------------------------------------
 
+-- carmengar
 mediana :: (Floating a, Ord a) => [a] -> a
-mediana xs = undefined
+mediana xs | odd n     = s !! (div n 2)
+           | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
+           where n = length xs
+                 s = sort xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Comprobar con QuickCheck que para cualquier lista no
--- vacía xs el número de elementos de xs menores que su median es menor
+-- vacía xs el número de elementos de xs menores que su mediana es menor
 -- o igual que la mitad de los elementos de xs y lo mismo pasa con los
 -- mayores o iguales que la mediana.
 -- --------------------------------------------------------------------- 
 
+-- carmengar
+
 -- La propiedad es
 prop_mediana :: (Floating a, Ord a) => [a] -> Property
-prop_mediana xs = undefined
+prop_mediana xs = 
+    xs /= [] ==> length (filter (< m) xs) <= l && 
+                 length (filter (>m) xs) <= l
+    where l = (length xs) `div` 2
+          m = mediana xs
 
 -- La comprobación es
 
@@ -77,12 +90,20 @@ prop_mediana xs = undefined
 --    frecuencias :: Ord a => [a] -> [(a,Int)]
 -- tal que (frecuencias xs) es la lista formada por los elementos de xs
 -- junto con el número de veces que aparecen en xs. Por ejemplo,  
---    frecuencias "sosos"          ==  [('o',2),('s',3)]
---    frecuencias (show (10^100))  ==  [('0',100),('1',1)]
+--    frecuencias "sosos" ==  [('o',2),('s',3)]
+--
+-- Nota: El orden de los pares no importa
 -- ---------------------------------------------------------------------
 
+
+-- carmengar
 frecuencias :: Ord a => [a] -> [(a,Int)]
-frecuencias = undefined
+frecuencias xs = [(x,y) | x <- (nub xs), y <- [contar x xs]]
+
+-- Comentario: La definición anterior se puede mejorar.
+
+contar :: Eq a => a -> [a] -> Int
+contar x xs = length [1 | x' <- xs, x' == x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Las modas de una lista son los elementos de la lista
@@ -95,8 +116,10 @@ frecuencias = undefined
 --    modas [7,3,7,5,3,1,6,9,6]  ==  [3,6,7]
 -- ---------------------------------------------------------------------
 
+-- carmengar
 modas :: Ord a => [a] -> [a]
-modas xs = undefined
+modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
+    where f = [y | (_,y) <- frecuencias xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. La media geométrica de una lista de n números es la
@@ -110,8 +133,11 @@ modas xs = undefined
 --    mediaGeometrica [3,1,9]  ==  3.0
 -- ---------------------------------------------------------------------
 
+-- carmengar
 mediaGeometrica :: Floating a => [a] -> a
-mediaGeometrica xs = undefined
+mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que la media geométrica de
@@ -139,8 +165,9 @@ prop_mediaGeometrica xs = undefined
 --    rango [4,2,4,7,3]  ==  5
 -- ---------------------------------------------------------------------
 
+-- carmengar 
 rango :: (Num a, Ord a) => [a] -> a
-rango xs = undefined
+rango xs = maximum xs - minimum xs
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. La desviación media de una lista de datos xs es la
@@ -160,8 +187,10 @@ rango xs = undefined
 --    desviacionMedia (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar
 desviacionMedia :: Floating a => [a] -> a
-desviacionMedia xs = undefined
+desviacionMedia xs = media [abs (x-m) | x <- xs]
+    where m = media xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. La varianza de una lista datos es la media de los
@@ -178,8 +207,10 @@ desviacionMedia xs = undefined
 --    varianza (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar
 varianza :: Floating a => [a] -> a
-varianza xs = undefined
+varianza xs =  media [(x-m)^2 | x <- xs]
+    where m = media xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. La desviación típica de una lista de datos es la raíz
@@ -193,6 +224,6 @@ varianza xs = undefined
 --    desviacionTipica (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar
 desviacionTipica :: Floating a => [a] -> a
-desviacionTipica = undefined
-
+desviacionTipica xs = sqrt (varianza xs)
