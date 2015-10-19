@@ -29,7 +29,7 @@ import Data.List
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal 
--- juanarcon abrdelrod alebergon fracruzam
+-- juanarcon abrdelrod alebergon fracruzam isrbelnun lucgamgal
 potencia :: Integer -> Integer -> Integer
 potencia x 0 = 1
 potencia x n = x * (potencia x (n-1))
@@ -41,7 +41,7 @@ potencia x n = x * (potencia x (n-1))
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal 
--- juanarcon abrdelrod alebergon fracruzam
+-- juanarcon abrdelrod alebergon fracruzam isrbelnun lucgamgal
 
 -- La propiedad es
 prop_potencia :: Integer -> Integer -> Property
@@ -67,7 +67,7 @@ prop_potencia x n = n>=0 ==> potencia x n == x^n
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal
--- juanarcon abrdelrod alebergon fracruzam
+-- juanarcon abrdelrod alebergon fracruzam lucgamgal
 mcd :: Integer -> Integer -> Integer
 mcd a 0 = a
 mcd a b = mcd b (mod a b)
@@ -93,7 +93,7 @@ prop_mcd a b = and[a/=b,a>0,b>0] ==> mcd a b >=1 && mcd a b <= min a b
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval manpende carmengar blaruiher juamorrom1 josllagam silgongal
--- juanarcon abrdelrod alebergon fracruzam
+-- juanarcon abrdelrod alebergon fracruzam lucgamgal
 prop_mcd2 :: Integer -> Integer -> Property
 prop_mcd2 a b = a > 0 && b > 0 ==> mcd a b >= 1 && mcd a b <= min a b
 
@@ -115,7 +115,7 @@ prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
 --    +++ OK, passed 100 tests.
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 rubvilval carmengar
--- blaruiher juamorrom1 josllagam juanarcon abrdelrod fracruzam
+-- blaruiher juamorrom1 josllagam juanarcon abrdelrod fracruzam lucgamgal
 prop_mcd_div2 :: Integer -> Integer -> Property
 prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 
@@ -136,7 +136,7 @@ prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 
 -- guache manvermor carruirui3 manvazbar1 erisancha rubvilval carmengar
 -- blaruiher juamorrom1 manpende josllagam alvalvdom1 silgongal juanarcon
--- alebergon
+-- alebergon lucgamgal
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece x []     = False
 pertenece x (y:ys) = x == y || pertenece x ys
@@ -163,7 +163,7 @@ pertenece2 x (y:xs) = pertenece x [y] || pertenece x xs
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 erisancha rubvilval
 -- carmengar blaruiher juamorrom1 manpende josllagam alvalvdom1 silgongal
--- juanarcon abrdelrod alebergon
+-- juanarcon abrdelrod alebergon lucgamgal
 
 -- La propiedad es
 prop_pertenece :: Eq a => a -> [a] -> Bool
@@ -183,7 +183,7 @@ prop_pertenece x xs = pertenece x xs == elem x xs
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval carmengar blaruiher juamorrom1 manpende josllagam silgongal
--- juanarcon abrdelrod alebergon
+-- juanarcon abrdelrod alebergon lucgamgal
 concatenaListas :: [[a]] -> [a]
 concatenaListas []       = [] 
 concatenaListas (xs:xss) = xs ++  concatenaListas xss
@@ -195,7 +195,7 @@ concatenaListas (xs:xss) = xs ++  concatenaListas xss
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval carmengar blaruiher juamorrom1 manpende josllagam silgongal
--- juanarcon abrdelrod alebergon
+-- juanarcon abrdelrod alebergon lucgamgal
 
 -- La propiedad es
 prop_concat :: Eq a => [[a]] -> Bool
@@ -560,7 +560,7 @@ mayorExponenteC4 a b = maximum [n | n <- [0..b], b `mod` (a^n) == 0]
 -- ---------------------------------------------------------------------
 
 -- pabmorgar carruirui3 rubvilval erisancha alvalvdom1 blaruiher
--- manpende silgongal juanarcon abrdelrod alebergon fracruzam josllagam 
+-- manpende silgongal juanarcon abrdelrod alebergon fracruzam josllagam
 aproximaPiC n = sqrt (6*sum[1/x^2| x <- [1..n]])
 
 -- manvermor carmengar
@@ -664,7 +664,6 @@ prop_mcdE_esDivisor2 :: Integer -> Integer -> Property
 prop_mcdE_esDivisor2 a b = 
     c /= 0 ==> mod a c == 0 && mod b c == 0
     where c = mcdE a b
-
 
 -- La comprobación es
 --    *Main> quickCheck prop_mcdE_esDivisor2
