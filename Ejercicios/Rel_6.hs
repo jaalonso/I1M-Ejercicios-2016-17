@@ -55,6 +55,7 @@ prop_sumaDigitosC xs = undefined
 -- tal que (mayusculaInicial xs) es la palabra xs con la letra inicial
 -- en mayúscula y las restantes en minúsculas. Por ejemplo, 
 --    mayusculaInicial "sEviLLa"  ==  "Sevilla"
+--    mayusculaInicial ""         ==  ""
 -- Nota: Usar las funciones (toLower c) que es el carácter c en
 -- minúscula y (toUpper c) que es el carácter c en mayúscula.
 -- ---------------------------------------------------------------------
