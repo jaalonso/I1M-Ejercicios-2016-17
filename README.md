@@ -1,4 +1,4 @@
-En este repositorio se encuentran los ejercicios del  curso de 
+En este repositorio se encuentran los ejercicios del curso de 
 [Informática de 1º del Grado en Matemáticas](http://bit.ly/1WYZ1O9) 
 de la Universidad de Sevilla.
 
