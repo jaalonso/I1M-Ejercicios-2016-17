@@ -30,7 +30,7 @@ import Data.List
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal 
 -- juanarcon abrdelrod alebergon fracruzam isrbelnun lucgamgal irecasmat
--- ivaruicam 
+-- ivaruicam migandben
 
 potencia :: Integer -> Integer -> Integer
 potencia x 0 = 1
@@ -44,10 +44,11 @@ potencia x n = x * (potencia x (n-1))
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal 
 -- juanarcon abrdelrod alebergon fracruzam isrbelnun lucgamgal irecasmat
--- ivaruicam 
+-- ivaruicam migandben
+
 -- La propiedad es
 prop_potencia :: Integer -> Integer -> Property
-prop_potencia x n = n>=0 ==> potencia x n == x^n
+prop_potencia x n = n >= 0 ==> potencia x n == x^n
 
 -- La comprobación es
 --   *Main> quickCheck prop_potencia
@@ -70,6 +71,7 @@ prop_potencia x n = n>=0 ==> potencia x n == x^n
 -- guache pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval manpende blaruiher carmengar juamorrom1 josllagam silgongal
 -- juanarcon abrdelrod alebergon fracruzam lucgamgal irecasmat ivaruicam
+-- migandben
 
 mcd :: Integer -> Integer -> Integer
 mcd a 0 = a
@@ -86,7 +88,8 @@ mcd a b = mcd b (mod a b)
 
 -- La propiedad es
 prop_mcd :: Integer -> Integer -> Property
-prop_mcd a b = and[a/=b,a>0,b>0] ==> mcd a b >=1 && mcd a b <= min a b
+prop_mcd a b = 
+    and [a /= b, a > 0, b > 0] ==> mcd a b >=1 && mcd a b <= min a b
 
 -- Comentario: La definición anterior se puede mejorar.
 
@@ -97,9 +100,12 @@ prop_mcd a b = and[a/=b,a>0,b>0] ==> mcd a b >=1 && mcd a b <= min a b
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval manpende carmengar blaruiher juamorrom1 josllagam silgongal
 -- juanarcon abrdelrod alebergon fracruzam lucgamgal  irecasmat ivaruicam
+-- migandben
 
 prop_mcd2 :: Integer -> Integer -> Property
 prop_mcd2 a b = a > 0 && b > 0 ==> mcd a b >= 1 && mcd a b <= min a b
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Teniendo en cuenta que buscamos el máximo común
@@ -108,11 +114,12 @@ prop_mcd2 a b = a > 0 && b > 0 ==> mcd a b >= 1 && mcd a b <= min a b
 -- esta propiedad y comprobarla.  
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende silgongal alebergon
+-- guache erisancha manpende silgongal alebergon migandben
 
 -- La propiedad es
 prop_mcd_div :: Integer -> Integer -> Property
-prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
+prop_mcd_div a b = 
+    and [a /= b, a > 0, b > 0] ==> mcd a b <= div (max a b) 2
 
 -- La comprobación es
 --    *Main> quickCheck prop_mcd_div
@@ -123,7 +130,7 @@ prop_mcd_div a b = and [a/=b, a>0, b>0] ==> mcd a b <= div (max a b) 2
 -- lucgamgal irecasmat ivaruicam
 
 prop_mcd_div2 :: Integer -> Integer -> Property
-prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
+prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b) `div` 2
 
 -- La comprobación es
 --    ghci> quickCheck prop_mcd_div2
@@ -142,7 +149,7 @@ prop_mcd_div2 a b = a > 0 && b > 0 ==> mcd a b <= (max a b)`div`2
 
 -- guache manvermor carruirui3 manvazbar1 erisancha rubvilval carmengar
 -- blaruiher juamorrom1 manpende josllagam alvalvdom1 silgongal juanarcon
--- alebergon lucgamgal irecasmat ivaruicam
+-- alebergon lucgamgal irecasmat ivaruicam migandben
 pertenece :: Eq a => a -> [a] -> Bool
 pertenece x []     = False
 pertenece x (y:ys) = x == y || pertenece x ys
@@ -157,7 +164,7 @@ pertenece1 x (y:ys) | x == y    = True
 
 -- abrdelrod
 pertenece2 :: Eq a => a -> [a] -> Bool
-pertenece2 x [a]    = x==a 
+pertenece2 x [a]    = x == a 
 pertenece2 x (y:xs) = pertenece x [y] || pertenece x xs
 
 -- Comentario: La definición anterior se puede mejorar.
@@ -169,7 +176,7 @@ pertenece2 x (y:xs) = pertenece x [y] || pertenece x xs
 
 -- guache pabmorgar manvermor carruirui3 manvazbar1 erisancha rubvilval
 -- carmengar blaruiher juamorrom1 manpende josllagam alvalvdom1 silgongal
--- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam
+-- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam migandben
 
 -- La propiedad es
 prop_pertenece :: Eq a => a -> [a] -> Bool
@@ -189,7 +196,7 @@ prop_pertenece x xs = pertenece x xs == elem x xs
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha
 -- rubvilval carmengar blaruiher juamorrom1 manpende josllagam silgongal
--- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam
+-- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam migandben
 concatenaListas :: [[a]] -> [a]
 concatenaListas []       = [] 
 concatenaListas (xs:xss) = xs ++  concatenaListas xss
@@ -201,7 +208,7 @@ concatenaListas (xs:xss) = xs ++  concatenaListas xss
 
 -- pabmorgar manvermor carruirui3 manvazbar1 alvalvdom1 erisancha 
 -- rubvilval carmengar blaruiher juamorrom1 manpende josllagam silgongal
--- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam
+-- juanarcon abrdelrod alebergon lucgamgal irecasmat ivaruicam migandben
 
 -- La propiedad es
 prop_concat :: Eq a => [[a]] -> Bool
@@ -223,6 +230,7 @@ prop_concat xss = concatenaListas xss == concat xss
 -- pabmorgar manvermor carruirui3 alvalvdom1 erisancha rubvilval carmengar
 -- blaruiher juamorrom1 manpende josllagam manvazbar1 silgongal
 -- juanarcon abrdelrod alebergon fracruzam irecasmat lucgamgal ivaruicam
+-- migandben 
 coge :: Int -> [a] -> [a]
 coge n  _ | n <= 0 = [] 
 coge n []          = [] 
@@ -235,7 +243,7 @@ coge n (x:xs)      = x : coge (n-1) xs
 
 -- pabmorgar manvermor carruirui3 alvalvdom1 erisancha rubvilval carmengar
 -- blaruiher manpende josllagam manvazbar1 silgongal juanarcon abrdelrod
--- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam
+-- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam migandben
 -- La propiedad es
 prop_coge :: Int -> [Int] -> Bool
 prop_coge n xs = coge n xs == take n xs
@@ -255,7 +263,7 @@ prop_coge n xs = coge n xs == take n xs
  
 -- pabmorgar manvermor carruirui3 erisancha rubvilval alvalvdom1 carmengar
 -- blaruiher josllagam manpende silgongal juanarcon abrdelrod alebergon
--- fracruzam juamorrom1 irecasmat ivaruicam
+-- fracruzam juamorrom1 irecasmat ivaruicam migandben
 sumaCuadradosR :: Integer -> Integer
 sumaCuadradosR 0 = 0
 sumaCuadradosR n = n^2 + sumaCuadradosR (n-1)
@@ -267,11 +275,11 @@ sumaCuadradosR n = n^2 + sumaCuadradosR (n-1)
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval alvalvdom1 carmengar
 -- blaruiher manpende josllagam manvazbar1 silgongal juanarcon abrdelrod 
--- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam
+-- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam migandben
 -- La propiedad es
 prop_SumaCuadrados :: Integer -> Property
 prop_SumaCuadrados n =  
-    n >= 0 ==> n*(n+1)*(2*n+1)`div`6 == sumaCuadradosR n 
+    n >= 0 ==> n*(n+1)*(2*n+1) `div` 6 == sumaCuadradosR n 
 
 -- La comprobación es
 --    ghci> quickCheck prop_SumaCuadrados
@@ -287,10 +295,9 @@ prop_SumaCuadrados n =
 
 --pabmorgar manvermor carruirui3 erisancha rubvilval alvalvdom1 carmengar
 -- blaruiher manpende josllagam manvazbar1 silgongal juanarcon abrdelrod
--- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam
+-- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam migandben
 sumaCuadradosC :: Integer -> Integer
 sumaCuadradosC n = sum [x^2 | x <- [1..n]]
-
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.4. Comprobar con QuickCheck que las funciones
@@ -300,7 +307,7 @@ sumaCuadradosC n = sum [x^2 | x <- [1..n]]
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval alvalvdom1 carmengar
 -- blaruiher manpende josllagam manvazbar1 silgongal juanarcon abrdelrod
--- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam
+-- alebergon fracruzam juamorrom1 irecasmat lucgamgal ivaruicam migandben
 
 -- La propiedad es
 prop_sumaCuadradosR :: Integer -> Property
@@ -321,7 +328,7 @@ prop_sumaCuadradosR n =
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval carmengar blaruiher
 -- manpende josllagam alvalvdom1 silgongal juanarcon abrdelrod alebergon
--- lucgamgal ivaruicam
+-- lucgamgal ivaruicam migandben
 
 digitosR :: Integer -> [Integer]
 digitosR n = reverse (digitosR1 n)
@@ -339,7 +346,7 @@ digitosR1 n | n < 10    = [n]
 -- ---------------------------------------------------------------------
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha carmengar manpende
--- alvalvdom1 blaruiher josllagam silgongal juanarcon abrdelrod
+-- alvalvdom1 blaruiher josllagam silgongal juanarcon abrdelrod migandben
 -- alebergon lucgamgaml 
 digitosC :: Integer -> [Integer]
 digitosC n = [read [c] | c <- show n ]
@@ -351,11 +358,11 @@ digitosC n = [read [c] | c <- show n ]
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha carmengar manpende
 -- lucgamgal alvalvdom1 blaruiher josllagam silgongal juanarcon
--- abrdelrod alebergon ivaruicam 
+-- abrdelrod alebergon ivaruicam migandben
 
 -- La propiedad es
 prop_digitos :: Integer -> Property
-prop_digitos n = n>= 0 ==> digitosC n == digitosR n 
+prop_digitos n = n >= 0 ==> digitosC n == digitosR n 
 
 -- La comprobación es
 --    ghci> quickCheck prop_digitos
@@ -370,7 +377,7 @@ prop_digitos n = n>= 0 ==> digitosC n == digitosR n
 --    sumaDigitosR 20045 == 11
 -- ---------------------------------------------------------------------
 
--- pabmorgar manvermor carmengar silgongal alebergon fracruzam
+-- pabmorgar manvermor carmengar silgongal alebergon fracruzam migandben
 sumaDigitosR :: Integer -> Integer
 sumaDigitosR n = sum (digitosR n)
 
@@ -391,7 +398,7 @@ sumaDigitosR2 n = n `mod` 10 + sumaDigitosR2 (n `div` 10)
 
 -- pabmorgar  manvermor carruirui3 rubvilval erisancha carmengar manpende
 -- alvalvdom1 blaruiher josllagam silgongal juanarcon abrdelrod
--- alebergon lucgamgal fracruzam ivaruicam
+-- alebergon lucgamgal fracruzam ivaruicam migandben
 sumaDigitosNR :: Integer -> Integer
 sumaDigitosNR n = sum (digitosC n)
 
@@ -402,7 +409,7 @@ sumaDigitosNR n = sum (digitosC n)
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha carmengar manpende
 -- alvalvdom1 blaruiher josllagam silgongal juanarcon abrdelrod alebergon
--- fracruzam lucgamgal ivaruicam
+-- fracruzam lucgamgal ivaruicam migandben
 
 -- La propiedad es
 prop_sumaDigitos :: Integer -> Property
@@ -423,7 +430,7 @@ prop_sumaDigitos n = n>= 0 ==> sumaDigitosNR n == sumaDigitosR n
 -- ---------------------------------------------------------------------
 
 -- pabmorgar manvermor carruiui3 rubvilval erisancha manpende 
--- blaruiher josllagam alvalvdom1 silgongal juanarcon abrdelrod
+-- blaruiher josllagam alvalvdom1 silgongal juanarcon abrdelrod migandben
 -- alebergon lucgamgal ivaruicam
 listaNumeroR :: [Integer] -> Integer
 listaNumeroR []     = 0 
@@ -454,7 +461,7 @@ listaNumeroR3 xs = (xs !! 0)*10^(length xs - 1) + listaNumeroR (tail xs)
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha carmengar 
 -- blaruiher josllagam alvalvdom1 silgongal juanarcon abrdelrod
--- alebergon manpende lucgamgal ivaruicam
+-- alebergon manpende lucgamgal ivaruicam migandben
 listaNumeroC :: [Integer] -> Integer
 listaNumeroC xs = sum [y*10^n | (y,n) <- zip (reverse xs) [0..]]
 
@@ -465,7 +472,7 @@ listaNumeroC xs = sum [y*10^n | (y,n) <- zip (reverse xs) [0..]]
 
 -- pabmorgar manvermor carruirui3 rubvilval erisancha carmengar 
 -- blaruiher josllagam alvalvdom1 silgongal juanarcon abrdelrod
--- alebergon manpende lucgamgal ivaruicam
+-- alebergon manpende lucgamgal ivaruicam migandben
 -- La propiedad es
 prop_listaNumero :: [Integer] -> Bool
 prop_listaNumero xs = listaNumeroC xs == listaNumeroR xs 
@@ -486,7 +493,7 @@ prop_listaNumero xs = listaNumeroC xs == listaNumeroR xs
 
 -- pabmorgar manvermor carruirui3 erisancha carmengar manpende
 -- alvalvdom1 josllagam silgongal juanarcon abrdelrod alebergon
--- fracruzam lucgamgal
+-- fracruzam lucgamgal migandben
 capicua :: Integer -> Bool
 capicua n =  digitosR n == reverse (digitosR n)
 
@@ -514,7 +521,7 @@ mayorExponenteR a b
     | mcd a b == 1 = 0
     | otherwise    = 1 + mayorExponenteR a (b `div` a)
 
--- manpende alebergon
+-- manpende alebergon migandben
 mayorExponenteR1 :: Integer -> Integer -> Integer
 mayorExponenteR1 a b | mod b a /= 0 = 0
 mayorExponenteR1 a b | mod b a == 0 = 1 + mayorExponenteR1 a (div b a)
@@ -531,7 +538,7 @@ mayorExponenteR1 a b | mod b a == 0 = 1 + mayorExponenteR1 a (div b a)
 --    mayorExponenteC 5 101  ==  0
 -- ---------------------------------------------------------------------
 
--- rubvilval erisancha blaruiher silgongal ivaruicam
+-- rubvilval erisancha blaruiher silgongal ivaruicam migandben
 mayorExponenteC :: Integer -> Integer -> Integer
 mayorExponenteC a b = last [x | x <- [0..b], (a^x)*(div b (a^x)) == b]
 
@@ -571,7 +578,7 @@ mayorExponenteC4 a b = maximum [n | n <- [0..b], b `mod` (a^n) == 0]
 
 -- pabmorgar carruirui3 rubvilval erisancha alvalvdom1 blaruiher
 -- manpende silgongal juanarcon abrdelrod alebergon fracruzam josllagam
--- lucgamgal ivaruicam
+-- lucgamgal ivaruicam migandben
 aproximaPiC n = sqrt (6*sum[1/x^2| x <- [1..n]])
 
 -- manvermor carmengar
@@ -603,7 +610,7 @@ aproximaPiR2 n = sqrt ((6/n^2) + (aproximaPiR (n-1))^2)
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval carmengar alvalvdom1
 -- blaruiher manpende silgongal juanarcon abrdelrod alebergon fracruzam
--- lucgamgal ivaruicam
+-- lucgamgal ivaruicam migandben
 
 -- La propiedad es
 prop_mcd_gcd :: Integer -> Integer -> Bool
@@ -629,7 +636,7 @@ prop_mcd_gcd a b = mcd a b == gcd a b
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval carmengar alvalvdom1
 -- blaruiher manpende silgongal juanarcon abrdelrod alebergon lucgamgal
--- ivaruicam 
+-- ivaruicam migandben
 mcdE :: Integer -> Integer -> Integer
 mcdE a 0 = abs a
 mcdE a b = mcdE b (mod a b)
@@ -641,7 +648,7 @@ mcdE a b = mcdE b (mod a b)
 
 -- pabmorgar manvermor carruirui3 erisancha rubvilval carmengar alvalvdom1
 -- blaruiher manpende silgongal juanarcon abrdelrod alebergon lucgamgal
--- ivaruicam 
+-- ivaruicam migandben
  
 -- La propiedad es
 prop_mcdE_gcd :: Integer -> Integer -> Bool
@@ -672,7 +679,7 @@ prop_mcdE_esDivisor a b =
 --    +++ OK, passed 100 tests.
 
 -- manvermor carruirui3 erisancha rubvilval carmengar alvalvdom1
--- blaruiher silgongal juanarcon alebergon lucgamgal
+-- blaruiher silgongal juanarcon alebergon lucgamgal migandben
 
 prop_mcdE_esDivisor2 :: Integer -> Integer -> Property
 prop_mcdE_esDivisor2 a b = 
@@ -701,7 +708,7 @@ prop_mcdE_esDivisor3 a b =
 -- ---------------------------------------------------------------------
 
 -- pabmorgar erisancha rubvilval carmengar silgongal juanarcon alebergon
--- lucgamgal 
+-- lucgamgal migandben
 
 -- La propiedad es
 prop_mcdE_esMaximo :: Integer -> Integer -> Integer -> Property
@@ -738,7 +745,7 @@ mcdC a 0 = abs a
 mcdC a b = maximum [x | x <- [1..min (abs a) (abs b)], 
                         abs a `mod` x == 0 && abs b `mod` x == 0]
 
--- rubvilval josllagam 
+-- rubvilval josllagam migandben
 mcdC2 :: Integer -> Integer -> Integer
 mcdC2 0 b = abs b
 mcdC2 a 0 = abs a
@@ -769,7 +776,7 @@ mcdC4 a b = maximum [x | x <- [1..(max (abs a)(abs b))],
 -- ---------------------------------------------------------------------
 
 -- erisancha rubvilval carmengar manpende silgongal juanarcon abrdelrod
--- alvalvdom1 alebergon lucgamgal josllagam ivaruicam
+-- alvalvdom1 alebergon lucgamgal josllagam ivaruicam migandben
 
 -- La propiedad es
 prop_mcdC_gcd :: Integer -> Integer -> Bool
