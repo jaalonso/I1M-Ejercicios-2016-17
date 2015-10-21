@@ -37,9 +37,15 @@ import Test.QuickCheck
 --    media [4,8,4,5,9]  ==  6.0
 -- ---------------------------------------------------------------------
 
--- ivaruicam juamorrom1 fracruzam carmengar
+-- ivaruicam juamorrom1 fracruzam carmengar 
 media :: Floating a => [a] -> a
 media xs = (sum xs) / fromIntegral (length xs)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- silgongal blaruiher
+media2 :: Floating a => [a] -> a
+media2 xs = sum xs / fromIntegral (length xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -59,7 +65,7 @@ media xs = (sum xs) / fromIntegral (length xs)
 --    mediana [9,6,8,4,3,2]  ==  5.0
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar blaruiher
 mediana :: (Floating a, Ord a) => [a] -> a
 mediana xs | odd n     = s !! (div n 2)
            | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
@@ -94,7 +100,6 @@ prop_mediana xs =
 --
 -- Nota: El orden de los pares no importa
 -- ---------------------------------------------------------------------
-
 
 -- carmengar
 frecuencias :: Ord a => [a] -> [(a,Int)]
@@ -139,17 +144,27 @@ mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- guache
+mediaGeometrica2 :: Floating a => [a] -> a
+mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que la media geométrica de
 -- cualquier lista no vacía de números no negativos es siempre menor o
 -- igual que la media aritmética. 
 -- ---------------------------------------------------------------------
 
+-- guache
+
 -- La propiedad es
 prop_mediaGeometrica :: (Floating a, Ord a) => [a] -> Property
-prop_mediaGeometrica xs = undefined
+prop_mediaGeometrica xs = 
+    length xs > 0 ==> media z >= mediaGeometrica z
+    where z = map abs xs
 
 -- La comprobación es
+--    *Main> quickCheck prop_mediaGeometrica
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Medidas de dispersión                                              --
