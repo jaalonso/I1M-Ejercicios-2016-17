@@ -1,7 +1,7 @@
 -- I1M 2015-16: Rel_4.hs (7 de octubre de 2015)
 -- Definiciones por comprensión con cadenas: El cifrado César.
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla
+-- Universidad de Sevilla (Revisión del 21 de octubre)
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
