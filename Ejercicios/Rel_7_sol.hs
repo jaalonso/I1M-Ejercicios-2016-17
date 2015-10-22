@@ -49,6 +49,10 @@ media2 xs = sum xs / fromIntegral (length xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- carmengar 
+media3 :: Floating a => [a] -> a 
+media3 xs = sum xs / genericLength xs
+  
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. La mediana de una lista de valores es el valor de 
 -- la lista que ocupa el lugar central de los valores ordenados de menor
@@ -65,7 +69,7 @@ media2 xs = sum xs / fromIntegral (length xs)
 --    mediana [9,6,8,4,3,2]  ==  5.0
 -- ---------------------------------------------------------------------
 
--- carmengar blaruiher
+-- carmengar blaruiher silgongal fracruzam
 mediana :: (Floating a, Ord a) => [a] -> a
 mediana xs | odd n     = s !! (div n 2)
            | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
@@ -79,7 +83,7 @@ mediana xs | odd n     = s !! (div n 2)
 -- mayores o iguales que la mediana.
 -- --------------------------------------------------------------------- 
 
--- carmengar
+-- carmengar silgongal fracruzam
 
 -- La propiedad es
 prop_mediana :: (Floating a, Ord a) => [a] -> Property
@@ -90,6 +94,8 @@ prop_mediana xs =
           m = mediana xs
 
 -- La comprobación es
+-- *Main> quickCheck prop_mediana
+-- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -101,7 +107,7 @@ prop_mediana xs =
 -- Nota: El orden de los pares no importa
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar silgongal fracruzam
 frecuencias :: Ord a => [a] -> [(a,Int)]
 frecuencias xs = [(x,y) | x <- (nub xs), y <- [contar x xs]]
 
@@ -121,7 +127,7 @@ contar x xs = length [1 | x' <- xs, x' == x]
 --    modas [7,3,7,5,3,1,6,9,6]  ==  [3,6,7]
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar silgongal fracruzam
 modas :: Ord a => [a] -> [a]
 modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
     where f = [y | (_,y) <- frecuencias xs]
@@ -138,15 +144,23 @@ modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
 --    mediaGeometrica [3,1,9]  ==  3.0
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar 
 mediaGeometrica :: Floating a => [a] -> a
 mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- guache
+-- guache carmengar silgongal
 mediaGeometrica2 :: Floating a => [a] -> a
 mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
+
+-- fracruzam
+mediaGeometrica3 :: Floating a => [a] -> a
+mediaGeometrica3 xs = product xs ** (1/ fromIntegral (length xs))
+
+-- La versión de carmengar con un paréntesis menos
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que la media geométrica de
@@ -154,7 +168,7 @@ mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
 -- igual que la media aritmética. 
 -- ---------------------------------------------------------------------
 
--- guache
+-- guache carmengar silgongal fracruzam
 
 -- La propiedad es
 prop_mediaGeometrica :: (Floating a, Ord a) => [a] -> Property
@@ -180,9 +194,13 @@ prop_mediaGeometrica xs =
 --    rango [4,2,4,7,3]  ==  5
 -- ---------------------------------------------------------------------
 
--- carmengar 
+-- carmengar silgongal
 rango :: (Num a, Ord a) => [a] -> a
 rango xs = maximum xs - minimum xs
+
+-- fracruzam
+rango2 :: (Num a, Ord a) => [a] -> a
+rango2 xs = last (sort xs) - head (sort xs)
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. La desviación media de una lista de datos xs es la
@@ -202,7 +220,7 @@ rango xs = maximum xs - minimum xs
 --    desviacionMedia (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar silgongal fracruzam
 desviacionMedia :: Floating a => [a] -> a
 desviacionMedia xs = media [abs (x-m) | x <- xs]
     where m = media xs
@@ -222,7 +240,7 @@ desviacionMedia xs = media [abs (x-m) | x <- xs]
 --    varianza (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar silgongal fracruzam
 varianza :: Floating a => [a] -> a
 varianza xs =  media [(x-m)^2 | x <- xs]
     where m = media xs
@@ -239,6 +257,6 @@ varianza xs =  media [(x-m)^2 | x <- xs]
 --    desviacionTipica (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar silgongal fracruzam
 desviacionTipica :: Floating a => [a] -> a
 desviacionTipica xs = sqrt (varianza xs)

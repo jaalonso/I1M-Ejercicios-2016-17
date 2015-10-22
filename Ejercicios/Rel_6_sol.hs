@@ -25,6 +25,7 @@ import Test.QuickCheck
 
 -- carruirui3 guache blaruiher alvalvdom1 manvermor  erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
+-- josllagam 
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
@@ -38,7 +39,7 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 -- ---------------------------------------------------------------------
 
 -- carruirui3 guache blaruiher alvalvdom1 erisancha carmengar enrvalmor
--- silgongal pabmorgar fracruzam manpende migandben rubvilval
+-- silgongal pabmorgar fracruzam manpende migandben rubvilval josllagam
 sumaDigitosR :: String -> Int
 sumaDigitosR "" = 0
 sumaDigitosR (x:xs) 
@@ -52,6 +53,7 @@ sumaDigitosR (x:xs)
 
 -- carruirui3 guache blaruiher alvalvdom1 manvermor erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
+-- josllagam 
 
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
@@ -73,7 +75,7 @@ prop_sumaDigitosC xs = sumaDigitosC xs == sumaDigitosR xs
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 blaruiher manvermor erisancha enrvalmor silgongal
--- pabmorgar fracruzam migandben rubvilval
+-- pabmorgar fracruzam migandben rubvilval carmengar josllagam
 mayusculaInicial :: String -> String
 mayusculaInicial []     = []
 mayusculaInicial (x:xs) = toUpper x : [toLower x | x <- xs]
@@ -91,7 +93,7 @@ mayusculaInicial2 (x:xs) = toUpper x : map toLower xs
 --    mayusculaInicialRec "sEviLLa"  ==  "Sevilla"
 -- ---------------------------------------------------------------------
 
--- guache blaruiher erisancha silgongal migandben alvalvdom1
+-- guache blaruiher erisancha silgongal migandben alvalvdom1 carmengar
 mayusculaInicialRec :: String -> String
 mayusculaInicialRec []     = []
 mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
@@ -99,7 +101,7 @@ mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
 minuscula []     = []
 minuscula (x:xs) = toLower x : minuscula xs
 
--- manvermor enrvalmor pabmorgar rubvilval
+-- manvermor enrvalmor pabmorgar rubvilval josllagam manpende
 mayusculaInicialRec2 :: String -> String
 mayusculaInicialRec2 ""     = ""
 mayusculaInicialRec2 (x:xs) = 
@@ -111,7 +113,7 @@ mayusculaInicialRec2 (x:xs) =
 -- ---------------------------------------------------------------------
 
 -- guache blaruiher manvermor erisancha enrlvamor silgongal pabmorgar
--- migandben rubvilval alvalvdom1
+-- migandben rubvilval alvalvdom1 carmengar josllagam manpende
 
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
@@ -137,7 +139,7 @@ prop_mayusculaInicial xs =
 -- ---------------------------------------------------------------------
 
 -- guache erisancha enrvalmor silgongal pabmorgar fracruzam migandben 
--- rubvilval alvalvdom1
+-- rubvilval alvalvdom1 carmengar
 titulo :: [String] -> [String]
 titulo [] = []
 titulo (x:xs) = mayusculaInicial x : [change x| x <- xs]
@@ -155,7 +157,7 @@ change xs | length xs < 4 = minuscula xs
 --    ["El","Arte","de","la","Programacion"]
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor silgongal pabmorgar rubvilval
+-- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
 tituloRec :: [String] -> [String]
 tituloRec [] = []
 tituloRec (x:xs) = mayusculaInicial x : aux xs
@@ -167,7 +169,7 @@ tituloRec (x:xs) = mayusculaInicial x : aux xs
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor silgongal pabmorgar rubvilval
+-- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
 
 -- La propiedad es
 prop_titulo :: [String] -> Bool
@@ -192,6 +194,7 @@ prop_titulo xs = tituloRec xs == titulo xs
 -- ---------------------------------------------------------------------
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
+-- carmengar
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigrama y pos lon ps = 
     [x | x <- ps, 
@@ -215,6 +218,7 @@ buscaCrucigrama2 a pos lon ps =
 -- ---------------------------------------------------------------------
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
+-- carmengar
 buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigramaR y pos lon [] = []
 buscaCrucigramaR y pos lon (x:xs) 
@@ -236,6 +240,7 @@ buscaCrucigramaR2 a pos lon (x:xs)
 -- ---------------------------------------------------------------------
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval alvalvdom1
+-- carmengar
 
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
@@ -255,7 +260,7 @@ prop_buscaCrucigrama y pos lon ps =
 -- ---------------------------------------------------------------------
 
 -- guache blaruiher manvermor erisancha enrvalmor pabmorgar fracruzam 
--- silgongal rubvilval alvalvdom1
+-- silgongal rubvilval alvalvdom1 carmengar
 posiciones :: String -> Char -> [Int]
 posiciones xs y = [v | (u,v) <- zip xs [0..], y == u]
 
@@ -267,7 +272,7 @@ posiciones xs y = [v | (u,v) <- zip xs [0..], y == u]
 --    posicionesR "Salamamca" 'a'  ==  [1,3,5,8]
 -- ---------------------------------------------------------------------
 
--- erisancha enrvalmor pabmorgar silgongal rubvilval
+-- erisancha enrvalmor pabmorgar silgongal rubvilval carmengar
 posicionesR :: String -> Char -> [Int]
 posicionesR xs y = pR xs y 0
     where pR [] y z = []
@@ -280,6 +285,7 @@ posicionesR xs y = pR xs y 0
 -- ---------------------------------------------------------------------
 
 -- guache erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval
+-- carmengar
 
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
@@ -301,7 +307,7 @@ prop_posiciones xs y = posicionesR xs y == posiciones xs y
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
--- blaruiher silgongal
+-- blaruiher
 contieneR :: String -> String -> Bool
 contieneR []     [] = True
 contieneR (x:xs) [] = True
@@ -318,6 +324,16 @@ contieneR2 _ []  = True
 contieneR2 [] ys = False
 contieneR2 xs ys | isPrefixOf ys xs = True
                  | otherwise = contieneR2 (tail xs) ys
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- carmengar silgongal
+contieneR3 :: String -> String -> Bool
+contieneR3 _ ""  = True 
+contieneR3 "" ys = False
+contieneR3 (x:xs) ys 
+     | isPrefixOf ys (x:xs) = True
+     | otherwise            = contieneR3 xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -344,12 +360,17 @@ contieneAuxiliar xs = [xs] ++ contieneAuxiliar (tail xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- erisancha carmengar silgongal
+contiene2 :: String -> String -> Bool
+contiene2 xs ys = or [isPrefixOf ys x | x <- elimina xs]
+    where elimina xs = [drop v xs | v <- [0..length xs]]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- rubvilval
+-- rubvilval erisancha carmengar silgongal
 
 -- La propiedad es
 prop_contiene :: String -> String -> Bool
