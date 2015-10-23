@@ -27,4 +27,7 @@ clase) y las soluciones definitivas.
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6_sol.hs)).
 + **Relación 7**: Estadística descriptiva.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_7.hs) y
-   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_7_sol.hs)).
+   [Solución](Https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_7_sol.hs)).
++ **Relación 8**: El algoritmo de Luhn.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8_sol.hs)).
