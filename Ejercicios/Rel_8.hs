@@ -15,13 +15,13 @@
 -- El algoritmo que vamos a estudiar es el algoritmo de Luhn consistente
 -- en aplicar los siguientes pasos a los dígitos del número de la
 -- tarjeta.    
---    1. Se invierten los dígitos del número; por ejemplo, [4,9,5,5] se
---       transforma en [5,5,9,4].
---    2. Se duplican los dígitos que se encuentra en posiciones pares
---       (empezando a contar en 0); por ejemplo, [5,5,9,4] se transforma
---       en [10,5,18,4].
---    3. Se suman los dígitos de cada número; por ejemplo, [10,5,18,4]
---       se transforma en (1 + 0) + 5 + (1 + 8) + 4 = 19.
+--    1. Se invierten los dígitos del número; por ejemplo, [9,4,5,5] se
+--       transforma en [5,5,4,9].
+--    2. Se duplican los dígitos que se encuentra en posiciones impares
+--       (empezando a contar en 0); por ejemplo, [5,5,4,9] se transforma
+--       en [5,10,4,18].
+--    3. Se suman los dígitos de cada número; por ejemplo, [5,10,4,18]
+--       se transforma en 5 + (1 + 0) + 4 + (1 + 8) = 19.
 --    4. Si el último dígito de la suma es 0, el número es válido; y no
 --       lo es, en caso contrario. 
 --
