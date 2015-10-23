@@ -49,7 +49,7 @@ media2 xs = sum xs / fromIntegral (length xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carmengar 
+-- carmengar paocabper rubvilval
 media3 :: Floating a => [a] -> a 
 media3 xs = sum xs / genericLength xs
   
@@ -69,7 +69,7 @@ media3 xs = sum xs / genericLength xs
 --    mediana [9,6,8,4,3,2]  ==  5.0
 -- ---------------------------------------------------------------------
 
--- carmengar blaruiher silgongal fracruzam
+-- carmengar blaruiher silgongal fracruzam paocabper rubvilval
 mediana :: (Floating a, Ord a) => [a] -> a
 mediana xs | odd n     = s !! (div n 2)
            | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
@@ -83,7 +83,7 @@ mediana xs | odd n     = s !! (div n 2)
 -- mayores o iguales que la mediana.
 -- --------------------------------------------------------------------- 
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam paocabper rubvilval
 
 -- La propiedad es
 prop_mediana :: (Floating a, Ord a) => [a] -> Property
@@ -107,7 +107,7 @@ prop_mediana xs =
 -- Nota: El orden de los pares no importa
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam paocabper rubvilval
 frecuencias :: Ord a => [a] -> [(a,Int)]
 frecuencias xs = [(x,y) | x <- (nub xs), y <- [contar x xs]]
 
@@ -127,7 +127,7 @@ contar x xs = length [1 | x' <- xs, x' == x]
 --    modas [7,3,7,5,3,1,6,9,6]  ==  [3,6,7]
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam rubvilval
 modas :: Ord a => [a] -> [a]
 modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
     where f = [y | (_,y) <- frecuencias xs]
@@ -150,7 +150,7 @@ mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- guache carmengar silgongal
+-- guache carmengar silgongal rubvilval
 mediaGeometrica2 :: Floating a => [a] -> a
 mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
 
@@ -168,7 +168,7 @@ mediaGeometrica3 xs = product xs ** (1/ fromIntegral (length xs))
 -- igual que la media aritmética. 
 -- ---------------------------------------------------------------------
 
--- guache carmengar silgongal fracruzam
+-- guache carmengar silgongal fracruzam rubvilval
 
 -- La propiedad es
 prop_mediaGeometrica :: (Floating a, Ord a) => [a] -> Property
@@ -194,7 +194,7 @@ prop_mediaGeometrica xs =
 --    rango [4,2,4,7,3]  ==  5
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal
+-- carmengar silgongal rubvilval
 rango :: (Num a, Ord a) => [a] -> a
 rango xs = maximum xs - minimum xs
 
@@ -220,7 +220,7 @@ rango2 xs = last (sort xs) - head (sort xs)
 --    desviacionMedia (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam rubvilval
 desviacionMedia :: Floating a => [a] -> a
 desviacionMedia xs = media [abs (x-m) | x <- xs]
     where m = media xs
@@ -240,7 +240,7 @@ desviacionMedia xs = media [abs (x-m) | x <- xs]
 --    varianza (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam rubvilval
 varianza :: Floating a => [a] -> a
 varianza xs =  media [(x-m)^2 | x <- xs]
     where m = media xs
@@ -257,6 +257,6 @@ varianza xs =  media [(x-m)^2 | x <- xs]
 --    desviacionTipica (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
--- carmengar silgongal fracruzam
+-- carmengar silgongal fracruzam rubvilval
 desviacionTipica :: Floating a => [a] -> a
 desviacionTipica xs = sqrt (varianza xs)
