@@ -35,8 +35,25 @@
 --    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
+-- silgongal
 digitosInv :: Integer -> [Integer]
-digitosInv n = undefined
+digitosInv n = reverse [read [c] | c <- show n]
+
+-- guache
+digitosInv2 :: Integer -> [Integer]
+digitosInv2 n = [read [x] | x <- reverse (show n)]
+
+-- guache
+digitosInv3 :: Integer -> [Integer]
+digitosInv3 n = reverse (digit n)
+
+digit :: Integer -> [Integer]
+digit n = [read [x] | x <- show n]
+
+-- manvermor
+digitosInv4 :: Integer -> [Integer]
+digitosInv4 n | n < 10    = [n]
+              | otherwise = (n `rem` 10) : digitosInv4 (n `div` 10)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -48,8 +65,40 @@ digitosInv n = undefined
 --    doblePosImpar [4,9,5,5,7]  ==  [4,18,5,10,7]
 -- ---------------------------------------------------------------------
 
+-- guache silgongal manvermor
 doblePosImpar :: [Integer] -> [Integer]
-doblePosImpar = undefined
+doblePosImpar []       = []
+doblePosImpar [a]      = [a]
+doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- guache 
+doblePosImpar1 :: [Integer] -> [Integer]
+doblePosImpar1 []       = []
+doblePosImpar1 [a]      = [a]
+doblePosImpar1 (x:y:xs) = x : 2*y : doblePosImpar1 xs
+
+-- guache 
+doblePosImpar2 :: [Integer] -> [Integer]
+doblePosImpar2 (x:y:xs) = x : 2*y : doblePosImpar xs
+doblePosImpar2 xs       = xs
+
+-- guache
+doblePosImpar3  :: [Integer] -> [Integer]
+doblePosImpar3 []     = []
+doblePosImpar3 (x:xs) = x : concatMap (\(a,b) -> [a*b]) (zip xs ys)
+    where ys = take (length xs) (concat [digit n | n <- repeat 21])
+
+-- guache
+doblePosImpar4  :: [Integer] -> [Integer]
+doblePosImpar4 []     = []     
+doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]    
+    where ys = take (length xs) (concat [digit n | n <- repeat 21])          
+
+{- los 3 primeros lo hice por recursión y los dos finales por comprensión
+   la idea es la misma,doblePosImpar2 es la mejor solucion por su simplicidad,
+   pero como sepan que las soluciones casi nunca son únicas -}
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -60,8 +109,28 @@ doblePosImpar = undefined
 --                            = 19
 -- ---------------------------------------------------------------------
 
+-- silgongal
 sumaDigitos :: [Integer] -> Integer
-sumaDigitos ns = undefined
+sumaDigitos ns = sum (concat [digitos n | n <- ns])
+
+-- guache
+sumaDigitos1 :: [Integer] -> Integer
+sumaDigitos1 ns = sum (concat [digitosInv2  k | k <- ns])
+
+-- guache
+sumaDigitos2 :: [Integer] -> Integer
+sumaDigitos2 ns = sum (digit (numero ns))
+
+numero :: [Integer] -> Integer
+numero xs = sum [y*10^n | (y,n) <-zip (reverse xs) [0.. ]]
+
+-- manvermor
+sumaDigitos3 :: [Integer] -> Integer
+sumaDigitos3 []     = 0
+sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
+    where digitos n = reverse (digitosInv n)
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función  
@@ -71,8 +140,22 @@ sumaDigitos ns = undefined
 --    ultimoDigito   0 == 0
 -- ---------------------------------------------------------------------
 
+-- silgongal manvermor
 ultimoDigito :: Integer -> Integer
-ultimoDigito n = undefined
+ultimoDigito n = last (digitos n)
+    where digitos n = [read [c]| c <- show n]
+
+-- guache
+ultimoDigito1 :: Integer -> Integer
+ultimoDigito1 n = head (digitosInv2 n)
+
+-- guache
+ultimoDigito2 :: Integer -> Integer
+ultimoDigito2 n = rem n 10
+
+-- guache
+ultimoDigito3 :: Integer -> Integer
+ultimoDigito3 n = mod n 10
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función 
@@ -82,5 +165,6 @@ ultimoDigito n = undefined
 --    luhn 1234567898765432  ==  False
 -- ---------------------------------------------------------------------
 
+-- silgongal guache manvermor
 luhn :: Integer -> Bool
-luhn n = undefined
+luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
