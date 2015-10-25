@@ -35,7 +35,7 @@
 --    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
--- silgongal
+-- silgongal blaruiher
 digitosInv :: Integer -> [Integer]
 digitosInv n = reverse [read [c] | c <- show n]
 
@@ -50,7 +50,7 @@ digitosInv3 n = reverse (digit n)
 digit :: Integer -> [Integer]
 digit n = [read [x] | x <- show n]
 
--- manvermor
+-- manvermor fracruzam carruirui3
 digitosInv4 :: Integer -> [Integer]
 digitosInv4 n | n < 10    = [n]
               | otherwise = (n `rem` 10) : digitosInv4 (n `div` 10)
@@ -65,7 +65,7 @@ digitosInv4 n | n < 10    = [n]
 --    doblePosImpar [4,9,5,5,7]  ==  [4,18,5,10,7]
 -- ---------------------------------------------------------------------
 
--- guache silgongal manvermor
+-- guache silgongal manvermor 
 doblePosImpar :: [Integer] -> [Integer]
 doblePosImpar []       = []
 doblePosImpar [a]      = [a]
@@ -73,13 +73,13 @@ doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- guache 
+-- guache blaruiher
 doblePosImpar1 :: [Integer] -> [Integer]
 doblePosImpar1 []       = []
 doblePosImpar1 [a]      = [a]
 doblePosImpar1 (x:y:xs) = x : 2*y : doblePosImpar1 xs
 
--- guache 
+-- guache carruirui3
 doblePosImpar2 :: [Integer] -> [Integer]
 doblePosImpar2 (x:y:xs) = x : 2*y : doblePosImpar xs
 doblePosImpar2 xs       = xs
@@ -100,6 +100,15 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
    la idea es la misma,doblePosImpar2 es la mejor solucion por su simplicidad,
    pero como sepan que las soluciones casi nunca son únicas -}
 
+-- fracruzam
+doblePosImpar5 :: [Integer] -> [Integer]
+doblePosImpar5 [] = []
+doblePosImpar5 (x:xs) 
+    | mod (length (x:xs)) 2 == 0 = [x] ++ doblePosImpar5 xs
+    | otherwise                  = [2*x] ++ doblePosImpar5 xs
+
+-- Comentario: La definición anterior se puede mejorar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
 --    sumaDigitos :: [Integer] -> Integer
@@ -112,6 +121,8 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
 -- silgongal
 sumaDigitos :: [Integer] -> Integer
 sumaDigitos ns = sum (concat [digitos n | n <- ns])
+
+digitos n = [read [c]| c <- show n]
 
 -- guache
 sumaDigitos1 :: [Integer] -> Integer
@@ -132,6 +143,14 @@ sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- fracruzam carruirui3
+sumaDigitos4 :: [Integer] -> Integer
+sumaDigitos4 ns = sum (concat (map digitosInv4 ns))
+
+-- guache
+sumaDigitos5 :: [Integer] -> Integer
+sumaDigitos5 ns = sum (concat (map digit ns))
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función  
 --    ultimoDigito :: Integer -> Integer
@@ -143,17 +162,16 @@ sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
 -- silgongal manvermor
 ultimoDigito :: Integer -> Integer
 ultimoDigito n = last (digitos n)
-    where digitos n = [read [c]| c <- show n]
 
 -- guache
 ultimoDigito1 :: Integer -> Integer
 ultimoDigito1 n = head (digitosInv2 n)
 
--- guache
+-- guache carruirui3
 ultimoDigito2 :: Integer -> Integer
 ultimoDigito2 n = rem n 10
 
--- guache
+-- guache fracruzam
 ultimoDigito3 :: Integer -> Integer
 ultimoDigito3 n = mod n 10
 
@@ -165,6 +183,6 @@ ultimoDigito3 n = mod n 10
 --    luhn 1234567898765432  ==  False
 -- ---------------------------------------------------------------------
 
--- silgongal guache manvermor
+-- silgongal guache manvermor fracruzam carruirui3
 luhn :: Integer -> Bool
 luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
