@@ -37,7 +37,7 @@ import Test.QuickCheck
 --    media [4,8,4,5,9]  ==  6.0
 -- ---------------------------------------------------------------------
 
--- ivaruicam juamorrom1 fracruzam carmengar josllagam
+-- ivaruicam juamorrom1 fracruzam carmengar josllagam manpende
 media :: Floating a => [a] -> a
 media xs = (sum xs) / fromIntegral (length xs)
 
@@ -49,7 +49,8 @@ media2 xs = sum xs / fromIntegral (length xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carmengar paocabper rubvilval manvermor marvilmor carruirui3 juanarcon
+-- carmengar paocabper rubvilval manvermor marvilmor carruirui3
+-- juanarcon erisancha enrvalmor 
 media3 :: Floating a => [a] -> a 
 media3 xs = sum xs / genericLength xs
   
@@ -70,7 +71,8 @@ media3 xs = sum xs / genericLength xs
 -- ---------------------------------------------------------------------
 
 -- carmengar blaruiher silgongal fracruzam paocabper rubvilval pabmorgar
--- marvilmor josllagam carruirui3 alvalvdom1 juanarcon
+-- marvilmor josllagam carruirui3 alvalvdom1 juanarcon manpende
+-- erisancha enrvalmor 
 mediana :: (Floating a, Ord a) => [a] -> a
 mediana xs | odd n     = s !! (div n 2)
            | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
@@ -85,7 +87,8 @@ mediana xs | odd n     = s !! (div n 2)
 -- --------------------------------------------------------------------- 
 
 -- carmengar silgongal fracruzam paocabper rubvilval blaruiher pabmorgar
--- marvilmor josllagam carruirui3 alvalvdom1 juanarcon
+-- marvilmor josllagam carruirui3 alvalvdom1 juanarcon manpende
+-- erisancha enrvalmor 
 
 -- La propiedad es
 prop_mediana :: (Floating a, Ord a) => [a] -> Property
@@ -110,7 +113,7 @@ prop_mediana xs =
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal fracruzam paocabper rubvilval pabmorgar blaruiher
--- manvermor marvilmor josllagam alvalvdom1 juanarcon
+-- manvermor marvilmor josllagam alvalvdom1 juanarcon erisancha enrvalmor
 frecuencias :: Ord a => [a] -> [(a,Int)]
 frecuencias xs = [(x,y) | x <- (nub xs), y <- [contar x xs]]
 
@@ -131,7 +134,7 @@ contar x xs = length [1 | x' <- xs, x' == x]
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal fracruzam rubvilval pabmorgar blaruiher paocabper
--- marvilmor josllagam alvalvdom1 juanarcon
+-- marvilmor josllagam alvalvdom1 juanarcon erisancha enrvalmor
 modas :: Ord a => [a] -> [a]
 modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
     where f = [y | (_,y) <- frecuencias xs]
@@ -154,14 +157,14 @@ modas2 xs =
 --    mediaGeometrica [3,1,9]  ==  3.0
 -- ---------------------------------------------------------------------
 
--- carmengar blaruiher
+-- carmengar blaruiher manpende
 mediaGeometrica :: Floating a => [a] -> a
 mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
 
 -- Comentario: La definición anterior se puede simplificar.
 
 -- guache carmengar silgongal rubvilval pabmorgar manvermor marvilmor
--- josllagam carruirui3 juanarcon
+-- josllagam carruirui3 juanarcon erisancha enrvalmor
 mediaGeometrica2 :: Floating a => [a] -> a
 mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
 
@@ -181,7 +184,7 @@ mediaGeometrica3 xs = product xs ** (1/ fromIntegral (length xs))
 -- ---------------------------------------------------------------------
 
 -- guache carmengar silgongal fracruzam rubvilval pabmorgar manvermor
--- blaruiher marvilmor josllagam carruirui3 alvalvdom1 juanarcon
+-- blaruiher marvilmor josllagam carruirui3 alvalvdom1 juanarcon 
 
 -- La propiedad es
 prop_mediaGeometrica :: (Floating a, Ord a) => [a] -> Property
@@ -192,6 +195,15 @@ prop_mediaGeometrica xs =
 -- La comprobación es
 --    *Main> quickCheck prop_mediaGeometrica
 --    +++ OK, passed 100 tests.
+
+-- manpende erisancha enrvalmor
+prop_mediaGeometrica2 :: (Floating a, Ord a) => [a] -> Property
+prop_mediaGeometrica2 xs = 
+    length xs > 0 && minimum xs > 0 ==> mediaGeometrica xs <= media xs
+
+-- La comprobación es
+--    *Main> quickCheck prop_mediaGeometrica2
+--    +++ Gave up! Passed only 44 tests.
 
 -- ---------------------------------------------------------------------
 -- Medidas de dispersión                                              --
@@ -208,7 +220,7 @@ prop_mediaGeometrica xs =
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal rubvilval pabmorgar manvermor blaruiher josllagam
--- carruirui3 juanarcon
+-- carruirui3 juanarcon alvalvdom1 manpende erisancha enrvalmor
 rango :: (Num a, Ord a) => [a] -> a
 rango xs = maximum xs - minimum xs
 
@@ -235,7 +247,7 @@ rango2 xs = last (sort xs) - head (sort xs)
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
--- josllagam juanarcon
+-- josllagam juanarcon alvalvdom1 manpende erisancha enrvalmor
 desviacionMedia :: Floating a => [a] -> a
 desviacionMedia xs = media [abs (x-m) | x <- xs]
     where m = media xs
@@ -262,7 +274,7 @@ desviacionMedia2 xs = media [abs (x - media xs) | x <- xs]
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
--- josllagam juanarcon
+-- josllagam juanarcon alvalvdom1 manpende erisancha enrvalmor
 varianza :: Floating a => [a] -> a
 varianza xs =  media [(x-m)^2 | x <- xs]
     where m = media xs
@@ -286,6 +298,6 @@ varianza2 xs =  media [(x - media xs)^2 | x <- xs]
 -- ---------------------------------------------------------------------
 
 -- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
--- josllagam carruirui3 juanarcon
+-- josllagam carruirui3 juanarcon alvalvdom1 manpende erisancha enrvalmor
 desviacionTipica :: Floating a => [a] -> a
 desviacionTipica xs = sqrt (varianza xs)

@@ -35,15 +35,15 @@
 --    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
--- silgongal blaruiher
+-- silgongal blaruiher erisancha
 digitosInv :: Integer -> [Integer]
 digitosInv n = reverse [read [c] | c <- show n]
 
--- guache
+-- guache juanarcon
 digitosInv2 :: Integer -> [Integer]
 digitosInv2 n = [read [x] | x <- reverse (show n)]
 
--- guache
+-- guache pabmorgar alvalvdom1
 digitosInv3 :: Integer -> [Integer]
 digitosInv3 n = reverse (digit n)
 
@@ -73,13 +73,13 @@ doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- guache blaruiher
+-- guache blaruiher erisancha juanarcon pabmorgar alvalvdom1
 doblePosImpar1 :: [Integer] -> [Integer]
 doblePosImpar1 []       = []
 doblePosImpar1 [a]      = [a]
 doblePosImpar1 (x:y:xs) = x : 2*y : doblePosImpar1 xs
 
--- guache carruirui3
+-- guache carruirui3 fracruzam
 doblePosImpar2 :: [Integer] -> [Integer]
 doblePosImpar2 (x:y:xs) = x : 2*y : doblePosImpar xs
 doblePosImpar2 xs       = xs
@@ -100,15 +100,6 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
    la idea es la misma,doblePosImpar2 es la mejor solucion por su simplicidad,
    pero como sepan que las soluciones casi nunca son únicas -}
 
--- fracruzam
-doblePosImpar5 :: [Integer] -> [Integer]
-doblePosImpar5 [] = []
-doblePosImpar5 (x:xs) 
-    | mod (length (x:xs)) 2 == 0 = [x] ++ doblePosImpar5 xs
-    | otherwise                  = [2*x] ++ doblePosImpar5 xs
-
--- Comentario: La definición anterior se puede mejorar.
-
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
 --    sumaDigitos :: [Integer] -> Integer
@@ -118,13 +109,13 @@ doblePosImpar5 (x:xs)
 --                            = 19
 -- ---------------------------------------------------------------------
 
--- silgongal
+-- silgongal erisancha alvalvdom1
 sumaDigitos :: [Integer] -> Integer
 sumaDigitos ns = sum (concat [digitos n | n <- ns])
 
 digitos n = [read [c]| c <- show n]
 
--- guache
+-- guache pabmorgar
 sumaDigitos1 :: [Integer] -> Integer
 sumaDigitos1 ns = sum (concat [digitosInv2  k | k <- ns])
 
@@ -135,7 +126,7 @@ sumaDigitos2 ns = sum (digit (numero ns))
 numero :: [Integer] -> Integer
 numero xs = sum [y*10^n | (y,n) <-zip (reverse xs) [0.. ]]
 
--- manvermor
+-- manvermor 
 sumaDigitos3 :: [Integer] -> Integer
 sumaDigitos3 []     = 0
 sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
@@ -143,13 +134,17 @@ sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam carruirui3
+-- fracruzam carruirui3 juanarcon
 sumaDigitos4 :: [Integer] -> Integer
 sumaDigitos4 ns = sum (concat (map digitosInv4 ns))
 
 -- guache
 sumaDigitos5 :: [Integer] -> Integer
 sumaDigitos5 ns = sum (concat (map digit ns))
+
+-- blaruiher 
+sumaDigitos6 :: [Integer] -> Integer
+sumaDigitos6 ns = sum [sum (digitosInv x) | x <- ns]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función  
@@ -159,15 +154,15 @@ sumaDigitos5 ns = sum (concat (map digit ns))
 --    ultimoDigito   0 == 0
 -- ---------------------------------------------------------------------
 
--- silgongal manvermor
+-- silgongal manvermor pabmorgar blaruiher alvalvdom1
 ultimoDigito :: Integer -> Integer
 ultimoDigito n = last (digitos n)
 
--- guache
+-- guache 
 ultimoDigito1 :: Integer -> Integer
 ultimoDigito1 n = head (digitosInv2 n)
 
--- guache carruirui3
+-- guache carruirui3 erisancha juanarcon
 ultimoDigito2 :: Integer -> Integer
 ultimoDigito2 n = rem n 10
 
@@ -183,6 +178,7 @@ ultimoDigito3 n = mod n 10
 --    luhn 1234567898765432  ==  False
 -- ---------------------------------------------------------------------
 
--- silgongal guache manvermor fracruzam carruirui3
+-- silgongal guache manvermor fracruzam carruirui3 erisancha  juanarcon
+-- pabmorgar blaruiher alvalvdom1
 luhn :: Integer -> Bool
 luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
