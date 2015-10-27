@@ -26,7 +26,7 @@ import Test.QuickCheck
 -- carruirui3 guache blaruiher alvalvdom1 manvermor  erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
 -- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal
+-- javperlag isrbelnun lucgamgal fatvilpiz
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
@@ -58,7 +58,7 @@ sumaDigitosR (x:xs)
 -- carruirui3 guache blaruiher alvalvdom1 manvermor erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
 -- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal
+-- javperlag isrbelnun lucgamgal fatvilpiz
 
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
@@ -92,7 +92,7 @@ mayusculaInicial2 :: String -> String
 mayusculaInicial2 []     = []
 mayusculaInicial2 (x:xs) = toUpper x : map toLower xs
 
--- alebergon manpende
+-- alebergon manpende fatvilpiz
 mayusculaInicial3 :: String -> String
 mayusculaInicial3 "" = ""
 mayusculaInicial3 xs = toUpper (head xs): [toLower x | x <- tail xs]
@@ -108,7 +108,7 @@ mayusculaInicial3 xs = toUpper (head xs): [toLower x | x <- tail xs]
 -- ---------------------------------------------------------------------
 
 -- guache blaruiher erisancha silgongal migandben alvalvdom1 carmengar
--- anaagusil juanarcon paocabper abrdelrod javperlag isrbelnun lucgamgal
+-- anaagusil juanarcon paocabper abrdelrod javperlag isrbelnun lucgamgal 
 mayusculaInicialRec :: String -> String
 mayusculaInicialRec []     = []
 mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
@@ -131,7 +131,7 @@ mayusculaInicialRec2 (x:xs) =
 -- guache blaruiher manvermor erisancha enrlvamor silgongal pabmorgar
 -- migandben rubvilval alvalvdom1 carmengar josllagam manpende anaagusil
 -- juanarcon abrdelrod marvilmor paocabper alebergon javperlag isrbelnun
--- lucgamgal 
+-- lucgamgal fatvilpiz
 
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
@@ -159,7 +159,7 @@ prop_mayusculaInicial xs =
 -- guache erisancha enrvalmor silgongal pabmorgar fracruzam migandben 
 -- rubvilval alvalvdom1 carmengar anaagusil josllagam juanarcon
 -- abrdelrod manpende marvilmor alebergon carruirui3 javperlag paocabper
--- blaruiher lucgamgal
+-- blaruiher lucgamgal isrbelnun
 titulo :: [String] -> [String]
 titulo [] = []
 titulo (x:xs) = mayusculaInicial x : [change x| x <- xs]
@@ -208,7 +208,7 @@ tituloRec3 (xs:xss) = mayusculaInicialRec xs : tituloRec xss
 
 -- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
 -- anaagusil josllagam juanarcon abrdelrod marvilmor alebergon manpende
--- javperlag paocabper blaruiher isrbelnun lucgamgal
+-- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz
 
 -- La propiedad es
 prop_titulo :: [String] -> Bool
@@ -234,7 +234,7 @@ prop_titulo xs = tituloRec xs == titulo xs
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
 -- carmengar anaagusil juanarcon marvilmor abrdelrod carruirui3
--- javperlag paocabper blaruiher isrbelnun lucgamgal
+-- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigrama y pos lon ps = 
     [x | x <- ps, 
@@ -292,7 +292,7 @@ buscaCrucigramaR2 a pos lon (x:xs)
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval alvalvdom1
 -- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3 manpende
--- paocabper blaruiher isrbelnun lucgamgal
+-- paocabper blaruiher isrbelnun lucgamgal fatvilpiz
 
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
@@ -313,7 +313,8 @@ prop_buscaCrucigrama y pos lon ps =
 
 -- guache blaruiher manvermor erisancha enrvalmor pabmorgar fracruzam 
 -- silgongal rubvilval alvalvdom1 carmengar anagusil juanarcon abrdelrod
--- marvilmor josllagam carruirui3 javperlag paocabper isrbelnun lucgamgal
+-- marvilmor josllagam carruirui3 javperlag paocabper isrbelnun
+-- lucgamgal fatvilpiz 
 posiciones :: String -> Char -> [Int]
 posiciones xs y = [v | (u,v) <- zip xs [0..], y == u]
 
@@ -348,7 +349,7 @@ posicionesR xs y = pR xs y 0
 
 -- guache erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval
 -- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3
--- paocabper blaruiher isrbelnun lucgamgal
+-- paocabper blaruiher isrbelnun lucgamgal fatvilpiz
 
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
@@ -414,7 +415,7 @@ contieneR5 xs ys | isPrefixOf ys xs = True
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carruirui3 erisancha lucgamgal
+-- carruirui3 erisancha lucgamgal fatvilpiz
 contieneR6 :: String -> String -> Bool
 contieneR6 _  [] = True
 contieneR6 [] _  = False
@@ -463,6 +464,7 @@ contiene3 xs ys =
 
 -- rubvilval erisancha carmengar paocabper silgongal anagusil juanarcon
 -- abrdelrod marvilmor carruirui3 blaruiher isrbelnun lucgamgal
+-- fatvilpiz 
 
 -- La propiedad es
 prop_contiene :: String -> String -> Bool

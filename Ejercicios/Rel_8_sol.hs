@@ -35,7 +35,7 @@
 --    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
--- silgongal blaruiher erisancha
+-- silgongal blaruiher erisancha paocabper enrvalmor
 digitosInv :: Integer -> [Integer]
 digitosInv n = reverse [read [c] | c <- show n]
 
@@ -73,7 +73,8 @@ doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- guache blaruiher erisancha juanarcon pabmorgar alvalvdom1
+-- guache blaruiher erisancha juanarcon pabmorgar alvalvdom1 paocabper
+-- enrvalmor 
 doblePosImpar1 :: [Integer] -> [Integer]
 doblePosImpar1 []       = []
 doblePosImpar1 [a]      = [a]
@@ -108,8 +109,8 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
 --    sumaDigitos [10,5,18,4] = 1 + 0 + 5 + 1 + 8 + 4 =
 --                            = 19
 -- ---------------------------------------------------------------------
-
--- silgongal erisancha alvalvdom1
+ 
+-- silgongal erisancha  paocabper alvalvdom1 enrvalmor
 sumaDigitos :: [Integer] -> Integer
 sumaDigitos ns = sum (concat [digitos n | n <- ns])
 
@@ -154,11 +155,11 @@ sumaDigitos6 ns = sum [sum (digitosInv x) | x <- ns]
 --    ultimoDigito   0 == 0
 -- ---------------------------------------------------------------------
 
--- silgongal manvermor pabmorgar blaruiher alvalvdom1
+-- silgongal manvermor pabmorgar blaruiher alvalvdom1 
 ultimoDigito :: Integer -> Integer
 ultimoDigito n = last (digitos n)
-
--- guache 
+ 
+-- guache enrvalmor
 ultimoDigito1 :: Integer -> Integer
 ultimoDigito1 n = head (digitosInv2 n)
 
@@ -170,6 +171,10 @@ ultimoDigito2 n = rem n 10
 ultimoDigito3 :: Integer -> Integer
 ultimoDigito3 n = mod n 10
 
+-- paocabper
+ultimoDigito4 :: Integer -> Integer
+ultimoDigito4 n = last [read [c] | c <- show n]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función 
 --    luhn :: Integer -> Bool
@@ -179,6 +184,6 @@ ultimoDigito3 n = mod n 10
 -- ---------------------------------------------------------------------
 
 -- silgongal guache manvermor fracruzam carruirui3 erisancha  juanarcon
--- pabmorgar blaruiher alvalvdom1
+-- pabmorgar blaruiher alvalvdom1 paocabper enrvalmor
 luhn :: Integer -> Bool
 luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0

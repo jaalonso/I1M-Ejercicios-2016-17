@@ -37,9 +37,23 @@ import Test.QuickCheck
 --    media [4,8,4,5,9]  ==  6.0
 -- ---------------------------------------------------------------------
 
+-- ivaruicam juamorrom1 fracruzam carmengar josllagam manpende
 media :: Floating a => [a] -> a
-media xs = undefined
+media xs = (sum xs) / fromIntegral (length xs)
 
+-- Comentario: La definición anterior se puede simplificar.
+
+-- silgongal blaruiher pabmorgar alvalvdom1
+media2 :: Floating a => [a] -> a
+media2 xs = sum xs / fromIntegral (length xs)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- carmengar paocabper rubvilval manvermor marvilmor carruirui3
+-- juanarcon erisancha enrvalmor  lucgamgal
+media3 :: Floating a => [a] -> a 
+media3 xs = sum xs / genericLength xs
+  
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. La mediana de una lista de valores es el valor de 
 -- la lista que ocupa el lugar central de los valores ordenados de menor
@@ -56,33 +70,58 @@ media xs = undefined
 --    mediana [9,6,8,4,3,2]  ==  5.0
 -- ---------------------------------------------------------------------
 
+-- carmengar blaruiher silgongal fracruzam paocabper rubvilval pabmorgar
+-- marvilmor josllagam carruirui3 alvalvdom1 juanarcon manpende
+-- erisancha enrvalmor lucgamgal
 mediana :: (Floating a, Ord a) => [a] -> a
-mediana xs = undefined
+mediana xs | odd n     = s !! (div n 2)
+           | otherwise = (s !! (div n 2) + s !! ((div n 2) - 1))/2
+           where n = length xs
+                 s = sort xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Comprobar con QuickCheck que para cualquier lista no
--- vacía xs el número de elementos de xs menores que su median es menor
+-- vacía xs el número de elementos de xs menores que su mediana es menor
 -- o igual que la mitad de los elementos de xs y lo mismo pasa con los
 -- mayores o iguales que la mediana.
 -- --------------------------------------------------------------------- 
 
+-- carmengar silgongal fracruzam paocabper rubvilval blaruiher pabmorgar
+-- marvilmor josllagam carruirui3 alvalvdom1 juanarcon manpende
+-- erisancha enrvalmor lucgamgal
+
 -- La propiedad es
 prop_mediana :: (Floating a, Ord a) => [a] -> Property
-prop_mediana xs = undefined
+prop_mediana xs = 
+    xs /= [] ==> length (filter (< m) xs) <= l && 
+                 length (filter (>m) xs) <= l
+    where l = (length xs) `div` 2
+          m = mediana xs
 
 -- La comprobación es
+-- *Main> quickCheck prop_mediana
+-- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
 --    frecuencias :: Ord a => [a] -> [(a,Int)]
 -- tal que (frecuencias xs) es la lista formada por los elementos de xs
 -- junto con el número de veces que aparecen en xs. Por ejemplo,  
---    frecuencias "sosos"          ==  [('o',2),('s',3)]
---    frecuencias (show (10^100))  ==  [('0',100),('1',1)]
+--    frecuencias "sosos" ==  [('o',2),('s',3)]
+--
+-- Nota: El orden de los pares no importa
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal fracruzam paocabper rubvilval pabmorgar blaruiher
+-- manvermor marvilmor josllagam alvalvdom1 juanarcon erisancha
+-- enrvalmor lucgamgal 
 frecuencias :: Ord a => [a] -> [(a,Int)]
-frecuencias = undefined
+frecuencias xs = [(x,y) | x <- (nub xs), y <- [contar x xs]]
+
+-- Comentario: La definición anterior se puede mejorar.
+
+contar :: Eq a => a -> [a] -> Int
+contar x xs = length [1 | x' <- xs, x' == x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Las modas de una lista son los elementos de la lista
@@ -95,8 +134,18 @@ frecuencias = undefined
 --    modas [7,3,7,5,3,1,6,9,6]  ==  [3,6,7]
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal fracruzam rubvilval pabmorgar blaruiher paocabper
+-- marvilmor josllagam alvalvdom1 juanarcon erisancha enrvalmor
+-- lucgamgal 
 modas :: Ord a => [a] -> [a]
-modas xs = undefined
+modas xs = sort [x | (x,y) <- frecuencias xs, y == maximum f]
+    where f = [y | (_,y) <- frecuencias xs]
+
+-- carruirui3
+modas2 :: Ord a => [a] -> [a]
+modas2 xs = 
+    sort [x | (x,y) <- frecuencias xs, 
+              y == maximum (map snd (frecuencias xs))]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. La media geométrica de una lista de n números es la
@@ -110,8 +159,25 @@ modas xs = undefined
 --    mediaGeometrica [3,1,9]  ==  3.0
 -- ---------------------------------------------------------------------
 
+-- carmengar blaruiher manpende lucgamgal
 mediaGeometrica :: Floating a => [a] -> a
-mediaGeometrica xs = undefined
+mediaGeometrica xs = (product xs)**(1/ fromIntegral (length xs))
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- guache carmengar silgongal rubvilval pabmorgar manvermor marvilmor
+-- josllagam carruirui3 juanarcon erisancha enrvalmor 
+mediaGeometrica2 :: Floating a => [a] -> a
+mediaGeometrica2 xs = (product xs)**(1/genericLength xs)
+
+-- fracruzam alvalvdom1
+mediaGeometrica3 :: Floating a => [a] -> a
+mediaGeometrica3 xs = product xs ** (1/ fromIntegral (length xs))
+
+-- La versión de carmengar con un paréntesis menos
+-- pero sin aprovechar genericLength
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que la media geométrica de
@@ -119,11 +185,28 @@ mediaGeometrica xs = undefined
 -- igual que la media aritmética. 
 -- ---------------------------------------------------------------------
 
+-- guache carmengar silgongal fracruzam rubvilval pabmorgar manvermor
+-- blaruiher marvilmor josllagam carruirui3 alvalvdom1 juanarcon
+-- lucgamgal 
+
 -- La propiedad es
 prop_mediaGeometrica :: (Floating a, Ord a) => [a] -> Property
-prop_mediaGeometrica xs = undefined
+prop_mediaGeometrica xs = 
+    length xs > 0 ==> media z >= mediaGeometrica z
+    where z = map abs xs
 
 -- La comprobación es
+--    *Main> quickCheck prop_mediaGeometrica
+--    +++ OK, passed 100 tests.
+
+-- manpende erisancha enrvalmor
+prop_mediaGeometrica2 :: (Floating a, Ord a) => [a] -> Property
+prop_mediaGeometrica2 xs = 
+    length xs > 0 && minimum xs > 0 ==> mediaGeometrica xs <= media xs
+
+-- La comprobación es
+--    *Main> quickCheck prop_mediaGeometrica2
+--    +++ Gave up! Passed only 44 tests.
 
 -- ---------------------------------------------------------------------
 -- Medidas de dispersión                                              --
@@ -139,8 +222,15 @@ prop_mediaGeometrica xs = undefined
 --    rango [4,2,4,7,3]  ==  5
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal rubvilval pabmorgar manvermor blaruiher josllagam
+-- carruirui3 juanarcon alvalvdom1 manpende erisancha enrvalmor
+-- lucgamgal 
 rango :: (Num a, Ord a) => [a] -> a
-rango xs = undefined
+rango xs = maximum xs - minimum xs
+
+-- fracruzam
+rango2 :: (Num a, Ord a) => [a] -> a
+rango2 xs = last (sort xs) - head (sort xs)
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. La desviación media de una lista de datos xs es la
@@ -160,8 +250,17 @@ rango xs = undefined
 --    desviacionMedia (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
+-- josllagam juanarcon alvalvdom1 manpende erisancha enrvalmor lucgamgal 
 desviacionMedia :: Floating a => [a] -> a
-desviacionMedia xs = undefined
+desviacionMedia xs = media [abs (x-m) | x <- xs]
+    where m = media xs
+
+-- carruirui3
+desviacionMedia2 :: Floating a => [a] -> a
+desviacionMedia2 xs = media [abs (x - media xs) | x <- xs]
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. La varianza de una lista datos es la media de los
@@ -178,8 +277,17 @@ desviacionMedia xs = undefined
 --    varianza (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
+-- josllagam juanarcon alvalvdom1 manpende erisancha enrvalmor lucgamgal
 varianza :: Floating a => [a] -> a
-varianza xs = undefined
+varianza xs =  media [(x-m)^2 | x <- xs]
+    where m = media xs
+
+-- carruirui3
+varianza2 :: Floating a => [a] -> a
+varianza2 xs =  media [(x - media xs)^2 | x <- xs]
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. La desviación típica de una lista de datos es la raíz
@@ -193,6 +301,8 @@ varianza xs = undefined
 --    desviacionTipica (replicate 10 3)  ==  0.0
 -- ---------------------------------------------------------------------
 
+-- carmengar silgongal fracruzam rubvilval pabmorgar manvermor blaruiher
+-- josllagam carruirui3 juanarcon alvalvdom1 manpende erisancha
+-- enrvalmor lucgamgal 
 desviacionTipica :: Floating a => [a] -> a
-desviacionTipica = undefined
-
+desviacionTipica xs = sqrt (varianza xs)
