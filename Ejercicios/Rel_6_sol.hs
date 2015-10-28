@@ -26,7 +26,7 @@ import Test.QuickCheck
 -- carruirui3 guache blaruiher alvalvdom1 manvermor  erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
 -- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal fatvilpiz
+-- javperlag isrbelnun lucgamgal fatvilpiz marcamde3
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
@@ -42,7 +42,7 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 -- carruirui3 guache blaruiher alvalvdom1 erisancha carmengar enrvalmor
 -- silgongal pabmorgar fracruzam manpende migandben rubvilval josllagam
 -- anaagusil juanarcon abrdelrod alebergon marvilmor paocabper javperlag
--- isrbelnun lucgamgal
+-- isrbelnun lucgamgal marcamde3
 
 sumaDigitosR :: String -> Int
 sumaDigitosR "" = 0
@@ -58,7 +58,7 @@ sumaDigitosR (x:xs)
 -- carruirui3 guache blaruiher alvalvdom1 manvermor erisancha carmengar
 -- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
 -- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal fatvilpiz
+-- javperlag isrbelnun lucgamgal fatvilpiz marcamde3
 
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
@@ -92,7 +92,7 @@ mayusculaInicial2 :: String -> String
 mayusculaInicial2 []     = []
 mayusculaInicial2 (x:xs) = toUpper x : map toLower xs
 
--- alebergon manpende fatvilpiz
+-- alebergon manpende fatvilpiz marcamde3
 mayusculaInicial3 :: String -> String
 mayusculaInicial3 "" = ""
 mayusculaInicial3 xs = toUpper (head xs): [toLower x | x <- tail xs]
@@ -117,7 +117,7 @@ minuscula []     = []
 minuscula (x:xs) = toLower x : minuscula xs
 
 -- manvermor enrvalmor pabmorgar rubvilval josllagam manpende marvilmor 
--- alebergon
+-- alebergon marcamde3
 mayusculaInicialRec2 :: String -> String
 mayusculaInicialRec2 ""     = ""
 mayusculaInicialRec2 (x:xs) = 
@@ -131,7 +131,7 @@ mayusculaInicialRec2 (x:xs) =
 -- guache blaruiher manvermor erisancha enrlvamor silgongal pabmorgar
 -- migandben rubvilval alvalvdom1 carmengar josllagam manpende anaagusil
 -- juanarcon abrdelrod marvilmor paocabper alebergon javperlag isrbelnun
--- lucgamgal fatvilpiz
+-- lucgamgal fatvilpiz marcamde3
 
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
@@ -159,7 +159,7 @@ prop_mayusculaInicial xs =
 -- guache erisancha enrvalmor silgongal pabmorgar fracruzam migandben 
 -- rubvilval alvalvdom1 carmengar anaagusil josllagam juanarcon
 -- abrdelrod manpende marvilmor alebergon carruirui3 javperlag paocabper
--- blaruiher lucgamgal isrbelnun
+-- blaruiher lucgamgal isrbelnun marcamde3
 titulo :: [String] -> [String]
 titulo [] = []
 titulo (x:xs) = mayusculaInicial x : [change x| x <- xs]
@@ -179,7 +179,7 @@ change xs | length xs < 4 = minuscula xs
 
 -- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
 -- anaagusil josllagam juanarcon abrdelrod marvilmor javperlag paocabper
--- blaruiher lucgamgal
+-- blaruiher lucgamgal marcamde3
 tituloRec :: [String] -> [String]
 tituloRec [] = []
 tituloRec (x:xs) = mayusculaInicial x : aux xs
@@ -208,7 +208,7 @@ tituloRec3 (xs:xss) = mayusculaInicialRec xs : tituloRec xss
 
 -- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
 -- anaagusil josllagam juanarcon abrdelrod marvilmor alebergon manpende
--- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz
+-- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz marcamde3
 
 -- La propiedad es
 prop_titulo :: [String] -> Bool

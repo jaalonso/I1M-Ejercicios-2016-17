@@ -35,7 +35,7 @@
 --    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
--- silgongal blaruiher erisancha paocabper enrvalmor
+-- silgongal blaruiher erisancha paocabper enrvalmor anaagusil lucgamgal
 digitosInv :: Integer -> [Integer]
 digitosInv n = reverse [read [c] | c <- show n]
 
@@ -65,7 +65,7 @@ digitosInv4 n | n < 10    = [n]
 --    doblePosImpar [4,9,5,5,7]  ==  [4,18,5,10,7]
 -- ---------------------------------------------------------------------
 
--- guache silgongal manvermor 
+-- guache silgongal manvermor anaagusil lucgamgal
 doblePosImpar :: [Integer] -> [Integer]
 doblePosImpar []       = []
 doblePosImpar [a]      = [a]
@@ -110,7 +110,7 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
 --                            = 19
 -- ---------------------------------------------------------------------
  
--- silgongal erisancha  paocabper alvalvdom1 enrvalmor
+-- silgongal erisancha  paocabper alvalvdom1 enrvalmor anaagusil
 sumaDigitos :: [Integer] -> Integer
 sumaDigitos ns = sum (concat [digitos n | n <- ns])
 
@@ -175,6 +175,17 @@ ultimoDigito3 n = mod n 10
 ultimoDigito4 :: Integer -> Integer
 ultimoDigito4 n = last [read [c] | c <- show n]
 
+-- anaagusil
+ultimoDigito5 :: Integer -> Integer
+ultimoDigito5 n = last (reverse (digitosR n))
+
+digitosR :: Integer -> [Integer]
+digitosR n = reverse (digitosR' n)
+
+digitosR' n
+    | n < 10    = [n]
+    | otherwise = (n `rem` 10) : digitosR' (n `div` 10)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función 
 --    luhn :: Integer -> Bool
@@ -187,3 +198,4 @@ ultimoDigito4 n = last [read [c] | c <- show n]
 -- pabmorgar blaruiher alvalvdom1 paocabper enrvalmor
 luhn :: Integer -> Bool
 luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
+
