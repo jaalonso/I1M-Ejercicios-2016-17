@@ -36,6 +36,7 @@
 -- ---------------------------------------------------------------------
 
 -- silgongal blaruiher erisancha paocabper enrvalmor anaagusil lucgamgal
+-- carmengar josllagam abrdelrod
 digitosInv :: Integer -> [Integer]
 digitosInv n = reverse [read [c] | c <- show n]
 
@@ -50,7 +51,7 @@ digitosInv3 n = reverse (digit n)
 digit :: Integer -> [Integer]
 digit n = [read [x] | x <- show n]
 
--- manvermor fracruzam carruirui3
+-- manvermor fracruzam carruirui3 manpende
 digitosInv4 :: Integer -> [Integer]
 digitosInv4 n | n < 10    = [n]
               | otherwise = (n `rem` 10) : digitosInv4 (n `div` 10)
@@ -74,13 +75,13 @@ doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
 -- Comentario: La definición anterior se puede mejorar.
 
 -- guache blaruiher erisancha juanarcon pabmorgar alvalvdom1 paocabper
--- enrvalmor 
+-- enrvalmor abrdelrod
 doblePosImpar1 :: [Integer] -> [Integer]
 doblePosImpar1 []       = []
 doblePosImpar1 [a]      = [a]
 doblePosImpar1 (x:y:xs) = x : 2*y : doblePosImpar1 xs
 
--- guache carruirui3 fracruzam
+-- guache carruirui3 fracruzam carmengar josllagam
 doblePosImpar2 :: [Integer] -> [Integer]
 doblePosImpar2 (x:y:xs) = x : 2*y : doblePosImpar xs
 doblePosImpar2 xs       = xs
@@ -111,6 +112,7 @@ doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]
 -- ---------------------------------------------------------------------
  
 -- silgongal erisancha  paocabper alvalvdom1 enrvalmor anaagusil
+-- carmengar
 sumaDigitos :: [Integer] -> Integer
 sumaDigitos ns = sum (concat [digitos n | n <- ns])
 
@@ -143,9 +145,21 @@ sumaDigitos4 ns = sum (concat (map digitosInv4 ns))
 sumaDigitos5 :: [Integer] -> Integer
 sumaDigitos5 ns = sum (concat (map digit ns))
 
--- blaruiher 
+-- blaruiher abrdelrod
 sumaDigitos6 :: [Integer] -> Integer
 sumaDigitos6 ns = sum [sum (digitosInv x) | x <- ns]
+
+-- josllagam
+sumaDigitos7 :: [Integer] -> Integer
+sumaDigitos7 ns = sum (digitos7 ns)
+
+digitos7 :: [Integer] -> [Integer]
+digitos7 [] = []
+digitos7 (n:ns) = digitosInv n ++ digitos ns
+
+-- manpende
+sumaDigitos8 :: [Integer] -> Integer
+sumaDigitos8 ns = foldr (+) 0 (concat [digitosInv n | n <- ns])
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función  
@@ -159,11 +173,11 @@ sumaDigitos6 ns = sum [sum (digitosInv x) | x <- ns]
 ultimoDigito :: Integer -> Integer
 ultimoDigito n = last (digitos n)
  
--- guache enrvalmor
+-- guache enrvalmor manpende
 ultimoDigito1 :: Integer -> Integer
 ultimoDigito1 n = head (digitosInv2 n)
 
--- guache carruirui3 erisancha juanarcon
+-- guache carruirui3 erisancha juanarcon carmengar abrdelrod
 ultimoDigito2 :: Integer -> Integer
 ultimoDigito2 n = rem n 10
 
@@ -171,7 +185,7 @@ ultimoDigito2 n = rem n 10
 ultimoDigito3 :: Integer -> Integer
 ultimoDigito3 n = mod n 10
 
--- paocabper
+-- paocabper josllagam
 ultimoDigito4 :: Integer -> Integer
 ultimoDigito4 n = last [read [c] | c <- show n]
 
@@ -195,7 +209,7 @@ digitosR' n
 -- ---------------------------------------------------------------------
 
 -- silgongal guache manvermor fracruzam carruirui3 erisancha  juanarcon
--- pabmorgar blaruiher alvalvdom1 paocabper enrvalmor
+-- pabmorgar blaruiher alvalvdom1 paocabper enrvalmor carmengar
+-- josllagam abrdelrod 
 luhn :: Integer -> Bool
 luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
-

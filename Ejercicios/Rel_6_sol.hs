@@ -269,7 +269,7 @@ buscaCrucigrama3 l pos lon ps
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
 -- carmengar anaagusil juanarcon abrdelrod marvilmor abrdelrod carruirui3
--- manpende javperlag paocabper blaruiher isrbelnun lucgamgal
+-- manpende javperlag paocabper blaruiher isrbelnun lucgamgal alebergon
 buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigramaR y pos lon [] = []
 buscaCrucigramaR y pos lon (x:xs) 
@@ -292,7 +292,7 @@ buscaCrucigramaR2 a pos lon (x:xs)
 
 -- erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval alvalvdom1
 -- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3 manpende
--- paocabper blaruiher isrbelnun lucgamgal fatvilpiz
+-- paocabper blaruiher isrbelnun lucgamgal fatvilpiz alebergon
 
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
@@ -334,7 +334,7 @@ posiciones2 xs y = [c | c <- [0..(length xs - 1)], xs!!c==y]
 
 -- erisancha enrvalmor pabmorgar silgongal rubvilval carmengar anaagusil
 -- juanarcon abrdelrod marvilmor carruirui3 manpende paocabper blaruiher
--- isrbelnun lucgamgal
+-- isrbelnun lucgamgal alebergon
 
 posicionesR :: String -> Char -> [Int]
 posicionesR xs y = pR xs y 0
@@ -349,7 +349,7 @@ posicionesR xs y = pR xs y 0
 
 -- guache erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval
 -- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3
--- paocabper blaruiher isrbelnun lucgamgal fatvilpiz
+-- paocabper blaruiher isrbelnun lucgamgal fatvilpiz alebergon
 
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
@@ -382,7 +382,7 @@ contieneR (x:xs) ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- erisancha enrvalmor pabmorgar rubvilval anaagusil paocabper
+-- erisancha enrvalmor pabmorgar rubvilval anaagusil paocabper 
 contieneR2 :: String -> String -> Bool
 contieneR2 _ []  = True       
 contieneR2 [] ys = False
@@ -415,7 +415,7 @@ contieneR5 xs ys | isPrefixOf ys xs = True
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carruirui3 erisancha lucgamgal fatvilpiz
+-- carruirui3 erisancha lucgamgal fatvilpiz alebergon
 contieneR6 :: String -> String -> Bool
 contieneR6 _  [] = True
 contieneR6 [] _  = False
@@ -445,7 +445,7 @@ contieneAuxiliar xs = [xs] ++ contieneAuxiliar (tail xs)
 -- Comentario: La definición anterior se puede simplificar.
 
 -- erisancha carmengar silgongal juanarcon abrdelrod marvilmor
--- carruirui3 paocabper blaruiher isrbelnun lucgamgal
+-- carruirui3 paocabper blaruiher isrbelnun lucgamgal alebergon
 contiene2 :: String -> String -> Bool
 contiene2 xs ys = or [isPrefixOf ys x | x <- elimina xs]
     where elimina xs = [drop v xs | v <- [0..length xs]]
@@ -464,7 +464,7 @@ contiene3 xs ys =
 
 -- rubvilval erisancha carmengar paocabper silgongal anagusil juanarcon
 -- abrdelrod marvilmor carruirui3 blaruiher isrbelnun lucgamgal
--- fatvilpiz 
+-- fatvilpiz alebergon
 
 -- La propiedad es
 prop_contiene :: String -> String -> Bool
