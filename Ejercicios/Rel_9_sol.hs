@@ -1,14 +1,8 @@
--- I1M 2015-16: Rel_9_sol.hs (31 de Octubre de 2015)
+-- I1M 2015-16: Rel_9.hs (31 de Octubre de 2015)
 -- Operaciones conjuntistas con listas.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
-
--- ---------------------------------------------------------------------
--- Introducción                                                       --
--- ---------------------------------------------------------------------
-
--- En estas relación se definen operaciones conjuntistas sobre listas.
 
 -- ---------------------------------------------------------------------
 -- § Librerías auxiliares                                             --
@@ -27,8 +21,7 @@ import Test.QuickCheck
 -- ---------------------------------------------------------------------
 
 subconjunto :: Eq a => [a] -> [a] -> Bool
-subconjunto xs ys = 
-    [x | x <- xs, x `elem` ys] == xs
+subconjunto xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir, por recursión, la función
@@ -41,8 +34,7 @@ subconjunto xs ys =
 -- ---------------------------------------------------------------------
 
 subconjuntoR :: Eq a => [a] -> [a] -> Bool
-subconjuntoR [] _      = True
-subconjuntoR (x:xs) ys = x `elem` ys && subconjuntoR xs ys
+subconjuntoR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Comprobar con QuickCheck que las definiciones
@@ -51,12 +43,9 @@ subconjuntoR (x:xs) ys = x `elem` ys && subconjuntoR xs ys
 
 -- La propiedad es
 prop_subconjuntoR :: [Int] -> [Int] -> Bool
-prop_subconjuntoR xs ys =
-    subconjuntoR xs ys == subconjunto xs ys
+prop_subconjuntoR xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_subconjuntoR
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.4. Definir, mediante all, la función 
@@ -68,7 +57,7 @@ prop_subconjuntoR xs ys =
 -- ---------------------------------------------------------------------
  
 subconjuntoA :: Eq a => [a] -> [a] -> Bool
-subconjuntoA xs ys = all (`elem` ys) xs
+subconjuntoA xs ys = undefined
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.5. Comprobar con QuickCheck que las funciones subconjunto
@@ -77,12 +66,9 @@ subconjuntoA xs ys = all (`elem` ys) xs
  
 -- La propiedad es
 prop_subconjuntoA :: [Int] -> [Int] -> Bool
-prop_subconjuntoA xs ys =
-    subconjunto xs ys == subconjuntoA xs ys  
+prop_subconjuntoA xs ys = undefined
  
 -- La comprobación es
---    λ> quickCheck prop_subconjuntoA
---    OK, passed 100 tests.
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -96,8 +82,7 @@ prop_subconjuntoA xs ys =
 -- ---------------------------------------------------------------------
 
 iguales :: Eq a => [a] -> [a] -> Bool
-iguales xs ys =
-    subconjunto xs ys && subconjunto ys xs
+iguales xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir, por comprensión, la función
@@ -108,7 +93,7 @@ iguales xs ys =
 -- ---------------------------------------------------------------------
 
 union :: Eq a => [a] -> [a] -> [a]
-union xs ys = xs ++ [y | y <- ys, y `notElem` xs]
+union xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por comprensión, la función
@@ -119,9 +104,7 @@ union xs ys = xs ++ [y | y <- ys, y `notElem` xs]
 -- ---------------------------------------------------------------------
 
 unionR :: Eq a => [a] -> [a] -> [a]
-unionR []     ys = ys
-unionR (x:xs) ys | x `elem` ys = union xs ys
-                  | otherwise   = x : union xs ys
+unionR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que union y unionR son
@@ -130,12 +113,9 @@ unionR (x:xs) ys | x `elem` ys = union xs ys
 
 -- La propiedad es
 prop_union :: [Int] -> [Int] -> Bool
-prop_union xs ys =
-    union xs ys `iguales` unionR xs ys
+prop_union xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_union
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Comprobar con QuickCheck que la unión es conmutativa.
@@ -143,12 +123,9 @@ prop_union xs ys =
 
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
-prop_union_conmutativa xs ys =
-    union xs ys `iguales` union ys xs
+prop_union_conmutativa xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_union_conmutativa
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.1. Definir, por comprensión, la función
@@ -160,8 +137,7 @@ prop_union_conmutativa xs ys =
 -- ---------------------------------------------------------------------
 
 interseccion :: Eq a => [a] -> [a] -> [a]
-interseccion xs ys =
-    [x | x <- xs, x `elem` ys]
+interseccion xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por recursión, la función
@@ -173,9 +149,7 @@ interseccion xs ys =
 -- ---------------------------------------------------------------------
 
 interseccionR :: Eq a => [a] -> [a] -> [a]
-interseccionR []     ys = []
-interseccionR (x:xs) ys | x `elem` ys = x : interseccionR xs ys
-                        | otherwise   = interseccionR xs ys
+interseccionR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que interseccion e
@@ -184,12 +158,9 @@ interseccionR (x:xs) ys | x `elem` ys = x : interseccionR xs ys
 
 -- La propiedad es
 prop_interseccion :: [Int] -> [Int] -> Bool
-prop_interseccion xs ys =
-    interseccion xs ys `iguales` interseccionR xs ys
+prop_interseccion xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_interseccion
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Comprobar con QuickCheck si se cumple la siguiente
@@ -200,22 +171,9 @@ prop_interseccion xs ys =
 -- ---------------------------------------------------------------------
 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
-prop_union_interseccion xs ys zs =
-    iguales (union xs (interseccion ys zs))
-            (interseccion (union xs ys) zs)
+prop_union_interseccion xs ys zs = undefined
 
 -- La comprobación es 
---    λ> quickCheck prop_union_interseccion
---    *** Failed! Falsifiable (after 3 tests and 2 shrinks): 
---    [0]
---    []
---    []
--- 
--- Por tanto, la propiedad no se cumple y un contraejemplo es 
---    A = [0], B = [] y C = []
--- ya que entonces,
---    A ∪ (B ∩ C) = [0] ∪ ([] ∩ []) = [0] ∪ [] = [0] 
---    (A ∪ B) ∩ C = ([0] ∪ []) ∩ [] = [0] ∩ [] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1. Definir, por comprensión, la función
@@ -228,7 +186,7 @@ prop_union_interseccion xs ys zs =
 -- ---------------------------------------------------------------------
 
 diferencia :: Eq a => [a] -> [a] -> [a]
-diferencia xs ys = [x | x <- xs, x `notElem` ys]
+diferencia xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Definir, por recursión, la función
@@ -241,9 +199,7 @@ diferencia xs ys = [x | x <- xs, x `notElem` ys]
 -- ---------------------------------------------------------------------
 
 diferenciaR :: Eq a => [a] -> [a] -> [a]
-diferenciaR [] ys = []
-diferenciaR (x:xs) ys | x `elem` ys = diferenciaR xs ys
-                      | otherwise   = x : diferenciaR xs ys
+diferenciaR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Comprobar con QuickCheck que diferencia y diferenciaR 
@@ -252,12 +208,9 @@ diferenciaR (x:xs) ys | x `elem` ys = diferenciaR xs ys
 
 -- La propiedad es
 prop_diferencia :: [Int] -> [Int] -> Bool
-prop_diferencia xs ys =
-    diferencia xs ys `iguales` diferenciaR xs ys
+prop_diferencia xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_diferencia
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck si la diferencia es
@@ -265,17 +218,9 @@ prop_diferencia xs ys =
 -- ---------------------------------------------------------------------
 
 prop_diferencia_conmutativa :: [Int] -> [Int] -> Bool
-prop_diferencia_conmutativa xs ys =
-    iguales (diferencia xs ys) (diferencia ys xs)
+prop_diferencia_conmutativa xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_diferencia_conmutativa
---    *** Failed! Falsifiable (after 2 tests and 2 shrinks): 
---    [0]
---    []
--- que es un contraejemplo, ya que
---    [0] - [] = [0]
---    [] - [0] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Comprobar con QuickCheck si se cumple la siguiente
@@ -284,12 +229,9 @@ prop_diferencia_conmutativa xs ys =
 
 -- La propiedad es
 prop_diferencia_subconjunto :: [Int] -> [Int] -> Bool
-prop_diferencia_subconjunto xs ys =
-    subconjunto (diferencia xs ys) xs
+prop_diferencia_subconjunto xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_diferencia_subconjunto
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Comprobar con QuickCheck si se cumple la siguiente
@@ -298,12 +240,9 @@ prop_diferencia_subconjunto xs ys =
 
 -- La propiedad es
 prop_diferencia_interseccion :: [Int] -> [Int] -> Bool
-prop_diferencia_interseccion xs ys =
-    interseccion (diferencia xs ys) ys == []
+prop_diferencia_interseccion xs ys = undefined
                 
 -- La comprobación es
---    λ> quickCheck prop_diferencia_interseccion
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.1. Definir, por comprensión, la función
@@ -314,7 +253,7 @@ prop_diferencia_interseccion xs ys =
 -- ---------------------------------------------------------------------
 
 producto :: Eq a => [a] -> [a] -> [(a,a)]
-producto xs ys = [(x,y) | x <- xs, y <- ys]
+producto xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Definir, por recursión, la función
@@ -325,8 +264,7 @@ producto xs ys = [(x,y) | x <- xs, y <- ys]
 -- ---------------------------------------------------------------------
 
 productoR :: Eq a => [a] -> [a] -> [(a,a)]
-productoR []     _  = []
-productoR (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
+productoR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Comprobar con QuickCheck que producto y productoR 
@@ -335,12 +273,9 @@ productoR (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
 
 -- La propiedad es
 prop_producto :: [Int] -> [Int] -> Bool
-prop_producto xs ys =
-    producto xs ys `iguales` productoR xs ys
+prop_producto xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_producto
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Comprobar con QuickCheck que el número de elementos
@@ -350,12 +285,9 @@ prop_producto xs ys =
 
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
-prop_elementos_producto xs ys =
-    length (producto xs ys) == length xs * length ys
+prop_elementos_producto xs ys = undefined
 
 -- La comprobación es
---    λ> quickCheck prop_elementos_producto
---    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función 
@@ -370,15 +302,7 @@ prop_elementos_producto xs ys =
 -- ---------------------------------------------------------------------
 
 subconjuntos :: [a] -> [[a]]
-subconjuntos []     = [[]]
-subconjuntos (x:xs) = [x:ys | ys <- sub] ++ sub
-    where sub = subconjuntos xs  
-
--- Cambiando la comprensión por map se obtiene
-subconjuntos' :: [a] -> [[a]]
-subconjuntos' []     = [[]]
-subconjuntos' (x:xs) = sub ++ map (x:) sub
-    where sub = subconjuntos' xs  
+subconjuntos = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Comprobar con QuickChek que el número de elementos de
@@ -391,9 +315,6 @@ subconjuntos' (x:xs) = sub ++ map (x:) sub
 
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
-prop_subconjuntos xs =
-    length (subconjuntos xs) == 2 ^ length xs
+prop_subconjuntos xs = undefined
 
 -- La comprobación es
---    λ> quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
---    +++ OK, passed 100 tests.
