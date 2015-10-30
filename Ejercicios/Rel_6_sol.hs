@@ -1,4 +1,4 @@
--- I1M 2015-16: Rel_6.hs (16 de octubre de 2015)
+-- I1M 2015-16: Rel_6_sol.hs (16 de octubre de 2015)
 -- Funciones sobre cadenas.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
@@ -23,10 +23,6 @@ import Test.QuickCheck
 -- dígito d.
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache blaruiher alvalvdom1 manvermor  erisancha carmengar
--- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
--- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal fatvilpiz marcamde3 ivaruicam juamorrom1
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
@@ -39,34 +35,25 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 -- Nota: Usar las funciones isDigit y digitToInt.
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache blaruiher alvalvdom1 erisancha carmengar enrvalmor
--- silgongal pabmorgar fracruzam manpende migandben rubvilval josllagam
--- anaagusil juanarcon abrdelrod alebergon marvilmor paocabper javperlag
--- isrbelnun lucgamgal marcamde3 ivaruicam juamorrom1
-
 sumaDigitosR :: String -> Int
-sumaDigitosR "" = 0
+sumaDigitosR [] = 0
 sumaDigitosR (x:xs) 
-    | isDigit x = sumaDigitosR xs + digitToInt x
-    | otherwise = sumaDigitosR xs 
+    | isDigit x  = digitToInt x + sumaDigitosR xs
+    | otherwise  = sumaDigitosR xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- carruirui3 guache blaruiher alvalvdom1 manvermor erisancha carmengar
--- enrvalmor silgongal pabmorgar fracruzam manpende migandben rubvilval
--- josllagam anaagusil juanarcon abrdelrod alebergon marvilmor paocabper
--- javperlag isrbelnun lucgamgal fatvilpiz marcamde3 ivaruicam juamorrom1
-
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
-prop_sumaDigitosC xs = sumaDigitosC xs == sumaDigitosR xs
+prop_sumaDigitosC xs = 
+    sumaDigitosC xs == sumaDigitosR xs
 
 -- La comprobación es
---    *Main> quickCheck prop_sumaDigitosC
---    +++ OK, passed 100 tests
+--    ghci> quickCheck prop_sumaDigitos
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Definir, por comprensión, la función
@@ -79,26 +66,9 @@ prop_sumaDigitosC xs = sumaDigitosC xs == sumaDigitosR xs
 -- minúscula y (toUpper c) que es el carácter c en mayúscula.
 -- ---------------------------------------------------------------------
 
--- guache alvalvdom1 blaruiher manvermor erisancha enrvalmor silgongal
--- pabmorgar fracruzam migandben rubvilval carmengar josllagam juanarcon
--- abrdelrod paocabper carruirui3 javperlag isrbelnun lucgamgal ivaruicam
--- juamorrom1
-
 mayusculaInicial :: String -> String
 mayusculaInicial []     = []
 mayusculaInicial (x:xs) = toUpper x : [toLower x | x <- xs]
-
--- fracruzam anaagusil marvilmor
-mayusculaInicial2 :: String -> String
-mayusculaInicial2 []     = []
-mayusculaInicial2 (x:xs) = toUpper x : map toLower xs
-
--- alebergon manpende fatvilpiz marcamde3
-mayusculaInicial3 :: String -> String
-mayusculaInicial3 "" = ""
-mayusculaInicial3 xs = toUpper (head xs): [toLower x | x <- tail xs]
-
--- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por recursión, la función
@@ -108,40 +78,24 @@ mayusculaInicial3 xs = toUpper (head xs): [toLower x | x <- tail xs]
 --    mayusculaInicialRec "sEviLLa"  ==  "Sevilla"
 -- ---------------------------------------------------------------------
 
--- guache blaruiher erisancha silgongal migandben alvalvdom1 carmengar
--- anaagusil juanarcon paocabper abrdelrod javperlag isrbelnun lucgamgal 
--- ivaruicam juamorrom1
 mayusculaInicialRec :: String -> String
-mayusculaInicialRec []     = []
-mayusculaInicialRec (x:xs) = toUpper x :minuscula xs
-
-minuscula []     = []
-minuscula (x:xs) = toLower x : minuscula xs
-
--- manvermor enrvalmor pabmorgar rubvilval josllagam manpende marvilmor 
--- alebergon marcamde3
-mayusculaInicialRec2 :: String -> String
-mayusculaInicialRec2 ""     = ""
-mayusculaInicialRec2 (x:xs) = 
-    toUpper x : (map toLower (mayusculaInicialRec2 xs))
+mayusculaInicialRec [] = []
+mayusculaInicialRec (x:xs) = toUpper x : aux xs
+    where aux (x:xs) = toLower x : aux xs
+          aux []     = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache blaruiher manvermor erisancha enrlvamor silgongal pabmorgar
--- migandben rubvilval alvalvdom1 carmengar josllagam manpende anaagusil
--- juanarcon abrdelrod marvilmor paocabper alebergon javperlag isrbelnun
--- lucgamgal fatvilpiz marcamde3 ivaruicam juamorrom1
-
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
 prop_mayusculaInicial xs = 
-    mayusculaInicialRec xs == mayusculaInicial xs
+    mayusculaInicial xs == mayusculaInicialRec xs
 
 -- La comprobación es
---    *Main> quickCheck prop_mayusculaInicial
+--    ghci> quickCheck prop_mayusculaInicial
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -158,18 +112,19 @@ prop_mayusculaInicial xs =
 --    ["El","Arte","de","la","Programacion"]
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor silgongal pabmorgar fracruzam migandben 
--- rubvilval alvalvdom1 carmengar anaagusil josllagam juanarcon
--- abrdelrod manpende marvilmor alebergon carruirui3 javperlag paocabper
--- blaruiher lucgamgal isrbelnun marcamde3 ivaruicam juamorrom1
-
 titulo :: [String] -> [String]
-titulo [] = []
-titulo (x:xs) = mayusculaInicial x : [change x| x <- xs]
+titulo []     = []
+titulo (p:ps) = mayusculaInicial p : [transforma p | p <- ps]
 
-change :: String -> String
-change xs | length xs < 4 = minuscula xs
-          | otherwise     = mayusculaInicial xs
+-- (transforma p) es la palabra p con mayúscula inicial si su longitud
+-- es mayor o igual que 4 y es p en minúscula en caso contrario
+transforma :: String -> String
+transforma p | length p >= 4 = mayusculaInicial p
+             | otherwise     = minuscula p
+
+-- (minuscula xs) es la palabra xs en minúscula.
+minuscula :: String -> String
+minuscula xs = [toLower x | x <- xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
@@ -180,46 +135,23 @@ change xs | length xs < 4 = minuscula xs
 --    ["El","Arte","de","la","Programacion"]
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
--- anaagusil josllagam juanarcon abrdelrod marvilmor javperlag paocabper
--- blaruiher lucgamgal marcamde3 miandben ivaruicam juamorrom1
 tituloRec :: [String] -> [String]
-tituloRec [] = []
-tituloRec (x:xs) = mayusculaInicial x : aux xs
-    where aux []     = []
-          aux (x:xs) = change x : aux xs
-
--- manpende alebergon
-tituloRec2 :: [String] -> [String]
-tituloRec2 [] = []
-tituloRec2 (p:ps)  = mayusculaInicial p : titulo' ps
-    where titulo' [] = []
-          titulo' (p:ps) | length p >= 4 = mayusculaInicial p : titulo' ps
-                         | otherwise = map toLower p : titulo' ps 
-
--- Comentario: La definición anterior se puede simplificar.
-
--- isrbelnun
-tituloRec3 :: [String] -> [String]
-tituloRec3 []       = []
-tituloRec3 (xs:xss) = mayusculaInicialRec xs : tituloRec xss
+tituloRec []     = []
+tituloRec (p:ps) = mayusculaInicial p : tituloRecAux ps
+    where tituloRecAux []     = []
+          tituloRecAux (p:ps) = transforma p : tituloRecAux ps
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor silgongal pabmorgar rubvilval carmengar
--- anaagusil josllagam juanarcon abrdelrod marvilmor alebergon manpende
--- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz marcamde3
--- migandben ivaruicam juamorrom1
-
 -- La propiedad es
 prop_titulo :: [String] -> Bool
-prop_titulo xs = tituloRec xs == titulo xs
+prop_titulo xs = titulo xs == tituloRec xs
 
 -- La comprobación es
---    *Main> quickCheck prop_titulo
+--    ghci> quickCheck prop_titulo
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -236,83 +168,43 @@ prop_titulo xs = tituloRec xs == titulo xs
 --    []
 -- ---------------------------------------------------------------------
 
--- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
--- carmengar anaagusil juanarcon marvilmor abrdelrod carruirui3
--- javperlag paocabper blaruiher isrbelnun lucgamgal fatvilpiz migandben
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigrama y pos lon ps = 
-    [x | x <- ps, 
-         length x == lon, 
-         pos > 0, pos < length x, 
-         x !! pos == y] 
-
--- rubvilval ivaruicam
-buscaCrucigrama2 :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigrama2 a pos lon ps = 
-    [x | x <- ps, length x == lon && (elem (a,pos) (zip x [0..lon])) ]
-
--- alebergon manpende
-buscaCrucigrama3 :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigrama3 l pos lon ps 
-    | pos >= 0  = [x | x <- ps, length x == lon, x!!pos==l] 
-    | otherwise = []
-
--- juamorrom1
-buscaCrucigrama4 :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigrama4 l pos lon ps = 
-    [ x | x <- ps, length x == lon, head (drop pos x) == l ]
+buscaCrucigrama l pos lon ps =
+    [p | p <- ps,  
+         length p == lon, 
+         0 <= pos,  pos < length p, 
+         p !! pos == l]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Definir, por recursión, la función
 --    buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
 -- tal que (buscaCrucigramaR l pos lon ps) es la lista de las palabras
--- de la lista de palabras ps que tienen longitud lon y posen la letra l
+-- de la lista de palabras ps que tienn longitud lon y posen la letra l
 -- en la posición pos (comenzando en 0). Por ejemplo,
 --    ghci> buscaCrucigramaR 'c' 1 7 ["ocaso", "acabado", "ocupado"]
 --    ["acabado","ocupado"]
---    ghci> buscaCrucigramaR 'o' 4 5 ["ocaso", "casa", "ocupado"]
---    ["ocaso"]
---    ghci> buscaCrucigramaR 'c' (-1) 7 ["ocaso", "casa", "ocupado"]
---    []
 -- ---------------------------------------------------------------------
 
--- erisancha enrvalmor pabmorgar fracruzam silgongal alvalvdom1
--- carmengar anaagusil juanarcon abrdelrod marvilmor abrdelrod carruirui3
--- manpende javperlag paocabper blaruiher isrbelnun lucgamgal alebergon
--- migandben juamorrom1
-
 buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigramaR y pos lon [] = []
-buscaCrucigramaR y pos lon (x:xs) 
-    | length x == lon && pos > 0 && pos < length x && x !! pos == y 
-        = x : buscaCrucigramaR y pos lon xs
-    | otherwise = buscaCrucigramaR y pos lon xs
-
--- rubvilval
-buscaCrucigramaR2 :: Char -> Int -> Int -> [String] -> [String]
-buscaCrucigramaR2 a pos lon [] = []
-buscaCrucigramaR2 a pos lon (x:xs)
-    | length x == lon && (elem (a,pos) (zip x [0..lon])) = 
-        x : buscaCrucigramaR a pos lon xs
-    | otherwise = buscaCrucigramaR a pos lon xs
+buscaCrucigramaR letra pos lon [] = []
+buscaCrucigramaR letra pos lon (p:ps) 
+    | length p == lon && 0 <= pos && pos < length p && p !! pos == letra 
+        = p : buscaCrucigramaR letra pos lon ps
+    | otherwise 
+        = buscaCrucigramaR letra pos lon ps
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval alvalvdom1
--- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3 manpende
--- paocabper blaruiher isrbelnun lucgamgal fatvilpiz alebergon migandben
--- juamorrom1
-
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
-prop_buscaCrucigrama y pos lon ps = 
-    buscaCrucigramaR y pos lon ps ==  buscaCrucigrama y pos lon ps   
+prop_buscaCrucigrama letra pos lon ps =
+    buscaCrucigrama letra pos lon ps == buscaCrucigramaR letra pos lon ps
 
 -- La comprobación es
---    *Main> quickCheck prop_buscaCrucigrama
+--    ghci> quickCheck prop_buscaCrucigrama
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -323,19 +215,8 @@ prop_buscaCrucigrama y pos lon ps =
 --    posiciones "Salamamca" 'a'  ==  [1,3,5,8]
 -- ---------------------------------------------------------------------
 
--- guache blaruiher manvermor erisancha enrvalmor pabmorgar fracruzam 
--- silgongal rubvilval alvalvdom1 carmengar anagusil juanarcon abrdelrod
--- marvilmor josllagam carruirui3 javperlag paocabper isrbelnun migadnben
--- lucgamgal fatvilpiz ivaruicam juamorrom1
-
 posiciones :: String -> Char -> [Int]
-posiciones xs y = [v | (u,v) <- zip xs [0..], y == u]
-
--- manpende alebergon
-posiciones2 :: String -> Char -> [Int]
-posiciones2 xs y = [c | c <- [0..(length xs - 1)], xs!!c==y]
-
--- Comentario: La definición anterior se puede mejorar.
+posiciones xs y = [n | (x,n) <- zip xs [0..], x == y]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por recursión, la función
@@ -345,33 +226,25 @@ posiciones2 xs y = [c | c <- [0..(length xs - 1)], xs!!c==y]
 --    posicionesR "Salamamca" 'a'  ==  [1,3,5,8]
 -- ---------------------------------------------------------------------
 
--- erisancha enrvalmor pabmorgar silgongal rubvilval carmengar anaagusil
--- juanarcon abrdelrod marvilmor carruirui3 manpende paocabper blaruiher
--- isrbelnun lucgamgal alebergon migandben
-
 posicionesR :: String -> Char -> [Int]
-posicionesR xs y = pR xs y 0
-    where pR [] y z = []
-          pR (x:xs) y z | x == y    = z : pR xs y (z+1)
-                        | otherwise = pR xs y (z+1)
-
+posicionesR xs y = posicionesAux xs y 0
+    where
+      posicionesAux [] y n = []
+      posicionesAux (x:xs) y n | x == y    = n : posicionesAux xs y (n+1)
+                               | otherwise = posicionesAux xs y (n+1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor pabmorgar fracruzam silgongal rubvilval
--- carmengar anaagusil juanarcon abrdelrod marvilmor carruirui3
--- paocabper blaruiher isrbelnun lucgamgal fatvilpiz alebergon migandben
--- juamorrom1
-
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
-prop_posiciones xs y = posicionesR xs y == posiciones xs y 
+prop_posiciones xs y = 
+    posiciones xs y == posicionesR xs y
 
 -- La comprobación es
---    *Main> quickCheck prop_posiciones
+--    ghci> quickCheck prop_posiciones
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -386,58 +259,10 @@ prop_posiciones xs y = posicionesR xs y == posiciones xs y
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
--- blaruiher josllagam isrbelnun
 contieneR :: String -> String -> Bool
-contieneR []     [] = True
-contieneR (x:xs) [] = True
-contieneR []     ys = False
-contieneR (x:xs) ys
-    | isPrefixOf ys (x:xs) = True
-    | otherwise            = contieneR xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- erisancha enrvalmor pabmorgar rubvilval anaagusil paocabper 
-contieneR2 :: String -> String -> Bool
-contieneR2 _ []  = True       
-contieneR2 [] ys = False
-contieneR2 xs ys | isPrefixOf ys xs = True
-                 | otherwise = contieneR2 (tail xs) ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- carmengar silgongal manpende juanarcon 
-contieneR3 :: String -> String -> Bool
-contieneR3 _ ""  = True 
-contieneR3 "" ys = False
-contieneR3 (x:xs) ys 
-     | isPrefixOf ys (x:xs) = True
-     | otherwise            = contieneR3 xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1
-contieneR4 :: String -> String -> Bool
-contieneR4 _ []  = True
-contieneR4 [] ys = False
-contieneR4 xs ys = isPrefixOf ys xs || contieneR4 (tail xs) ys
-
--- abrdelrod
-contieneR5 :: String -> String -> Bool
-contieneR5 [] ys = False
-contieneR5 xs ys | isPrefixOf ys xs = True
-                 | otherwise        = contieneR5 (tail xs) ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- carruirui3 erisancha lucgamgal fatvilpiz alebergon juamorrom1
-contieneR6 :: String -> String -> Bool
-contieneR6 _  [] = True
-contieneR6 [] _  = False
-contieneR6 xs ys = isPrefixOf ys xs || contieneR6 (tail xs) ys
-
--- juamorrom1: la función que se nos pide es equivalente a la
--- predefinida "isInfixOf ys xs".
+contieneR _ []  = True       
+contieneR [] ys = False
+contieneR xs ys = isPrefixOf ys xs || contieneR (tail xs) ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Definir, por comprensión, la función
@@ -452,43 +277,32 @@ contieneR6 xs ys = isPrefixOf ys xs || contieneR6 (tail xs) ys
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval anaagusil 
 contiene :: String -> String -> Bool
-contiene xs [] = True
-contiene xs ys = or (map (isPrefixOf ys) (contieneAuxiliar xs))
+contiene xs ys = 
+    or [isPrefixOf ys zs | zs <- sufijos xs]
 
-contieneAuxiliar [] = []
-contieneAuxiliar xs = [xs] ++ contieneAuxiliar (tail xs)
+-- (sufijos xs) es la lista de sufijos de xs. Por ejemplo,
+--    sufijos "abc"  ==  ["abc","bc","c",""]
+sufijos :: String -> [String]
+sufijos xs = [drop i xs | i <- [0..length xs]]
 
--- Comentario: La definición anterior se puede simplificar.
+-- Notas: 
+-- 1. La función sufijos es equivalente a la predefinida tails.
+-- 2. contiene se puede definir usando la predefinida isInfixOf
 
--- erisancha carmengar silgongal juanarcon abrdelrod marvilmor
--- carruirui3 paocabper blaruiher isrbelnun lucgamgal alebergon
--- juamorrom1
 contiene2 :: String -> String -> Bool
-contiene2 xs ys = or [isPrefixOf ys x | x <- elimina xs]
-    where elimina xs = [drop v xs | v <- [0..length xs]]
-
--- javperlag
-contiene3 :: String -> String -> Bool
-contiene3 xs ys = 
-    elem True [isPrefixOf ys (drop n xs) | n <- [0..length xs]]
-
--- Comentario: La definición anterior se puede simplificar.
+contiene2 xs ys = isInfixOf ys xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- rubvilval erisancha carmengar paocabper silgongal anagusil juanarcon
--- abrdelrod marvilmor carruirui3 blaruiher isrbelnun lucgamgal
--- fatvilpiz alebergon juamorrom1
-
 -- La propiedad es
 prop_contiene :: String -> String -> Bool
-prop_contiene xs ys = contiene xs ys == contieneR xs ys
+prop_contiene xs ys = 
+    contieneR xs ys == contiene xs ys
 
 -- La comprobación es
---    *Main> quickCheck prop_contiene
---    +++ OK, passed 100 tests
+--    ghci> quickCheck prop_contiene
+--    +++ OK, passed 100 tests.
