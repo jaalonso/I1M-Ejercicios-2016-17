@@ -1,320 +1,232 @@
--- I1M 2015-16: Rel_9.hs (31 de Octubre de 2015)
--- Operaciones conjuntistas con listas.
+-- I1M 2015-16: Rel_8.hs (23 de octubre de 2015)
+-- El algoritmo de Luhn
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
--- § Librerías auxiliares                                             --
+-- § Introducción                                                     --
 -- ---------------------------------------------------------------------
 
-import Test.QuickCheck
+-- El objetivo de esta relación es estudiar un algoritmo para validar
+-- algunos identificadores numéricos como los números de algunas tarjetas
+-- de crédito; por ejemplo, las de tipo Visa o Master Card.  
+--
+-- El algoritmo que vamos a estudiar es el algoritmo de Luhn consistente
+-- en aplicar los siguientes pasos a los dígitos del número de la
+-- tarjeta.    
+--    1. Se invierten los dígitos del número; por ejemplo, [9,4,5,5] se
+--       transforma en [5,5,4,9].
+--    2. Se duplican los dígitos que se encuentra en posiciones impares
+--       (empezando a contar en 0); por ejemplo, [5,5,4,9] se transforma
+--       en [5,10,4,18].
+--    3. Se suman los dígitos de cada número; por ejemplo, [5,10,4,18]
+--       se transforma en 5 + (1 + 0) + 4 + (1 + 8) = 19.
+--    4. Si el último dígito de la suma es 0, el número es válido; y no
+--       lo es, en caso contrario. 
+--
+-- A los números válidos, los llamaremos números de Luhn. 
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.1. Definir, por comprensión, la función
---    subconjunto :: Eq a => [a] -> [a] -> Bool
--- tal que (subconjunto xs ys) se verifica si xs es un subconjunto de
--- ys; es decir, si todos los elementos de xs pertenecen a ys. Por
--- ejemplo, 
---    subconjunto [3,2,3] [2,5,3,5]  ==  True
---    subconjunto [3,2,3] [2,5,6,5]  ==  False
+-- Ejercicio 1. Definir la función
+--    digitosInv :: Integer -> [Integer]
+-- tal que (digitosInv n) es la lista de los dígitos del número n. en
+-- orden inverso. Por ejemplo, 
+--    digitosR 320274  ==  [4,7,2,0,2,3]
 -- ---------------------------------------------------------------------
 
-subconjunto :: Eq a => [a] -> [a] -> Bool
-subconjunto xs ys = undefined
+-- silgongal blaruiher erisancha paocabper enrvalmor anaagusil lucgamgal
+-- carmengar josllagam abrdelrod rubvilval javoliher javperlag
+digitosInv :: Integer -> [Integer]
+digitosInv n = reverse [read [c] | c <- show n]
 
--- ---------------------------------------------------------------------
--- Ejercicio 1.2. Definir, por recursión, la función
---    subconjuntoR :: Eq a => [a] -> [a] -> Bool
--- tal que (subconjuntoR xs ys) se verifica si xs es un subconjunto de
--- ys; es decir, si todos los elementos de xs pertenecen a ys. Por
--- ejemplo, 
---    subconjuntoR [3,2,3] [2,5,3,5]  ==  True
---    subconjuntoR [3,2,3] [2,5,6,5]  ==  False
--- ---------------------------------------------------------------------
+-- guache juanarcon
+digitosInv2 :: Integer -> [Integer]
+digitosInv2 n = [read [x] | x <- reverse (show n)]
 
-subconjuntoR :: Eq a => [a] -> [a] -> Bool
-subconjuntoR = undefined
+-- guache pabmorgar alvalvdom1 alebergon fatvilpiz
+digitosInv3 :: Integer -> [Integer]
+digitosInv3 n = reverse (digit n)
 
--- ---------------------------------------------------------------------
--- Ejercicio 1.3. Comprobar con QuickCheck que las definiciones
--- subconjunto y subconjuntoR son equivalentes.
--- ---------------------------------------------------------------------
+digit :: Integer -> [Integer]
+digit n = [read [x] | x <- show n]
 
--- La propiedad es
-prop_subconjuntoR :: [Int] -> [Int] -> Bool
-prop_subconjuntoR xs ys = undefined
+-- manvermor fracruzam carruirui3 manpende
+digitosInv4 :: Integer -> [Integer]
+digitosInv4 n | n < 10    = [n]
+              | otherwise = (n `rem` 10) : digitosInv4 (n `div` 10)
 
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 1.4. Definir, mediante all, la función 
---    subconjuntoA :: Eq a => [a] -> [a] -> Bool
--- tal que (subconjuntoA xs ys) se verifica si xs es un subconjunto de
--- ys. Por ejemplo,
---    subconjuntoA [1,3,2,3] [1,2,3]  ==  True
---    subconjuntoA [1,3,4,3] [1,2,3]  ==  False
--- ---------------------------------------------------------------------
- 
-subconjuntoA :: Eq a => [a] -> [a] -> Bool
-subconjuntoA xs ys = undefined
- 
--- ---------------------------------------------------------------------
--- Ejercicio 1.5. Comprobar con QuickCheck que las funciones subconjunto
--- y subconjuntoA son equivalentes.
--- ---------------------------------------------------------------------
- 
--- La propiedad es
-prop_subconjuntoA :: [Int] -> [Int] -> Bool
-prop_subconjuntoA xs ys = undefined
- 
--- La comprobación es
- 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
---    iguales :: Eq a => [a] -> [a] -> Bool
--- tal que (iguales xs ys) se verifica si xs e ys son iguales; es decir,
--- tienen los mismos elementos. Por ejemplo, 
---    iguales [3,2,3] [2,3]    ==  True
---    iguales [3,2,3] [2,3,2]  ==  True
---    iguales [3,2,3] [2,3,4]  ==  False
---    iguales [2,3] [4,5]      ==  False
+--    doblePosImpar :: [Integer] -> [Integer]
+-- tal que (doblePosImpar ns) es la lista obtenida doblando los
+-- elementos en las posiciones impares (empezando a contar en cero y
+-- dejando igual a los que están en posiciones pares. Por ejemplo,
+--    doblePosImpar [4,9,5,5]    ==  [4,18,5,10] 
+--    doblePosImpar [4,9,5,5,7]  ==  [4,18,5,10,7]
 -- ---------------------------------------------------------------------
 
-iguales :: Eq a => [a] -> [a] -> Bool
-iguales xs ys = undefined
+-- guache silgongal manvermor anaagusil lucgamgal isrbelnun
+doblePosImpar :: [Integer] -> [Integer]
+doblePosImpar []       = []
+doblePosImpar [a]      = [a]
+doblePosImpar (x:y:xs) = [x,2*y] ++ doblePosImpar2 xs
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- guache blaruiher erisancha juanarcon pabmorgar alvalvdom1 paocabper
+-- enrvalmor abrdelrod rubvilval alebergon fatvilpiz
+doblePosImpar1 :: [Integer] -> [Integer]
+doblePosImpar1 []       = []
+doblePosImpar1 [a]      = [a]
+doblePosImpar1 (x:y:xs) = x : 2*y : doblePosImpar1 xs
+
+-- guache carruirui3 fracruzam carmengar josllagam javoliher
+doblePosImpar2 :: [Integer] -> [Integer]
+doblePosImpar2 (x:y:xs) = x : 2*y : doblePosImpar xs
+doblePosImpar2 xs       = xs
+
+-- guache
+doblePosImpar3  :: [Integer] -> [Integer]
+doblePosImpar3 []     = []
+doblePosImpar3 (x:xs) = x : concatMap (\(a,b) -> [a*b]) (zip xs ys)
+    where ys = take (length xs) (concat [digit n | n <- repeat 21])
+
+-- guache
+doblePosImpar4  :: [Integer] -> [Integer]
+doblePosImpar4 []     = []     
+doblePosImpar4 (x:xs) = x : concat [[a*b] | (a,b) <- (zip xs ys)]    
+    where ys = take (length xs) (concat [digit n | n <- repeat 21])          
+
+{- los 3 primeros lo hice por recursión y los dos finales por comprensión
+   la idea es la misma,doblePosImpar2 es la mejor solucion por su simplicidad,
+   pero como sepan que las soluciones casi nunca son únicas -}
+
+-- javperlag
+doblePosImpar5 :: [Integer] -> [Integer]
+doblePosImpar5 []    = []
+doblePosImpar5 (x:xs)= x : dPI xs
+
+dPI []    = []
+dPI (x:xs)= 2*x : doblePosImpar5 xs
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.1. Definir, por comprensión, la función
---    union :: Eq a => [a] -> [a] -> [a]
--- tal que (union xs ys) es la unión de los conjuntos xs e ys. Por
+-- Ejercicio 3. Definir la función
+--    sumaDigitos :: [Integer] -> Integer
+-- tal que (sumaDigitos ns) es la suma de los dígitos de ns. Por
 -- ejemplo, 
---    union [3,2,5] [5,7,3,4]  ==  [3,2,5,7,4]
+--    sumaDigitos [10,5,18,4] = 1 + 0 + 5 + 1 + 8 + 4 =
+--                            = 19
 -- ---------------------------------------------------------------------
+ 
+-- silgongal erisancha  paocabper alvalvdom1 enrvalmor anaagusil
+-- carmengar
+sumaDigitos :: [Integer] -> Integer
+sumaDigitos ns = sum (concat [digitos n | n <- ns])
 
-union :: Eq a => [a] -> [a] -> [a]
-union xs ys = undefined
+digitos n = [read [c]| c <- show n]
 
--- ---------------------------------------------------------------------
--- Ejercicio 3.2. Definir, por comprensión, la función
---    unionR :: Eq a => [a] -> [a] -> [a]
--- tal que (unionR xs ys) es la unión de los conjuntos xs e ys. Por
--- ejemplo, 
---    unionR [3,2,5] [5,7,3,4]  ==  [2,5,7,3,4]
--- ---------------------------------------------------------------------
+-- guache pabmorgar
+sumaDigitos1 :: [Integer] -> Integer
+sumaDigitos1 ns = sum (concat [digitosInv2  k | k <- ns])
 
-unionR :: Eq a => [a] -> [a] -> [a]
-unionR = undefined
+-- guache
+sumaDigitos2 :: [Integer] -> Integer
+sumaDigitos2 ns = sum (digit (numero ns))
 
--- ---------------------------------------------------------------------
--- Ejercicio 3.3. Comprobar con QuickCheck que union y unionR son
--- equivalentes. 
--- ---------------------------------------------------------------------
+numero :: [Integer] -> Integer
+numero xs = sum [y*10^n | (y,n) <-zip (reverse xs) [0.. ]]
 
--- La propiedad es
-prop_union :: [Int] -> [Int] -> Bool
-prop_union xs ys = undefined
+-- manvermor 
+sumaDigitos3 :: [Integer] -> Integer
+sumaDigitos3 []     = 0
+sumaDigitos3 (n:ns) = sum (digitos n) + sumaDigitos ns
+    where digitos n = reverse (digitosInv n)
 
--- La comprobación es
+-- Comentario: La definición anterior se puede mejorar.
 
--- ---------------------------------------------------------------------
--- Ejercicio 4. Comprobar con QuickCheck que la unión es conmutativa.
--- ---------------------------------------------------------------------
+-- fracruzam carruirui3 juanarcon
+sumaDigitos4 :: [Integer] -> Integer
+sumaDigitos4 ns = sum (concat (map digitosInv4 ns))
 
--- La propiedad es
-prop_union_conmutativa :: [Int] -> [Int] -> Bool
-prop_union_conmutativa xs ys = undefined
+-- guache
+sumaDigitos5 :: [Integer] -> Integer
+sumaDigitos5 ns = sum (concat (map digit ns))
 
--- La comprobación es
+-- blaruiher abrdelrod javperlag
+sumaDigitos6 :: [Integer] -> Integer
+sumaDigitos6 ns = sum [sum (digitosInv x) | x <- ns]
 
--- ---------------------------------------------------------------------
--- Ejercicio 5.1. Definir, por comprensión, la función
---    interseccion :: Eq a => [a] -> [a] -> [a]
--- tal que (interseccion xs ys) es la intersección de xs e ys. Por
--- ejemplo, 
---    interseccion [3,2,5] [5,7,3,4]  ==  [3,5]
---    interseccion [3,2,5] [9,7,6,4]  ==  []
--- ---------------------------------------------------------------------
+-- josllagam fatvilpiz
+sumaDigitos7 :: [Integer] -> Integer
+sumaDigitos7 ns = sum (digitos7 ns)
 
-interseccion :: Eq a => [a] -> [a] -> [a]
-interseccion xs ys = undefined
+digitos7 :: [Integer] -> [Integer]
+digitos7 [] = []
+digitos7 (n:ns) = digitosInv n ++ digitos ns
 
--- ---------------------------------------------------------------------
--- Ejercicio 5.2. Definir, por recursión, la función
---    interseccionR :: Eq a => [a] -> [a] -> [a]
--- tal que (interseccionR xs ys) es la intersección de xs e ys. Por
--- ejemplo, 
---    interseccionR [3,2,5] [5,7,3,4]  ==  [3,5]
---    interseccionR [3,2,5] [9,7,6,4]  ==  []
--- ---------------------------------------------------------------------
+-- manpende alebergon
+sumaDigitos8 :: [Integer] -> Integer
+sumaDigitos8 ns = foldr (+) 0 (concat [digitosInv n | n <- ns])
 
-interseccionR :: Eq a => [a] -> [a] -> [a]
-interseccionR = undefined
+-- rubvilval
+sumaDigitos9 :: [Integer] -> Integer
+sumaDigitos9 ns = sum [mod x 10 | x <- ns] + sum [div x 10 | x <- ns]
 
--- ---------------------------------------------------------------------
--- Ejercicio 5.3. Comprobar con QuickCheck que interseccion e
--- interseccionR son equivalentes.
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_interseccion :: [Int] -> [Int] -> Bool
-prop_interseccion xs ys = undefined
-
--- La comprobación es
+-- javoliher
+sumaDigitos10 :: [Integer] -> Integer
+sumaDigitos10 ns = sum [read [c] | n <- ns,  c <- show n]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6. Comprobar con QuickCheck si se cumple la siguiente
--- propiedad 
---    A ∪ (B ∩ C) = (A ∪ B) ∩ C
--- donde se considera la igualdad como conjuntos. En el caso de que no
--- se cumpla verificar el contraejemplo calculado por QuickCheck.
+-- Ejercicio 4. Definir la función  
+--    ultimoDigito :: Integer -> Integer
+-- tal que (ultimoDigito n) es el último dígito de n. Por ejemplo,
+--    ultimoDigito 123 == 3
+--    ultimoDigito   0 == 0
 -- ---------------------------------------------------------------------
 
-prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
-prop_union_interseccion xs ys zs = undefined
+-- silgongal manvermor pabmorgar blaruiher alvalvdom1 
+ultimoDigito :: Integer -> Integer
+ultimoDigito n = last (digitos n)
+ 
+-- guache enrvalmor manpende fatvilpiz
+ultimoDigito1 :: Integer -> Integer
+ultimoDigito1 n = head (digitosInv2 n)
 
--- La comprobación es 
+-- guache carruirui3 erisancha juanarcon carmengar abrdelrod
+-- alebergon
+ultimoDigito2 :: Integer -> Integer
+ultimoDigito2 n = rem n 10
 
--- ---------------------------------------------------------------------
--- Ejercicio 7.1. Definir, por comprensión, la función
---    diferencia :: Eq a => [a] -> [a] -> [a]
--- tal que (diferencia xs ys) es la diferencia entre los conjuntos xs e
--- ys; es decir, la lista de los elementos que sólo pertenecen a xs. Por
--- ejemplo,  
---    diferencia [3,2,5,6] [5,7,3,4]  ==  [2,6]
---    diferencia [3,2,5] [5,7,3,2]    ==  []
--- ---------------------------------------------------------------------
+-- guache fracruzam rubvilval javperlag
+ultimoDigito3 :: Integer -> Integer
+ultimoDigito3 n = mod n 10
 
-diferencia :: Eq a => [a] -> [a] -> [a]
-diferencia xs ys = undefined
+-- paocabper josllagam javoliher
+ultimoDigito4 :: Integer -> Integer
+ultimoDigito4 n = last [read [c] | c <- show n]
 
--- ---------------------------------------------------------------------
--- Ejercicio 7.2. Definir, por recursión, la función
---    diferenciaR :: Eq a => [a] -> [a] -> [a]
--- tal que (diferenciaR xs ys) es la diferencia entre los conjuntos xs e
--- ys; es decir, la lista de los elementos que sólo pertenecen a xs. Por
--- ejemplo,  
---    diferenciaR [3,2,5,6] [5,7,3,4]  ==  [2,6]
---    diferenciaR [3,2,5] [5,7,3,2]    ==  []
--- ---------------------------------------------------------------------
+-- anaagusil
+ultimoDigito5 :: Integer -> Integer
+ultimoDigito5 n = last (reverse (digitosR n))
 
-diferenciaR :: Eq a => [a] -> [a] -> [a]
-diferenciaR = undefined
+digitosR :: Integer -> [Integer]
+digitosR n = reverse (digitosR' n)
 
--- ---------------------------------------------------------------------
--- Ejercicio 7.3. Comprobar con QuickCheck que diferencia y diferenciaR 
--- son equivalentes.
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_diferencia :: [Int] -> [Int] -> Bool
-prop_diferencia xs ys = undefined
-
--- La comprobación es
+digitosR' n
+    | n < 10    = [n]
+    | otherwise = (n `rem` 10) : digitosR' (n `div` 10)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8. Comprobar con QuickCheck si la diferencia es
--- conmutativa. 
+-- Ejercicio 5. Definir la función 
+--    luhn :: Integer -> Bool
+-- tal que (luhn n) se verifica si n es un número de Luhn. Por ejemplo,
+--    luhn 5594589764218858  ==  True
+--    luhn 1234567898765432  ==  False
 -- ---------------------------------------------------------------------
 
-prop_diferencia_conmutativa :: [Int] -> [Int] -> Bool
-prop_diferencia_conmutativa xs ys = undefined
-
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 9. Comprobar con QuickCheck si se cumple la siguiente
--- propiedad: A \ B ⊂ A
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_diferencia_subconjunto :: [Int] -> [Int] -> Bool
-prop_diferencia_subconjunto xs ys = undefined
-
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 10. Comprobar con QuickCheck si se cumple la siguiente
--- propiedad: (A \ B) ∩ B = ∅.
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_diferencia_interseccion :: [Int] -> [Int] -> Bool
-prop_diferencia_interseccion xs ys = undefined
-                
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 11.1. Definir, por comprensión, la función
---    producto :: Eq a => [a] -> [a] -> [(a,a)]
--- tal que (producto xs ys) es el producto cartesiano de xs e ys. Por
--- ejemplo, 
---   producto [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
--- ---------------------------------------------------------------------
-
-producto :: Eq a => [a] -> [a] -> [(a,a)]
-producto xs ys = undefined
-
--- ---------------------------------------------------------------------
--- Ejercicio 11.2. Definir, por recursión, la función
---    productoR :: Eq a => [a] -> [a] -> [(a,a)]
--- tal que (productoR xs ys) es el producto cartesiano de xs e ys. Por
--- ejemplo, 
---   productoR [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
--- ---------------------------------------------------------------------
-
-productoR :: Eq a => [a] -> [a] -> [(a,a)]
-productoR = undefined
-
--- ---------------------------------------------------------------------
--- Ejercicio 11.3. Comprobar con QuickCheck que producto y productoR 
--- son equivalentes.
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_producto :: [Int] -> [Int] -> Bool
-prop_producto xs ys = undefined
-
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 12. Comprobar con QuickCheck que el número de elementos
--- de (producto xs ys) es el producto del número de elementos de xs y de
--- ys. 
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_elementos_producto :: [Int] -> [Int] -> Bool
-prop_elementos_producto xs ys = undefined
-
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- Ejercicio 13. Definir la función 
---    subconjuntos :: [a] -> [[a]]
--- tal que (subconjuntos xs) es la lista de las subconjuntos de la lista
--- xs. Por ejemplo, 
---    ghci> subconjuntos [2,3,4]
---    [[2,3,4],[2,3],[2,4],[2],[3,4],[3],[4],[]]
---    ghci> subconjuntos [1,2,3,4]
---    [[1,2,3,4],[1,2,3],[1,2,4],[1,2],[1,3,4],[1,3],[1,4],[1],
---       [2,3,4],  [2,3],  [2,4],  [2],  [3,4],  [3],  [4], []]
--- ---------------------------------------------------------------------
-
-subconjuntos :: [a] -> [[a]]
-subconjuntos = undefined
-
--- ---------------------------------------------------------------------
--- Ejercicio 14. Comprobar con QuickChek que el número de elementos de
--- (subconjuntos xs) es 2 elevado al número de elementos de xs.
---
--- Nota. Al hacer la comprobación limitar el tamaño de las pruebas como
--- se indica a continuación
---    quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
--- ---------------------------------------------------------------------
-
--- La propiedad es
-prop_subconjuntos :: [Int] -> Bool
-prop_subconjuntos xs = undefined
-
--- La comprobación es
+-- silgongal guache manvermor fracruzam carruirui3 erisancha  juanarcon
+-- pabmorgar blaruiher alvalvdom1 paocabper enrvalmor carmengar
+-- josllagam abrdelrod rubvilval javoliher alebergon javperlag anaagusil
+luhn :: Integer -> Bool 
+luhn n = ultimoDigito (sumaDigitos (doblePosImpar (digitosInv n))) == 0
