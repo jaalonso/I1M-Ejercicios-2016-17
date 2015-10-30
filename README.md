@@ -31,3 +31,6 @@ clase) y las soluciones definitivas.
 + **Relación 8**: El algoritmo de Luhn.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8_sol.hs)).
++ **Relación 9**: Operaciones conjuntistas con listas.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8_sol.hs)).
