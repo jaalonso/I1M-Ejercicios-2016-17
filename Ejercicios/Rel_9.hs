@@ -118,6 +118,12 @@ prop_union xs ys = undefined
 -- La comprobación es
 
 -- ---------------------------------------------------------------------
+-- Nota. En los ejercicios de comprobación de propiedades, cuando se
+-- trata con igualdades se usa la igualdad conjuntista (definida por la
+-- función iguales) en lugar de la igualdad de lista (definida por ==)
+-- ---------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------
 -- Ejercicio 4. Comprobar con QuickCheck que la unión es conmutativa.
 -- ---------------------------------------------------------------------
 
