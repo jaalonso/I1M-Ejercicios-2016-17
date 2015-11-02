@@ -96,7 +96,7 @@ union :: Eq a => [a] -> [a] -> [a]
 union xs ys = undefined
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.2. Definir, por comprensión, la función
+-- Ejercicio 3.2. Definir, por recursión, la función
 --    unionR :: Eq a => [a] -> [a] -> [a]
 -- tal que (unionR xs ys) es la unión de los conjuntos xs e ys. Por
 -- ejemplo, 
@@ -252,24 +252,24 @@ prop_diferencia_interseccion xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.1. Definir, por comprensión, la función
---    producto :: Eq a => [a] -> [a] -> [(a,a)]
+--    producto :: [a] -> [a] -> [(a,a)]
 -- tal que (producto xs ys) es el producto cartesiano de xs e ys. Por
 -- ejemplo, 
 --   producto [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
 -- ---------------------------------------------------------------------
 
-producto :: Eq a => [a] -> [a] -> [(a,a)]
+producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Definir, por recursión, la función
---    productoR :: Eq a => [a] -> [a] -> [(a,a)]
+--    productoR :: [a] -> [a] -> [(a,a)]
 -- tal que (productoR xs ys) es el producto cartesiano de xs e ys. Por
 -- ejemplo, 
 --   productoR [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
 -- ---------------------------------------------------------------------
 
-productoR :: Eq a => [a] -> [a] -> [(a,a)]
+productoR :: [a] -> [a] -> [(a,a)]
 productoR = undefined
 
 -- ---------------------------------------------------------------------
