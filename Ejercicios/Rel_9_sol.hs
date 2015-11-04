@@ -21,14 +21,20 @@ import Test.QuickCheck
 -- ---------------------------------------------------------------------
 
 -- guache paocabper erisancha alvalvdom1 ivaruicam enrvalmor manvermor
--- pabmorgar 
+-- pabmorgar silgongal lucgamgal abrdelrod
 subconjunto :: Eq a => [a] -> [a] -> Bool
 subconjunto xs ys = and [elem x ys | x <- xs]
 
 -- guache marcamde3 manpende marvilmor juamorrom1 josllagam anaagusil
--- isrbelnun javoliher 
+-- isrbelnun javoliher blaruiher javperlag
 subconjunto2 :: Eq a => [a] -> [a] -> Bool
 subconjunto2 xs ys = xs == [x | x <- xs, elem x ys]
+
+-- fracruzam
+subconjunto3 :: Eq a => [a] -> [a] -> Bool
+subconjunto3 xs ys = null (filter (\x -> not (elem x ys)) xs)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir, por recursión, la función
@@ -40,7 +46,8 @@ subconjunto2 xs ys = xs == [x | x <- xs, elem x ys]
 --    subconjuntoR [3,2,3] [2,5,6,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- guache paocabper rubvilval isrbelnun javoliher
+-- guache paocabper rubvilval isrbelnun javoliher silgongal lucgamgal
+-- fracruzam javperlag blaruiher
 subconjuntoR :: Eq a => [a] -> [a] -> Bool
 subconjuntoR [] _      = True
 subconjuntoR (x:xs) ys = elem x ys && subconjunto xs ys
@@ -53,7 +60,7 @@ subconjuntoR2 (x:xs) ys = elem x ys && subconjuntoR2 xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manpende ivaruicam marvilmor josllagam enrvalmor
+-- manpende ivaruicam marvilmor josllagam enrvalmor abrdelrod
 subconjuntoR3 :: Eq a => [a] -> [a] -> Bool
 subconjuntoR3 [] _ = True
 subconjuntoR3 (x:xs) ys | elem x ys = subconjuntoR3 xs ys
@@ -71,8 +78,8 @@ subconjuntoR4 (x:xs) ys = any (== x) ys && subconjuntoR xs ys
 
 -- guache paocabper erisancha marcamde3 manpende alvalvdom1 ivaruicam
 -- marvilmor juamorrom1 josllagam enrvalmor anaagusil manvermor
--- pabmorgar isrbelnun javoliher rubvilval
-
+-- pabmorgar isrbelnun javoliher rubvilval silgongal lucgamgal fracruzam
+-- javperlag blaruiher abrdelrod
 -- La propiedad es
 prop_subconjuntoR :: [Int] -> [Int] -> Bool
 prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
@@ -92,7 +99,8 @@ prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
 
 -- guache paocabper erisancha marcamde3 manpende alvalvdom1 marvilmor
 -- juamorrom1 enrvalmor anaagusil josllagam pabmorgar isrbelnun
--- javoliher rubvilval ivaruicam
+-- javoliher rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag
+-- blaruiher abrdelrod
 
 subconjuntoA :: Eq a => [a] -> [a] -> Bool
 subconjuntoA xs ys =  all (`elem` ys) xs
@@ -104,7 +112,8 @@ subconjuntoA xs ys =  all (`elem` ys) xs
 
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
 -- enrvalmor marcamde3 anaagusil josllagam pabmorgar isrbelnun javoliher
--- rubvilval ivaruicam
+-- rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher
+-- abrdelrod
 
 -- La propiedad es
 prop_subconjuntoA :: [Int] -> [Int] -> Bool
@@ -127,8 +136,7 @@ prop_subconjuntoA xs ys = subconjuntoA xs ys == subconjunto xs ys
 
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
 -- enrvalmor anaagusil manvermor pabmorgar josllagam isrbelnun javoliher
--- ivaruicam
-
+-- ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher abrdelrod
 iguales :: Eq a => [a] -> [a] -> Bool
 iguales xs ys = subconjunto xs ys && subconjunto ys xs
 
@@ -145,8 +153,8 @@ iguales2 xs ys = all (`elem` xs) ys && all (`elem` ys) xs
 -- ---------------------------------------------------------------------
 
 -- guache paocabper erisancha marcamde3 enrvalmor anaagusil manvermor
--- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam
-
+-- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam 
+-- silgongal juamorrom1 lucgamgal javperlag blaruiher abrdelrod
 union :: Eq a => [a] -> [a] -> [a]
 union xs ys = xs ++ [x | x <- ys, notElem x xs] 
 
@@ -167,7 +175,7 @@ unionR (x:xs) ys | all (/= x) ys = x: unionR xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor
+-- manvermor blaruiher
 unionR2 :: Eq a => [a] -> [a] -> [a]
 unionR2 [] ys = ys
 unionR2 xs [] = xs
@@ -176,11 +184,10 @@ unionR2 (x:xs) ys | notElem x ys = [x] ++ unionR2 xs ys
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam
-
+-- josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam enrvalmor
+-- silgongal lucgamgal javperlag abrdelrod
 unionR3 :: Eq a => [a] -> [a] -> [a]
 unionR3 [] ys = ys
-unionR3 xs [] = xs
 unionR3 (x:xs) ys | elem x ys = unionR xs ys 
                   | otherwise = x : unionR xs ys
 
@@ -193,7 +200,7 @@ unionR3 (x:xs) ys | elem x ys = unionR xs ys
 
 -- guache paocabper manpende marvilmor anaagusil manvermor juamorrom1
 -- enrvalmor josllagam isrbelnun alvalvdom1 javoliher rubvilval
--- ivaruicam 
+-- ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher abrdelrod
 
 -- La propiedad es
 prop_union :: [Int] -> [Int] -> Bool
@@ -222,7 +229,8 @@ prop_union3 xs ys = union xs ys `iguales` unionR xs ys
 -- ---------------------------------------------------------------------
  
 -- guache paocabper manpende enrvalmor anaagusil manvermor juamorrom1
--- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam
+-- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam silgongal
+-- fracruzam lucgamgal javperlag blaruiher abrdelrod
 
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
@@ -247,7 +255,7 @@ prop_union_conmutativa2 xs ys = union xs ys `iguales` union ys xs
 
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor enrvalmor
 -- pabmorgar anaagusil manvermor josllagam isrbelnun javoliher rubvilval
--- ivaruicam  
+-- ivaruicam silgongal lucgamgal javperlag blaruiher abrdelrod
 
 interseccion :: Eq a => [a] -> [a] -> [a]
 interseccion xs ys = [x | x <- xs, elem x ys]
@@ -257,6 +265,10 @@ interseccion2 :: Eq a => [a] -> [a] -> [a]
 interseccion2 xs ys = [x | x <- xs, any (==x) ys]
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam
+interseccion3 :: Eq a => [a] -> [a] -> [a]
+interseccion3 xs ys = filter (`elem` ys) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por recursión, la función
@@ -268,13 +280,14 @@ interseccion2 xs ys = [x | x <- xs, any (==x) ys]
 -- ---------------------------------------------------------------------
 
 -- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam alvalvdom1 rubvilval
+-- pabmorgar josllagam alvalvdom1 rubvilval silgongal fracruzam
+-- lucgamgal blaruiher abrdelrod
 interseccionR :: Eq a => [a] -> [a] -> [a]
 interseccionR (x:xs) ys | elem x ys = x : interseccionR xs ys
                         | otherwise = interseccionR xs ys
 interseccionR _ _ = []
 
--- isrbelnun javoliher ivaruicam
+-- isrbelnun javoliher ivaruicam javperlag
 interseccionR2 :: Eq a => [a] -> [a] -> [a]
 interseccionR2 xs [] = []
 interseccionR2 [] xs = []
@@ -288,8 +301,9 @@ interseccionR2 (x:xs) ys | elem x ys = x : interseccion xs ys
 -- interseccionR son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache manpende enrvalmor anaagusil manvermor juamorrom1
--- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam
+-- guache manpende enrvalmor anaagusil manvermor juamorrom1 javperlag
+-- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam silgongal
+-- fracruzam lucgamgal blaruiher abrdelrod
 
 -- La propiedad es
 prop_interseccion :: [Int] -> [Int] -> Bool
@@ -315,7 +329,7 @@ prop_interseccion2 xs ys =
 
 -- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
 -- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval
--- ivaruicam 
+-- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
 prop_union_interseccion xs ys zs = 
@@ -347,9 +361,15 @@ prop_union_interseccion xs ys zs =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval
--- ivaruicam 
+-- ivaruicam silgongal javperlag blaruiher lucgamgal abrdelrod
 diferencia :: Eq a => [a] -> [a] -> [a]
 diferencia xs ys = [x | x <- xs, notElem x ys]
+
+-- fracruzam
+diferencia2 :: Eq a => [a] -> [a] -> [a]
+diferencia2 xs ys = filter (\ x -> not (elem x ys)) xs
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Definir, por recursión, la función
@@ -361,7 +381,7 @@ diferencia xs ys = [x | x <- xs, notElem x ys]
 --    diferenciaR [3,2,5] [5,7,3,2]    ==  []
 -- ---------------------------------------------------------------------
 
--- guache enrvalmor anaagusil pabmorgar
+-- guache enrvalmor anaagusil pabmorgar silgongal fracruzam blaruiher
 diferenciaR :: Eq a => [a] -> [a] -> [a]
 diferenciaR (x:xs) ys | notElem x ys = x : diferenciaR  xs ys
                       | otherwise    = diferenciaR  xs ys
@@ -377,7 +397,7 @@ diferenciaR2 [] ys = []
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- rubvilval ivaruicam
+-- rubvilval ivaruicam javperlag lucgamgal abrdelrod
 diferenciaR3 :: Eq a => [a] -> [a] -> [a]
 diferenciaR3 [] _ = []
 diferenciaR3 (x:xs) ys | elem x ys = diferenciaR xs ys
@@ -389,7 +409,8 @@ diferenciaR3 (x:xs) ys | elem x ys = diferenciaR xs ys
 -- ---------------------------------------------------------------------
 
 -- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1 
--- josllagam isrbelnun rubvilval ivaruicam
+-- josllagam isrbelnun rubvilval ivaruicam silgongal fracruzam javperlag
+-- blaruiher lucgamgal abrdelrod
 
 -- La propiedad es
 prop_diferencia :: [Int] -> [Int] -> Bool
@@ -409,7 +430,8 @@ prop_diferencia2 xs ys = diferencia xs ys `iguales` diferenciaR xs ys
 -- ---------------------------------------------------------------------
 
 -- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1
--- isrbelnun javoliher rubvilval ivaruicam
+-- isrbelnun javoliher rubvilval ivaruicam silgongal fracruzam javperlag 
+-- blaruiher lucgamgal abrdelrod
 
 prop_diferencia_conmutativa :: [Int] -> [Int] -> Bool
 prop_diferencia_conmutativa xs ys =  
@@ -433,7 +455,7 @@ prop_diferencia_conmutativa2 xs ys =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam
-
+-- silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
 -- La propiedad es
 prop_diferencia_subconjunto :: [Int] -> [Int] -> Bool
 prop_diferencia_subconjunto xs ys = subconjunto (diferencia xs ys) xs
@@ -449,7 +471,8 @@ prop_diferencia_subconjunto xs ys = subconjunto (diferencia xs ys) xs
 -- ---------------------------------------------------------------------
 
 -- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam
+-- pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam silgongal
+-- fracruzam javperlag blarioher lucgamgal abrdelrod
 
 -- La propiedad es
 prop_diferencia_interseccion :: [Int] -> [Int] -> Bool
@@ -470,7 +493,7 @@ prop_diferencia_interseccion xs ys =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar isrbelnun josllagam javoliher rubvilval
--- ivaruicam 
+-- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
 producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = [(a,b) |a <- xs, b <- ys]
 
@@ -496,13 +519,13 @@ aux :: a -> [a] -> [(a,a)]
 aux x []    = []
 aux x (a:b) = (x,a) : (aux x b)
 
---  manvermor
+--  manvermor fracruzam
 productoR6 :: [a] -> [a] -> [(a,a)]
 productoR6 [] ys     = []
 productoR6 xs []     = []
 productoR6 (x:xs) ys = zip (replicate (length ys) x) ys ++ productoR6 xs ys
 
--- isrbelnun
+-- isrbelnun abrdelrod
 productoR3 :: Eq a => [a] -> [a] -> [(a,a)]
 productoR3 [] _ = []
 productoR3 _ [] = []
@@ -511,7 +534,7 @@ productoR3 (x:xs) (y:ys) =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- josllagam rubvilval
+-- josllagam rubvilval silgongal javperlag blaruiher lucgamgal
 productoR7 :: Eq a => [a] -> [a] -> [(a,a)]
 productoR7 [] _      = []
 productoR7 (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
@@ -524,13 +547,19 @@ productoR8 (x:xs) ys = zip (repeat x) ys ++ productoR8 xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- enrvalmor
+productoR9 :: Eq a => [a] -> [a] -> [(a,a)]
+productoR9 (x:xs) (y:z:ys) = (x,y) : (x,z) : productoR xs (y:z:ys) 
+productoR9  _        _     = []
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Comprobar con QuickCheck que producto y productoR 
 -- son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1 pabmorgar
--- josllagam rubvilval
+-- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
+-- pabmorgar josllagam rubvilval alvalvdom1 fracruzam javperlag
+-- blaruiher lucgamgal abrdelrod 
 
 -- La propiedad es
 prop_producto :: [Int] -> [Int] -> Bool
@@ -540,7 +569,7 @@ prop_producto xs ys = productoR xs ys == producto xs ys
 --    *Main> quickCheck prop_producto
 --    +++ OK, passed 100 tests.
 
--- isrbelnun
+-- isrbelnun silgongal
 prop_producto2 :: [Int] -> [Int] -> Bool
 prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 
@@ -551,7 +580,8 @@ prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 enrvalmor anaagusil manvermor pabmorgar isrbelnun
--- josllagam javoliher rubvilval
+-- josllagam javoliher rubvilval silgongal fracruzam javperlag blaruiher
+-- lucgamgal abrdelrod
 
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
@@ -575,18 +605,16 @@ prop_elementos_producto xs ys =
 -- ---------------------------------------------------------------------
 
 -- guache erisancha enrvalmor anaagusil isrbelnun josllagam rubvilval
+-- silgongal javperlag blaruiher lucgamgal abrdelrod
 subconjuntos :: [a] -> [[a]]
 subconjuntos []     = [[]]
-subconjuntos (x:xs) = subconjuntos xs ++ [x:ys | ys <- subconjuntos xs] 
-
--- Comentario: La definición anterior se puede mejorar.
-
--- guache 
+subconjuntos (x:xs) = zs ++ [x:ys | ys <- zs] 
+        where zs = subconjuntos xs 
+-- guache fracruzam
 subconjuntos2 :: [a] -> [[a]]
 subconjuntos2 []  = [[]]
-subconjuntos2 (x:xs) = subconjuntos2 xs ++ map (x:) (subconjuntos2 xs)
-
--- Comentario: La definición anterior se puede mejorar.
+subconjuntos2 (x:xs) = zs ++ map (x:) (zs)
+        where zs =  subconjuntos2 xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Comprobar con QuickChek que el número de elementos de
@@ -598,7 +626,8 @@ subconjuntos2 (x:xs) = subconjuntos2 xs ++ map (x:) (subconjuntos2 xs)
 -- ---------------------------------------------------------------------
 
 -- guache erisancha enrvalmor anaagusil juamorrom1 pabmorgar isrbelnun
--- josllagam javoliher rubvilval
+-- josllagam javoliher rubvilval silgongal alvalvdom1 fracruzam
+-- javperlag blaruiher lucgamgal abrdelrod
 
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
