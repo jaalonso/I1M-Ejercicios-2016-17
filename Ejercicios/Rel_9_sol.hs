@@ -21,12 +21,12 @@ import Test.QuickCheck
 -- ---------------------------------------------------------------------
 
 -- guache paocabper erisancha alvalvdom1 ivaruicam enrvalmor manvermor
--- pabmorgar silgongal lucgamgal abrdelrod
+-- pabmorgar silgongal lucgamgal abrdelrod alebergon
 subconjunto :: Eq a => [a] -> [a] -> Bool
 subconjunto xs ys = and [elem x ys | x <- xs]
 
 -- guache marcamde3 manpende marvilmor juamorrom1 josllagam anaagusil
--- isrbelnun javoliher blaruiher javperlag
+-- isrbelnun javoliher blaruiher javperlag juanarcon
 subconjunto2 :: Eq a => [a] -> [a] -> Bool
 subconjunto2 xs ys = xs == [x | x <- xs, elem x ys]
 
@@ -60,7 +60,8 @@ subconjuntoR2 (x:xs) ys = elem x ys && subconjuntoR2 xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manpende ivaruicam marvilmor josllagam enrvalmor abrdelrod
+-- manpende ivaruicam marvilmor josllagam enrvalmor abrdelrod 
+-- juanarcon alebergon
 subconjuntoR3 :: Eq a => [a] -> [a] -> Bool
 subconjuntoR3 [] _ = True
 subconjuntoR3 (x:xs) ys | elem x ys = subconjuntoR3 xs ys
@@ -79,7 +80,7 @@ subconjuntoR4 (x:xs) ys = any (== x) ys && subconjuntoR xs ys
 -- guache paocabper erisancha marcamde3 manpende alvalvdom1 ivaruicam
 -- marvilmor juamorrom1 josllagam enrvalmor anaagusil manvermor
 -- pabmorgar isrbelnun javoliher rubvilval silgongal lucgamgal fracruzam
--- javperlag blaruiher abrdelrod
+-- javperlag blaruiher abrdelrod juanarcon alebergon
 -- La propiedad es
 prop_subconjuntoR :: [Int] -> [Int] -> Bool
 prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
@@ -100,7 +101,7 @@ prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
 -- guache paocabper erisancha marcamde3 manpende alvalvdom1 marvilmor
 -- juamorrom1 enrvalmor anaagusil josllagam pabmorgar isrbelnun
 -- javoliher rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag
--- blaruiher abrdelrod
+-- blaruiher abrdelrod juanarcon alebergon
 
 subconjuntoA :: Eq a => [a] -> [a] -> Bool
 subconjuntoA xs ys =  all (`elem` ys) xs
@@ -113,7 +114,7 @@ subconjuntoA xs ys =  all (`elem` ys) xs
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
 -- enrvalmor marcamde3 anaagusil josllagam pabmorgar isrbelnun javoliher
 -- rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher
--- abrdelrod
+-- abrdelrod juanarcon alebergon
 
 -- La propiedad es
 prop_subconjuntoA :: [Int] -> [Int] -> Bool
@@ -137,6 +138,7 @@ prop_subconjuntoA xs ys = subconjuntoA xs ys == subconjunto xs ys
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
 -- enrvalmor anaagusil manvermor pabmorgar josllagam isrbelnun javoliher
 -- ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher abrdelrod
+-- juanarcon alebergon
 iguales :: Eq a => [a] -> [a] -> Bool
 iguales xs ys = subconjunto xs ys && subconjunto ys xs
 
@@ -154,7 +156,8 @@ iguales2 xs ys = all (`elem` xs) ys && all (`elem` ys) xs
 
 -- guache paocabper erisancha marcamde3 enrvalmor anaagusil manvermor
 -- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam 
--- silgongal juamorrom1 lucgamgal javperlag blaruiher abrdelrod
+-- silgongal juamorrom1 lucgamgal javperlag blaruiher abrdelrod juanarcon
+-- alebergon
 union :: Eq a => [a] -> [a] -> [a]
 union xs ys = xs ++ [x | x <- ys, notElem x xs] 
 
@@ -184,14 +187,21 @@ unionR2 (x:xs) ys | notElem x ys = [x] ++ unionR2 xs ys
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam enrvalmor
--- silgongal lucgamgal javperlag abrdelrod
+-- josllagam isrbelnun alvalvdom1 erisancha javoliher rubvilval
+-- ivaruicam enrvalmor silgongal lucgamgal javperlag abrdelrod juanarcon 
+-- alebergon 
 unionR3 :: Eq a => [a] -> [a] -> [a]
 unionR3 [] ys = ys
 unionR3 (x:xs) ys | elem x ys = unionR xs ys 
                   | otherwise = x : unionR xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- anaagusil
+unionR4 :: Eq a => [a] -> [a] -> [a]
+unionR4 [] ys = ys
+unionR4 (x:xs) ys | notElem x ys = x : unionR xs ys
+                  | otherwise    = unionR xs ys 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que union y unionR son
@@ -210,7 +220,7 @@ prop_union xs ys = iguales (unionR xs ys)(union xs ys)
 --    *Main>  quickCheck prop_union
 --    +++ OK, passed 100 tests.
 
--- erisancha pabmorgar
+-- erisancha pabmorgar juanarcon alebergon
 prop_union3 :: [Int] -> [Int] -> Bool
 prop_union3 xs ys = union xs ys `iguales` unionR xs ys
 
@@ -240,7 +250,7 @@ prop_union_conmutativa xs ys = iguales (union xs ys) (union ys xs)
 --  *Main> quickCheck prop_union_conmutativa
 --  +++ OK, passed 100 tests.
 
--- erisancha pabmorgar josllagam
+-- erisancha pabmorgar josllagam juanarcon alebergon
 prop_union_conmutativa2 :: [Int] -> [Int] -> Bool
 prop_union_conmutativa2 xs ys = union xs ys `iguales` union ys xs
 
@@ -255,7 +265,8 @@ prop_union_conmutativa2 xs ys = union xs ys `iguales` union ys xs
 
 -- guache paocabper erisancha manpende alvalvdom1 marvilmor enrvalmor
 -- pabmorgar anaagusil manvermor josllagam isrbelnun javoliher rubvilval
--- ivaruicam silgongal lucgamgal javperlag blaruiher abrdelrod
+-- ivaruicam silgongal lucgamgal javperlag blaruiher abrdelrod juanarcon
+-- alebergon
 
 interseccion :: Eq a => [a] -> [a] -> [a]
 interseccion xs ys = [x | x <- xs, elem x ys]
@@ -281,7 +292,7 @@ interseccion3 xs ys = filter (`elem` ys) xs
 
 -- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
 -- pabmorgar josllagam alvalvdom1 rubvilval silgongal fracruzam
--- lucgamgal blaruiher abrdelrod
+-- lucgamgal blaruiher abrdelrod juanarcon paocabper alebergon
 interseccionR :: Eq a => [a] -> [a] -> [a]
 interseccionR (x:xs) ys | elem x ys = x : interseccionR xs ys
                         | otherwise = interseccionR xs ys
@@ -303,7 +314,7 @@ interseccionR2 (x:xs) ys | elem x ys = x : interseccion xs ys
 
 -- guache manpende enrvalmor anaagusil manvermor juamorrom1 javperlag
 -- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam silgongal
--- fracruzam lucgamgal blaruiher abrdelrod
+-- fracruzam lucgamgal blaruiher paocabper abrdelrod
 
 -- La propiedad es
 prop_interseccion :: [Int] -> [Int] -> Bool
@@ -314,7 +325,7 @@ prop_interseccion xs ys =
 --    > quickCheck prop_interseccion
 --    +++ OK, passed 100 tests.
  
--- erisancha pabmorgar josllagam
+-- erisancha pabmorgar josllagam juanarcon alebergon
 prop_interseccion2 :: [Int] -> [Int] -> Bool
 prop_interseccion2 xs ys = 
     interseccion xs ys `iguales` interseccionR xs ys
@@ -330,6 +341,7 @@ prop_interseccion2 xs ys =
 -- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
 -- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval
 -- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
+-- juanarcon alebergon paocabper
 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
 prop_union_interseccion xs ys zs = 
@@ -361,7 +373,8 @@ prop_union_interseccion xs ys zs =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval
--- ivaruicam silgongal javperlag blaruiher lucgamgal abrdelrod
+-- ivaruicam silgongal javperlag blaruiher lucgamgal abrdelrod juanarcon
+-- alebergon paocabper
 diferencia :: Eq a => [a] -> [a] -> [a]
 diferencia xs ys = [x | x <- xs, notElem x ys]
 
@@ -381,7 +394,8 @@ diferencia2 xs ys = filter (\ x -> not (elem x ys)) xs
 --    diferenciaR [3,2,5] [5,7,3,2]    ==  []
 -- ---------------------------------------------------------------------
 
--- guache enrvalmor anaagusil pabmorgar silgongal fracruzam blaruiher
+-- guache enrvalmor anaagusil pabmorgar silgongal paocabper fracruzam
+-- blaruiher 
 diferenciaR :: Eq a => [a] -> [a] -> [a]
 diferenciaR (x:xs) ys | notElem x ys = x : diferenciaR  xs ys
                       | otherwise    = diferenciaR  xs ys
@@ -397,7 +411,7 @@ diferenciaR2 [] ys = []
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- rubvilval ivaruicam javperlag lucgamgal abrdelrod
+-- rubvilval ivaruicam javperlag lucgamgal abrdelrod juanarcon alebergon
 diferenciaR3 :: Eq a => [a] -> [a] -> [a]
 diferenciaR3 [] _ = []
 diferenciaR3 (x:xs) ys | elem x ys = diferenciaR xs ys
@@ -410,7 +424,7 @@ diferenciaR3 (x:xs) ys | elem x ys = diferenciaR xs ys
 
 -- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1 
 -- josllagam isrbelnun rubvilval ivaruicam silgongal fracruzam javperlag
--- blaruiher lucgamgal abrdelrod
+-- blaruiher lucgamgal abrdelrod 
 
 -- La propiedad es
 prop_diferencia :: [Int] -> [Int] -> Bool
@@ -420,7 +434,7 @@ prop_diferencia xs ys = iguales (diferenciaR xs ys) (diferencia xs ys)
 --    *Main> quickCheck prop_diferencia
 --    +++ OK, passed 100 tests.
 
--- erisancha pabmorgar
+-- erisancha pabmorgar juanarcon paocabper alebergon
 prop_diferencia2 :: [Int] -> [Int] -> Bool
 prop_diferencia2 xs ys = diferencia xs ys `iguales` diferenciaR xs ys
 
@@ -431,7 +445,7 @@ prop_diferencia2 xs ys = diferencia xs ys `iguales` diferenciaR xs ys
 
 -- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1
 -- isrbelnun javoliher rubvilval ivaruicam silgongal fracruzam javperlag 
--- blaruiher lucgamgal abrdelrod
+-- blaruiher lucgamgal abrdelrod 
 
 prop_diferencia_conmutativa :: [Int] -> [Int] -> Bool
 prop_diferencia_conmutativa xs ys =  
@@ -443,7 +457,7 @@ prop_diferencia_conmutativa xs ys =
 --    []
 --    [0]
 
--- erisancha pabmorgar josllagam
+-- erisancha pabmorgar paocabper josllagam juanarcon alebergon
 prop_diferencia_conmutativa2 :: [Int] -> [Int] -> Bool
 prop_diferencia_conmutativa2 xs ys = 
     diferencia xs ys `iguales` diferencia ys xs
@@ -455,7 +469,8 @@ prop_diferencia_conmutativa2 xs ys =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam
--- silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
+-- silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod juanarcon
+-- alebergon paocabper
 -- La propiedad es
 prop_diferencia_subconjunto :: [Int] -> [Int] -> Bool
 prop_diferencia_subconjunto xs ys = subconjunto (diferencia xs ys) xs
@@ -470,9 +485,10 @@ prop_diferencia_subconjunto xs ys = subconjunto (diferencia xs ys) xs
 -- propiedad: (A \ B) ∩ B = ∅.
 -- ---------------------------------------------------------------------
 
--- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam silgongal
--- fracruzam javperlag blarioher lucgamgal abrdelrod
+-- guache manpende paocabper alvalvdom1 enrvalmor anaagusil manvermor
+-- juamorrom1 pabmorgar josllagam isrbelnun erisancha javoliher
+-- rubvilval ivaruicam silgongal fracruzam javperlag blarioher lucgamgal
+-- abrdelrod juanarcon alebergon 
 
 -- La propiedad es
 prop_diferencia_interseccion :: [Int] -> [Int] -> Bool
@@ -493,7 +509,8 @@ prop_diferencia_interseccion xs ys =
 
 -- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
 -- juamorrom1 pabmorgar isrbelnun josllagam javoliher rubvilval
--- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
+-- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod 
+-- juanarcon alebergon 
 producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = [(a,b) |a <- xs, b <- ys]
 
@@ -534,7 +551,9 @@ productoR3 (x:xs) (y:ys) =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- josllagam rubvilval silgongal javperlag blaruiher lucgamgal
+-- josllagam  paocabper rubvilval silgongal javperlag blaruiher
+-- lucgamgal anaagusil juanarcon alebergon ivaruicam
+
 productoR7 :: Eq a => [a] -> [a] -> [(a,a)]
 productoR7 [] _      = []
 productoR7 (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
@@ -547,7 +566,7 @@ productoR8 (x:xs) ys = zip (repeat x) ys ++ productoR8 xs ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- enrvalmor
+-- enrvalmor erisancha
 productoR9 :: Eq a => [a] -> [a] -> [(a,a)]
 productoR9 (x:xs) (y:z:ys) = (x,y) : (x,z) : productoR xs (y:z:ys) 
 productoR9  _        _     = []
@@ -559,7 +578,7 @@ productoR9  _        _     = []
 
 -- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
 -- pabmorgar josllagam rubvilval alvalvdom1 fracruzam javperlag
--- blaruiher lucgamgal abrdelrod 
+-- blaruiher lucgamgal abrdelrod paocabper juanarcon alebergon
 
 -- La propiedad es
 prop_producto :: [Int] -> [Int] -> Bool
@@ -569,7 +588,7 @@ prop_producto xs ys = productoR xs ys == producto xs ys
 --    *Main> quickCheck prop_producto
 --    +++ OK, passed 100 tests.
 
--- isrbelnun silgongal
+-- isrbelnun silgongal ivaruicam
 prop_producto2 :: [Int] -> [Int] -> Bool
 prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 
@@ -579,9 +598,9 @@ prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 -- ys. 
 -- ---------------------------------------------------------------------
 
--- guache alvalvdom1 enrvalmor anaagusil manvermor pabmorgar isrbelnun
--- josllagam javoliher rubvilval silgongal fracruzam javperlag blaruiher
--- lucgamgal abrdelrod
+-- guache alvalvdom1 enrvalmor anaagusil manvermor pabmorgar abrdelrod
+-- erisancha josllagam javoliher rubvilval silgongal fracruzam javperlag
+-- blaruiher lucgamgal abrdelrod paocabper juanarcon alebergon ivaruicam
 
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
@@ -605,7 +624,9 @@ prop_elementos_producto xs ys =
 -- ---------------------------------------------------------------------
 
 -- guache erisancha enrvalmor anaagusil isrbelnun josllagam rubvilval
--- silgongal javperlag blaruiher lucgamgal abrdelrod
+-- silgongal javperlag blaruiher lucgamgal abrdelrod juanarcon alebergon
+-- ivaruicam paocabper
+
 subconjuntos :: [a] -> [[a]]
 subconjuntos []     = [[]]
 subconjuntos (x:xs) = zs ++ [x:ys | ys <- zs] 
@@ -625,9 +646,10 @@ subconjuntos2 (x:xs) = zs ++ map (x:) (zs)
 --    quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor anaagusil juamorrom1 pabmorgar isrbelnun
--- josllagam javoliher rubvilval silgongal alvalvdom1 fracruzam
--- javperlag blaruiher lucgamgal abrdelrod
+-- guache paocabper erisancha enrvalmor anaagusil juamorrom1 pabmorgar
+-- isrbelnun josllagam javoliher rubvilval silgongal alvalvdom1
+-- fracruzam javperlag blaruiher lucgamgal abrdelrod juanarcon alebergon
+-- ivaruicam 
 
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
