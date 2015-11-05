@@ -1,8 +1,14 @@
--- I1M 2015-16: Rel_9.hs (31 de Octubre de 2015)
+-- I1M 2015-16: Rel_9_sol.hs (31 de Octubre de 2015)
 -- Operaciones conjuntistas con listas.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
+
+-- ---------------------------------------------------------------------
+-- Introducción                                                       --
+-- ---------------------------------------------------------------------
+
+-- En estas relación se definen operaciones conjuntistas sobre listas.
 
 -- ---------------------------------------------------------------------
 -- § Librerías auxiliares                                             --
@@ -20,21 +26,9 @@ import Test.QuickCheck
 --    subconjunto [3,2,3] [2,5,6,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha alvalvdom1 ivaruicam enrvalmor manvermor
--- pabmorgar silgongal lucgamgal abrdelrod alebergon
 subconjunto :: Eq a => [a] -> [a] -> Bool
-subconjunto xs ys = and [elem x ys | x <- xs]
-
--- guache marcamde3 manpende marvilmor juamorrom1 josllagam anaagusil
--- isrbelnun javoliher blaruiher javperlag juanarcon
-subconjunto2 :: Eq a => [a] -> [a] -> Bool
-subconjunto2 xs ys = xs == [x | x <- xs, elem x ys]
-
--- fracruzam
-subconjunto3 :: Eq a => [a] -> [a] -> Bool
-subconjunto3 xs ys = null (filter (\x -> not (elem x ys)) xs)
-
--- Comentario: La definición anterior se puede simplificar.
+subconjunto xs ys = 
+    [x | x <- xs, x `elem` ys] == xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir, por recursión, la función
@@ -46,47 +40,22 @@ subconjunto3 xs ys = null (filter (\x -> not (elem x ys)) xs)
 --    subconjuntoR [3,2,3] [2,5,6,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- guache paocabper rubvilval isrbelnun javoliher silgongal lucgamgal
--- fracruzam javperlag blaruiher
 subconjuntoR :: Eq a => [a] -> [a] -> Bool
 subconjuntoR [] _      = True
-subconjuntoR (x:xs) ys = elem x ys && subconjunto xs ys
-
--- erisancha marcamde3 alvalvdom1 anaagusil manvermor pabmorgar
-subconjuntoR2 :: Eq a => [a] -> [a] -> Bool
-subconjuntoR2 [] _      = True
-subconjuntoR2 xs []     = False
-subconjuntoR2 (x:xs) ys = elem x ys && subconjuntoR2 xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manpende ivaruicam marvilmor josllagam enrvalmor abrdelrod 
--- juanarcon alebergon
-subconjuntoR3 :: Eq a => [a] -> [a] -> Bool
-subconjuntoR3 [] _ = True
-subconjuntoR3 (x:xs) ys | elem x ys = subconjuntoR3 xs ys
-                        | otherwise = False
-
--- juamorrom1
-subconjuntoR4 :: Eq a => [a] -> [a] -> Bool
-subconjuntoR4 [] _      = True
-subconjuntoR4 (x:xs) ys = any (== x) ys && subconjuntoR xs ys
+subconjuntoR (x:xs) ys = x `elem` ys && subconjuntoR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Comprobar con QuickCheck que las definiciones
 -- subconjunto y subconjuntoR son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha marcamde3 manpende alvalvdom1 ivaruicam
--- marvilmor juamorrom1 josllagam enrvalmor anaagusil manvermor
--- pabmorgar isrbelnun javoliher rubvilval silgongal lucgamgal fracruzam
--- javperlag blaruiher abrdelrod juanarcon alebergon
 -- La propiedad es
 prop_subconjuntoR :: [Int] -> [Int] -> Bool
-prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
+prop_subconjuntoR xs ys =
+    subconjuntoR xs ys == subconjunto xs ys
 
 -- La comprobación es
---    *Main> quickCheck prop_subconjuntoR
+--    λ> quickCheck prop_subconjuntoR
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -97,33 +66,24 @@ prop_subconjuntoR xs ys = subconjuntoR xs ys == subconjunto xs ys
 --    subconjuntoA [1,3,2,3] [1,2,3]  ==  True
 --    subconjuntoA [1,3,4,3] [1,2,3]  ==  False
 -- ---------------------------------------------------------------------
-
--- guache paocabper erisancha marcamde3 manpende alvalvdom1 marvilmor
--- juamorrom1 enrvalmor anaagusil josllagam pabmorgar isrbelnun
--- javoliher rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag
--- blaruiher abrdelrod juanarcon alebergon
-
+ 
 subconjuntoA :: Eq a => [a] -> [a] -> Bool
-subconjuntoA xs ys =  all (`elem` ys) xs
-
+subconjuntoA xs ys = all (`elem` ys) xs
+ 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.5. Comprobar con QuickCheck que las funciones subconjunto
 -- y subconjuntoA son equivalentes.
 -- ---------------------------------------------------------------------
-
--- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
--- enrvalmor marcamde3 anaagusil josllagam pabmorgar isrbelnun javoliher
--- rubvilval ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher
--- abrdelrod juanarcon alebergon
-
+ 
 -- La propiedad es
 prop_subconjuntoA :: [Int] -> [Int] -> Bool
-prop_subconjuntoA xs ys = subconjuntoA xs ys == subconjunto xs ys
+prop_subconjuntoA xs ys =
+    subconjunto xs ys == subconjuntoA xs ys  
  
 -- La comprobación es
---    *Main> quickCheck prop_subconjuntoA
---    +++ OK, passed 100 tests.
-
+--    λ> quickCheck prop_subconjuntoA
+--    OK, passed 100 tests.
+ 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
 --    iguales :: Eq a => [a] -> [a] -> Bool
@@ -135,16 +95,9 @@ prop_subconjuntoA xs ys = subconjuntoA xs ys == subconjunto xs ys
 --    iguales [2,3] [4,5]      ==  False
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha manpende alvalvdom1 marvilmor juamorrom1
--- enrvalmor anaagusil manvermor pabmorgar josllagam isrbelnun javoliher
--- ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher abrdelrod
--- juanarcon alebergon
 iguales :: Eq a => [a] -> [a] -> Bool
-iguales xs ys = subconjunto xs ys && subconjunto ys xs
-
--- marcamde3
-iguales2 :: Eq a => [a] -> [a] -> Bool
-iguales2 xs ys = all (`elem` xs) ys && all (`elem` ys) xs
+iguales xs ys =
+    subconjunto xs ys && subconjunto ys xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir, por comprensión, la función
@@ -154,12 +107,8 @@ iguales2 xs ys = all (`elem` xs) ys && all (`elem` ys) xs
 --    union [3,2,5] [5,7,3,4]  ==  [3,2,5,7,4]
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha marcamde3 enrvalmor anaagusil manvermor
--- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval ivaruicam 
--- silgongal juamorrom1 lucgamgal javperlag blaruiher abrdelrod juanarcon
--- alebergon
 union :: Eq a => [a] -> [a] -> [a]
-union xs ys = xs ++ [x | x <- ys, notElem x xs] 
+union xs ys = xs ++ [y | y <- ys, y `notElem` xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
@@ -169,63 +118,23 @@ union xs ys = xs ++ [x | x <- ys, notElem x xs]
 --    unionR [3,2,5] [5,7,3,4]  ==  [2,5,7,3,4]
 -- ---------------------------------------------------------------------
 
--- juamorrom1
 unionR :: Eq a => [a] -> [a] -> [a]
-unionR [] ys = ys
-unionR xs [] = xs
-unionR (x:xs) ys | all (/= x) ys = x: unionR xs ys
-                 | otherwise     = unionR xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manvermor blaruiher
-unionR2 :: Eq a => [a] -> [a] -> [a]
-unionR2 [] ys = ys
-unionR2 xs [] = xs
-unionR2 (x:xs) ys | notElem x ys = [x] ++ unionR2 xs ys
-                  | otherwise    = unionR2 xs ys
-
--- Comentario: La definición anterior se puede mejorar.
-
--- josllagam isrbelnun alvalvdom1 erisancha javoliher rubvilval
--- ivaruicam enrvalmor silgongal lucgamgal javperlag abrdelrod juanarcon 
--- alebergon 
-unionR3 :: Eq a => [a] -> [a] -> [a]
-unionR3 [] ys = ys
-unionR3 (x:xs) ys | elem x ys = unionR xs ys 
-                  | otherwise = x : unionR xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- anaagusil
-unionR4 :: Eq a => [a] -> [a] -> [a]
-unionR4 [] ys = ys
-unionR4 (x:xs) ys | notElem x ys = x : unionR xs ys
-                  | otherwise    = unionR xs ys 
+unionR []     ys = ys
+unionR (x:xs) ys | x `elem` ys = union xs ys
+                  | otherwise   = x : union xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que union y unionR son
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- guache paocabper manpende marvilmor anaagusil manvermor juamorrom1
--- enrvalmor josllagam isrbelnun alvalvdom1 javoliher rubvilval
--- ivaruicam silgongal fracruzam lucgamgal javperlag blaruiher abrdelrod
-
 -- La propiedad es
 prop_union :: [Int] -> [Int] -> Bool
-prop_union xs ys = iguales (unionR xs ys)(union xs ys)
+prop_union xs ys =
+    union xs ys `iguales` unionR xs ys
 
 -- La comprobación es
---    *Main>  quickCheck prop_union
---    +++ OK, passed 100 tests.
-
--- erisancha pabmorgar juanarcon alebergon
-prop_union3 :: [Int] -> [Int] -> Bool
-prop_union3 xs ys = union xs ys `iguales` unionR xs ys
-
--- La comprobación es
---    *Main> quickCheck prop_union
+--    λ> quickCheck prop_union
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -237,22 +146,15 @@ prop_union3 xs ys = union xs ys `iguales` unionR xs ys
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Comprobar con QuickCheck que la unión es conmutativa.
 -- ---------------------------------------------------------------------
- 
--- guache paocabper manpende enrvalmor anaagusil manvermor juamorrom1
--- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam silgongal
--- fracruzam lucgamgal javperlag blaruiher abrdelrod
 
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
-prop_union_conmutativa xs ys = iguales (union xs ys) (union ys xs)
+prop_union_conmutativa xs ys =
+    union xs ys `iguales` union ys xs
 
 -- La comprobación es
---  *Main> quickCheck prop_union_conmutativa
---  +++ OK, passed 100 tests.
-
--- erisancha pabmorgar josllagam juanarcon alebergon
-prop_union_conmutativa2 :: [Int] -> [Int] -> Bool
-prop_union_conmutativa2 xs ys = union xs ys `iguales` union ys xs
+--    λ> quickCheck prop_union_conmutativa
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.1. Definir, por comprensión, la función
@@ -263,23 +165,9 @@ prop_union_conmutativa2 xs ys = union xs ys `iguales` union ys xs
 --    interseccion [3,2,5] [9,7,6,4]  ==  []
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha manpende alvalvdom1 marvilmor enrvalmor
--- pabmorgar anaagusil manvermor josllagam isrbelnun javoliher rubvilval
--- ivaruicam silgongal lucgamgal javperlag blaruiher abrdelrod juanarcon
--- alebergon
-
 interseccion :: Eq a => [a] -> [a] -> [a]
-interseccion xs ys = [x | x <- xs, elem x ys]
-
--- juamorrom1
-interseccion2 :: Eq a => [a] -> [a] -> [a]
-interseccion2 xs ys = [x | x <- xs, any (==x) ys]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam
-interseccion3 :: Eq a => [a] -> [a] -> [a]
-interseccion3 xs ys = filter (`elem` ys) xs
+interseccion xs ys =
+    [x | x <- xs, x `elem` ys]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por recursión, la función
@@ -290,45 +178,24 @@ interseccion3 xs ys = filter (`elem` ys) xs
 --    interseccionR [3,2,5] [9,7,6,4]  ==  []
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam alvalvdom1 rubvilval silgongal fracruzam
--- lucgamgal blaruiher abrdelrod juanarcon paocabper alebergon
 interseccionR :: Eq a => [a] -> [a] -> [a]
-interseccionR (x:xs) ys | elem x ys = x : interseccionR xs ys
-                        | otherwise = interseccionR xs ys
-interseccionR _ _ = []
-
--- isrbelnun javoliher ivaruicam javperlag
-interseccionR2 :: Eq a => [a] -> [a] -> [a]
-interseccionR2 xs [] = []
-interseccionR2 [] xs = []
-interseccionR2 (x:xs) ys | elem x ys = x : interseccion xs ys
-                         | otherwise = interseccion xs ys
-
--- Comentario: La definición anterior se puede simplificar.
+interseccionR []     ys = []
+interseccionR (x:xs) ys | x `elem` ys = x : interseccionR xs ys
+                        | otherwise   = interseccionR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que interseccion e
 -- interseccionR son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache manpende enrvalmor anaagusil manvermor juamorrom1 javperlag
--- isrbelnun alvalvdom1 javoliher rubvilval ivaruicam silgongal
--- fracruzam lucgamgal blaruiher paocabper abrdelrod
-
 -- La propiedad es
 prop_interseccion :: [Int] -> [Int] -> Bool
-prop_interseccion xs ys = 
-    iguales (interseccionR xs ys) (interseccion xs ys)
+prop_interseccion xs ys =
+    interseccion xs ys `iguales` interseccionR xs ys
 
 -- La comprobación es
---    > quickCheck prop_interseccion
+--    λ> quickCheck prop_interseccion
 --    +++ OK, passed 100 tests.
- 
--- erisancha pabmorgar josllagam juanarcon alebergon
-prop_interseccion2 :: [Int] -> [Int] -> Bool
-prop_interseccion2 xs ys = 
-    interseccion xs ys `iguales` interseccionR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Comprobar con QuickCheck si se cumple la siguiente
@@ -338,28 +205,23 @@ prop_interseccion2 xs ys =
 -- se cumpla verificar el contraejemplo calculado por QuickCheck.
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam isrbelnun alvalvdom1 javoliher rubvilval
--- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod
--- juanarcon alebergon paocabper
-
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
-prop_union_interseccion xs ys zs = 
-    iguales (union xs (interseccion ys zs)) 
-            (interseccion zs (union xs ys))
+prop_union_interseccion xs ys zs =
+    iguales (union xs (interseccion ys zs))
+            (interseccion (union xs ys) zs)
 
 -- La comprobación es 
---    *Main> quickCheck prop_union_interseccion
---    *** Failed! Falsifiable (after 2 tests): 
+--    λ> quickCheck prop_union_interseccion
+--    *** Failed! Falsifiable (after 3 tests and 2 shrinks): 
 --    [0]
 --    []
 --    []
 -- 
--- Un contraejemplo es A = [0]  B = C = []
---    A ∪ (B ∩ C) = [0] ∪ ([] ∩ []) = [0]  
---    (A ∪ B) ∩ C = ([0] ∪ []) ∩ [] = [] 
---    [0] /= []    
--- entonces hemos probado que esa propiedad no se cumple en general.
+-- Por tanto, la propiedad no se cumple y un contraejemplo es 
+--    A = [0], B = [] y C = []
+-- ya que entonces,
+--    A ∪ (B ∩ C) = [0] ∪ ([] ∩ []) = [0] ∪ [] = [0] 
+--    (A ∪ B) ∩ C = ([0] ∪ []) ∩ [] = [0] ∩ [] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1. Definir, por comprensión, la función
@@ -371,18 +233,8 @@ prop_union_interseccion xs ys zs =
 --    diferencia [3,2,5] [5,7,3,2]    ==  []
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
--- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval
--- ivaruicam silgongal javperlag blaruiher lucgamgal abrdelrod juanarcon
--- alebergon paocabper
 diferencia :: Eq a => [a] -> [a] -> [a]
-diferencia xs ys = [x | x <- xs, notElem x ys]
-
--- fracruzam
-diferencia2 :: Eq a => [a] -> [a] -> [a]
-diferencia2 xs ys = filter (\ x -> not (elem x ys)) xs
-
--- Comentario: La definición anterior se puede simplificar.
+diferencia xs ys = [x | x <- xs, x `notElem` ys]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Definir, por recursión, la función
@@ -394,109 +246,69 @@ diferencia2 xs ys = filter (\ x -> not (elem x ys)) xs
 --    diferenciaR [3,2,5] [5,7,3,2]    ==  []
 -- ---------------------------------------------------------------------
 
--- guache enrvalmor anaagusil pabmorgar silgongal paocabper fracruzam
--- blaruiher 
 diferenciaR :: Eq a => [a] -> [a] -> [a]
-diferenciaR (x:xs) ys | notElem x ys = x : diferenciaR  xs ys
-                      | otherwise    = diferenciaR  xs ys
-diferenciaR x _ = x
-
--- erisancha manpende alvalvdom1 manvermor juamorrom1 josllagam
--- isrbelnun javoliher
-diferenciaR2 :: Eq a => [a] -> [a] -> [a]
-diferenciaR2 (x:xs) ys | notElem x ys = x : diferenciaR2  xs ys
-                       | otherwise    = diferenciaR2  xs ys
-diferenciaR2 xs [] = xs
-diferenciaR2 [] ys = []
-
--- Comentario: La definición anterior se puede simplificar.
-
--- rubvilval ivaruicam javperlag lucgamgal abrdelrod juanarcon alebergon
-diferenciaR3 :: Eq a => [a] -> [a] -> [a]
-diferenciaR3 [] _ = []
-diferenciaR3 (x:xs) ys | elem x ys = diferenciaR xs ys
-                       | otherwise = x : diferenciaR xs ys
+diferenciaR [] ys = []
+diferenciaR (x:xs) ys | x `elem` ys = diferenciaR xs ys
+                      | otherwise   = x : diferenciaR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Comprobar con QuickCheck que diferencia y diferenciaR 
 -- son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1 
--- josllagam isrbelnun rubvilval ivaruicam silgongal fracruzam javperlag
--- blaruiher lucgamgal abrdelrod 
-
 -- La propiedad es
 prop_diferencia :: [Int] -> [Int] -> Bool
-prop_diferencia xs ys = iguales (diferenciaR xs ys) (diferencia xs ys)
+prop_diferencia xs ys =
+    diferencia xs ys `iguales` diferenciaR xs ys
 
 -- La comprobación es
---    *Main> quickCheck prop_diferencia
+--    λ> quickCheck prop_diferencia
 --    +++ OK, passed 100 tests.
-
--- erisancha pabmorgar juanarcon paocabper alebergon
-prop_diferencia2 :: [Int] -> [Int] -> Bool
-prop_diferencia2 xs ys = diferencia xs ys `iguales` diferenciaR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck si la diferencia es
 -- conmutativa. 
 -- ---------------------------------------------------------------------
 
--- guache manpende alvalvdom1 enrvalmor anaagusil manvermor juamorrom1
--- isrbelnun javoliher rubvilval ivaruicam silgongal fracruzam javperlag 
--- blaruiher lucgamgal abrdelrod 
-
 prop_diferencia_conmutativa :: [Int] -> [Int] -> Bool
-prop_diferencia_conmutativa xs ys =  
+prop_diferencia_conmutativa xs ys =
     iguales (diferencia xs ys) (diferencia ys xs)
 
 -- La comprobación es
---    *Main Data.List> quickCheck prop_diferencia_conmutativa
---    *** Failed! Falsifiable (after 2 tests): 
---    []
+--    λ> quickCheck prop_diferencia_conmutativa
+--    *** Failed! Falsifiable (after 2 tests and 2 shrinks): 
 --    [0]
-
--- erisancha pabmorgar paocabper josllagam juanarcon alebergon
-prop_diferencia_conmutativa2 :: [Int] -> [Int] -> Bool
-prop_diferencia_conmutativa2 xs ys = 
-    diferencia xs ys `iguales` diferencia ys xs
+--    []
+-- que es un contraejemplo, ya que
+--    [0] - [] = [0]
+--    [] - [0] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Comprobar con QuickCheck si se cumple la siguiente
 -- propiedad: A \ B ⊂ A
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
--- juamorrom1 pabmorgar josllagam isrbelnun javoliher rubvilval ivaruicam
--- silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod juanarcon
--- alebergon paocabper
 -- La propiedad es
 prop_diferencia_subconjunto :: [Int] -> [Int] -> Bool
-prop_diferencia_subconjunto xs ys = subconjunto (diferencia xs ys) xs
+prop_diferencia_subconjunto xs ys =
+    subconjunto (diferencia xs ys) xs
 
 -- La comprobación es
---    > quickCheck prop_diferencia_subconjunto
+--    λ> quickCheck prop_diferencia_subconjunto
 --    +++ OK, passed 100 tests.
-
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Comprobar con QuickCheck si se cumple la siguiente
 -- propiedad: (A \ B) ∩ B = ∅.
 -- ---------------------------------------------------------------------
 
--- guache manpende paocabper alvalvdom1 enrvalmor anaagusil manvermor
--- juamorrom1 pabmorgar josllagam isrbelnun erisancha javoliher
--- rubvilval ivaruicam silgongal fracruzam javperlag blarioher lucgamgal
--- abrdelrod juanarcon alebergon 
-
 -- La propiedad es
 prop_diferencia_interseccion :: [Int] -> [Int] -> Bool
-prop_diferencia_interseccion xs ys = 
-     iguales (interseccion (diferencia xs ys) ys) []
+prop_diferencia_interseccion xs ys =
+    interseccion (diferencia xs ys) ys == []
                 
 -- La comprobación es
---    *Main> quickCheck prop_diferencia_interseccion
+--    λ> quickCheck prop_diferencia_interseccion
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -507,12 +319,8 @@ prop_diferencia_interseccion xs ys =
 --   producto [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende alvalvdom1 enrvalmor anaagusil manvermor
--- juamorrom1 pabmorgar isrbelnun josllagam javoliher rubvilval
--- ivaruicam silgongal fracruzam javperlag blaruiher lucgamgal abrdelrod 
--- juanarcon alebergon 
 producto :: [a] -> [a] -> [(a,a)]
-producto xs ys = [(a,b) |a <- xs, b <- ys]
+producto xs ys = [(x,y) | x <- xs, y <- ys]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Definir, por recursión, la función
@@ -522,75 +330,23 @@ producto xs ys = [(a,b) |a <- xs, b <- ys]
 --   productoR [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
 -- ---------------------------------------------------------------------
 
--- guache
-productoR:: [a] -> [b] -> [(a, b)]
-productoR (x:xs) ys = map (\y -> (x,y)) ys ++ productoR xs ys
-productoR _      _  = []
-
--- guache
-productoR2 :: [a] -> [a] -> [(a,a)]
-productoR2 [] ys    = []
-productoR2 (a:b) ys = (aux a ys) ++ (productoR2 b ys)
-
-aux :: a -> [a] -> [(a,a)]
-aux x []    = []
-aux x (a:b) = (x,a) : (aux x b)
-
---  manvermor fracruzam
-productoR6 :: [a] -> [a] -> [(a,a)]
-productoR6 [] ys     = []
-productoR6 xs []     = []
-productoR6 (x:xs) ys = zip (replicate (length ys) x) ys ++ productoR6 xs ys
-
--- isrbelnun abrdelrod
-productoR3 :: Eq a => [a] -> [a] -> [(a,a)]
-productoR3 [] _ = []
-productoR3 _ [] = []
-productoR3 (x:xs) (y:ys) = 
-    (x,y) : (productoR [x] ys ++ productoR xs [y] ++ producto xs ys)
-
--- Comentario: La definición anterior se puede simplificar.
-
--- josllagam  paocabper rubvilval silgongal javperlag blaruiher
--- lucgamgal anaagusil juanarcon alebergon ivaruicam
-
-productoR7 :: Eq a => [a] -> [a] -> [(a,a)]
-productoR7 [] _      = []
-productoR7 (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
-
--- javoliher
-productoR8 :: Eq a => [a] -> [a] -> [(a,a)]
-productoR8 [] ys     = []
-productoR8 xs []     = []
-productoR8 (x:xs) ys = zip (repeat x) ys ++ productoR8 xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- enrvalmor erisancha
-productoR9 :: Eq a => [a] -> [a] -> [(a,a)]
-productoR9 (x:xs) (y:z:ys) = (x,y) : (x,z) : productoR xs (y:z:ys) 
-productoR9  _        _     = []
+productoR :: [a] -> [a] -> [(a,a)]
+productoR []     _  = []
+productoR (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Comprobar con QuickCheck que producto y productoR 
 -- son equivalentes.
 -- ---------------------------------------------------------------------
 
--- guache erisancha manpende enrvalmor anaagusil manvermor juamorrom1
--- pabmorgar josllagam rubvilval alvalvdom1 fracruzam javperlag
--- blaruiher lucgamgal abrdelrod paocabper juanarcon alebergon
-
 -- La propiedad es
 prop_producto :: [Int] -> [Int] -> Bool
-prop_producto xs ys = productoR xs ys == producto xs ys
+prop_producto xs ys =
+    producto xs ys `iguales` productoR xs ys
 
 -- La comprobación es
---    *Main> quickCheck prop_producto
+--    λ> quickCheck prop_producto
 --    +++ OK, passed 100 tests.
-
--- isrbelnun silgongal ivaruicam
-prop_producto2 :: [Int] -> [Int] -> Bool
-prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Comprobar con QuickCheck que el número de elementos
@@ -598,17 +354,13 @@ prop_producto2 xs ys = iguales (producto xs ys) (productoR xs ys)
 -- ys. 
 -- ---------------------------------------------------------------------
 
--- guache alvalvdom1 enrvalmor anaagusil manvermor pabmorgar abrdelrod
--- erisancha josllagam javoliher rubvilval silgongal fracruzam javperlag
--- blaruiher lucgamgal abrdelrod paocabper juanarcon alebergon ivaruicam
-
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
-prop_elementos_producto xs ys = 
-    length (producto xs ys) == (length xs) * (length ys)
+prop_elementos_producto xs ys =
+    length (producto xs ys) == length xs * length ys
 
 -- La comprobación es
---    *Main> quickCheck prop_elementos_producto 
+--    λ> quickCheck prop_elementos_producto
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -623,19 +375,16 @@ prop_elementos_producto xs ys =
 --       [2,3,4],  [2,3],  [2,4],  [2],  [3,4],  [3],  [4], []]
 -- ---------------------------------------------------------------------
 
--- guache erisancha enrvalmor anaagusil isrbelnun josllagam rubvilval
--- silgongal javperlag blaruiher lucgamgal abrdelrod juanarcon alebergon
--- ivaruicam paocabper
-
 subconjuntos :: [a] -> [[a]]
 subconjuntos []     = [[]]
-subconjuntos (x:xs) = zs ++ [x:ys | ys <- zs] 
-        where zs = subconjuntos xs 
--- guache fracruzam
-subconjuntos2 :: [a] -> [[a]]
-subconjuntos2 []  = [[]]
-subconjuntos2 (x:xs) = zs ++ map (x:) (zs)
-        where zs =  subconjuntos2 xs
+subconjuntos (x:xs) = [x:ys | ys <- sub] ++ sub
+    where sub = subconjuntos xs  
+
+-- Cambiando la comprensión por map se obtiene
+subconjuntos' :: [a] -> [[a]]
+subconjuntos' []     = [[]]
+subconjuntos' (x:xs) = sub ++ map (x:) sub
+    where sub = subconjuntos' xs  
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Comprobar con QuickChek que el número de elementos de
@@ -646,15 +395,11 @@ subconjuntos2 (x:xs) = zs ++ map (x:) (zs)
 --    quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
 -- ---------------------------------------------------------------------
 
--- guache paocabper erisancha enrvalmor anaagusil juamorrom1 pabmorgar
--- isrbelnun josllagam javoliher rubvilval silgongal alvalvdom1
--- fracruzam javperlag blaruiher lucgamgal abrdelrod juanarcon alebergon
--- ivaruicam 
-
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
-prop_subconjuntos xs =  length (subconjuntos xs) == 2^(length xs)
+prop_subconjuntos xs =
+    length (subconjuntos xs) == 2 ^ length xs
 
 -- La comprobación es
---    *Main>  quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
+--    λ> quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
 --    +++ OK, passed 100 tests.
