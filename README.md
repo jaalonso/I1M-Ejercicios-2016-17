@@ -34,3 +34,6 @@ clase) y las soluciones definitivas.
 + **Relación 9**: Operaciones conjuntistas con listas.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9_sol.hs)).
++ **Relación 10**: Funciones de orden superior y definiciones por plegados.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10_sol.hs)).
