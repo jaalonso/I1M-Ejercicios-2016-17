@@ -26,8 +26,11 @@ import Test.QuickCheck
 --    takeWhileR (<7) [2,3,9,4,5]  ==  [2,3]
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1
 takeWhileR :: (a -> Bool) -> [a] -> [a]
-takeWhileR = undefined
+takeWhileR _ [] = []
+takeWhileR p (x:xs)| p x       = x : takeWhileR p xs
+                   | otherwise = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Comprobar con QuickCheck que, para cualquier lista de
@@ -35,11 +38,15 @@ takeWhileR = undefined
 -- (takeWhile even xs)
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1
+
 -- La propiedad es
 prop_takeWhileR :: [Int] -> Bool
-prop_takeWhileR xs = undefined
+prop_takeWhileR xs = takeWhileR even xs == takeWhile even xs
 
 -- La comprobación es
+--    *Main> quickCheck prop_takeWhileR
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Comprobar con QuickCheck que, para cualquier lista de
@@ -47,8 +54,15 @@ prop_takeWhileR xs = undefined
 -- son pares.
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1
+
+-- La propiedad es
 prop_takeWhileTodos :: [Int] -> Bool
-prop_takeWhileTodos xs = undefined
+prop_takeWhileTodos xs = all even (takeWhileR even xs)
+
+-- La comprobación es
+--    *Main> quickCheck prop_takeWhileTodos
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Definir por recursión la función
@@ -58,8 +72,11 @@ prop_takeWhileTodos xs = undefined
 --    dropWhileR (<7) [2,3,9,4,5]  ==  [9,4,5]
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1
 dropWhileR :: (a -> Bool) -> [a] -> [a]
-dropWhileR = undefined
+dropWhileR _ [] = []
+dropWhileR p (x:xs) | p x       = dropWhileR p xs
+                    | otherwise = (x:xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Comprobar con QuickCheck que, para cualquier lista de
@@ -67,11 +84,17 @@ dropWhileR = undefined
 -- y (dropWhileR even xs) es igual a xs.
 -- ---------------------------------------------------------------------
 
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1
 -- La propiedad es
 prop_takeDrop :: [Int] -> Bool
-prop_takeDrop xs = undefined
+prop_takeDrop xs = 
+    concat [(takeWhileR even xs),(dropWhileR even xs)] == xs
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- La comprobación es
+--    *Main> quickCheck prop_takeDrop 
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir, por comprensión, la función
@@ -84,8 +107,10 @@ prop_takeDrop xs = undefined
 --    divideMediaC [1,2,3]         ==  ([1.0],[3.0])
 -- ---------------------------------------------------------------------
 
+-- guache juanarcon juamorrom1
 divideMediaC :: [Double] -> ([Double],[Double])
-divideMediaC xs = undefined
+divideMediaC xs = ([x | x <- xs, x < w], [x | x <- xs, x > w])
+    where w = (sum xs) / fromIntegral (length xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, con filter, la función
@@ -98,8 +123,10 @@ divideMediaC xs = undefined
 --    divideMediaF [1,2,3]         ==  ([1.0],[3.0])
 -- ---------------------------------------------------------------------
 
+-- guache juanarcon juamorrom1
 divideMediaF :: [Double] -> ([Double],[Double])
-divideMediaF xs = undefined
+divideMediaF xs = (filter (<w) xs,filter (>w) xs)
+    where w = (sum xs) / fromIntegral (length xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Definir, por recursión, la función
@@ -131,11 +158,19 @@ prop_divideMedia xs = undefined
 -- de las longitudes de ys y zs es menor o igual que la longitud de xs.
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
+
 -- La propiedad es
 prop_longitudDivideMedia :: [Double] -> Bool
-prop_longitudDivideMedia xs = undefined
+prop_longitudDivideMedia xs = 
+    sum [length (fst d), length (snd d)] <= length xs
+    where d = divideMediaF xs
 
--- La comprobación es
+-- Comentario: La definición anterior se puede simplificar.
+
+-- La comprobación es 
+--    ghci> quickCheck prop_longitudDivideMedia
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.6. Comprobar con QuickCheck que si (ys,zs) es el par
@@ -143,11 +178,18 @@ prop_longitudDivideMedia xs = undefined
 -- elementos de ys son menores que todos los elementos de zs.
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
+
 -- La propiedad es
 prop_divideMediaMenores :: [Double] -> Bool
-prop_divideMediaMenores xs = undefined
+prop_divideMediaMenores xs = filter (< minimum (snd d)) (fst d) == fst d
+    where d = divideMediaF xs
 
--- La comprobación es
+-- Comentario: La definición anterior se puede simplificar.
+
+-- La comprobación es 
+--    ghci> quickCheck prop_divideMediaMenores
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.7. Comprobar con QuickCheck que si (ys,zs) es el par
@@ -158,11 +200,18 @@ prop_divideMediaMenores xs = undefined
 -- no pertenece a ys.
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
 -- La propiedad es
 prop_divideMediaSinMedia :: [Double] -> Bool
-prop_divideMediaSinMedia xs = undefined
+prop_divideMediaSinMedia xs = notElem m (fst d) && notElem m (snd d)
+    where d = divideMediaF xs
+          m = (sum xs) / fromIntegral (length xs)
 
--- La comprobación es
+-- Comentario: La definición anterior se puede simplificar.
+
+-- La comprobación es 
+--    ghci> quickCheck prop_divideMediaSinMedia
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -372,10 +421,6 @@ filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
 filtraAplicaP :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaP f p = undefined
 
--- La definición por plegado usando lambda es
-filtraAplicaP2 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
-filtraAplicaP2 f p = undefined
-
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. Definir, mediante recursión, la función
 --    maximumR :: Ord a => [a] -> a
@@ -446,5 +491,3 @@ prop_minimumP :: [Int] -> Property
 prop_minimumP xs = undefined
 
 -- La comprobación es
-
-

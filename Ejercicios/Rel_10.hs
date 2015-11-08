@@ -357,9 +357,7 @@ filtraAplicaMF f p xs = undefined
 -- ---------------------------------------------------------------------
 
 filtraAplicaR :: (a -> b) -> (a -> Bool) -> [a] -> [b]
-filtraAplicaR f p [] = []
-filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
-                         | otherwise = filtraAplicaR f p xs
+filtraAplicaR = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.4. Definir, por plegado, la función
@@ -371,10 +369,6 @@ filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
 
 filtraAplicaP :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaP f p = undefined
-
--- La definición por plegado usando lambda es
-filtraAplicaP2 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
-filtraAplicaP2 f p = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. Definir, mediante recursión, la función
