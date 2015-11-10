@@ -169,7 +169,8 @@ prop_divideMediaSinMedia xs = undefined
 --    segmentos :: (a -> Bool) -> [a] -> [a]
 -- tal que (segmentos p xs) es la lista de los segmentos de xs cuyos
 -- elementos verifican la propiedad p. Por ejemplo,
---    segmentos even [1,2,0,4,5,6,48,7,2]  ==  [[],[2,0,4],[6,48],[2]]
+--    segmentos even [1,2,0,4,9,6,4,5,7,2]  ==  [[2,0,4],[6,4],[2]]
+--    segmentos odd  [1,2,0,4,9,6,4,5,7,2]  ==  [[1],[9],[5,7]]
 -- ---------------------------------------------------------------------
 
 segmentos :: (a -> Bool) -> [a] -> [[a]]
