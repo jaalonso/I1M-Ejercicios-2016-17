@@ -28,7 +28,7 @@ import Data.List
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende blaruiher
--- josllagam fracruzam manvermor silgongal albtorval
+-- josllagam fracruzam manvermor silgongal albtorval rubvilval
 takeWhileR :: (a -> Bool) -> [a] -> [a]
 takeWhileR _ [] = []
 takeWhileR p (x:xs)| p x       = x : takeWhileR p xs
@@ -41,7 +41,7 @@ takeWhileR p (x:xs)| p x       = x : takeWhileR p xs
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende blaruiher
--- josllagam fracruzam manvermor silgongal albtorval
+-- josllagam fracruzam manvermor silgongal albtorval rubvilval
 
 -- La propiedad es
 prop_takeWhileR :: [Int] -> Bool
@@ -58,7 +58,7 @@ prop_takeWhileR xs = takeWhileR even xs == takeWhile even xs
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam
--- blaruiher fracruzam manvermor silgongal albtorval
+-- blaruiher fracruzam manvermor silgongal albtorval rubvilval
 
 -- La propiedad es
 prop_takeWhileTodos :: [Int] -> Bool
@@ -77,7 +77,7 @@ prop_takeWhileTodos xs = all even (takeWhileR even xs)
 -- ---------------------------------------------------------------------
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam
--- blaruiher fracruzam manvermor silgongal albtorval
+-- blaruiher fracruzam manvermor silgongal albtorval rubvilval
 dropWhileR :: (a -> Bool) -> [a] -> [a]
 dropWhileR _ [] = []
 dropWhileR p (x:xs) | p x       = dropWhileR p xs
@@ -97,7 +97,7 @@ prop_takeDrop xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- blaruiher
+-- blaruiher rubvilval
 
 -- La propiedad es
 prop_takeDrop2 :: [Int] -> Bool
@@ -130,7 +130,7 @@ divideMediaC :: [Double] -> ([Double],[Double])
 divideMediaC xs = ([x | x <- xs, x < w], [x | x <- xs, x > w])
     where w = (sum xs) / fromIntegral (length xs)
 
--- josllagam manvermor silgongal
+-- josllagam manvermor silgongal rubvilval
 divideMediaC2 :: [Double] -> ([Double],[Double])
 divideMediaC2 xs = (ys,zs)
     where ys = [x | x <- xs, x < media xs]
@@ -153,7 +153,7 @@ media xs = (sum xs) / (genericLength xs)
 -- ---------------------------------------------------------------------
 
 -- guache juanarcon juamorrom1 manpende fracruzam josllagam manvermor
--- silgongal albtorval 
+-- silgongal albtorval rubvilval
 divideMediaF :: [Double] -> ([Double],[Double])
 divideMediaF xs = (filter (<w) xs,filter (>w) xs)
     where w = (sum xs) / fromIntegral (length xs)
@@ -186,9 +186,9 @@ prop_divideMedia xs = a == b && a == c && b == c
           b = divideMediaF xs
           c = divideMediaR xs
 
--- albtorval
-prop_divideMedia1 :: [Double] -> Bool
-prop_divideMedia1 xs = and [a==b,b==c,c==a]
+-- albtorval rubvilval
+prop_divideMedia2 :: [Double] -> Bool
+prop_divideMedia2 xs = and [a==b,b==c,c==a]
     where a = divideMediaF xs
           b = divideMediaC xs
           c = divideMediaR xs
@@ -209,7 +209,7 @@ prop_longitudDivideMedia xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor josllagam silgongal
+-- manvermor josllagam silgongal rubvilval
 prop_longitudDivideMedia2 :: [Double] -> Bool
 prop_longitudDivideMedia2 xs = length (fst d) + length (snd d) <= length xs
     where d = divideMediaF xs 
@@ -240,7 +240,7 @@ prop_divideMediaMenores xs = filter (< minimum (snd d)) (fst d) == fst d
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam manvermor josllagam silgongal
+-- fracruzam manvermor josllagam silgongal rubvilval
 prop_divideMediaMenores2 :: [Double] -> Bool
 prop_divideMediaMenores2 xs = 
     and [y < z | y <- fst (divideMediaF xs) , 
@@ -261,7 +261,7 @@ prop_divideMediaMenores2 xs =
 -- no pertenece a ys.
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor josllagam silgongal
+-- alvalvdom1 manvermor josllagam silgongal rubvilval
 -- La propiedad es
 prop_divideMediaSinMedia :: [Double] -> Bool
 prop_divideMediaSinMedia xs = notElem m (fst d) && notElem m (snd d)
@@ -291,7 +291,7 @@ prop_divideMediaSinMedia2 xs = notElemPar m (divideMediaF xs)
 --    segmentos odd  [1,2,0,4,9,6,4,5,7,2]  ==  [[1],[9],[5,7]]
 -- ---------------------------------------------------------------------
 
--- manpende
+-- manpende rubvilval josllagam
 segmentos :: (a -> Bool) -> [a] -> [[a]]
 segmentos p [] = []
 segmentos p (x:xs) 
@@ -320,7 +320,7 @@ relacionadosC r xs =
 relacionadosC2 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC2 r xs = all (\(x,y) -> r x y) (zip xs (tail xs))
 
--- manvermor
+-- manvermor rubvilval josllagam
 relacionadosC3 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC3 r xs = and [x `r` y | (x,y) <- zip xs (tail xs)]
 
@@ -333,12 +333,20 @@ relacionadosC3 r xs = and [x `r` y | (x,y) <- zip xs (tail xs)]
 --    relacionadosR (<) [2,3,1,9]                ==  False
 -- ---------------------------------------------------------------------
 
--- manpende
+-- manpende rubvilval
 relacionadosR :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosR r []  = True
 relacionadosR r [x] = True
 relacionadosR r (x:y:xs) | r x y     = relacionadosR r (y:xs)
                          | otherwise = False
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam josllagam
+relacionadosR2 :: (a -> a -> Bool) -> [a] -> Bool
+relacionadosR2 _ [] = True
+relacionadosR2 _ [a] = True
+relacionadosR2 r (x:y:xs) = r x y && relacionadosR r (y:xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -361,7 +369,7 @@ agrupa xss = [lista n xss | n <- [0..(minimum (longitudes xss) - 1)]]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam
+-- fracruzam rubvilval
 agrupa2 :: Eq a => [[a]] -> [[a]]
 agrupa2 [] = []
 agrupa2 xss | notElem [] xss = map (!! 0) xss : agrupa (map tail xss)
@@ -384,6 +392,13 @@ prop_agrupa xss = null [xs | xs <- agrupa xss, length xs /= length xss]
 -- *Main> quickCheck prop_agrupa
 -- +++ OK, passed 100 tests.
 
+-- rubvilval
+prop_agrupa2 :: [[Int]] -> Bool
+prop_agrupa2 xss = all (== length xss) [length xs|xs<-(agrupa xss)] 
+
+-- La comprobación es
+-- *Main> quickCheck prop_agrupa
+-- +++ OK, passed 100 tests
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1. Definir por recursión la función
 --    superparR :: Int -> Bool
@@ -401,7 +416,7 @@ superparR n | even n    = superparR (n `div`10)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam
+-- fracruzam rubvilval
 superparR2 :: Int -> Bool
 superparR2 0 = True
 superparR2 n = even n && superparR2 (div n 10)
@@ -424,6 +439,11 @@ superparC n = [x | x <- m, even x] == m
 superparC2 :: Int -> Bool
 superparC2 n = and [even (read [n]) | n <- show n]
 
+-- rubvilval
+superparC3 :: Int -> Bool
+superparC3 n = 
+    and [even (div n (10^x)) | x <- [0..((length(show n))-1)]]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Definir, por recursión sobre los dígitos, la función
 --    superparRD :: Int -> Bool
@@ -435,7 +455,13 @@ superparC2 n = and [even (read [n]) | n <- show n]
 
 -- fracruzam
 superparRD :: Int -> Bool
-superparRD n = undefined
+superparRD 0 = True
+superparRD n = even (last (digitos n)) && superparRD (div n 10)
+         where  digitos :: Int -> [Int]
+                digitos 0 = []
+                digitos n =digitos (div n 10) ++ [mod n 10]
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.4. Definir, usando all, la función
@@ -452,7 +478,7 @@ superparA n = all even [x | x <- [read [m] | m <- show n]]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam manvermor
+-- fracruzam manvermor rubvilval
 superparA2 :: Int -> Bool
 superparA2 n = all even [read [n] | n <- show n]
 
@@ -465,12 +491,18 @@ superparA2 n = all even [read [n] | n <- show n]
 --    superparF 456  ==  False
 -- ---------------------------------------------------------------------
 
--- blaruiher manpende fracruzam manvermor
+-- blaruiher manpende manvermor rubvilval
 superparF :: Int -> Bool
 superparF n = filter (even) m == m
-    where m = [read [x]|x <- show n]
+    where m = [read [x] | x <- show n]
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam
+-- No son necesarios los paréntesis en even
+superparF2 :: Int -> Bool
+superparF2 n = filter even m == m
+    where m = [read [x] | x <- show n]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. Definir, por recursión, la función 
@@ -488,7 +520,7 @@ concatR ((x:xs):xss) = x:concatR (xs:xss)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam manvermor
+-- fracruzam manvermor rubvilval
 concatR2 :: [[a]] -> [a]
 concatR2 [] = []
 concatR2 (xs:xss) = xs ++ concatR xss
@@ -501,7 +533,7 @@ concatR2 (xs:xss) = xs ++ concatR xss
 --    concatP [[1,3],[2,4,6],[1,9]]  ==  [1,3,2,4,6,1,9]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 concatP :: [[a]] -> [a]
 concatP xss = foldr (++) [] xss
 
@@ -512,7 +544,7 @@ concatP xss = foldr (++) [] xss
 -- concatP y concat son equivalentes.
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor rubvilval
 
 -- La propiedad es
 prop_concat :: [[Int]] -> Bool
@@ -528,7 +560,7 @@ prop_concat xss = cR == concatP xss && cR == concat xss
 -- (concatP xss) es la suma de las longitudes de los elementos de xss.
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor rubvilval
 
 -- La propiedad es
 prop_longConcat :: [[Int]] -> Bool
@@ -546,7 +578,7 @@ prop_longConcat xss = length (concatP xss) == sum (map length xss)
 --    filtraAplicaC (4+) (<3) [1..7]  =>  [5,6]
 -- ---------------------------------------------------------------------
 
--- blaruiher manpende fracruzam manvermor
+-- blaruiher manpende fracruzam manvermor rubvilval
 filtraAplicaC :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaC f p xs = [f x | x <- xs, p x]
 
@@ -558,7 +590,7 @@ filtraAplicaC f p xs = [f x | x <- xs, p x]
 --    filtraAplicaMF (4+) (<3) [1..7]  =>  [5,6]
 -- ---------------------------------------------------------------------
 
--- blaruiher manpende fracruzam manvermor
+-- blaruiher manpende fracruzam manvermor rubvilval
 filtraAplicaMF :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaMF f p xs = map f (filter p xs)
 
@@ -581,10 +613,8 @@ filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
 -- fracruzam
 filtraAplicaR2 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaR2 _ _ [] = []
-filtraAplicaR2 f p (x:xs) | p x       = (f x):filtraAplicaR f p xs
+filtraAplicaR2 f p (x:xs) | p x       = f x : filtraAplicaR f p xs
                           | otherwise = filtraAplicaR f p xs
-
--- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.4. Definir, por plegado, la función
@@ -608,7 +638,7 @@ filtraAplicaP f p = undefined
 -- Nota: La función maximumR es equivalente a la predefinida maximum.
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 maximumR :: Ord a => [a] -> a
 maximumR (x:xs) | any (>x) xs = maximumR xs
                 | otherwise   = x
@@ -635,8 +665,11 @@ maximumR3 (x:y:xs) | x < y     = maximumR3 (y:xs)
 -- Nota: La función maximumP es equivalente a la predefinida maximum.
 -- ---------------------------------------------------------------------
 
+-- fracruzam rubvilval
 maximumP :: Ord a => [a] -> a
-maximumP = undefined
+maximumP xs = foldr1 max xs
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.3. Comprobar con QuickCheck que, para cualquier lista no
@@ -644,7 +677,7 @@ maximumP = undefined
 -- todos los elementos de xs. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 -- La propiedad es
 prop_maximumP :: [Int] -> Property
 prop_maximumP xs = xs /= [] ==> elem mP xs && all (<= mP) xs
@@ -665,8 +698,11 @@ prop_maximumP xs = xs /= [] ==> elem mP xs && all (<= mP) xs
 -- Nota: La función minimunP es equivalente a la predefinida minimun.
 -- ---------------------------------------------------------------------
 
+-- fracruzam rubvilval
 minimumP :: Ord a => [a] -> a
-minimumP = undefined
+minimumP xs = foldr1 min xs
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Comprobar con QuickCheck que, para cualquier lista no
@@ -674,7 +710,7 @@ minimumP = undefined
 -- todos los elementos de xs. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 
 -- La propiedad es
 prop_minimumP :: [Int] -> Property
