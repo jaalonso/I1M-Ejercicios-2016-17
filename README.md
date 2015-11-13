@@ -38,4 +38,3 @@ clase) y las soluciones definitivas.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10_sol.hs)).
 
-...
