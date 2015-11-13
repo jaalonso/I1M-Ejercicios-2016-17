@@ -37,4 +37,7 @@ clase) y las soluciones definitivas.
 + **Relación 10**: Funciones de orden superior y definiciones por plegados.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10_sol.hs)).
++ **Relación 11**: Tipos de datos algebraicos: Árboles binarios.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11_sol.hs)).
 
