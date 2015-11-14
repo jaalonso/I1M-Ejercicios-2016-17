@@ -79,6 +79,7 @@ prop_nHojas x = undefined
 -- tal que (profundidad x) es la profundidad del árbol x. Por ejemplo,
 --    profundidad (N 9 (N 3 (H 2) (H 4)) (H 7))              ==  2
 --    profundidad (N 9 (N 3 (H 2) (N 1 (H 4) (H 5))) (H 7))  ==  3
+--    profundidad (N 4 (N 5 (H 4) (H 2)) (N 3 (H 7) (H 4)))  ==  2
 -- ---------------------------------------------------------------------
 
 profundidad :: Arbol a -> Int
