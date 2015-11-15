@@ -49,7 +49,7 @@ data Arbol a = H a
 --    nHojas (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  3
 -- ---------------------------------------------------------------------
 
--- guache fracruzam
+-- guache fracruzam alvalvdom1
 nHojas :: Arbol a -> Int
 nHojas (H _)     = 1
 nHojas (N x y z) = nHojas y + nHojas z
@@ -68,7 +68,7 @@ nNodos (N x y z) = 1 + (nNodos y + nNodos z)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam
+-- fracruzam alvalvdom1 manvermor
 nNodos2 :: Arbol a -> Int
 nNodos2 (H _)       = 0
 nNodos2 (N a ai ad) = 1 + nNodos ai + nNodos ad
@@ -78,7 +78,7 @@ nNodos2 (N a ai ad) = 1 + nNodos ai + nNodos ad
 -- número de sus hojas es igual al número de sus nodos más uno.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam
+-- guache fracruzam alvalvdom1 manvermor
 
 -- La propiedad es
 prop_nHojas :: Arbol Int -> Bool
@@ -97,8 +97,10 @@ prop_nHojas x = nHojas x == 1 + nNodos x
 --    profundidad (N 4 (N 5 (H 4) (H 2)) (N 3 (H 7) (H 4)))  ==  2
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 profundidad :: Arbol a -> Int
-profundidad = undefined 
+profundidad (H a)       = 0
+profundidad (N a ai ad) = 1 + max (profundidad ai) (profundidad ad)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Comprobar con QuickCheck que para todo árbol biario
@@ -106,7 +108,7 @@ profundidad = undefined
 --    nNodos x <= 2^(profundidad x) - 1
 -- ---------------------------------------------------------------------
 
--- guache fracruzam
+-- guache fracruzam manvermor
 
 -- La propiedad es
 prop_nNodosProfundidad :: Arbol Int -> Bool
@@ -126,7 +128,7 @@ prop_nNodosProfundidad x = nNodos x <= 2^(profundidad x) - 1
 --    preorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [9,3,2,4,7]
 -- ---------------------------------------------------------------------
 
--- guache fracruzam
+-- guache fracruzam manvermor
 preorden :: Arbol a -> [a]
 preorden (H a)      = [a]
 preorden (N a b c ) = a : preorden b ++ preorden c
@@ -137,7 +139,7 @@ preorden (N a b c ) = a : preorden b ++ preorden c
 -- de nodos del árbol más el número de hojas.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam
+-- guache fracruzam manvermor
 
 -- La propiedad es
 prop_length_preorden :: Arbol Int -> Bool
@@ -157,7 +159,7 @@ prop_length_preorden x =  length (preorden x) == nNodos x + nHojas x
 --    postorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [2,4,3,7,9]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 postorden :: Arbol a -> [a]
 postorden (H a)       = [a]
 postorden (N a ai ad) = postorden ai ++ postorden ad ++ [a]
@@ -187,7 +189,7 @@ preordenIt x = preordenItAux x []
 -- a preorden. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 -- La propiedad es
 prop_preordenIt :: Arbol Int -> Bool
 prop_preordenIt x = preordenIt x == preorden x
@@ -201,12 +203,13 @@ prop_preordenIt x = preordenIt x == preorden x
 --    espejo :: Arbol a -> Arbol a
 -- tal que (espejo x) es la imagen especular del árbol x. Por ejemplo,
 --    espejo (N 9 (N 3 (H 2) (H 4)) (H 7)) == N 9 (H 7) (N 3 (H 4) (H 2))
+--    espejo (N 5 (H 4) (N 2 (H 1) (H 5))) == N 5 (N 2 (H 5) (H 1)) (H 4)
 -- ---------------------------------------------------------------------
 
 -- fracruzam
 espejo :: Arbol a -> Arbol a
 espejo (H a)       = H a
-espejo (N a ai ad) = (N a (espejo ad) (espejo ai))
+espejo (N a ai ad) = N a (espejo ad) (espejo ai)
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -223,6 +226,10 @@ prop_espejo x = (espejo . espejo) x == x
 -- La comprobación es
 --    *Main> quickCheck prop_espejo
 --    +++ OK, passed 100 tests.
+
+-- manvermor
+prop_espejo2 :: Arbol Int -> Bool
+prop_espejo2 x = espejo (espejo x) == x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Comprobar con QuickCheck que para todo árbol binario
@@ -241,6 +248,11 @@ prop_reverse_preorden_espejo x =
 --    *Main> quickCheck prop_reverse_preorden_espejo
 --    +++ OK, passed 100 tests.
 
+-- manvermor
+prop_reverse_preorden_espejo2 :: Arbol Int -> Bool
+prop_reverse_preorden_espejo2 x = 
+    reverse (preorden (espejo x)) == postorden x
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.4. Comprobar con QuickCheck que para todo árbol x,
 --    postorden (espejo x) = reverse (preorden x)
@@ -256,6 +268,11 @@ prop_recorrido x =
 -- La comprobación es
 --    *Main> quickCheck prop_recorrido
 --    +++ OK, passed 100 tests.
+
+-- manvermor
+prop_recorrido2 :: Arbol Int -> Bool
+prop_recorrido2 x =  
+    postorden (espejo x) == reverse (preorden x)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. La función take está definida por
@@ -285,8 +302,8 @@ takeArbol n (N a ai ad) = N a (takeArbol (n-1) ai) (takeArbol (n-1) ad)
 -- (takeArbol n x) es menor o igual que n, para todo número natural n y
 -- todo árbol x. 
 -- ---------------------------------------------------------------------
-
--- fracruzam
+ 
+-- fracruzam manvermor
 
 -- La propiedad es
 prop_takeArbol :: Int -> Arbol Int -> Property
@@ -294,10 +311,7 @@ prop_takeArbol n x = n > 0 ==> profundidad (takeArbol n x) <= n
 
 -- La comprobación es
 -- *Main> quickCheck prop_takeArbol
--- *** Failed! Falsifiable (after 10 tests and 2 shrinks): 
--- 2
--- N 4 (N (-8) (H (-2)) (N (-9) (H (-8)) (H (-4)))) (N (-2) (N 1 (H 1)
--- (N (-3)(H---5)) (H (-6)))) (N 3 (N (-7) (H (-1)) (H 0)) (H (-3))))
+-- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. La función
@@ -319,12 +333,8 @@ prop_takeArbol n x = n > 0 ==> profundidad (takeArbol n x) <= n
 
 -- fracruzam
 repeatArbol :: a -> Arbol a
-repeatArbol x = (N x ai ad)
-    where ai = (N x ai ai)
-          ad = (N x ad ad)
-
--- Comentario: La definición anterior se puede mejorar (observando que
--- los subárboles izquierdo y derecho son iguales).
+repeatArbol x = (N x a0 a0)
+          where a0 = (N x a0 a0)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. La función 
@@ -344,7 +354,7 @@ repeatArbol x = (N x ai ad)
 --    replicateArbol 2 5  ==  N 5 (N 5 (H 5) (H 5)) (N 5 (H 5) (H 5))
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 replicateArbol :: Int -> a -> Arbol a
 replicateArbol n x = takeArbol n (repeatArbol x)
 
@@ -357,7 +367,7 @@ replicateArbol n x = takeArbol n (repeatArbol x)
 --    quickCheckWith (stdArgs {maxSize=7}) prop_replicateArbol
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 
 -- La propiedad es
 prop_replicateArbol :: Int -> Int -> Property
@@ -376,7 +386,7 @@ prop_replicateArbol n x = n > 0 ==> nHojas (replicateArbol n x) == 2^n
 --    N 18 (N 6 (H 4) (H 8)) (H 14)
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 mapArbol :: (a -> a) -> Arbol a -> Arbol a
 mapArbol f (H a)       = H (f a)
 mapArbol f (N a ai ad) = N (f a) (mapArbol f ai) (mapArbol f ad)
@@ -386,7 +396,7 @@ mapArbol f (N a ai ad) = N (f a) (mapArbol f ai) (mapArbol f ad)
 --    (mapArbol (1+)) . espejo = espejo . (mapArbol (1+))
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 
 -- La propiedad es
 prop_mapArbol_espejo :: Arbol Int -> Bool
@@ -402,7 +412,7 @@ prop_mapArbol_espejo x =
 --    (map (1+)) . preorden = preorden . (mapArbol (1+)) 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 
 -- La propiedad es
 prop_map_preorden :: Arbol Int -> Bool

@@ -94,7 +94,7 @@ dropWhileR p (x:xs) | p x       = dropWhileR p xs
 -- y (dropWhileR even xs) es igual a xs.
 -- ---------------------------------------------------------------------
 
--- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam
+-- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam 
 -- albtorval anaagusil paocabper
 
 -- La propiedad es
@@ -478,7 +478,9 @@ prop_agrupa xss = null [xs | xs <- agrupa xss, length xs /= length xss]
 
 -- rubvilval carmengar josllagam anaagusil
 prop_agrupa2 :: [[Int]] -> Bool
-prop_agrupa2 xss = all (== length xss) [length xs|xs<-(agrupa xss)] 
+prop_agrupa2 xss = all (== length xss) [length xs | xs <- (agrupa xss)] 
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- La comprobación es
 -- *Main> quickCheck prop_agrupa
@@ -816,6 +818,7 @@ prop_maximumP xs = xs /= [] ==> elem mP xs && all (<= mP) xs
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar blaruiher alvalvdom1 anaagusil
+-- josllagam
 minimumP :: Ord a => [a] -> a
 minimumP = foldr1 min
 
@@ -826,6 +829,7 @@ minimumP = foldr1 min
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar blaruiher alvalvdom1 anaagusil
+-- josllagam
 
 -- La propiedad es
 prop_minimumP :: [Int] -> Property
