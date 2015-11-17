@@ -49,7 +49,7 @@ data Arbol a = H a
 --    nHojas (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  3
 -- ---------------------------------------------------------------------
 
--- guache fracruzam alvalvdom1
+-- guache fracruzam alvalvdom1 josllagam pabmorgar
 nHojas :: Arbol a -> Int
 nHojas (H _)     = 1
 nHojas (N x y z) = nHojas y + nHojas z
@@ -61,14 +61,14 @@ nHojas (N x y z) = nHojas y + nHojas z
 --    nNodos (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  2
 -- ---------------------------------------------------------------------
 
--- guache
+-- guache josllagam
 nNodos :: Arbol a -> Int
 nNodos (H _)     = 0
 nNodos (N x y z) = 1 + (nNodos y + nNodos z)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alvalvdom1 manvermor
+-- fracruzam alvalvdom1 manvermor pabmorgar
 nNodos2 :: Arbol a -> Int
 nNodos2 (H _)       = 0
 nNodos2 (N a ai ad) = 1 + nNodos ai + nNodos ad
@@ -78,7 +78,7 @@ nNodos2 (N a ai ad) = 1 + nNodos ai + nNodos ad
 -- número de sus hojas es igual al número de sus nodos más uno.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam alvalvdom1 manvermor
+-- guache fracruzam alvalvdom1 manvermor josllagam pabmorgar
 
 -- La propiedad es
 prop_nHojas :: Arbol Int -> Bool
@@ -97,7 +97,7 @@ prop_nHojas x = nHojas x == 1 + nNodos x
 --    profundidad (N 4 (N 5 (H 4) (H 2)) (N 3 (H 7) (H 4)))  ==  2
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam josllagam pabmorgar
 profundidad :: Arbol a -> Int
 profundidad (H a)       = 0
 profundidad (N a ai ad) = 1 + max (profundidad ai) (profundidad ad)
@@ -108,7 +108,7 @@ profundidad (N a ai ad) = 1 + max (profundidad ai) (profundidad ad)
 --    nNodos x <= 2^(profundidad x) - 1
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor
+-- guache fracruzam manvermor josllagam pabmorgar
 
 -- La propiedad es
 prop_nNodosProfundidad :: Arbol Int -> Bool
@@ -128,7 +128,7 @@ prop_nNodosProfundidad x = nNodos x <= 2^(profundidad x) - 1
 --    preorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [9,3,2,4,7]
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor
+-- guache fracruzam manvermor josllagam pabmorgar
 preorden :: Arbol a -> [a]
 preorden (H a)      = [a]
 preorden (N a b c ) = a : preorden b ++ preorden c
@@ -139,7 +139,7 @@ preorden (N a b c ) = a : preorden b ++ preorden c
 -- de nodos del árbol más el número de hojas.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor
+-- guache fracruzam manvermor josllagam pabmorgar
 
 -- La propiedad es
 prop_length_preorden :: Arbol Int -> Bool
@@ -159,7 +159,7 @@ prop_length_preorden x =  length (preorden x) == nNodos x + nHojas x
 --    postorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [2,4,3,7,9]
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor josllagam pabmorgar
 postorden :: Arbol a -> [a]
 postorden (H a)       = [a]
 postorden (N a ai ad) = postorden ai ++ postorden ad ++ [a]
@@ -189,7 +189,7 @@ preordenIt x = preordenItAux x []
 -- a preorden. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 -- La propiedad es
 prop_preordenIt :: Arbol Int -> Bool
 prop_preordenIt x = preordenIt x == preorden x
@@ -206,12 +206,10 @@ prop_preordenIt x = preordenIt x == preorden x
 --    espejo (N 5 (H 4) (N 2 (H 1) (H 5))) == N 5 (N 2 (H 5) (H 1)) (H 4)
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam pabmorgar
 espejo :: Arbol a -> Arbol a
 espejo (H a)       = H a
 espejo (N a ai ad) = N a (espejo ad) (espejo ai)
-
--- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Comprobar con QuickCheck que para todo árbol x,
@@ -227,7 +225,7 @@ prop_espejo x = (espejo . espejo) x == x
 --    *Main> quickCheck prop_espejo
 --    +++ OK, passed 100 tests.
 
--- manvermor
+-- manvermor pabmorgar
 prop_espejo2 :: Arbol Int -> Bool
 prop_espejo2 x = espejo (espejo x) == x
 
@@ -248,7 +246,7 @@ prop_reverse_preorden_espejo x =
 --    *Main> quickCheck prop_reverse_preorden_espejo
 --    +++ OK, passed 100 tests.
 
--- manvermor
+-- manvermor pabmorgar
 prop_reverse_preorden_espejo2 :: Arbol Int -> Bool
 prop_reverse_preorden_espejo2 x = 
     reverse (preorden (espejo x)) == postorden x
@@ -269,7 +267,7 @@ prop_recorrido x =
 --    *Main> quickCheck prop_recorrido
 --    +++ OK, passed 100 tests.
 
--- manvermor
+-- manvermor pabmorgar
 prop_recorrido2 :: Arbol Int -> Bool
 prop_recorrido2 x =  
     postorden (espejo x) == reverse (preorden x)
@@ -291,7 +289,7 @@ prop_recorrido2 x =
 --    takeArbol 3 (N 9 (N 3 (H 2) (H 4)) (H 7)) == N 9 (N 3 (H 2) (H 4)) (H 7)
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam pabmorgar
 takeArbol :: Int -> Arbol a -> Arbol a
 takeArbol _ (H a)       = H a
 takeArbol 0 (N a ai ad) = H a
@@ -303,7 +301,7 @@ takeArbol n (N a ai ad) = N a (takeArbol (n-1) ai) (takeArbol (n-1) ad)
 -- todo árbol x. 
 -- ---------------------------------------------------------------------
  
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 
 -- La propiedad es
 prop_takeArbol :: Int -> Arbol Int -> Property
@@ -331,10 +329,10 @@ prop_takeArbol n x = n > 0 ==> profundidad (takeArbol n x) <= n
 --    takeArbol 2 (repeatArbol 3) == N 3 (N 3 (H 3) (H 3)) (N 3 (H 3) (H 3))
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam pabmorgar
 repeatArbol :: a -> Arbol a
 repeatArbol x = (N x a0 a0)
-          where a0 = (N x a0 a0)
+    where a0 = (N x a0 a0)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. La función 
@@ -354,7 +352,7 @@ repeatArbol x = (N x a0 a0)
 --    replicateArbol 2 5  ==  N 5 (N 5 (H 5) (H 5)) (N 5 (H 5) (H 5))
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 replicateArbol :: Int -> a -> Arbol a
 replicateArbol n x = takeArbol n (repeatArbol x)
 
@@ -367,7 +365,7 @@ replicateArbol n x = takeArbol n (repeatArbol x)
 --    quickCheckWith (stdArgs {maxSize=7}) prop_replicateArbol
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 
 -- La propiedad es
 prop_replicateArbol :: Int -> Int -> Property
@@ -386,7 +384,7 @@ prop_replicateArbol n x = n > 0 ==> nHojas (replicateArbol n x) == 2^n
 --    N 18 (N 6 (H 4) (H 8)) (H 14)
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 mapArbol :: (a -> a) -> Arbol a -> Arbol a
 mapArbol f (H a)       = H (f a)
 mapArbol f (N a ai ad) = N (f a) (mapArbol f ai) (mapArbol f ad)
@@ -396,7 +394,7 @@ mapArbol f (N a ai ad) = N (f a) (mapArbol f ai) (mapArbol f ad)
 --    (mapArbol (1+)) . espejo = espejo . (mapArbol (1+))
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 
 -- La propiedad es
 prop_mapArbol_espejo :: Arbol Int -> Bool
@@ -412,7 +410,7 @@ prop_mapArbol_espejo x =
 --    (map (1+)) . preorden = preorden . (mapArbol (1+)) 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor
+-- fracruzam manvermor pabmorgar
 
 -- La propiedad es
 prop_map_preorden :: Arbol Int -> Bool

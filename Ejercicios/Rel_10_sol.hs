@@ -29,7 +29,7 @@ import Data.List
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende blaruiher
 -- josllagam fracruzam manvermor silgongal albtorval rubvilval anagusil
--- alebergon erisancha carmengar paocabper
+-- alebergon erisancha carmengar paocabper pabmorgar
 takeWhileR :: (a -> Bool) -> [a] -> [a]
 takeWhileR _ [] = []
 takeWhileR p (x:xs)| p x       = x : takeWhileR p xs
@@ -43,7 +43,7 @@ takeWhileR p (x:xs)| p x       = x : takeWhileR p xs
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende blaruiher
 -- josllagam fracruzam manvermor silgongal albtorval rubvilval anaagusil
--- alebergon erisancha carmengar paocabper
+-- alebergon erisancha carmengar paocabper pabmorgar
 
 -- La propiedad es
 prop_takeWhileR :: [Int] -> Bool
@@ -61,7 +61,7 @@ prop_takeWhileR xs = takeWhileR even xs == takeWhile even xs
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam
 -- blaruiher fracruzam manvermor silgongal albtorval rubvilval anaagusil
--- alebergon erisancha carmengar paocabper
+-- alebergon erisancha carmengar paocabper pabmorgar
 
 -- La propiedad es
 prop_takeWhileTodos :: [Int] -> Bool
@@ -81,7 +81,7 @@ prop_takeWhileTodos xs = all even (takeWhileR even xs)
 
 -- guache alvalvdom1 irecasmat juanarcon juamorrom1 manpende josllagam
 -- blaruiher fracruzam manvermor silgongal albtorval rubvilval anaagusil
--- alebergon erisancha carmengar paocabper
+-- alebergon erisancha carmengar paocabper pabmorgar
 
 dropWhileR :: (a -> Bool) -> [a] -> [a]
 dropWhileR _ [] = []
@@ -104,7 +104,7 @@ prop_takeDrop xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- blaruiher rubvilval
+-- blaruiher rubvilval 
 
 -- La propiedad es
 prop_takeDrop2 :: [Int] -> Bool
@@ -113,7 +113,7 @@ prop_takeDrop2 xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam manvermor silgongal alebergon erisancha carmengar
+-- fracruzam manvermor silgongal alebergon erisancha carmengar pabmorgar 
 prop_takeDrop3 :: [Int] -> Bool 
 prop_takeDrop3 xs = takeWhileR even xs ++ dropWhileR even xs == xs 
 
@@ -133,7 +133,7 @@ prop_takeDrop3 xs = takeWhileR even xs ++ dropWhileR even xs == xs
 -- ---------------------------------------------------------------------
 
 -- guache juanarcon juamorrom1 manpende fracruzam albtorval anaagusil
--- alebergon erisancha carmengar blaruiher alvalvdom1
+-- alebergon erisancha carmengar blaruiher alvalvdom1 pabmorgar
 divideMediaC :: [Double] -> ([Double],[Double])
 divideMediaC xs = ([x | x <- xs, x < w], [x | x <- xs, x > w])
     where w = sum xs / fromIntegral (length xs)
@@ -162,7 +162,7 @@ media xs = (sum xs) / (genericLength xs)
 
 -- guache juanarcon juamorrom1 manpende fracruzam josllagam manvermor
 -- silgongal albtorval rubvilval anaagusil alebergon erisancha carmengar
--- blaruiher alvalvdom1
+-- blaruiher alvalvdom1 pabmorgar
 
 divideMediaF :: [Double] -> ([Double],[Double])
 divideMediaF xs = (filter (<w) xs,filter (>w) xs)
@@ -179,7 +179,7 @@ divideMediaF xs = (filter (<w) xs,filter (>w) xs)
 --    divideMediaR [1,2,3]         ==  ([1.0],[3.0])
 -- ---------------------------------------------------------------------
 
--- alebergon
+-- alebergon pabmorgar
 divideMediaR :: [Double] -> ([Double],[Double])
 divideMediaR xs = 
     (menorMayorR (< media xs) xs , menorMayorR (> media xs) xs)
@@ -238,7 +238,7 @@ prop_divideMedia2 xs = and [a==b,b==c,c==a]
           b = divideMediaC xs
           c = divideMediaR xs
 
--- alebergon carmengar alvalvdom1
+-- alebergon carmengar alvalvdom1 juanarcon pabmorgar
 prop_divideMedia3 :: [Double] -> Bool
 prop_divideMedia3 xs = a == b && b == c
     where a = divideMediaF xs
@@ -269,7 +269,7 @@ prop_longitudDivideMedia2 xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alebergon carmengar paocabper
+-- fracruzam alebergon carmengar paocabper juanarcon pabmorgar
 prop_longitudDivideMedia3 :: [Double] -> Bool
 prop_longitudDivideMedia3 xs = 
     longitudPar (divideMediaF xs) <= length xs 
@@ -307,7 +307,7 @@ prop_divideMediaMenores2 xs =
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- carmengar paocabper
+-- carmengar paocabper juanarcon pabmorgar
 prop_divideMediaMenores3 :: [Double] -> Bool
 prop_divideMediaMenores3 xs = all (<m) (fst d)
     where d = divideMediaF xs
@@ -339,7 +339,7 @@ prop_divideMediaSinMedia xs = notElem m (fst d) && notElem m (snd d)
 --    ghci> quickCheck prop_divideMediaSinMedia
 --    +++ OK, passed 100 tests.
 
--- fracruzam alebergon
+-- fracruzam alebergon juanarcon pabmorgar
 prop_divideMediaSinMedia2 :: [Double] -> Bool
 prop_divideMediaSinMedia2 xs = notElemPar m (divideMediaF xs)
    where notElemPar x (a,b) = notElem x a && notElem x b
@@ -365,7 +365,8 @@ prop_divideMediaSinMedia3 xs = notElem m ys
 --    segmentos odd  [1,2,0,4,9,6,4,5,7,2]  ==  [[1],[9],[5,7]]
 -- ---------------------------------------------------------------------
 
--- manpende rubvilval josllagam carmengar alebergon anaagusil
+-- manpende rubvilval josllagam carmengar alebergon anaagusil juanarcon
+-- pabmorgar 
 segmentos :: (a -> Bool) -> [a] -> [[a]]
 segmentos p [] = []
 segmentos p (x:xs) 
@@ -390,11 +391,12 @@ relacionadosC r xs =
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam 
+-- fracruzam pabmorgar
 relacionadosC2 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC2 r xs = all (\(x,y) -> r x y) (zip xs (tail xs))
 
 -- manvermor rubvilval josllagam carmengar alebergon alvalvdom1 anaagusil
+-- juanarcon
 relacionadosC3 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC3 r xs = and [x `r` y | (x,y) <- zip xs (tail xs)]
 
@@ -407,7 +409,7 @@ relacionadosC3 r xs = and [x `r` y | (x,y) <- zip xs (tail xs)]
 --    relacionadosR (<) [2,3,1,9]                ==  False
 -- ---------------------------------------------------------------------
 
--- manpende rubvilval anaagusil
+-- manpende rubvilval anaagusil 
 relacionadosR :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosR r []  = True
 relacionadosR r [x] = True
@@ -416,7 +418,7 @@ relacionadosR r (x:y:xs) | r x y     = relacionadosR r (y:xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam josllagam
+-- fracruzam josllagam pabmorgar
 relacionadosR2 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosR2 _ [] = True
 relacionadosR2 _ [a] = True
@@ -424,7 +426,7 @@ relacionadosR2 r (x:y:xs) = r x y && relacionadosR r (y:xs)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carmengar alebergon alvalvdom1
+-- carmengar alebergon alvalvdom1 juanarcon
 relacionadosR3 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosR3 r (x:y:zs) = r x y && relacionadosR r (y:zs)
 relacionadosR3 r xs = True
@@ -448,7 +450,7 @@ agrupa xss = [lista n xss | n <- [0..(minimum (longitudes xss) - 1)]]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam rubvilval alebergon
+-- fracruzam rubvilval alebergon pabmorgar
 agrupa2 :: Eq a => [[a]] -> [[a]]
 agrupa2 [] = []
 agrupa2 xss | notElem [] xss = map (!! 0) xss : agrupa (map tail xss)
@@ -456,7 +458,7 @@ agrupa2 xss | notElem [] xss = map (!! 0) xss : agrupa (map tail xss)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- carmengar josllagam anaagusil
+-- carmengar josllagam anaagusil juanarcon
 agrupa3 [] = []
 agrupa3 xss =
     [[xs !! n | xs <- xss] | n <- [0..minimum [length xs-1 | xs <- xss]]]
@@ -466,7 +468,7 @@ agrupa3 xss =
 -- elementos de (agrupa xs) es igual a la longitud de xs.
 -- ---------------------------------------------------------------------
 
--- manpende alebergon
+-- manpende alebergon juanarcon pabmorgar
 
 -- La propiedad es
 prop_agrupa :: [[Int]] -> Bool
@@ -503,7 +505,8 @@ superparR n | even n    = superparR (n `div`10)
 
 -- Comentario: La definición anterior se puede simplificar.
   
--- fracruzam rubvilval alebergon carmengar alvalvdom1
+-- fracruzam rubvilval alebergon carmengar alvalvdom1 juanarcon
+-- pabmorgar 
 superparR2 :: Int -> Bool
 superparR2 0 = True
 superparR2 n = even n && superparR2 (div n 10)
@@ -517,12 +520,12 @@ superparR2 n = even n && superparR2 (div n 10)
 --    superparC 456  ==  False
 -- ---------------------------------------------------------------------
 
--- blaruiher manpende alebergon anaagusil
+-- blaruiher manpende alebergon anaagusil juanarcon
 superparC :: Int -> Bool
 superparC n = [x | x <- m, even x] == m
     where m = [read [y] | y <- show n]
 
--- fracruzam manvermor carmengar josllagam alvalvdom1
+-- fracruzam manvermor carmengar josllagam alvalvdom1 pabmorgar 
 superparC2 :: Int -> Bool
 superparC2 n = and [even (read [n]) | n <- show n]
 
@@ -540,7 +543,7 @@ superparC3 n =
 --    superparRD 456  ==  False
 -- ---------------------------------------------------------------------
 
--- fracruzam alebergon josllagam manpende anagusil
+-- fracruzam alebergon josllagam manpende anagusil juanarcon pabmorgar
 superparRD :: Int -> Bool
 superparRD 0 = True
 superparRD n = even (last (digitos n)) && superparRD (div n 10)
@@ -578,7 +581,7 @@ superparA n = all even [x | x <- [read [m] | m <- show n]]
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam manvermor rubvilval alebergon carmengar alvalvdom1
--- anaagusil 
+-- juanarcon pabmorgar anaagusil 
 superparA2 :: Int -> Bool
 superparA2 n = all even [read [n] | n <- show n]
 
@@ -598,7 +601,7 @@ superparF n = filter (even) m == m
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alebergon carmengar
+-- fracruzam alebergon carmengar juanarcon pabmorgar
 -- No son necesarios los paréntesis en even
 superparF2 :: Int -> Bool
 superparF2 n = filter even m == m
@@ -625,7 +628,7 @@ concatR ((x:xs):xss) = x:concatR (xs:xss)
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam manvermor rubvilval alebergon carmengar josllagam manpende
--- alvalvdom1 anaagusil
+-- alvalvdom1 anaagusil juanarcon pabmorgar
 concatR2 :: [[a]] -> [a]
 concatR2 [] = []
 concatR2 (xs:xss) = xs ++ concatR xss
@@ -644,7 +647,7 @@ concatP xss = foldr (++) [] xss
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- juanarcon alebergon carmengar josllagam anaagusil
+-- juanarcon alebergon carmengar josllagam anaagusil pabmorgar
 concatP2 :: [[a]] -> [a]
 concatP2  = foldr (++) []
 
@@ -654,7 +657,7 @@ concatP2  = foldr (++) []
 -- ---------------------------------------------------------------------
 
 -- fracruzam manvermor rubvilval alebergon carmengar josllagam manpende
--- alvalvdom1 anaagusil
+-- alvalvdom1 anaagusil juanarcon pabmorgar
 
 -- La propiedad es
 prop_concat :: [[Int]] -> Bool
@@ -671,7 +674,7 @@ prop_concat xss = cR == concatP xss && cR == concat xss
 -- ---------------------------------------------------------------------
 
 -- fracruzam manvermor rubvilval alebergon carmengar josllagam manpende
--- alvalvdom1 anaagusil
+-- alvalvdom1 anaagusil juanarcon pabmorgar
 
 -- La propiedad es
 prop_longConcat :: [[Int]] -> Bool
@@ -690,7 +693,7 @@ prop_longConcat xss = length (concatP xss) == sum (map length xss)
 -- ---------------------------------------------------------------------
 
 -- blaruiher manpende fracruzam manvermor rubvilval alebergon carmengar
--- josllagam alvalvdom1 anaagusil
+-- josllagam alvalvdom1 anaagusil juanarcon pabmorgar
 filtraAplicaC :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaC f p xs = [f x | x <- xs, p x]
 
@@ -703,7 +706,7 @@ filtraAplicaC f p xs = [f x | x <- xs, p x]
 -- ---------------------------------------------------------------------
 
 -- blaruiher manpende fracruzam manvermor rubvilval carruirui3 alebergon
--- carmengar josllagam alvalvdom1 anaagusil
+-- carmengar josllagam alvalvdom1 anaagusil juanarcon pabmorgar
 filtraAplicaMF :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaMF f p xs = map f (filter p xs)
 
@@ -715,7 +718,7 @@ filtraAplicaMF f p xs = map f (filter p xs)
 --    filtraAplicaR (4+) (<3) [1..7]  =>  [5,6]
 -- ---------------------------------------------------------------------
 
--- manpende manvermor josllagam anaagusil
+-- manpende manvermor josllagam anaagusil pabmorgar
 filtraAplicaR :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaR f p [] = []
 filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
@@ -723,7 +726,7 @@ filtraAplicaR f p (x:xs) | p x       = f x : filtraAplicaR f p xs
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alebergon carmengar alvalvdom1
+-- fracruzam alebergon carmengar alvalvdom1 juanarcon
 filtraAplicaR2 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaR2 _ _ [] = []
 filtraAplicaR2 f p (x:xs) | p x       = f x : filtraAplicaR f p xs
@@ -737,7 +740,7 @@ filtraAplicaR2 f p (x:xs) | p x       = f x : filtraAplicaR f p xs
 --    filtraAplicaP (4+) (<3) [1..7]  =>  [5,6]
 -- ---------------------------------------------------------------------
 
--- carruirui3 alebergon carmengar anaagusil
+-- carruirui3 alebergon carmengar anaagusil juanarcon pabmorgar
 filtraAplicaP :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaP f p xs = foldr fn [] xs
     where fn y ys | p y       = f y : ys
@@ -759,13 +762,13 @@ maximumR :: Ord a => [a] -> a
 maximumR (x:xs) | any (>x) xs = maximumR xs
                 | otherwise   = x
 
--- manvermor alebergon josllagam
+-- manvermor alebergon josllagam pabmorgar
 maximumR3 :: Ord a => [a] -> a
 maximumR3 [x] = x
 maximumR3 (x:y:xs) | x < y     = maximumR3 (y:xs)
                    | otherwise = x
 
--- carmengar alvalvdom1
+-- carmengar alvalvdom1 juanarcon
 maximumR4 :: Ord a => [a] -> a
 maximumR4 (x:xs) | all (<=x) xs = x
                  | otherwise    = maximumR xs     
@@ -787,6 +790,7 @@ maximumR4 (x:xs) | all (<=x) xs = x
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar josllagam alvalvdom1 anaagusil
+-- juanarcon pabmorgar
 maximumP :: Ord a => [a] -> a
 maximumP = foldr1 max
 
@@ -797,6 +801,7 @@ maximumP = foldr1 max
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar josllagam alvalvdom1 anaagusil
+-- juanarcon pabmorgar
 -- La propiedad es
 prop_maximumP :: [Int] -> Property
 prop_maximumP xs = xs /= [] ==> elem mP xs && all (<= mP) xs
@@ -818,7 +823,7 @@ prop_maximumP xs = xs /= [] ==> elem mP xs && all (<= mP) xs
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar blaruiher alvalvdom1 anaagusil
--- josllagam
+-- josllagam juanarcon pabmorgar
 minimumP :: Ord a => [a] -> a
 minimumP = foldr1 min
 
@@ -829,7 +834,7 @@ minimumP = foldr1 min
 -- ---------------------------------------------------------------------
 
 -- fracruzam rubvilval alebergon carmengar blaruiher alvalvdom1 anaagusil
--- josllagam
+-- josllagam juanarcon pabmorgar
 
 -- La propiedad es
 prop_minimumP :: [Int] -> Property
