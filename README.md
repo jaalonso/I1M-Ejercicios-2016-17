@@ -40,4 +40,7 @@ clase) y las soluciones definitivas.
 + **Relación 11**: Tipos de datos algebraicos: Árboles binarios.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11_sol.hs)).
++ **Relación 12**: Tipos de datos algebraicos.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_12.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_12_sol.hs)).
 
