@@ -55,8 +55,10 @@ data Arbol1 a = H1
              | N1 a (Arbol1 a) (Arbol1 a)
              deriving (Show, Eq)
 
+-- fracruzam alvalvdom1
 sumaArbol :: Num a => Arbol1 a -> a
-sumaArbol = undefined
+sumaArbol H1           = 0
+sumaArbol (N1 a ai ad) = a + sumaArbol ai + sumaArbol ad
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir la función 
@@ -67,8 +69,10 @@ sumaArbol = undefined
 --    N1 3 (N1 6 (N1 4 H1 H1) (N1 8 H1 H1)) (N1 5 H1 H1)
 -- ---------------------------------------------------------------------
 
+-- fracruzam alvalvdom1
 mapArbol :: (a -> b) -> Arbol1 a -> Arbol1 b
-mapArbol = undefined
+mapArbol _ H1           = H1
+mapArbol f (N1 a ai ad) = N1 (f a) (mapArbol f ai) (mapArbol f ad)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Definir la función
@@ -79,13 +83,15 @@ mapArbol = undefined
 --    [2,5,3]
 -- ---------------------------------------------------------------------
 
+-- fracruzam alvalvdom1
 ramaIzquierda :: Arbol1 a -> [a]
-ramaIzquierda = undefined
+ramaIzquierda H1           = []
+ramaIzquierda (N1 a ai ad) = a : ramaIzquierda ai
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.4. Diremos que un árbol está balanceado si para cada nodo
--- v la diferencia entre el número de nodos (con valor) de sus ramas
--- izquierda y derecha es menor o igual que uno.  
+-- v la diferencia entre el número de nodos (con valor) de sus subárboles
+-- izquierdo y derecho es menor o igual que uno.  
 --
 -- Definir la función 
 --    balanceado :: Arbol1 a -> Bool
@@ -93,10 +99,17 @@ ramaIzquierda = undefined
 -- ejemplo,
 --    balanceado (N1 5 H1 (N1 3 H1 H1))           == True
 --    balanceado (N1 5 H1 (N1 3 (N1 4 H1 H1) H1)) == False
+--    balanceado (N1 5 H1 (N1 3 H1 (N1 4 H1 H1))) == False
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 balanceado :: Arbol1 a -> Bool
-balanceado = undefined
+balanceado H1 = True
+balanceado (N1 a ai ad) = 
+   (abs (nNodos ai - nNodos ad) <= 1) && balanceado ai && balanceado ad
+   where nNodos :: Arbol1 a -> Int
+         nNodos H1           = 0
+         nNodos (N1 a ai ad) = 1 + nNodos ai + nNodos ad
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Los árboles binarios con valores en las hojas se pueden
@@ -137,8 +150,12 @@ arbol2 = N2 (N2 (H2 1) (H2 2)) (H2 3)
 arbol3 = N2 (N2 (H2 1) (H2 4)) (H2 3)
 arbol4 = N2 (N2 (H2 2) (H2 3)) (H2 1)
 
+-- fracruzam
 igualBorde :: Eq a => Arbol2 a -> Arbol2 a -> Bool
-igualBorde t1 t2 = undefined
+igualBorde t1 t2 = borde t1 == borde t2
+    where borde :: Arbol2 a -> [a]
+          borde (H2 a)     = [a]
+          borde (N2 ai ad) = borde ai ++ borde ad
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Los árboles binarios con valores en las hojas y en los
@@ -179,8 +196,15 @@ ej3arbol2 = N3 8 (N3 9 (H3 1) (H3 4)) (N3 3 (H3 6) (H3 2))
 ej3arbol3 = N3 5 (N3 9 (H3 1) (H3 4)) (H3 2)
 ej3arbol4 = N3 5 (H3 4) (N3 7 (H3 6) (H3 2))
 
+-- fracruzam
 igualEstructura :: Arbol3 a -> Arbol3 a -> Bool
-igualEstructura = undefined
+igualEstructura arb1 arb2 = estructura arb1 == estructura arb2
+    where estructura :: Arbol3 a -> [Char]
+          estructura (H3 a)       = ['H']
+          estructura (N3 a ai ad) = 'N' : estructura ai ++ estructura ad
+
+-- Comentario: La definición anterior se puede simplificar (sin
+-- necesidad de construir listas).
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir la función
@@ -191,8 +215,15 @@ igualEstructura = undefined
 --    algunoArbol3 (N3 5 (N3 3 (H3 1) (H3 4)) (H3 2)) (>7)  ==  False
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 algunoArbol :: Arbol3 a -> (a -> Bool) -> Bool
-algunoArbol = undefined
+algunoArbol arb3 p = any p (arb2lista arb3)
+    where arb2lista :: Arbol3 a -> [a]
+          arb2lista (H3 a)       = [a]
+          arb2lista (N3 a ai ad) = a : arb2lista ai ++ arb2lista ad
+
+-- Comentario: La definición anterior se puede simplificar (sin
+-- necesidad de construir listas).
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Un elemento de un árbol se dirá de nivel k si aparece
@@ -208,8 +239,12 @@ algunoArbol = undefined
 --    nivel 3 (N3 7 (N3 2 (H3 5) (H3 4)) (H3 9))  ==  []
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 nivel :: Int -> Arbol3 a -> [a]
-nivel = undefined
+nivel 0 (H3 a)       = [a]
+nivel 0 (N3 a ai ad) = [a]
+nivel n (H3 a)       = []
+nivel n (N3 a ai ad) = nivel (n-1) ai ++ nivel (n-1) ad
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.4.  Los divisores medios de un número son los que ocupan
@@ -301,7 +336,7 @@ ej2 = Conj (Disy (Conj (HB True) (HB False))
            (Conj (Neg (HB False))
                  (HB True))
 
-valorB:: ArbolB -> Bool
+valorB :: ArbolB -> Bool
 valorB = undefined
 
 -- ---------------------------------------------------------------------
