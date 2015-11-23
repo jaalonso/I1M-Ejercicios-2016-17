@@ -11,7 +11,7 @@
 -- En esta relación se presenta ejercicios sobre árboles binarios
 -- definidos como tipos de datos algebraicos.
 -- 
--- Los ejercicios corresponden al tema 9 que se encuentra en 
+-- Los ejercicios corresponden al tema 9 que se encuentran en 
 --    http://www.cs.us.es/~jalonso/cursos/i1m-15/temas/tema-9.html
 
 -- ---------------------------------------------------------------------
@@ -49,11 +49,9 @@ data Arbol a = H a
 --    nHojas (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  3
 -- ---------------------------------------------------------------------
 
--- guache fracruzam alvalvdom1 josllagam pabmorgar blaruiher rubvilval
--- silgongal alebergon manpende abrdelrod erisancha juanarcon ivaruicam
 nHojas :: Arbol a -> Int
 nHojas (H _)     = 1
-nHojas (N x y z) = nHojas y + nHojas z
+nHojas (N x i d) = nHojas i + nHojas d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Definir la función
@@ -62,36 +60,23 @@ nHojas (N x y z) = nHojas y + nHojas z
 --    nNodos (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  2
 -- ---------------------------------------------------------------------
 
--- guache josllagam
 nNodos :: Arbol a -> Int
 nNodos (H _)     = 0
-nNodos (N x y z) = 1 + (nNodos y + nNodos z)
-
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam alvalvdom1 manvermor pabmorgar blaruiher rubvilval silgongal
--- alebergon manpende abrdelrod erisancha juanarcon ivaruicam
-
-nNodos2 :: Arbol a -> Int
-nNodos2 (H _)       = 0
-nNodos2 (N a ai ad) = 1 + nNodos ai + nNodos ad
+nNodos (N x i d) = 1 + nNodos i + nNodos d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Comprobar con QuickCheck que en todo árbol binario el
 -- número de sus hojas es igual al número de sus nodos más uno.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam alvalvdom1 manvermor josllagam pabmorgar blaruiher
--- rubvilval silgongal alebergon manpende abrdelrod erisancha juanarcon
--- ivaruicam
-
 -- La propiedad es
 prop_nHojas :: Arbol Int -> Bool
-prop_nHojas x = nHojas x == 1 + nNodos x
+prop_nHojas x =
+    nHojas x == nNodos x + 1
 
 -- La comprobación es
---    *Main> quickCheck prop_nHojas
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_nHojas
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir la función
@@ -102,12 +87,9 @@ prop_nHojas x = nHojas x == 1 + nNodos x
 --    profundidad (N 4 (N 5 (H 4) (H 2)) (N 3 (H 7) (H 4)))  ==  2
 -- ---------------------------------------------------------------------
 
--- fracruzam josllagam pabmorgar blaruiher rubvilval silgongal alvalvdom1
--- alebergon manpende abrdelrod erisancha juanarcon ivaruicam
-
 profundidad :: Arbol a -> Int
-profundidad (H a)       = 0
-profundidad (N a ai ad) = 1 + max (profundidad ai) (profundidad ad)
+profundidad (H _)     = 0
+profundidad (N x i d) = 1 + max (profundidad i) (profundidad d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Comprobar con QuickCheck que para todo árbol biario
@@ -115,17 +97,14 @@ profundidad (N a ai ad) = 1 + max (profundidad ai) (profundidad ad)
 --    nNodos x <= 2^(profundidad x) - 1
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor josllagam pabmorgar blaruiher rubvilval 
--- silgongal alvalvdom1 alebergon manpende abrdelrod erisancha juanarcon
--- ivaruicam
-
 -- La propiedad es
 prop_nNodosProfundidad :: Arbol Int -> Bool
-prop_nNodosProfundidad x = nNodos x <= 2^(profundidad x) - 1
+prop_nNodosProfundidad x =
+   nNodos x <= 2^(profundidad x) - 1
 
 -- La comprobación es
---    *Main> quickCheck prop_nNodosProfundidad 
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_nNodosProfundidad
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.1. Definir la función
@@ -137,12 +116,9 @@ prop_nNodosProfundidad x = nNodos x <= 2^(profundidad x) - 1
 --    preorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [9,3,2,4,7]
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor josllagam pabmorgar blaruiher rubvilval
--- alvalvdom1 silgongal alebergon manpende abrdelrod erisancha juanarcon
--- ivaruicam
 preorden :: Arbol a -> [a]
-preorden (H a)      = [a]
-preorden (N a b c ) = a : preorden b ++ preorden c
+preorden (H x)     = [x]
+preorden (N x i d) = x : (preorden i ++ preorden d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Comprobar con QuickCheck que la longitud de la lista
@@ -150,17 +126,14 @@ preorden (N a b c ) = a : preorden b ++ preorden c
 -- de nodos del árbol más el número de hojas.
 -- ---------------------------------------------------------------------
 
--- guache fracruzam manvermor josllagam pabmorgar blaruiher rubvilval
--- alvalvdom1 silgongal alebergon manpende abrdelrod erisancha juanarcon
--- ivaruicam
-
 -- La propiedad es
 prop_length_preorden :: Arbol Int -> Bool
-prop_length_preorden x =  length (preorden x) == nNodos x + nHojas x
+prop_length_preorden x =
+   length (preorden x) == nNodos x + nHojas x
 
 -- La comprobación es
---    *Main> quickCheck prop_length_preorden
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_length_preorden
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -172,13 +145,9 @@ prop_length_preorden x =  length (preorden x) == nNodos x + nHojas x
 --    postorden (N 9 (N 3 (H 2) (H 4)) (H 7))  ==  [2,4,3,7,9]
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor josllagam pabmorgar blaruiher rubvilval
--- alvalvdom1 silgongal alebergon manpende abrdelrod erisancha
--- juanarcon ivaruicam
-
 postorden :: Arbol a -> [a]
-postorden (H a)       = [a]
-postorden (N a ai ad) = postorden ai ++ postorden ad ++ [a]
+postorden (H x)     = [x]
+postorden (N x i d) = postorden i ++ postorden d ++ [x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Definir, usando un acumulador, la función
@@ -192,62 +161,50 @@ postorden (N a ai ad) = postorden ai ++ postorden ad ++ [a]
 -- Nota: No usar (++) en la definición
 -- ---------------------------------------------------------------------
 
--- fracruzam blaruiher alebergon erisancha juanarcon
 preordenIt :: Arbol a -> [a]
 preordenIt x = preordenItAux x []
-    where preordenItAux :: Arbol a -> [a] -> [a]
-          preordenItAux (H a) xs       = a:xs
-          preordenItAux (N a ai ad) xs = 
-              a : preordenItAux ai (preordenItAux ad xs)
+    where preordenItAux (H x) xs     = x:xs
+          preordenItAux (N x i d) xs = 
+              x : preordenItAux i (preordenItAux d xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Comprobar con QuickCheck que preordenIt es equivalente
 -- a preorden. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod erisancha juanarcon ivaruicam
 -- La propiedad es
 prop_preordenIt :: Arbol Int -> Bool
-prop_preordenIt x = preordenIt x == preorden x
+prop_preordenIt x =
+    preordenIt x == preorden x
 
 -- La comprobación es
---    *Main> quickCheck prop_preordenIt
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_preordenIt
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1. Definir la función
 --    espejo :: Arbol a -> Arbol a
 -- tal que (espejo x) es la imagen especular del árbol x. Por ejemplo,
 --    espejo (N 9 (N 3 (H 2) (H 4)) (H 7)) == N 9 (H 7) (N 3 (H 4) (H 2))
---    espejo (N 5 (H 4) (N 2 (H 1) (H 5))) == N 5 (N 2 (H 5) (H 1)) (H 4)
 -- ---------------------------------------------------------------------
 
--- fracruzam pabmorgar rubvilval blaruiher josllagam alvalvdom1 silgongal
--- alebergon manpende abrdelrod erisancha juanarcon ivaruicam
-
 espejo :: Arbol a -> Arbol a
-espejo (H a)       = H a
-espejo (N a ai ad) = N a (espejo ad) (espejo ai)
+espejo (H x)     = H x
+espejo (N x i d) = N x (espejo d) (espejo i)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Comprobar con QuickCheck que para todo árbol x,
 --    espejo (espejo x) = x
 -- ---------------------------------------------------------------------
 
--- fracruzam ivaruicam
 -- La propiedad es
 prop_espejo :: Arbol Int -> Bool
-prop_espejo x = (espejo . espejo) x == x
+prop_espejo x = 
+    espejo (espejo x) == x
 
 -- La comprobación es
---    *Main> quickCheck prop_espejo
+--    ghci> quickCheck prop_espejo
 --    +++ OK, passed 100 tests.
-
--- manvermor pabmorgar rubvilval blaruiher josllagam alvalvdom1 silgongal
--- alebergon manpende abrdelrod  erisancha juanarcon
-prop_espejo2 :: Arbol Int -> Bool
-prop_espejo2 x = espejo (espejo x) == x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Comprobar con QuickCheck que para todo árbol binario
@@ -255,46 +212,28 @@ prop_espejo2 x = espejo (espejo x) == x
 --    reverse (preorden (espejo x)) = postorden x
 -- ---------------------------------------------------------------------
 
--- fracruzam blaruiher manpende
-
 -- La propiedad es
 prop_reverse_preorden_espejo :: Arbol Int -> Bool
-prop_reverse_preorden_espejo x = 
-    (reverse . preorden . espejo) x == postorden x
+prop_reverse_preorden_espejo x =
+   reverse (preorden (espejo x)) == postorden x
 
 -- La comprobación es
---    *Main> quickCheck prop_reverse_preorden_espejo
---    +++ OK, passed 100 tests.
-
--- manvermor pabmorgar rubvilval josllagam alvalvdom1 silgongal
--- alebergon abrdelrod erisancha juanarcon ivaruicam
-
-prop_reverse_preorden_espejo2 :: Arbol Int -> Bool
-prop_reverse_preorden_espejo2 x = 
-    reverse (preorden (espejo x)) == postorden x
+--    ghci> quickCheck prop_reverse_preorden_espejo
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.4. Comprobar con QuickCheck que para todo árbol x,
 --    postorden (espejo x) = reverse (preorden x)
 -- ---------------------------------------------------------------------
 
--- fracruzam blaruiher ivaruicam
-
 -- La propiedad es
 prop_recorrido :: Arbol Int -> Bool
-prop_recorrido x = 
-    (postorden . espejo) x == (reverse . preorden) x
+prop_recorrido x =
+   postorden (espejo x) == reverse (preorden x)
 
 -- La comprobación es
---    *Main> quickCheck prop_recorrido
---    +++ OK, passed 100 tests.
-
--- manvermor pabmorgar rubvilval erisancha josllagam alvalvdom1 silgongal
--- alebergon manpende abrdelrod juanarcon 
-
-prop_recorrido2 :: Arbol Int -> Bool
-prop_recorrido2 x =  
-    postorden (espejo x) == reverse (preorden x)
+--    ghci> quickCheck prop_recorrido
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. La función take está definida por
@@ -312,30 +251,27 @@ prop_recorrido2 x =
 --    takeArbol 2 (N 9 (N 3 (H 2) (H 4)) (H 7)) == N 9 (N 3 (H 2) (H 4)) (H 7)
 --    takeArbol 3 (N 9 (N 3 (H 2) (H 4)) (H 7)) == N 9 (N 3 (H 2) (H 4)) (H 7)
 -- ---------------------------------------------------------------------
-
--- fracruzam pabmorgar rubvilval blaruiher alvalvdom1 silgongal alebergon
--- manpende abrdelrod erisancha juanarcon ivaruicam
+ 
 takeArbol :: Int -> Arbol a -> Arbol a
-takeArbol _ (H a)       = H a
-takeArbol 0 (N a ai ad) = H a
-takeArbol n (N a ai ad) = N a (takeArbol (n-1) ai) (takeArbol (n-1) ad)
+takeArbol _ (H x)     = H x
+takeArbol 0 (N x i d) = H x
+takeArbol n (N x i d) = 
+    N x (takeArbol (n-1) i) (takeArbol (n-1) d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.2. Comprobar con QuickCheck que la profundidad de 
 -- (takeArbol n x) es menor o igual que n, para todo número natural n y
 -- todo árbol x. 
 -- ---------------------------------------------------------------------
- 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod erisancha juanarcon ivaruicam
 
 -- La propiedad es
-prop_takeArbol :: Int -> Arbol Int -> Property
-prop_takeArbol n x = n > 0 ==> profundidad (takeArbol n x) <= n
+prop_takeArbol:: Int -> Arbol Int -> Property
+prop_takeArbol n x =
+    n >= 0 ==> profundidad (takeArbol n x) <= n
 
 -- La comprobación es
--- *Main> quickCheck prop_takeArbol
--- +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_takeArbol
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. La función
@@ -355,14 +291,9 @@ prop_takeArbol n x = n > 0 ==> profundidad (takeArbol n x) <= n
 --    takeArbol 2 (repeatArbol 3) == N 3 (N 3 (H 3) (H 3)) (N 3 (H 3) (H 3))
 -- ---------------------------------------------------------------------
 
--- fracruzam pabmorgar blaruiher silgongal ivaruicam
 repeatArbol :: a -> Arbol a
-repeatArbol x = (N x a0 a0)
-    where a0 = (N x a0 a0)
-
--- rubvilval alvalvdom1 alebergon manpende abrdelrod erisancha juanarcon
-repeatArbol2 :: a -> Arbol a
-repeatArbol2 x = N x (repeatArbol2 x) (repeatArbol2 x)
+repeatArbol x = N x t t
+    where t = repeatArbol x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.1. La función 
@@ -382,21 +313,8 @@ repeatArbol2 x = N x (repeatArbol2 x) (repeatArbol2 x)
 --    replicateArbol 2 5  ==  N 5 (N 5 (H 5) (H 5)) (N 5 (H 5) (H 5))
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar silgongal alebergon manpende abrdelrod
--- erisancha juanarcon
 replicateArbol :: Int -> a -> Arbol a
-replicateArbol n x = takeArbol n (repeatArbol x)
-
--- rubvilval josllagam
-replicateArbol2 :: Int -> a -> Arbol a
-replicateArbol2 0 x = H x
-replicateArbol2 n x = N x (replicateArbol (n-1) x) (replicateArbol (n-1) x)
-
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1 ivaruicam
-replicateArbol3 :: Int -> a -> Arbol a
-replicateArbol3 n = takeArbol n . repeatArbol
+replicateArbol n = takeArbol n . repeatArbol
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.2. Comprobar con QuickCheck que el número de hojas de 
@@ -407,15 +325,13 @@ replicateArbol3 n = takeArbol n . repeatArbol
 --    quickCheckWith (stdArgs {maxSize=7}) prop_replicateArbol
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod josllagam erisancha juanarcon ivaruicam
-
 -- La propiedad es
 prop_replicateArbol :: Int -> Int -> Property
-prop_replicateArbol n x = n > 0 ==> nHojas (replicateArbol n x) == 2^n
+prop_replicateArbol n x =
+    n >= 0 ==> nHojas (replicateArbol n x) == 2^n
 
 -- La comprobación es
---    *Main> quickCheck prop_replicateArbol
+--    ghci> quickCheckWith (stdArgs {maxSize=7}) prop_replicateArbol
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -427,45 +343,37 @@ prop_replicateArbol n x = n > 0 ==> nHojas (replicateArbol n x) == 2^n
 --    N 18 (N 6 (H 4) (H 8)) (H 14)
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod josllagam erisancha juanarcon ivaruicam
 mapArbol :: (a -> a) -> Arbol a -> Arbol a
-mapArbol f (H a)       = H (f a)
-mapArbol f (N a ai ad) = N (f a) (mapArbol f ai) (mapArbol f ad)
+mapArbol f (H x)     = H (f x)
+mapArbol f (N x i d) = N (f x) (mapArbol f i) (mapArbol f d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Comprobar con QuickCheck que 
 --    (mapArbol (1+)) . espejo = espejo . (mapArbol (1+))
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod josllagam erisancha juanarcon ivaruicam
-
 -- La propiedad es
 prop_mapArbol_espejo :: Arbol Int -> Bool
-prop_mapArbol_espejo x = 
+prop_mapArbol_espejo x =
     ((mapArbol (1+)) . espejo) x == (espejo . (mapArbol (1+))) x
 
 -- La comprobación es
---    *Main> quickCheck prop_mapArbol_espejo
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_mapArbol_espejo
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Comprobar con QuickCheck que
 --    (map (1+)) . preorden = preorden . (mapArbol (1+)) 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor pabmorgar rubvilval blaruiher alvalvdom1 silgongal
--- alebergon manpende abrdelrod josllagam erisancha juanarcon ivaruicam
-
 -- La propiedad es
 prop_map_preorden :: Arbol Int -> Bool
-prop_map_preorden x = 
-     ((map (1+)) . preorden) x == (preorden . (mapArbol (1+))) x
+prop_map_preorden x =
+    ((map (1+)) . preorden) x == (preorden . (mapArbol (1+))) x
 
 -- La comprobación es
---    *Main> quickCheck prop_map_preorden
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_map_preorden
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Nota. Para comprobar propiedades de árboles con QuickCheck se
@@ -479,3 +387,4 @@ instance Arbitrary a => Arbitrary (Arbol a) where
       arbol n | n>0 = oneof [liftM H arbitrary,
                              liftM3 N arbitrary subarbol subarbol]
                       where subarbol = arbol (div n 2)
+

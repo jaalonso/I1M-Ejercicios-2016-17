@@ -417,7 +417,7 @@ aplica = undefined
 --    valorE :: Expr2 -> Int -> Int
 -- tal que (valorE e n) es el valor de la expresión e cuando se
 -- sustituye su variable por n. Por ejemplo,
---    valorE (P2 X (S2 (C2 13) X)) 2  ==  23
+--    valorE (P2 X (S2 (C2 13) X)) 2  ==  30
 -- ---------------------------------------------------------------------
  
 data Expr2 = X
@@ -579,7 +579,7 @@ valorEG :: Expr5 -> Int
 valorEG = undefined
 
 -- ---------------------------------------------------------------------
--- Ejercicio 11.. Se consideran las expresiones vectoriales formadas por
+-- Ejercicio 11. Se consideran las expresiones vectoriales formadas por
 -- un vector, la suma de dos expresiones vectoriales o el producto de un
 -- entero por una expresión vectorial. El siguiente tipo de dato define
 -- las expresiones vectoriales  

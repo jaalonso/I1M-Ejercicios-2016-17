@@ -1,39 +1,39 @@
--- I1M 2015-16: Relación 12 (21 de noviembre de 2015)
+-- I1M 2015-16: RelaciÃ³n 12 (21 de noviembre de 2015)
 -- Tipos de datos algebraicos.
--- Departamento de Ciencias de la Computación e I.A.
+-- Departamento de Ciencias de la ComputaciÃ³n e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
--- Introducción                                                       --
+-- IntroducciÃ³n                                                       --
 -- ---------------------------------------------------------------------
 
--- En esta relación se presenta ejercicios sobre distintos tipos de
+-- En esta relaciÃ³n se presenta ejercicios sobre distintos tipos de
 -- datos algebraicos. Concretamente,
---    * Árboles binarios:
---      + Árboles binarios con valores en los nodos.
---      + Árboles binarios con valores en las hojas.
---      + Árboles binarios con valores en las hojas y en los nodos.
---      + Árboles booleanos.  
---    * Árboles generales
---    * Expresiones aritméticas
---      + Expresiones aritméticas básicas.
---      + Expresiones aritméticas con una variable.
---      + Expresiones aritméticas con varias variables.
---      + Expresiones aritméticas generales. 
---      + Expresiones aritméticas con tipo de operaciones.
+--    * Ãrboles binarios:
+--      + Ãrboles binarios con valores en los nodos.
+--      + Ãrboles binarios con valores en las hojas.
+--      + Ãrboles binarios con valores en las hojas y en los nodos.
+--      + Ãrboles booleanos.  
+--    * Ãrboles generales
+--    * Expresiones aritmÃ©ticas
+--      + Expresiones aritmÃ©ticas bÃ¡sicas.
+--      + Expresiones aritmÃ©ticas con una variable.
+--      + Expresiones aritmÃ©ticas con varias variables.
+--      + Expresiones aritmÃ©ticas generales. 
+--      + Expresiones aritmÃ©ticas con tipo de operaciones.
 --    * Expresiones vectoriales
 -- 
 -- Los ejercicios corresponden al tema 9 que se encuentran en 
 --    http://www.cs.us.es/~jalonso/cursos/i1m-15/temas/tema-9.html
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.1. Los árboles binarios con valores en los nodos se
+-- Ejercicio 1.1. Los Ã¡rboles binarios con valores en los nodos se
 -- pueden definir por
 --    data Arbol1 a = H1 
 --                  | N1 a (Arbol1 a) (Arbol1 a)
 --                  deriving (Show, Eq)
--- Por ejemplo, el árbol
+-- Por ejemplo, el Ã¡rbol
 --         9                
 --        / \    
 --       /   \   
@@ -43,9 +43,9 @@
 -- se puede representar por
 --    N1 9 (N1 8 (N1 3 H1 H1) (N1 2 H1 H1)) (N1 6 (N1 4 H1 H1) (N1 5 H1 H1))
 --
--- Definir por recursión la función 
+-- Definir por recursiÃ³n la funciÃ³n 
 --    sumaArbol :: Num a => Arbol1 a -> a
--- tal (sumaArbol x) es la suma de los valores que hay en el árbol
+-- tal (sumaArbol x) es la suma de los valores que hay en el Ã¡rbol
 -- x. Por ejemplo,
 --    ghci> sumaArbol (N1 2 (N1 5 (N1 3 H1 H1) (N1 7 H1 H1)) (N1 4 H1 H1))  
 --    21
@@ -55,54 +55,54 @@ data Arbol1 a = H1
              | N1 a (Arbol1 a) (Arbol1 a)
              deriving (Show, Eq)
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor
 sumaArbol :: Num a => Arbol1 a -> a
 sumaArbol H1           = 0
 sumaArbol (N1 a ai ad) = a + sumaArbol ai + sumaArbol ad
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.2. Definir la función 
+-- Ejercicio 1.2. Definir la funciÃ³n 
 --    mapArbol :: (a -> b) -> Arbol1 a -> Arbol1 b
--- tal que (mapArbol f x) es el árbol que resulta de sustituir cada nodo
--- n del árbol x por (f n). Por ejemplo,
+-- tal que (mapArbol f x) es el Ã¡rbol que resulta de sustituir cada nodo
+-- n del Ã¡rbol x por (f n). Por ejemplo,
 --    ghci> mapArbol (+1) (N1 2 (N1 5 (N1 3 H1 H1) (N1 7 H1 H1)) (N1 4 H1 H1))
 --    N1 3 (N1 6 (N1 4 H1 H1) (N1 8 H1 H1)) (N1 5 H1 H1)
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor
 mapArbol :: (a -> b) -> Arbol1 a -> Arbol1 b
 mapArbol _ H1           = H1
 mapArbol f (N1 a ai ad) = N1 (f a) (mapArbol f ai) (mapArbol f ad)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.3. Definir la función
+-- Ejercicio 1.3. Definir la funciÃ³n
 --    ramaIzquierda :: Arbol1 a -> [a]
 -- tal que (ramaIzquierda a) es la lista de los valores de los nodos de
--- la rama izquierda del árbol a. Por ejemplo,
+-- la rama izquierda del Ã¡rbol a. Por ejemplo,
 --    ghci> ramaIzquierda (N1 2 (N1 5 (N1 3 H1 H1) (N1 7 H1 H1)) (N1 4 H1 H1))
 --    [2,5,3]
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor
 ramaIzquierda :: Arbol1 a -> [a]
 ramaIzquierda H1           = []
 ramaIzquierda (N1 a ai ad) = a : ramaIzquierda ai
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.4. Diremos que un árbol está balanceado si para cada nodo
--- v la diferencia entre el número de nodos (con valor) de sus subárboles
+-- Ejercicio 1.4. Diremos que un Ã¡rbol estÃ¡ balanceado si para cada nodo
+-- v la diferencia entre el nÃºmero de nodos (con valor) de sus subÃ¡rboles
 -- izquierdo y derecho es menor o igual que uno.  
 --
--- Definir la función 
+-- Definir la funciÃ³n 
 --    balanceado :: Arbol1 a -> Bool
--- tal que (balanceado a) se verifica si el árbol a está balanceado. Por 
+-- tal que (balanceado a) se verifica si el Ã¡rbol a estÃ¡ balanceado. Por 
 -- ejemplo,
 --    balanceado (N1 5 H1 (N1 3 H1 H1))           == True
 --    balanceado (N1 5 H1 (N1 3 (N1 4 H1 H1) H1)) == False
 --    balanceado (N1 5 H1 (N1 3 H1 (N1 4 H1 H1))) == False
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor
 balanceado :: Arbol1 a -> Bool
 balanceado H1 = True
 balanceado (N1 a ai ad) = 
@@ -112,13 +112,13 @@ balanceado (N1 a ai ad) =
          nNodos (N1 a ai ad) = 1 + nNodos ai + nNodos ad
 
 -- ---------------------------------------------------------------------
--- Ejercicio 2. Los árboles binarios con valores en las hojas se pueden
+-- Ejercicio 2. Los Ã¡rboles binarios con valores en las hojas se pueden
 -- definir por
 --    data Arbol2 a = H2 a
 --                  | N2 (Arbol2 a) (Arbol2 a) 
 --                  deriving Show
--- Por ejemplo, los árboles 
---    árbol1          árbol2       árbol3     árbol4 
+-- Por ejemplo, los Ã¡rboles 
+--    Ã¡rbol1          Ã¡rbol2       Ã¡rbol3     Ã¡rbol4 
 --       o              o           o           o    
 --      / \            / \         / \         / \   
 --     1   o          o   3       o   3       o   1  
@@ -131,9 +131,9 @@ balanceado (N1 a ai ad) =
 --    arbol3 = N2 (N2 (H2 1) (H2 4)) (H2 3)
 --    arbol4 = N2 (N2 (H2 2) (H2 3)) (H2 1)
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    igualBorde :: Eq a => Arbol2 a -> Arbol2 a -> Bool
--- tal que (igualBorde t1 t2) se verifica si los bordes de los árboles
+-- tal que (igualBorde t1 t2) se verifica si los bordes de los Ã¡rboles
 -- t1 y t2 son iguales. Por ejemplo,
 --    igualBorde arbol1 arbol2  ==  True
 --    igualBorde arbol1 arbol3  ==  False
@@ -150,7 +150,7 @@ arbol2 = N2 (N2 (H2 1) (H2 2)) (H2 3)
 arbol3 = N2 (N2 (H2 1) (H2 4)) (H2 3)
 arbol4 = N2 (N2 (H2 2) (H2 3)) (H2 1)
 
--- fracruzam
+-- fracruzam alvalvdom1
 igualBorde :: Eq a => Arbol2 a -> Arbol2 a -> Bool
 igualBorde t1 t2 = borde t1 == borde t2
     where borde :: Arbol2 a -> [a]
@@ -158,12 +158,12 @@ igualBorde t1 t2 = borde t1 == borde t2
           borde (N2 ai ad) = borde ai ++ borde ad
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.1. Los árboles binarios con valores en las hojas y en los
+-- Ejercicio 3.1. Los Ã¡rboles binarios con valores en las hojas y en los
 -- nodos se definen por
 --    data Arbol3 a = H3 a
 --                 | N3 a (Arbol3 a) (Arbol3 a) 
 --                 deriving Show
--- Por ejemplo, los árboles
+-- Por ejemplo, los Ã¡rboles
 --         5              8             5           5
 --        / \            / \           / \         / \
 --       /   \          /   \         /   \       /   \
@@ -177,9 +177,9 @@ igualBorde t1 t2 = borde t1 == borde t2
 --    ej3arbol3 = N3 5 (N3 9 (H3 1) (H3 4)) (H3 2)
 --    ej3arbol4 = N3 5 (H3 4) (N3 7 (H3 6) (H3 2))
 --
--- Definir la función
+-- Definir la funciÃ³n
 --    igualEstructura :: Arbol3 -> Arbol3 -> Bool
--- tal que (igualEstructura a1 a1) se verifica si los árboles a1 y a2 
+-- tal que (igualEstructura a1 a1) se verifica si los Ã¡rboles a1 y a2 
 -- tienen la misma estructura. Por ejemplo,
 --    igualEstructura ej3arbol1 ej3arbol2 == True
 --    igualEstructura ej3arbol1 ej3arbol3 == False
@@ -203,13 +203,13 @@ igualEstructura arb1 arb2 = estructura arb1 == estructura arb2
           estructura (H3 a)       = ['H']
           estructura (N3 a ai ad) = 'N' : estructura ai ++ estructura ad
 
--- Comentario: La definición anterior se puede simplificar (sin
+-- Comentario: La definiciÃ³n anterior se puede simplificar (sin
 -- necesidad de construir listas).
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.2. Definir la función
+-- Ejercicio 3.2. Definir la funciÃ³n
 --    algunoArbol :: Arbol3 t -> (t -> Bool) -> Bool
--- tal que (algunoArbol a p) se verifica si algún elemento del árbol a
+-- tal que (algunoArbol a p) se verifica si algÃºn elemento del Ã¡rbol a
 -- cumple la propiedad p. Por ejemplo,
 --    algunoArbol3 (N3 5 (N3 3 (H3 1) (H3 4)) (H3 2)) (>4)  ==  True
 --    algunoArbol3 (N3 5 (N3 3 (H3 1) (H3 4)) (H3 2)) (>7)  ==  False
@@ -222,16 +222,16 @@ algunoArbol arb3 p = any p (arb2lista arb3)
           arb2lista (H3 a)       = [a]
           arb2lista (N3 a ai ad) = a : arb2lista ai ++ arb2lista ad
 
--- Comentario: La definición anterior se puede simplificar (sin
+-- Comentario: La definiciÃ³n anterior se puede simplificar (sin
 -- necesidad de construir listas).
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.3. Un elemento de un árbol se dirá de nivel k si aparece
--- en el árbol a distancia k  de la raíz.  
+-- Ejercicio 3.3. Un elemento de un Ã¡rbol se dirÃ¡ de nivel k si aparece
+-- en el Ã¡rbol a distancia k  de la raÃ­z.  
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    nivel :: Int -> Arbol3 a -> [a]
--- tal que (nivel k a) es la lista de los elementos de nivel k del árbol
+-- tal que (nivel k a) es la lista de los elementos de nivel k del Ã¡rbol
 -- a. Por ejemplo,
 --    nivel 0 (N3 7 (N3 2 (H3 5) (H3 4)) (H3 9))  ==  [7]
 --    nivel 1 (N3 7 (N3 2 (H3 5) (H3 4)) (H3 9))  ==  [2,9]
@@ -247,29 +247,29 @@ nivel n (H3 a)       = []
 nivel n (N3 a ai ad) = nivel (n-1) ai ++ nivel (n-1) ad
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.4.  Los divisores medios de un número son los que ocupan
--- la posición media entre los divisores de n, ordenados de menor a
+-- Ejercicio 3.4.  Los divisores medios de un nÃºmero son los que ocupan
+-- la posiciÃ³n media entre los divisores de n, ordenados de menor a
 -- mayor. Por ejemplo, los divisores de 60 son 
 -- [1,2,3,4,5,6,10,12,15,20,30,60] y sus divisores medios son 6 y 10.
 -- 
--- El árbol de factorización de un número compuesto n se construye de la
+-- El Ã¡rbol de factorizaciÃ³n de un nÃºmero compuesto n se construye de la
 -- siguiente manera: 
---    * la raíz es el número n, 
---    * la rama izquierda es el árbol de factorización de su divisor
+--    * la raÃ­z es el nÃºmero n, 
+--    * la rama izquierda es el Ã¡rbol de factorizaciÃ³n de su divisor
 --      medio menor y
---    * la rama derecha es el árbol de factorización de su divisor
+--    * la rama derecha es el Ã¡rbol de factorizaciÃ³n de su divisor
 --      medio mayor
--- Si el número es primo, su árbol de factorización sólo tiene una hoja
--- con dicho número. Por ejemplo, el árbol de factorización de 60 es
+-- Si el nÃºmero es primo, su Ã¡rbol de factorizaciÃ³n sÃ³lo tiene una hoja
+-- con dicho nÃºmero. Por ejemplo, el Ã¡rbol de factorizaciÃ³n de 60 es
 --        60
 --       /  \
 --      6    10
 --     / \   / \
 --    2   3 2   5
 --
--- Definir la función
+-- Definir la funciÃ³n
 --    arbolFactorizacion :: Int -> Arbol3
--- tal que (arbolFactorizacion n) es el árbol de factorización de n. Por
+-- tal que (arbolFactorizacion n) es el Ã¡rbol de factorizaciÃ³n de n. Por
 -- ejemplo, 
 --    arbolFactorizacion 60 == N3 60 (N3 6 (H3 2) (H3 3)) (N3 10 (H3 2) (H3 5))
 --    arbolFactorizacion 45 == N3 45 (H3 5) (N3 9 (H3 3) (H3 3))
@@ -283,14 +283,14 @@ arbolFactorizacion :: Int -> Arbol3 Int
 arbolFactorizacion n = undefined
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4. Se consideran los árboles con operaciones booleanas
+-- Ejercicio 4. Se consideran los Ã¡rboles con operaciones booleanas
 -- definidos por   
 --    data ArbolB = HB Bool 
 --                | Conj ArbolB ArbolB
 --                | Disy ArbolB ArbolB
 --                | Neg ArbolB
 -- 
--- Por ejemplo, los árboles
+-- Por ejemplo, los Ã¡rboles
 --                Conj                            Conj          
 --               /   \                           /   \          
 --              /     \                         /     \         
@@ -312,9 +312,9 @@ arbolFactorizacion n = undefined
 --               (Conj (Neg (HB False))
 --                     (HB True))
 -- 
--- Definir la función 
+-- Definir la funciÃ³n 
 --    valorB :: ArbolB -> Bool
--- tal que (valorB ar) es el resultado de procesar el árbol realizando
+-- tal que (valorB ar) es el resultado de procesar el Ã¡rbol realizando
 -- las operaciones booleanas especificadas en los nodos. Por ejemplo,
 --    valorB ej1 == True
 --    valorB ej2 == False
@@ -336,15 +336,19 @@ ej2 = Conj (Disy (Conj (HB True) (HB False))
            (Conj (Neg (HB False))
                  (HB True))
 
-valorB :: ArbolB -> Bool
-valorB = undefined
+-- fracruzam
+valorB:: ArbolB -> Bool
+valorB (HB   b)     = b
+valorB (Conj bi bd) = valorB bi && valorB bd
+valorB (Disy bi bd) = valorB bi || valorB bd
+valorB (Neg  b)     = not $ valorB b
 
 -- ---------------------------------------------------------------------
--- Ejercicio 5. Los árboles generales se pueden representar mediante el
+-- Ejercicio 5. Los Ã¡rboles generales se pueden representar mediante el
 -- siguiente tipo de dato  
 --    data ArbolG a = N a [ArbolG a]
 --                  deriving (Eq, Show)
--- Por ejemplo, los árboles
+-- Por ejemplo, los Ã¡rboles
 --      1               3               3
 --     / \             /|\            / | \
 --    2   3           / | \          /  |  \
@@ -365,10 +369,10 @@ valorB = undefined
 --               N 4 [N 1 [N 2 [],N 3 [N 4 []]]], 
 --               N 7 [N 2 [], N 1 []]]
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --     ramifica :: ArbolG a -> ArbolG a -> (a -> Bool) -> ArbolG a
--- tal que (ramifica a1 a2 p) el árbol que resulta de añadir una copia
--- del árbol a2 a los nodos de a1 que cumplen un predicado p. Por
+-- tal que (ramifica a1 a2 p) el Ã¡rbol que resulta de aÃ±adir una copia
+-- del Ã¡rbol a2 a los nodos de a1 que cumplen un predicado p. Por
 -- ejemplo, 
 --    mifica ejG1 (N 8 []) (>4)
 --    N 1 [N 2 [],N 3 [N 4 []]]
@@ -394,22 +398,29 @@ ejG3 = N 3 [N 5 [N 6 []],
            N 4 [N 1 [N 2 [],N 3 [N 4 []]]], 
            N 7 [N 2 [], N 1 []]]
 
+-- fracruzam
 ramifica :: ArbolG a -> ArbolG a -> (a -> Bool) -> ArbolG a
-ramifica = undefined
+ramifica arbA@(N a []) arbB@(N b []) p | p a       = N a [arbB]
+                                       | otherwise = arbA
+ramifica (N a b) arbB p 
+    | p a       = N a ([ramifica x arbB p | x <- b]++[arbB])
+    | otherwise = N a [ramifica x arbB p | x <- b]
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6.1. Las expresiones aritméticas básicas pueden
+-- Ejercicio 6.1. Las expresiones aritmÃ©ticas bÃ¡sicas pueden
 -- representarse usando el siguiente tipo de datos  
 --    data Expr1 = C1 Int 
 --               | S1 Expr1 Expr1 
 --               | P1 Expr1 Expr1  
 --               deriving Show
--- Por ejemplo, la expresión 2*(3+7) se representa por
+-- Por ejemplo, la expresiÃ³n 2*(3+7) se representa por
 --    P1 (C1 2) (S1 (C1 3) (C1 7))
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    valor :: Expr1 -> Int                   
--- tal que (valor e) es el valor de la expresión aritmética e. Por
+-- tal que (valor e) es el valor de la expresiÃ³n aritmÃ©tica e. Por
 -- ejemplo, 
 --    valor (P1 (C1 2) (S1 (C1 3) (C1 7)))  ==  20
 -- ---------------------------------------------------------------------
@@ -419,40 +430,46 @@ data Expr1 = C1 Int
            | P1 Expr1 Expr1  
            deriving Show
                    
+-- fracruzam alvalvdom1 manvermor
 valor :: Expr1 -> Int                   
-valor = undefined
+valor (C1 n)   = n
+valor (S1 n m) = valor n + valor m
+valor (P1 n m) = valor n * valor m
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6.2. Definir la función  
+-- Ejercicio 6.2. Definir la funciÃ³n  
 --    aplica :: (Int -> Int) -> Expr1 -> Expr1
--- tal que (aplica f e) es la expresión obtenida aplicando la función f
--- a cada uno de los números de la expresión e. Por ejemplo, 
+-- tal que (aplica f e) es la expresiÃ³n obtenida aplicando la funciÃ³n f
+-- a cada uno de los nÃºmeros de la expresiÃ³n e. Por ejemplo, 
 --    ghci> aplica (+2) (S1 (P1 (C1 3) (C1 5)) (P1 (C1 6) (C1 7)))
 --    S1 (P1 (C1 5) (C1 7)) (P1 (C1 8) (C1 9))
 --    ghci> aplica (*2) (S1 (P1 (C1 3) (C1 5)) (P1 (C1 6) (C1 7)))
 --    S1 (P1 (C1 6) (C1 10)) (P1 (C1 12) (C1 14))
 -- ---------------------------------------------------------------------
 
+-- fracruzam alvalvdom1 manvermor
 aplica :: (Int -> Int) -> Expr1 -> Expr1
-aplica = undefined
+aplica p (C1 n)   = C1 (p n)
+aplica p (S1 n m) = S1 (aplica p n) (aplica p m)
+aplica p (P1 n m) = P1 (aplica p n) (aplica p m)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.1. Las expresiones aritméticas construidas con una
--- variable (denotada por X), los números enteros y las operaciones de
+-- Ejercicio 7.1. Las expresiones aritmÃ©ticas construidas con una
+-- variable (denotada por X), los nÃºmeros enteros y las operaciones de
 -- sumar y multiplicar se pueden representar mediante el tipo de datos
 -- Expr2 definido por     
 --    data Expr2 = X
 --               | C2 Int
 --               | S2 Expr2 Expr2
 --               | P2 Expr2 Expr2
--- Por ejemplo, la expresión "X*(13+X)" se representa por
+-- Por ejemplo, la expresiÃ³n "X*(13+X)" se representa por
 -- "P2 X (S2 (C2 13) X)".
 -- 
--- Definir la función 
+-- Definir la funciÃ³n 
 --    valorE :: Expr2 -> Int -> Int
--- tal que (valorE e n) es el valor de la expresión e cuando se
+-- tal que (valorE e n) es el valor de la expresiÃ³n e cuando se
 -- sustituye su variable por n. Por ejemplo,
---    valorE (P2 X (S2 (C2 13) X)) 2  ==  23
+--    valorE (P2 X (S2 (C2 13) X)) 2  ==  30
 -- ---------------------------------------------------------------------
  
 data Expr2 = X
@@ -460,38 +477,46 @@ data Expr2 = X
            | S2 Expr2 Expr2
            | P2 Expr2 Expr2
 
+-- fracruzam manvermor
 valorE :: Expr2 -> Int -> Int
-valorE = undefined
+valorE X n        = n
+valorE (C2 n) _   = n
+valorE (S2 x m) n = valorE x n + valorE m n
+valorE (P2 x m) n = valorE x n * valorE m n
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.2. Definir la función
+-- Ejercicio 7.2. Definir la funciÃ³n
 --    numVars :: Expr2 -> Int
--- tal que (numVars e) es el número de variables en la expresión e. Por
+-- tal que (numVars e) es el nÃºmero de variables en la expresiÃ³n e. Por
 -- ejemplo, 
 --    numVars (C2 3)                 ==  0
 --    numVars X                      ==  1
 --    numVars (P2 X (S2 (C2 13) X))  ==  2
 -- ---------------------------------------------------------------------
 
+-- fracruzam manvermor
 numVars :: Expr2 -> Int
-numVars = undefined
+numVars  X       = 1
+numVars (C2 _)   = 0
+numVars (S2 m n) = numVars m + numVars n
+numVars (P2 m n) = numVars m + numVars n
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.1. Las expresiones aritméticas con variables pueden
+-- Ejercicio 8.1. Las expresiones aritmÃ©ticas con variables pueden
 -- representarse usando el siguiente tipo de datos  
 --    data Expr3 = C3 Int 
 --               | V3 Char 
 --               | S3 Expr3 Expr3 
 --               | P3 Expr3 Expr3  
 --               deriving Show
--- Por ejemplo, la expresión 2*(a+5) se representa por
+-- Por ejemplo, la expresiÃ³n 2*(a+5) se representa por
 --    P3 (C3 2) (S3 (V3 'a') (C3 5))
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    valor3 :: Expr3 -> [(Char,Int)] -> Int                   
--- tal que (valor3 x e) es el valor3 de la expresión x en el entorno e (es
--- decir, el valor3 de la expresión donde las variables de x se sustituyen
--- por los valores según se indican en el entorno e). Por ejemplo,
+-- tal que (valor3 x e) es el valor3 de la expresiÃ³n x en el entorno e (es
+-- decir, el valor3 de la expresiÃ³n donde las variables de x se sustituyen
+-- por los valores segÃºn se indican en el entorno e). Por ejemplo,
 --    ghci> valor3 (P3 (C3 2) (S3 (V3 'a') (V3 'b'))) [('a',2),('b',5)]
 --    14
 -- ---------------------------------------------------------------------
@@ -502,42 +527,59 @@ data Expr3 = C3 Int
            | P3 Expr3 Expr3  
            deriving Show
                    
+-- fracruzam
 valor3 :: Expr3 -> [(Char,Int)] -> Int                   
-valor3 = undefined
+valor3 (C3 n) val   = n
+valor3 (V3 c) val   = snd $ head $ filter (\(v,_) -> v==c) val
+valor3 (S3 m n) val = valor3 m val + valor3 n val
+valor3 (P3 m n) val = valor3 m val * valor3 n val
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.2. Definir la función
+-- Ejercicio 8.2. Definir la funciÃ³n
 --    sumas :: Expr3 -> Int
--- tal que (sumas e) es el número de sumas en la expresión e. Por 
+-- tal que (sumas e) es el nÃºmero de sumas en la expresiÃ³n e. Por 
 -- ejemplo, 
 --    sumas (P3 (V3 'z') (S3 (C3 3) (V3 'x')))  ==  1
 --    sumas (S3 (V3 'z') (S3 (C3 3) (V3 'x')))  ==  2
 --    sumas (P3 (V3 'z') (P3 (C3 3) (V3 'x')))  ==  0
 -- ---------------------------------------------------------------------
-                   
+                
+-- fracruzam manvermor
 sumas :: Expr3 -> Int
-sumas = undefined
+sumas (C3 _)   = 0
+sumas (V3 _)   = 0
+sumas (S3 m n) = 1 + sumas m + sumas n
+sumas (P3 m n) = sumas m + sumas n
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.3. Definir la función
+-- Ejercicio 8.3. Definir la funciÃ³n
 --    sustitucion :: Expr3 -> [(Char, Int)] -> Expr3
--- tal que (sustitucion e s) es la expresión obtenida sustituyendo las
--- variables de la expresión e según se indica en la sustitución s. Por
+-- tal que (sustitucion e s) es la expresiÃ³n obtenida sustituyendo las
+-- variables de la expresiÃ³n e segÃºn se indica en la sustituciÃ³n s. Por
 -- ejemplo, 
 --    ghci> sustitucion (P3 (V3 'z') (S3 (C3 3) (V3 'x'))) [('x',7),('z',9)]
 --    P3 (C3 9) (S3 (C3 3) (C3 7))
 --    ghci> sustitucion (P3 (V3 'z') (S3 (C3 3) (V3 'y'))) [('x',7),('z',9)]
 --    P3 (C3 9) (S3 (C3 3) (V3 'y'))
 -- ---------------------------------------------------------------------
-                   
+       
+-- fracruzam            
 sustitucion :: Expr3 -> [(Char, Int)] -> Expr3
-sustitucion = undefined
+sustitucion (V3 c) val = aux c val
+  where aux :: Char -> [(Char,Int)] -> Expr3
+        aux c val | null $ filter (\(v,_) -> v == c) val = V3 c
+                  | otherwise = C3 (snd $ head $ filter (\(v,_) -> v == c) val)
+sustitucion (C3 n)  _    = (C3 n)
+sustitucion (S3 n m) val = S3 (sustitucion n val) (sustitucion m val)
+sustitucion (P3 n m) val = P3 (sustitucion n val) (sustitucion m val)
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.4. Definir la función
+-- Ejercicio 8.4. Definir la funciÃ³n
 --    reducible :: Expr3 -> Bool
--- tal que (reducible a) se verifica si a es una expresión reducible; es
--- decir, contiene una operación en la que los dos operandos son números. 
+-- tal que (reducible a) se verifica si a es una expresiÃ³n reducible; es
+-- decir, contiene una operaciÃ³n en la que los dos operandos son nÃºmeros. 
 -- Por ejemplo,
 --    reducible (S3 (C3 3) (C3 4))               == True
 --    reducible (S3 (C3 3) (V3 'x'))             == False
@@ -552,7 +594,7 @@ reducible :: Expr3 -> Bool
 reducible = undefined
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9. Las expresiones aritméticas generales se pueden definir
+-- Ejercicio 9. Las expresiones aritmÃ©ticas generales se pueden definir
 -- usando el siguiente tipo de datos 
 --    data Expr4 = C4 Int 
 --               | Y 
@@ -561,16 +603,16 @@ reducible = undefined
 --               | P4 Expr4 Expr4 
 --               | E4 Expr4 Int
 --               deriving (Eq, Show)
--- Por ejemplo, la expresión 
+-- Por ejemplo, la expresiÃ³n 
 --    3*x - (x+2)^7
 -- se puede definir por
 --    R4 (P4 (C4 3) Y) (E4 (S4 Y (C4 2)) 7)
 -- 
--- Definir la función  
+-- Definir la funciÃ³n  
 --    maximo :: Expr4 -> [Int] -> (Int,[Int])
--- tal que (maximo e xs) es el par formado por el máximo valor de la
--- expresión e para los puntos de xs y en qué puntos alcanza el
--- máximo. Por ejemplo, 
+-- tal que (maximo e xs) es el par formado por el mÃ¡ximo valor de la
+-- expresiÃ³n e para los puntos de xs y en quÃ© puntos alcanza el
+-- mÃ¡ximo. Por ejemplo, 
 --    ghci> maximo (E4 (S4 (C4 10) (P4 (R4 (C4 1) Y) Y)) 2) [-3..3]
 --    (100,[0,1])
 -- ---------------------------------------------------------------------
@@ -583,25 +625,52 @@ data Expr4 = C4 Int
           | E4 Expr4 Int
           deriving (Eq, Show)
 
+-- fracruzam
 maximo :: Expr4 -> [Int] -> (Int,[Int])
-maximo e ns = undefined
+maximo e ns = (maxi, filter (\n -> valor4 e [n] == maxi) ns)
+    where maxi = maximum $ valores e ns
+
+valor4 :: Expr4 -> [Int] -> Int
+valor4 e (n:ns) = op (sust e (n:ns)) n
+
+valores :: Expr4 -> [Int] -> [Int]
+valores _ [] = []
+valores e (n:ns) = valor4 e (n:ns) : valores e ns
+
+op :: Expr4 -> Int -> Int
+op Y v        = v
+op (C4 n) _   = n
+op (S4 n m) v = op n v + op m v
+op (R4 n m) v = op n v - op m v
+op (P4 n m) v = op n v * op m v
+op (E4 n m) v = op n v ^ m
+
+sust :: Expr4 -> [Int] -> Expr4
+sust Y val        = C4 (head val)
+sust (C4 n)  _    = (C4 n)
+sust (S4 n m) val = S4 (sust n val) (sust m val)
+sust (R4 n m) val = R4 (sust n val) (sust m val)
+sust (P4 n m) val = P4 (sust n val) (sust m val)
+sust (E4 n m) val = E4 (sust n val) m
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 10. Las operaciones de suma, resta y  multiplicación se
+-- Ejercicio 10. Las operaciones de suma, resta y  multiplicaciÃ³n se
 -- pueden representar mediante el siguiente tipo de datos 
 --    data Op = Su | Re | Mu
--- La expresiones aritméticas con dichas operaciones se pueden
+-- La expresiones aritmÃ©ticas con dichas operaciones se pueden
 -- representar mediante el siguiente tipo de dato algebraico
 --    data Expr5 = C5 Int 
 --               | A Op Expr5 Expr
--- Por ejemplo, la expresión
+-- Por ejemplo, la expresiÃ³n
 --    (7-3)+(2*5)
 -- se representa por
 --    A Su (A Re (C5 7) (C5 3)) (A Mu (C5 2) (C5 5))
 --
--- Definir la función
+-- Definir la funciÃ³n
 --    valorEG :: Expr5 -> Int
--- tal que (valorEG e) es el valorEG de la expresión e. Por ejemplo,
+-- tal que (valorEG e) es el valorEG de la expresiÃ³n e. Por ejemplo,
 --    valorEG (A Su (A Re (C5 7) (C5 3)) (A Mu (C5 2) (C5 5)))  ==  14
 --    valorEG (A Mu (A Re (C5 7) (C5 3)) (A Su (C5 2) (C5 5)))  ==  28
 -- ---------------------------------------------------------------------
@@ -610,22 +679,26 @@ data Op = Su | Re | Mu
 
 data Expr5 = C5 Int | A Op Expr5 Expr5
 
+-- fracruzam
 valorEG :: Expr5 -> Int
-valorEG = undefined
+valorEG (C5 n)     = n
+valorEG (A Su n m) = valorEG n + valorEG m
+valorEG (A Re n m) = valorEG n - valorEG m
+valorEG (A Mu n m) = valorEG n * valorEG m
 
 -- ---------------------------------------------------------------------
--- Ejercicio 11.. Se consideran las expresiones vectoriales formadas por
+-- Ejercicio 11. Se consideran las expresiones vectoriales formadas por
 -- un vector, la suma de dos expresiones vectoriales o el producto de un
--- entero por una expresión vectorial. El siguiente tipo de dato define
+-- entero por una expresiÃ³n vectorial. El siguiente tipo de dato define
 -- las expresiones vectoriales  
 --    data ExpV = Vec Int Int
 --              | Sum ExpV ExpV
 --              | Mul Int ExpV
 --              deriving Show
 -- 
--- Definir la función 
+-- Definir la funciÃ³n 
 --    valorEV :: ExpV -> (Int,Int)
--- tal que (valorEV e) es el valorEV de la expresión vectorial c. Por
+-- tal que (valorEV e) es el valorEV de la expresiÃ³n vectorial c. Por
 -- ejemplo, 
 --    valorEV (Vec 1 2)                                  ==  (1,2)
 --    valorEV (Sum (Vec 1 2 ) (Vec 3 4))                 ==  (4,6)
@@ -639,5 +712,14 @@ data ExpV = Vec Int Int
           | Mul Int ExpV
           deriving Show
 
+-- fracruzam
 valorEV :: ExpV -> (Int,Int)
-valorEV = undefined
+valorEV (Vec n m)   = (n,m)
+valorEV (Sum v1 v2) = mas (valorEV v1) (valorEV v2)
+valorEV (Mul n v)   = por n (valorEV v)
+
+mas :: (Int,Int) -> (Int,Int) -> (Int,Int)
+mas (a,b) (c,d) = (a+c,b+d)
+
+por :: Int -> (Int,Int) -> (Int,Int)
+por n (a,b) = (n*a,n*b)
