@@ -188,7 +188,7 @@ igualBorde t1 t2 = borde t1 == borde t2
 
 data Arbol3 a = H3 a
               | N3 a (Arbol3 a) (Arbol3 a) 
-              deriving Show
+              deriving (Show, Eq)
 
 ej3arbol1, ej3arbol2, ej3arbol3, ej3arbol4 :: Arbol3 Int
 ej3arbol1 = N3 5 (N3 9 (H3 1) (H3 4)) (N3 7 (H3 6) (H3 8))
@@ -205,6 +205,18 @@ igualEstructura arb1 arb2 = estructura arb1 == estructura arb2
 
 -- Comentario: La definición anterior se puede simplificar (sin
 -- necesidad de construir listas).
+
+-- fracruzam
+-- Misma idea que la de arriba, pero sin usar listas.
+igualEstructura2 :: Arbol3 a -> Arbol3 a -> Bool
+igualEstructura2 (H3 _) (H3 _)     = True
+igualEstructura2 (N3 _ _ _) (H3 _) = False
+igualEstructura2 (H3 _) (N3 _ _ _) = False
+igualEstructura2 (N3 _ a b) (N3 _ c d) =
+    igualEstructura2 a c && igualEstructura2 b d
+
+-- Comentario: La definición anterior se puede simplificar las
+-- ecuaciones 2 y 3.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir la función
@@ -224,6 +236,12 @@ algunoArbol arb3 p = any p (arb2lista arb3)
 
 -- Comentario: La definición anterior se puede simplificar (sin
 -- necesidad de construir listas).
+
+-- fracruzam
+-- Misma idea que la de arriba, pero sin usar listas
+algunoArbol2 :: Arbol3 a -> (a -> Bool) -> Bool
+algunoArbol2 (H3 a) p       = p a
+algunoArbol2 (N3 a ai ad) p = p a || algunoArbol2 ai p || algunoArbol2 ad p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Un elemento de un árbol se dirá de nivel k si aparece
@@ -279,8 +297,39 @@ nivel n (N3 a ai ad) = nivel (n-1) ai ++ nivel (n-1) ad
 --    arbolFactorizacion 84 == N3 84 (H3 7) (N3 12 (H3 3) (N3 4 (H3 2) (H3 2)))
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 arbolFactorizacion :: Int -> Arbol3 Int
-arbolFactorizacion n = undefined
+arbolFactorizacion n 
+    | primo n    = H3 n
+    | elem 1 $ divsMediosn = N3 n 
+                                (H3 $ lastdivsMediosn) 
+                                (H3 $ lastdivsMediosn)
+    | otherwise  = N3 n 
+                      (arbolFactorizacion $ head $ divsMediosn) 
+                      (arbolFactorizacion $ lastdivsMediosn)
+  where divsMediosn     = divsMedios n
+        lastdivsMediosn = last $ divsMediosn
+
+-- Comentario: La definición anterior se puede simplificar.
+
+cuadrado :: Int -> Bool
+cuadrado n = elem n $ map (^2) [1..n]
+
+-- Comentario: La función cuadrado se puede eliminar.
+
+primo :: Int -> Bool
+-- primo 1 = True
+primo n = divs n == [1,n]
+
+-- Comentario. El número 1 no es primo.
+
+divsMedios :: Int -> [Int]
+divsMedios n = (take 2 . drop (div (length $ divs n) 2 - 1)) (divs n)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+divs :: Int -> [Int]  
+divs n = filter (\x -> mod n x == 0) [1..n]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Se consideran los árboles con operaciones booleanas
@@ -400,13 +449,14 @@ ejG3 = N 3 [N 5 [N 6 []],
 
 -- fracruzam
 ramifica :: ArbolG a -> ArbolG a -> (a -> Bool) -> ArbolG a
-ramifica arbA@(N a []) arbB@(N b []) p | p a       = N a [arbB]
-                                       | otherwise = arbA
+ramifica arbA@(N a []) arbB p | p a       = N a [arbB]
+                              | otherwise = arbA
 ramifica (N a b) arbB p 
-    | p a       = N a ([ramifica x arbB p | x <- b]++[arbB])
-    | otherwise = N a [ramifica x arbB p | x <- b]
+    | p a       = N a $ [ramifica x arbB p | x <- b]++[arbB]
+    | otherwise = N a   [ramifica x arbB p | x <- b]
 
--- Comentario: La definición anterior se puede simplificar.
+-- Comentario: La definición anterior se puede simplificar (¿es
+-- necesaria el 1º caso).
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Las expresiones aritméticas básicas pueden
@@ -567,13 +617,12 @@ sumas (P3 m n) = sumas m + sumas n
 sustitucion :: Expr3 -> [(Char, Int)] -> Expr3
 sustitucion (V3 c) val = aux c val
   where aux :: Char -> [(Char,Int)] -> Expr3
-        aux c val | null $ filter (\(v,_) -> v == c) val = V3 c
-                  | otherwise = C3 (snd $ head $ filter (\(v,_) -> v == c) val)
-sustitucion (C3 n)  _    = (C3 n)
+        aux c val | null $ valorDeC = V3 c
+                  | otherwise = C3 (snd $ head $ valorDeC)
+        valorDeC = filter (\(v,_) -> v == c) val
+sustitucion (C3 n)  _    = C3 n
 sustitucion (S3 n m) val = S3 (sustitucion n val) (sustitucion m val)
 sustitucion (P3 n m) val = P3 (sustitucion n val) (sustitucion m val)
-
--- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.4. Definir la función
@@ -590,8 +639,23 @@ sustitucion (P3 n m) val = P3 (sustitucion n val) (sustitucion m val)
 --    reducible (V3 'x')                         == False
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 reducible :: Expr3 -> Bool
-reducible = undefined
+reducible (C3 n)             = False
+reducible (V3 c)             = False
+reducible (S3 (C3 _) (C3 _)) = True
+reducible (S3 (C3 _) (V3 _)) = False
+reducible (S3 (V3 _) (C3 _)) = False
+reducible (S3 (V3 _) (V3 _)) = False
+reducible (P3 (C3 _) (C3 _)) = True
+reducible (P3 (C3 _) (V3 _)) = False
+reducible (P3 (V3 _) (C3 _)) = False
+reducible (P3 (V3 _) (V3 _)) = False
+reducible (S3 n m)           = reducible n || reducible m
+reducible (P3 n m)           = reducible n || reducible m
+
+-- Comentario: La definición anterior se puede simplificar reduciendo
+-- ecuaciones. 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Las expresiones aritméticas generales se pueden definir
@@ -634,7 +698,7 @@ valor4 :: Expr4 -> [Int] -> Int
 valor4 e (n:ns) = op (sust e (n:ns)) n
 
 valores :: Expr4 -> [Int] -> [Int]
-valores _ [] = []
+valores _ []     = []
 valores e (n:ns) = valor4 e (n:ns) : valores e ns
 
 op :: Expr4 -> Int -> Int
@@ -647,13 +711,11 @@ op (E4 n m) v = op n v ^ m
 
 sust :: Expr4 -> [Int] -> Expr4
 sust Y val        = C4 (head val)
-sust (C4 n)  _    = (C4 n)
+sust (C4 n)  _    = C4 n
 sust (S4 n m) val = S4 (sust n val) (sust m val)
 sust (R4 n m) val = R4 (sust n val) (sust m val)
 sust (P4 n m) val = P4 (sust n val) (sust m val)
 sust (E4 n m) val = E4 (sust n val) m
-
--- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Las operaciones de suma, resta y  multiplicación se
