@@ -84,8 +84,8 @@ ramaIzquierda = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.4. Diremos que un árbol está balanceado si para cada nodo
--- v la diferencia entre el número de nodos (con valor) de sus ramas
--- izquierda y derecha es menor o igual que uno.  
+-- v la diferencia entre el número de nodos (con valor) de sus subárboles
+-- izquierdo y derecho es menor o igual que uno.  
 --
 -- Definir la función 
 --    balanceado :: Arbol1 a -> Bool
