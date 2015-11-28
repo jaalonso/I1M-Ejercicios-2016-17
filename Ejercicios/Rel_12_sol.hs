@@ -55,12 +55,9 @@ data Arbol1 a = H1
              | N1 a (Arbol1 a) (Arbol1 a)
              deriving (Show, Eq)
 
--- fracruzam alvalvdom1 manvermor blaruiher manpende marvilmor silgongal
--- josllagam alebergon javperlag juanarcon ivaruicam abrdelrod migandben
--- erisancha
 sumaArbol :: Num a => Arbol1 a -> a
-sumaArbol H1           = 0
-sumaArbol (N1 a ai ad) = a + sumaArbol ai + sumaArbol ad
+sumaArbol H1         = 0
+sumaArbol (N1 x i d) = x + sumaArbol i + sumaArbol d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir la función 
@@ -71,12 +68,9 @@ sumaArbol (N1 a ai ad) = a + sumaArbol ai + sumaArbol ad
 --    N1 3 (N1 6 (N1 4 H1 H1) (N1 8 H1 H1)) (N1 5 H1 H1)
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor blaruiher manpende marvilmor silgongal
--- josllagam alebergon javperlag juanarcon ivaruicam abrdelrod migandben
--- erisancha
 mapArbol :: (a -> b) -> Arbol1 a -> Arbol1 b
-mapArbol _ H1           = H1
-mapArbol f (N1 a ai ad) = N1 (f a) (mapArbol f ai) (mapArbol f ad)
+mapArbol _ H1         = H1
+mapArbol f (N1 x i d) = N1 (f x) (mapArbol f i) (mapArbol f d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Definir la función
@@ -87,12 +81,9 @@ mapArbol f (N1 a ai ad) = N1 (f a) (mapArbol f ai) (mapArbol f ad)
 --    [2,5,3]
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor blaruiher manpende marvilmor silgongal
--- josllagam alebergon javperlag juanarcon ivaruicam abrdelrod migandben
--- erisancha
 ramaIzquierda :: Arbol1 a -> [a]
-ramaIzquierda H1           = []
-ramaIzquierda (N1 a ai ad) = a : ramaIzquierda ai
+ramaIzquierda H1         = []
+ramaIzquierda (N1 x i d) = x : ramaIzquierda i
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.4. Diremos que un árbol está balanceado si para cada nodo
@@ -105,20 +96,17 @@ ramaIzquierda (N1 a ai ad) = a : ramaIzquierda ai
 -- ejemplo,
 --    balanceado (N1 5 H1 (N1 3 H1 H1))           == True
 --    balanceado (N1 5 H1 (N1 3 (N1 4 H1 H1) H1)) == False
---    balanceado (N1 5 H1 (N1 3 H1 (N1 4 H1 H1))) == False
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor blaruiher alvalvdom1 manpende marvilmor silgongal
--- alebergon javperlag juanarcon ivaruicam abrdelrod migandben erisancha
-
 balanceado :: Arbol1 a -> Bool
-balanceado H1 = True
-balanceado (N1 a ai ad) = 
-   (abs (nNodos ai - nNodos ad) <= 1) && balanceado ai && balanceado ad
-   where nNodos :: Arbol1 a -> Int
-         nNodos H1           = 0
-         nNodos (N1 a ai ad) = 1 + nNodos ai + nNodos ad
+balanceado H1         = True
+balanceado (N1 _ i d) = abs (numeroNodos i - numeroNodos d) <= 1 
 
+-- (numeroNodos a) es el número de nodos del árbol a. Por ejemplo,
+--    numeroNodos (N1 5 H1 (N1 3 H1 H1)) ==  2
+numeroNodos :: Arbol1 a -> Int
+numeroNodos H1         = 0
+numeroNodos (N1 _ i d) = 1 + numeroNodos i + numeroNodos d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Los árboles binarios con valores en las hojas se pueden
@@ -159,13 +147,15 @@ arbol2 = N2 (N2 (H2 1) (H2 2)) (H2 3)
 arbol3 = N2 (N2 (H2 1) (H2 4)) (H2 3)
 arbol4 = N2 (N2 (H2 2) (H2 3)) (H2 1)
 
--- fracruzam alvalvdom1 blaruiher manpende marvilmor silgongal josllagam
--- alebergon javperlag juanarcon ivaruicam abrdelrod migandben erisancha
 igualBorde :: Eq a => Arbol2 a -> Arbol2 a -> Bool
 igualBorde t1 t2 = borde t1 == borde t2
-    where borde :: Arbol2 a -> [a]
-          borde (H2 a)     = [a]
-          borde (N2 ai ad) = borde ai ++ borde ad
+
+-- (borde t) es el borde del árbol t; es decir, la lista de las hojas
+-- del árbol t leídas de izquierda a derecha. Por ejemplo, 
+--    borde arbol4  ==  [2,3,1]
+borde :: Arbol2 a -> [a]
+borde (N2 i d) = borde i ++ borde d
+borde (H2 x)   = [x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Los árboles binarios con valores en las hojas y en los
@@ -198,7 +188,7 @@ igualBorde t1 t2 = borde t1 == borde t2
 
 data Arbol3 a = H3 a
               | N3 a (Arbol3 a) (Arbol3 a) 
-              deriving (Show, Eq)
+              deriving Show
 
 ej3arbol1, ej3arbol2, ej3arbol3, ej3arbol4 :: Arbol3 Int
 ej3arbol1 = N3 5 (N3 9 (H3 1) (H3 4)) (N3 7 (H3 6) (H3 8))
@@ -206,25 +196,11 @@ ej3arbol2 = N3 8 (N3 9 (H3 1) (H3 4)) (N3 3 (H3 6) (H3 2))
 ej3arbol3 = N3 5 (N3 9 (H3 1) (H3 4)) (H3 2)
 ej3arbol4 = N3 5 (H3 4) (N3 7 (H3 6) (H3 2))
 
--- fracruzam
 igualEstructura :: Arbol3 a -> Arbol3 a -> Bool
-igualEstructura arb1 arb2 = estructura arb1 == estructura arb2
-    where estructura :: Arbol3 a -> [Char]
-          estructura (H3 a)       = ['H']
-          estructura (N3 a ai ad) = 'N' : estructura ai ++ estructura ad
-
--- Comentario: La definición anterior se puede simplificar (sin
--- necesidad de construir listas).
-
--- fracruzam alvalvdom1 manpende marvilmor josllagam silgongal alebergon
--- javperlag juanarcon ivaruicam abrdelrod migandben erisancha
-
--- Misma idea que la de arriba, pero sin usar listas.
-igualEstructura2 :: Arbol3 a -> Arbol3 a -> Bool
-igualEstructura2 (H3 _) (H3 _)     = True
-igualEstructura2 (N3 _ a b) (N3 _ c d) =
-    igualEstructura2 a c && igualEstructura2 b d
-igualEstructura2 _ _               = False
+igualEstructura (H3 _) (H3 _) = True
+igualEstructura (N3 r1 i1 d1) (N3 r2 i2 d2) = 
+    igualEstructura i1 i2 && igualEstructura d1 d2
+igualEstructura _ _                       = False  
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir la función
@@ -235,23 +211,9 @@ igualEstructura2 _ _               = False
 --    algunoArbol3 (N3 5 (N3 3 (H3 1) (H3 4)) (H3 2)) (>7)  ==  False
 -- ---------------------------------------------------------------------
 
--- fracruzam blaruiher manpende migandben
 algunoArbol :: Arbol3 a -> (a -> Bool) -> Bool
-algunoArbol arb3 p = any p (arb2lista arb3)
-    where arb2lista :: Arbol3 a -> [a]
-          arb2lista (H3 a)       = [a]
-          arb2lista (N3 a ai ad) = a : arb2lista ai ++ arb2lista ad
-
--- Comentario: La definición anterior se puede simplificar (sin
--- necesidad de construir listas).
-
--- fracruzam alvalvdom1 marvilmor silgongal josllagam alebergon javperlag
--- juanarcon ivaruicam abrdelrod erisancha
-
--- Misma idea que la de arriba, pero sin usar listas
-algunoArbol2 :: Arbol3 a -> (a -> Bool) -> Bool
-algunoArbol2 (H3 a) p       = p a
-algunoArbol2 (N3 a ai ad) p = p a || algunoArbol2 ai p || algunoArbol2 ad p
+algunoArbol (H3 x) p     = p x
+algunoArbol (N3 x i d) p = p x || algunoArbol i p || algunoArbol d p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Un elemento de un árbol se dirá de nivel k si aparece
@@ -267,20 +229,11 @@ algunoArbol2 (N3 a ai ad) p = p a || algunoArbol2 ai p || algunoArbol2 ad p
 --    nivel 3 (N3 7 (N3 2 (H3 5) (H3 4)) (H3 9))  ==  []
 -- ---------------------------------------------------------------------
 
--- fracruzam blaruiher alvalvdom1 manpende marvilmor silgongal josllagam
--- alebergon javperlag juanarcon ivaruicam migandben abrdelrod
 nivel :: Int -> Arbol3 a -> [a]
-nivel 0 (H3 a)       = [a]
-nivel 0 (N3 a ai ad) = [a]
-nivel n (H3 a)       = []
-nivel n (N3 a ai ad) = nivel (n-1) ai ++ nivel (n-1) ad
-
--- erisancha
-nivel2 :: Int -> Arbol3 a -> [a]
-nivel2 0 (H3 a)     = [a]
-nivel2 0 (N3 a _ _) = [a]
-nivel2 n (H3 a)     = []
-nivel2 n (N3 a b c) = nivel2 (n-1) b ++ nivel2 (n-1) c
+nivel 0 (H3 x)      = [x]
+nivel 0 (N3 x _  _) = [x]
+nivel k (H3 _ )     = []
+nivel k (N3 _ i d)  = nivel (k-1) i ++ nivel (k-1) d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.4.  Los divisores medios de un número son los que ocupan
@@ -315,64 +268,50 @@ nivel2 n (N3 a b c) = nivel2 (n-1) b ++ nivel2 (n-1) c
 --    arbolFactorizacion 84 == N3 84 (H3 7) (N3 12 (H3 3) (N3 4 (H3 2) (H3 2)))
 -- ---------------------------------------------------------------------
 
--- fracruzam silgongal 
+-- 1ª definición
+-- =============
 arbolFactorizacion :: Int -> Arbol3 Int
-arbolFactorizacion n | primo n    = H3 n
-                     | elem 1 divsMediosn = N3 n (H3 lastdivsMediosn) 
-                                                 (H3 lastdivsMediosn)
-                     | otherwise  = N3 n 
-                                   (arbolFactorizacion $ head divsMediosn) 
-                                   (arbolFactorizacion lastdivsMediosn)
-  where divsMediosn = divsMedios n
-        lastdivsMediosn = last divsMediosn
+arbolFactorizacion n 
+    | esPrimo n = H3 n
+    | otherwise = N3 n (arbolFactorizacion x) (arbolFactorizacion y)
+    where (x,y) = divisoresMedio n
 
-primo :: Int -> Bool
-primo n = divs n == [1,n]
-
-divsMedios :: Int -> [Int]
-divsMedios n = take 2 . drop (div (length $ divs n) 2 - 1) $ divs n
-
-divs :: Int -> [Int]  
-divs n = filter (\x -> mod n x == 0) [1..n]
-
-
--- ivaruicam 
-arbolFactorizacion2 :: Int -> Arbol3 Int
-arbolFactorizacion2 n 
-    | esPrimo n = (H3 n)
-    | otherwise = (N3 n 
-                      (arbolFactorizacion2 (head (medianos n))) 
-                      (arbolFactorizacion2 (last (medianos n))))
-
--- Comentario: La definición anterior se puede simplificar.
-
-medianos :: Integral a => a -> [a]
-medianos n 
-    | even (b n) = 
-        factores n !! ((div (b n) 2)-1) : [factores n !! (div (b n) 2)]
-    | otherwise = [factores n !! (div (b n) 2)]
-    where b n = length (factores n) 
-
--- Comentario: La definición anterior se puede simplificar.
-
-factores :: Integral t => t -> [t]
-factores n = [x | x <- [1..n] , mod n x == 0] 
-
+-- (esPrimo n) se verifica si n es primo. Por ejemplo,
+--    esPrimo 7  ==  True
+--    esPrimo 9  ==  False
 esPrimo :: Int -> Bool
-esPrimo n = factores n == [1,n]
+esPrimo n = divisores n == [1,n]
 
--- abrdelro erisancha juanarcon 
-divisoresMedios n | even (length xs) =  [xs !! (m-1), xs !! m]
-                  | otherwise        = [xs !! m, xs !! m]
-    where xs = [x | x <- [1..n], rem n x == 0]
-          m  = div (length xs) 2
+-- (divisoresMedio n) es el par formado por los divisores medios de
+-- n. Por ejemplo,
+--    divisoresMedio 30  ==  (5,6)
+--    divisoresMedio  7  ==  (1,7)
+divisoresMedio :: Int -> (Int,Int)
+divisoresMedio n = (n `div` x,x)
+    where xs = divisores n
+          x  = xs !! (length xs `div` 2)
 
-arbolFactorizacion3 :: Int -> Arbol3 Int
-arbolFactorizacion3 n 
-    | ds /= [1,n] = N3 n (arbolFactorizacion3 (head ds))
-                         (arbolFactorizacion3 (last ds))
-    | otherwise   = H3 n
-    where ds = divisoresMedios n
+-- (divisores n) es la lista de los divisores de n. Por ejemplo,
+--    divisores 30  ==  [1,2,3,5,6,10,15,30]
+divisores :: Int -> [Int]
+divisores n = [x | x <- [1..n], n `rem` x == 0]
+
+-- 2ª definición
+-- =============
+arbolFactorizacion2 :: Int -> Arbol3 Int
+arbolFactorizacion2 n
+    | x == 1    = H3 n
+    | otherwise = N3 n (arbolFactorizacion x) (arbolFactorizacion y)
+    where (x,y) = divisoresMedio n
+
+-- (divisoresMedio2 n) es el par formado por los divisores medios de
+-- n. Por ejemplo,
+--    divisoresMedio2 30  ==  (5,6)
+--    divisoresMedio2  7  ==  (1,7)
+divisoresMedio2 :: Int -> (Int,Int)
+divisoresMedio2 n = (n `div` x,x)
+    where m  = ceiling (sqrt (fromIntegral n))
+          x = head [y | y <- [m..n], n `rem` y == 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Se consideran los árboles con operaciones booleanas
@@ -428,13 +367,11 @@ ej2 = Conj (Disy (Conj (HB True) (HB False))
            (Conj (Neg (HB False))
                  (HB True))
 
--- fracruzam alvalvdom1 josllagam alebergon manvermor blaruiher javperlag
--- juanarcon ivaruicam abrdelrod migandben erisancha
 valorB:: ArbolB -> Bool
-valorB (HB   b)     = b
-valorB (Conj bi bd) = valorB bi && valorB bd
-valorB (Disy bi bd) = valorB bi || valorB bd
-valorB (Neg  b)     = not $ valorB b
+valorB (HB x)     = x
+valorB (Neg a)    = not (valorB a)
+valorB (Conj i d) = (valorB i) && (valorB d)
+valorB (Disy i d) = (valorB i) || (valorB d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Los árboles generales se pueden representar mediante el
@@ -467,7 +404,7 @@ valorB (Neg  b)     = not $ valorB b
 -- tal que (ramifica a1 a2 p) el árbol que resulta de añadir una copia
 -- del árbol a2 a los nodos de a1 que cumplen un predicado p. Por
 -- ejemplo, 
---    mifica ejG1 (N 8 []) (>4)
+--    λ> ramifica ejG1 (N 8 []) (>4)
 --    N 1 [N 2 [],N 3 [N 4 []]]
 --    ghci> ramifica ejG1 (N 8 []) (>3)
 --    N 1 [N 2 [],N 3 [N 4 [N 8 []]]]
@@ -491,11 +428,10 @@ ejG3 = N 3 [N 5 [N 6 []],
            N 4 [N 1 [N 2 [],N 3 [N 4 []]]], 
            N 7 [N 2 [], N 1 []]]
 
--- fracruzam javperlag ivaruicam erisancha juanarcon 
 ramifica :: ArbolG a -> ArbolG a -> (a -> Bool) -> ArbolG a
-ramifica (N a b) arbB p 
-    | p a       = N a $ [ramifica x arbB p | x <- b]++[arbB]
-    | otherwise = N a   [ramifica x arbB p | x <- b]
+ramifica (N x xs) a2 p  
+         | p x       = N x ([ramifica a a2 p | a <- xs] ++ [a2])
+         | otherwise = N x  [ramifica a a2 p | a <- xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Las expresiones aritméticas básicas pueden
@@ -519,12 +455,10 @@ data Expr1 = C1 Int
            | P1 Expr1 Expr1  
            deriving Show
                    
--- fracruzam alvalvdom1 manvermor josllagam blaruiher javperlag
--- ivaruicam abrdelrod migandben erisancha juanarcon 
-valor :: Expr1 -> Int                    
-valor (C1 n)   = n
-valor (S1 n m) = valor n + valor m
-valor (P1 n m) = valor n * valor m
+valor :: Expr1 -> Int                   
+valor (C1 x)   = x 
+valor (S1 x y) = valor x + valor y
+valor (P1 x y) = valor x * valor y
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Definir la función  
@@ -537,13 +471,10 @@ valor (P1 n m) = valor n * valor m
 --    S1 (P1 (C1 6) (C1 10)) (P1 (C1 12) (C1 14))
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor josllagam blaruiher javperlag
--- ivaruicam abrdelrod migandben erisancha juanarcon 
- 
 aplica :: (Int -> Int) -> Expr1 -> Expr1
-aplica p (C1 n)   = C1 (p n)
-aplica p (S1 n m) = S1 (aplica p n) (aplica p m)
-aplica p (P1 n m) = P1 (aplica p n) (aplica p m)
+aplica f (C1 x)     = C1 (f x)
+aplica f (S1 e1 e2) = S1 (aplica f e1) (aplica f e2)
+aplica f (P1 e1 e2) = P1 (aplica f e1) (aplica f e2)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1. Las expresiones aritméticas construidas con una
@@ -569,14 +500,11 @@ data Expr2 = X
            | S2 Expr2 Expr2
            | P2 Expr2 Expr2
 
--- fracruzam manvermor alvalvdom1 josllagam blaruiher javperlag
--- ivaruicam abrdelrod erisancha juanarcon 
-
 valorE :: Expr2 -> Int -> Int
-valorE X n        = n
-valorE (C2 n) _   = n
-valorE (S2 x m) n = valorE x n + valorE m n
-valorE (P2 x m) n = valorE x n * valorE m n
+valorE X          n = n
+valorE (C2 a)     n = a
+valorE (S2 e1 e2) n = valorE e1 n + valorE e2 n
+valorE (P2 e1 e2) n = valorE e1 n * valorE e2 n
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Definir la función
@@ -587,14 +515,12 @@ valorE (P2 x m) n = valorE x n * valorE m n
 --    numVars X                      ==  1
 --    numVars (P2 X (S2 (C2 13) X))  ==  2
 -- ---------------------------------------------------------------------
- 
--- fracruzam manvermor alvalvdom1 josllagam blaruiher javperlag
--- ivaruicam abrdelrod erisancha juanarcon 
+
 numVars :: Expr2 -> Int
-numVars  X       = 1
-numVars (C2 _)   = 0
-numVars (S2 m n) = numVars m + numVars n
-numVars (P2 m n) = numVars m + numVars n
+numVars X        = 1
+numVars (C2 n)   = 0
+numVars (S2 a b) = numVars a + numVars b
+numVars (P2 a b) = numVars a + numVars b
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. Las expresiones aritméticas con variables pueden
@@ -622,19 +548,11 @@ data Expr3 = C3 Int
            | P3 Expr3 Expr3  
            deriving Show
                    
--- fracruzam
 valor3 :: Expr3 -> [(Char,Int)] -> Int                   
-valor3 (C3 n) val   = n
-valor3 (V3 c) val   = snd $ head $ filter (\(v,_) -> v==c) val
-valor3 (S3 m n) val = valor3 m val + valor3 n val
-valor3 (P3 m n) val = valor3 m val * valor3 n val
-
--- alvalvdom1 ivaruicam abrdelrod erisancha juanarcon 
-valor32 :: Expr3 -> [(Char,Int)] -> Int                   
-valor32 (V3 x) e   = head [v | (c,v) <- e, c == x]
-valor32 (C3 a) e   = a
-valor32 (S3 a b) e = valor3 a e + valor3 b e
-valor32 (P3 a b) e = valor3 a e * valor3 b e
+valor3 (C3 x)   e = x
+valor3 (V3 x)   e = head [y | (z,y) <- e, z == x]  
+valor3 (S3 x y) e = valor3 x e + valor3 y e
+valor3 (P3 x y) e = valor3 x e * valor3 y e
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.2. Definir la función
@@ -645,19 +563,12 @@ valor32 (P3 a b) e = valor3 a e * valor3 b e
 --    sumas (S3 (V3 'z') (S3 (C3 3) (V3 'x')))  ==  2
 --    sumas (P3 (V3 'z') (P3 (C3 3) (V3 'x')))  ==  0
 -- ---------------------------------------------------------------------
-                
--- fracruzam manvermor ivaruicam abrdelrod
+                   
 sumas :: Expr3 -> Int
-sumas (C3 _)   = 0
 sumas (V3 _)   = 0
-sumas (S3 m n) = 1 + sumas m + sumas n
-sumas (P3 m n) = sumas m + sumas n
-
--- alvalvdom1 erisancha juanarcon 
-sumas2 :: Expr3 -> Int
-sumas2 (S3 a b) = 1 + sumas a + sumas b
-sumas2 (P3 a b) = sumas a + sumas b
-sumas2 _        = 0
+sumas (C3 _)   = 0
+sumas (S3 x y) = 1 + sumas x + sumas y
+sumas (P3 x y) = sumas x + sumas y
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.3. Definir la función
@@ -670,39 +581,14 @@ sumas2 _        = 0
 --    ghci> sustitucion (P3 (V3 'z') (S3 (C3 3) (V3 'y'))) [('x',7),('z',9)]
 --    P3 (C3 9) (S3 (C3 3) (V3 'y'))
 -- ---------------------------------------------------------------------
-       
--- fracruzam            
+                   
 sustitucion :: Expr3 -> [(Char, Int)] -> Expr3
-sustitucion (V3 c) val = aux c val
-  where aux :: Char -> [(Char,Int)] -> Expr3
-        aux c val | null $ valorDeC = V3 c
-                  | otherwise = C3 (snd $ head $ valorDeC)
-        valorDeC = filter (\(v,_) -> v == c) val
-sustitucion (C3 n)  _    = C3 n
-sustitucion (S3 n m) val = S3 (sustitucion n val) (sustitucion m val)
-sustitucion (P3 n m) val = P3 (sustitucion n val) (sustitucion m val)
-
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1 ivaruicam abrdelrod erisancha
-sustitucion2 :: Expr3 -> [(Char, Int)] -> Expr3
-sustitucion2 (V3 x) e 
-    | null [1 | (x',_) <- e, x' == x] = V3 x
-    | otherwise                       = C3 (head [v | (c,v) <- e, c == x])
-sustitucion2 (C3 a) e   = C3 a
-sustitucion2 (S3 a b) e = S3 (sustitucion a e) (sustitucion b e)
-sustitucion2 (P3 a b) e = P3 (sustitucion a e) (sustitucion b e)
-
--- Comentario: La definición anterior se puede simplificar.
-
--- juanarcon
-sustitucion3 :: Expr3 -> [(Char, Int)] -> Expr3
-sustitucion3 (V3 x) e | null xs   = V3 x
-                      | otherwise = C3 (head xs)
-                      where xs = [v | (c,v) <- e, c == x]
-sustitucion3 (C3 a) _   = C3 a
-sustitucion3 (S3 a b) e = S3 (sustitucion3 a e) (sustitucion3 b e)
-sustitucion3 (P3 a b) e = P3 (sustitucion3 a e) (sustitucion3 b e)
+sustitucion e [] = e
+sustitucion (V3 c) ((d,n):ps) | c == d    = C3 n
+                              | otherwise = sustitucion (V3 c) ps
+sustitucion (C3 n) _ = C3 n                                 
+sustitucion (S3 e1 e2) ps = S3 (sustitucion e1 ps) (sustitucion e2 ps)
+sustitucion (P3 e1 e2) ps = P3 (sustitucion e1 ps) (sustitucion e2 ps)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.4. Definir la función
@@ -719,13 +605,13 @@ sustitucion3 (P3 a b) e = P3 (sustitucion3 a e) (sustitucion3 b e)
 --    reducible (V3 'x')                         == False
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 ivaruicam abrdelrod erisancha juanarcon
 reducible :: Expr3 -> Bool
+reducible (C3 _)             = False
+reducible (V3 _)             = False
 reducible (S3 (C3 _) (C3 _)) = True
+reducible (S3 a b)           = reducible a || reducible b
 reducible (P3 (C3 _) (C3 _)) = True
-reducible (S3 n m)           = reducible n || reducible m
-reducible (P3 n m)           = reducible n || reducible m
-reducible _                  = False
+reducible (P3 a b)           = reducible a || reducible b
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Las expresiones aritméticas generales se pueden definir
@@ -759,53 +645,16 @@ data Expr4 = C4 Int
           | E4 Expr4 Int
           deriving (Eq, Show)
 
--- fracruzam
 maximo :: Expr4 -> [Int] -> (Int,[Int])
-maximo e ns = (maxi, filter (\n -> valor4 e [n] == maxi) ns)
-    where maxi = maximum $ valores e ns
-
-valor4 :: Expr4 -> [Int] -> Int
-valor4 e (n:ns) = op (sust e (n:ns)) n
-
-valores :: Expr4 -> [Int] -> [Int]
-valores _ []     = []
-valores e (n:ns) = valor4 e (n:ns) : valores e ns
-
-op :: Expr4 -> Int -> Int
-op Y v        = v
-op (C4 n) _   = n
-op (S4 n m) v = op n v + op m v
-op (R4 n m) v = op n v - op m v
-op (P4 n m) v = op n v * op m v
-op (E4 n m) v = op n v ^ m
-
-sust :: Expr4 -> [Int] -> Expr4
-sust Y val        = C4 (head val)
-sust (C4 n)  _    = C4 n
-sust (S4 n m) val = S4 (sust n val) (sust m val)
-sust (R4 n m) val = R4 (sust n val) (sust m val)
-sust (P4 n m) val = P4 (sust n val) (sust m val)
-sust (E4 n m) val = E4 (sust n val) m
-
--- ivaruicam erisancha juanarcon
-maximo2 :: Expr4 -> [Int] -> (Int,[Int])
-maximo2 e ns = (a ns,[n | n <- ns, opera(sustituye e n) == a ns])
-    where a ns = maximum [opera (sustituye e n)| n <- ns]
-
-opera :: Expr4 -> Int
-opera (C4 x)   = x
-opera (S4 i d) = opera i + opera d
-opera (R4 i d) = opera i - opera d
-opera (P4 i d) = opera i * opera d
-opera (E4 i d) = (opera i)^d
-
-sustituye :: Expr4 -> Int -> Expr4
-sustituye Y x        = C4 x
-sustituye (C4 x) _   = C4 x
-sustituye (S4 i d) x = S4 (sustituye i x) (sustituye d x)
-sustituye (R4 i d) x = R4 (sustituye i x) (sustituye d x)
-sustituye (P4 i d) x = P4 (sustituye i x) (sustituye d x)
-sustituye (E4 i d) x = E4 (sustituye i x) d
+maximo e ns = (m,[n | n <- ns, valor e n == m])  
+    where m = maximum [valor e n | n <- ns]
+          valor :: Expr4 -> Int -> Int
+          valor (C4 x) _ = x
+          valor Y     n = n
+          valor (S4 e1 e2) n = (valor e1 n) + (valor e2 n)
+          valor (R4 e1 e2) n = (valor e1 n) - (valor e2 n)
+          valor (P4 e1 e2) n = (valor e1 n) * (valor e2 n)
+          valor (E4 e  m ) n = (valor e  n)^m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Las operaciones de suma, resta y  multiplicación se
@@ -831,12 +680,13 @@ data Op = Su | Re | Mu
 
 data Expr5 = C5 Int | A Op Expr5 Expr5
 
--- fracruzam alvalvdom1 ivaruicam abrdelrod erisancha juanarcon
 valorEG :: Expr5 -> Int
-valorEG (C5 n)     = n
-valorEG (A Su n m) = valorEG n + valorEG m
-valorEG (A Re n m) = valorEG n - valorEG m
-valorEG (A Mu n m) = valorEG n * valorEG m
+valorEG (C5 x) = x
+valorEG (A o e1 e2) = aplica o (valorEG e1) (valorEG e2)
+    where aplica :: Op -> Int -> Int -> Int
+          aplica Su x y = x+y
+          aplica Re x y = x-y
+          aplica Mu x y = x*y
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Se consideran las expresiones vectoriales formadas por
@@ -864,21 +714,25 @@ data ExpV = Vec Int Int
           | Mul Int ExpV
           deriving Show
 
--- fracruzam alvalvdom1 ivaruicam
+-- 1ª solución
+-- ===========
 valorEV :: ExpV -> (Int,Int)
-valorEV (Vec n m)   = (n,m)
-valorEV (Sum v1 v2) = mas (valorEV v1) (valorEV v2)
-valorEV (Mul n v)   = por n (valorEV v)
+valorEV (Vec x y)   = (x,y)
+valorEV (Sum e1 e2) = (x1+x2,y1+y2) 
+    where (x1,y1) = valorEV e1  
+          (x2,y2) = valorEV e2  
+valorEV (Mul n e)   = (n*x,n*y) 
+    where (x,y) = valorEV e  
 
-mas :: (Int,Int) -> (Int,Int) -> (Int,Int)
-mas (a,b) (c,d) = (a+c,b+d)
-
-por :: Int -> (Int,Int) -> (Int,Int)
-por n (a,b) = (n*a,n*b)
-
--- abrdelrod erisancha juanarcon
+-- 2ª solución
+-- ===========
 valorEV2 :: ExpV -> (Int,Int)
-valorEV2 (Vec a b) = (a,b)
-valorEV2 (Sum a b) = (fst (valorEV2 a) + fst (valorEV2 b), 
-                      snd (valorEV2 a) + snd (valorEV2 b))
-valorEV2 (Mul n b) = (n * fst (valorEV2 b), n * snd (valorEV2 b))
+valorEV2 (Vec a b)   = (a, b)
+valorEV2 (Sum e1 e2) = suma (valorEV2 e1) (valorEV2 e2)
+valorEV2 (Mul n e1)  = multiplica n (valorEV2 e1)
+
+suma :: (Int,Int) -> (Int,Int) -> (Int,Int)
+suma (a,b) (c,d) = (a+c,b+d)
+
+multiplica :: Int -> (Int, Int) -> (Int, Int)
+multiplica n (a,b) = (n*a,n*b)
