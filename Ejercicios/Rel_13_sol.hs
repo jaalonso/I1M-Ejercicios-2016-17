@@ -31,8 +31,19 @@ import Test.QuickCheck
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 repite :: a -> [a]
-repite x = undefined
+repite = repiteR 1
+    where repiteR :: Integer -> a -> [a]
+          repiteR n x = x : repiteR (n+1) x
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- juamorrom1
+repite2 :: a -> [a]
+repite2 x = x : repite2 x
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir, por comprensión, la función 
@@ -46,8 +57,9 @@ repite x = undefined
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 repiteC :: a -> [a]
-repiteC x = undefined
+repiteC x = [x | _ <- [1..]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Definir, por recursión, la función 
@@ -60,8 +72,18 @@ repiteC x = undefined
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 repiteFinitaR :: Int -> a -> [a]
-repiteFinitaR n x = undefined
+repiteFinitaR 0 _ = []
+repiteFinitaR n x = x : repiteFinitaR (n-1) x
+
+-- juamorrom1
+repiteFinitaR1 :: Int -> a -> [a]
+repiteFinitaR1 0 _ = []
+repiteFinitaR1 n x | n < 1 = []
+repiteFinitaR1 n x = x : repiteFinitaR1 (n-1) x
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por comprensión, la función 
@@ -74,8 +96,9 @@ repiteFinitaR n x = undefined
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 repiteFinitaC :: Int -> a -> [a]
-repiteFinitaC n x = undefined
+repiteFinitaC n x = [x | _ <- [1..n]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Definir, usando repite, la función 
@@ -88,8 +111,9 @@ repiteFinitaC n x = undefined
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 repiteFinita :: Int -> a -> [a]
-repiteFinita n x = undefined
+repiteFinita n = take n . repite
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.4. Comprobar con QuickCheck que las funciones
@@ -101,11 +125,37 @@ repiteFinita n x = undefined
 --    quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
 -- ---------------------------------------------------------------------
 
+-- fracruzam
+
 -- La propiedad es
 prop_repiteFinitaEquiv :: Int -> Int -> Bool
-prop_repiteFinitaEquiv n x = undefined
+prop_repiteFinitaEquiv n x =
+    r == repiteFinitaR n x && 
+    r == repiteFinitaC n x && 
+    r == repiteFinita n x
+    where r = replicate n x
 
 -- La comprobación es
+--    *Main> quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
+--    *** Failed! Falsifiable (after 6 tests and 3 shrinks): 
+--    -1
+--    0
+
+-- Comentario: Se debe de fortalecer las hipótesis para que se cumpla la
+-- propiedad. 
+
+-- juamorrom1
+-- La propiedad es
+prop_repiteFinitaEquiv2 :: Int -> Int -> Bool
+prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
+    where a = replicate n x
+          b = repiteFinita n x
+          c = repiteFinitaR1 n x
+          d = repiteFinitaC n x
+
+-- La comprobación es
+--    *Main> quickCheckWith (stdArgs {maxSize=7}) prop_repiteFin-- itaEquiv
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.5. Comprobar con QuickCheck que la longitud de
@@ -116,22 +166,31 @@ prop_repiteFinitaEquiv n x = undefined
 --    quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
+
 -- La propiedad es
 prop_repiteFinitaLongitud :: Int -> Int -> Bool
-prop_repiteFinitaLongitud n x = undefined
+prop_repiteFinitaLongitud n x | n > 0     = longitud == n
+                              | otherwise = longitud == 0
+    where longitud = length $ repiteFinita n x
 
 -- La comprobación es
+--    *Main> quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.6. Comprobar con QuickCheck que todos los elementos de 
 -- (repiteFinita n x) son iguales a x.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 -- La propiedad es
 prop_repiteFinitaIguales :: Int -> Int -> Bool
-prop_repiteFinitaIguales n x = undefined
+prop_repiteFinitaIguales n x = all (x ==) $ repiteFinita n x
 
 -- La comprobación es
+--    *Main> quickCheck prop_repiteFinitaIguales
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir, por comprensión, la función
@@ -143,8 +202,19 @@ prop_repiteFinitaIguales n x = undefined
 --    ecoC "abcd"  ==  "abbcccdddd"
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 ecoC :: String -> String
-ecoC xs = undefined
+ecoC xs = concat [replicate' (x,y) | (x,y) <- zip [1..] xs]
+    where replicate' :: (Int,Char) -> [Char]
+          replicate' (x,y) = replicate x y
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- juamorrom1
+ecoC1 :: String -> String
+ecoC1 xs = concat [replicate (n+1) (xs !! n) | n <- [0.. length xs -1]]
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
@@ -156,8 +226,12 @@ ecoC xs = undefined
 --    ecoR "abcd"  ==  "abbcccdddd"
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 ecoR :: String -> String
-ecoR xs = undefined
+ecoR = ecoR_aux 1
+    where ecoR_aux :: Int -> String -> String
+          ecoR_aux _ []    = []
+          ecoR_aux n (x:xs) = replicate n x ++ ecoR_aux (n+1) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir, por recursión, la función
@@ -176,8 +250,9 @@ ecoR xs = undefined
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 itera :: (a -> a) -> a -> [a]
-itera f x = undefined
+itera f x = x : itera f (f x)
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.1. Definir, por recursión, la función
@@ -193,8 +268,10 @@ itera f x = undefined
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
+-- fracruzam juamorrom1
 agrupaR :: Int -> [a] -> [[a]]
-agrupaR = undefined
+agrupaR _ [] = []
+agrupaR n xs = take n xs : agrupaR n (drop n xs)
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, de manera no recursiva con iterate, la función
@@ -211,7 +288,7 @@ agrupaR = undefined
 -- ---------------------------------------------------------------------------- 
 
 agrupa :: Int -> [a] -> [[a]]
-agrupa n = undefined
+agrupa n xs = undefined
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que todos los grupos de
@@ -272,7 +349,10 @@ prop_AgrupaCombina n xs = undefined
 --    siguiente 40  ==  20
 -- ---------------------------------------------------------------------
 
-siguiente n = undefined
+-- fracruzam juamorrom1
+siguiente :: Integer -> Integer
+siguiente n | even n    = div n 2
+            | otherwise = 3 * n + 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Definir, por recursión, la función 
@@ -282,8 +362,19 @@ siguiente n = undefined
 --    collatzR 13  ==  [13,40,20,10,5,16,8,4,2,1]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 collatzR :: Integer -> [Integer]
-collatzR = undefined
+collatzR n = n : collatzR' n
+    where collatzR' :: Integer -> [Integer]
+          collatzR' 1 = []
+          collatzR' n = siguiente n : collatzR' (siguiente n)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- juamorrom1
+collatzR1 :: Integer -> [Integer]
+collatzR1 1 = [1]
+collatzR1 n = n : (collatzR1 (siguiente n))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.3. Definir, sin recursión y con iterate, la función 
@@ -294,8 +385,9 @@ collatzR = undefined
 -- Indicación: Usar takeWhile e iterate.
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 collatz :: Integer -> [Integer]
-collatz n = undefined
+collatz n = takeWhile (/=1) (iterate siguiente n) ++ [1]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.4. Definir la función
@@ -305,8 +397,16 @@ collatz n = undefined
 --    menorCollatzMayor 100  ==  27
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 menorCollatzMayor :: Int -> Integer
-menorCollatzMayor x = undefined
+menorCollatzMayor x = 
+    fromIntegral $ length (takeWhile (<x) (map length (map collatz [1..]))) + 1
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- juamorrom1
+menorCollatzMayor1 :: Int -> Integer
+menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.5. Definir la función
@@ -316,8 +416,18 @@ menorCollatzMayor x = undefined
 --    menorCollatzSupera 100  ==  15
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 menorCollatzSupera :: Integer -> Integer
-menorCollatzSupera x = undefined
+menorCollatzSupera x = head [n | n <- [1..], any (>x) (collatz n)]
+
+-- fracruzam
+menorCollatzSupera2 :: Integer -> Integer
+menorCollatzSupera2 x = 
+    (fromIntegral $ 
+     length $ 
+     takeWhile not $ 
+     map (any (>x)) $ 
+     map collatz [1..]) + 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir, usando takeWhile y map, la función
@@ -327,8 +437,9 @@ menorCollatzSupera x = undefined
 --    potenciasMenores 2 1000  ==  [2,4,8,16,32,64,128,256,512]
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 potenciasMenores :: Int -> Int -> [Int]
-potenciasMenores x y = undefined
+potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. Definir, usando la criba de Eratóstenes, la constante
@@ -337,8 +448,11 @@ potenciasMenores x y = undefined
 --    take 10 primos  ==  [2,3,5,7,11,13,17,19,23,29]
 -- ---------------------------------------------------------------------
 
+-- fracruzam juamorrom1
 primos :: Integral a => [a]
-primos = undefined
+primos = criba [2..]
+  where criba :: Integral a => [a] -> [a]
+        criba (p:xs) = p : criba [x | x <- xs, x `mod` p /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.2. Definir, usando primos, la función
@@ -348,8 +462,11 @@ primos = undefined
 --    primo 9  ==  False
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 primo :: Int -> Bool
-primo n = undefined
+primo n = elem n (takeWhile (<=n) primos)
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.3. Definir la función
@@ -362,10 +479,20 @@ primo n = undefined
 -- puede escribirse de 10 formas distintas como suma de dos primos.
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 sumaDeDosPrimos :: Int -> [(Int,Int)]
-sumaDeDosPrimos n = undefined
+sumaDeDosPrimos n = 
+    [(x,y) | x <- primos', y <- primos', x+y == n, y < n, x <= y]
+    where primos' = takeWhile (<n) primos
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- El cálculo es
+menorSumaDeDosPrimos = 
+    head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
+
+-- El menor número que puede escribirse de 10 formas distintas como 
+-- suma de dos primos es el 114.
 
 -- ---------------------------------------------------------------------
 -- § La lista infinita de factoriales,                                --
@@ -378,8 +505,13 @@ sumaDeDosPrimos n = undefined
 --    take 10 factoriales1  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 factoriales1 :: [Integer]
-factoriales1 = undefined
+factoriales1 = map (factorial) [0..]
+
+-- Comentario: La definición anterior se puede simplificar.
+
+factorial n = if n < 2 then 1 else n * factorial (n-1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir, usando zipWith, la función
@@ -398,8 +530,12 @@ factoriales2 = undefined
 --    take 10 factoriales3  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 factoriales3 :: [Integer]
-factoriales3 = undefined
+factoriales3 = 1 : aux 1 [1..]
+    where aux x (y:ys) = (x*y) : aux (x*y) ys
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.4. Definir, usando scanl1, la función
@@ -438,8 +574,13 @@ factoriales5 = undefined
 --    fib 8  ==  21
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 fib :: Integer -> Integer
-fib = undefined
+fib 0         = 0
+fib 1         = 1
+fib n | n > 1 = fib (n-1) + fib (n-2)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.2. Definir, por comprensión, la función
@@ -448,8 +589,11 @@ fib = undefined
 --    take 10 fibs1  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 fibs1 :: [Integer]
-fibs1 = undefined
+fibs1 = map (fib) [0..]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.3. Definir, por recursión, la función
@@ -458,8 +602,14 @@ fibs1 = undefined
 --    take 10 fibs2  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
+-- juamorrom1
 fibs2 :: [Integer]
-fibs2 = undefined
+fibs2 = aux xs
+      where aux (x:xs) = fib x:(aux xs)
+            xs = [0..]
+
+-- Comentario: La definición anterior se puede mejorar sin usar la
+-- función fib.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.4. Definir, por recursión con zipWith, la función
