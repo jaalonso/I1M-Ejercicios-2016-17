@@ -39,7 +39,7 @@ repite = repiteR 1
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- juamorrom1
+-- juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor
 repite2 :: a -> [a]
 repite2 x = x : repite2 x
 
@@ -57,7 +57,7 @@ repite2 x = x : repite2 x
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor
 repiteC :: a -> [a]
 repiteC x = [x | _ <- [1..]]
 
@@ -72,18 +72,15 @@ repiteC x = [x | _ <- [1..]]
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam alvalvdom1 josllagam ivaruicam manvermor
 repiteFinitaR :: Int -> a -> [a]
 repiteFinitaR 0 _ = []
 repiteFinitaR n x = x : repiteFinitaR (n-1) x
 
--- juamorrom1
-repiteFinitaR1 :: Int -> a -> [a]
-repiteFinitaR1 0 _ = []
-repiteFinitaR1 n x | n < 1 = []
-repiteFinitaR1 n x = x : repiteFinitaR1 (n-1) x
-
--- Comentario: La definición anterior se puede simplificar.
+-- juanarcon juamorrom1
+repiteFinitaR2 :: Int -> a -> [a]
+repiteFinitaR2 n x  | n >= 1    = x : repiteFinitaR2 (n-1) x
+                    | otherwise = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por comprensión, la función 
@@ -96,7 +93,8 @@ repiteFinitaR1 n x = x : repiteFinitaR1 (n-1) x
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
+-- manvermor 
 repiteFinitaC :: Int -> a -> [a]
 repiteFinitaC n x = [x | _ <- [1..n]]
 
@@ -111,7 +109,8 @@ repiteFinitaC n x = [x | _ <- [1..n]]
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
+-- manvermor 
 repiteFinita :: Int -> a -> [a]
 repiteFinita n = take n . repite
 
@@ -125,7 +124,7 @@ repiteFinita n = take n . repite
 --    quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam alvalvdom1 manvermor
 
 -- La propiedad es
 prop_repiteFinitaEquiv :: Int -> Int -> Bool
@@ -144,13 +143,14 @@ prop_repiteFinitaEquiv n x =
 -- Comentario: Se debe de fortalecer las hipótesis para que se cumpla la
 -- propiedad. 
 
--- juamorrom1
+-- juamorrom1 juanarcon josllagam  ivaruicam
+
 -- La propiedad es
 prop_repiteFinitaEquiv2 :: Int -> Int -> Bool
 prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
     where a = replicate n x
           b = repiteFinita n x
-          c = repiteFinitaR1 n x
+          c = repiteFinitaR2 n x
           d = repiteFinitaC n x
 
 -- La comprobación es
@@ -166,7 +166,8 @@ prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
 --    quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
+-- manvermor 
 
 -- La propiedad es
 prop_repiteFinitaLongitud :: Int -> Int -> Bool
@@ -183,7 +184,9 @@ prop_repiteFinitaLongitud n x | n > 0     = longitud == n
 -- (repiteFinita n x) son iguales a x.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
+-- manvermor 
+
 -- La propiedad es
 prop_repiteFinitaIguales :: Int -> Int -> Bool
 prop_repiteFinitaIguales n x = all (x ==) $ repiteFinita n x
@@ -210,11 +213,15 @@ ecoC xs = concat [replicate' (x,y) | (x,y) <- zip [1..] xs]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- juamorrom1
-ecoC1 :: String -> String
-ecoC1 xs = concat [replicate (n+1) (xs !! n) | n <- [0.. length xs -1]]
+-- juanarcon josllagam juamorrom1 manvermor
+ecoC2 :: String -> String
+ecoC2 xs = concat [replicate n x | (n,x) <- zip [1..] xs]
 
--- Comentario: La definición anterior se puede mejorar.
+-- ivaruicam
+ecoC3 :: String -> String
+ecoC3 xs = concat [x | x <- zipWith (replicate) [1..] xs]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
@@ -226,7 +233,7 @@ ecoC1 xs = concat [replicate (n+1) (xs !! n) | n <- [0.. length xs -1]]
 --    ecoR "abcd"  ==  "abbcccdddd"
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon josllagam ivaruicam
 ecoR :: String -> String
 ecoR = ecoR_aux 1
     where ecoR_aux :: Int -> String -> String
@@ -250,7 +257,8 @@ ecoR = ecoR_aux 1
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
+-- manvermor 
 itera :: (a -> a) -> a -> [a]
 itera f x = x : itera f (f x)
 
@@ -268,7 +276,8 @@ itera f x = x : itera f (f x)
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 juanarcon alvalvdom1 ivaruicam josllagam
+-- manvermor 
 agrupaR :: Int -> [a] -> [[a]]
 agrupaR _ [] = []
 agrupaR n xs = take n xs : agrupaR n (drop n xs)
@@ -287,8 +296,9 @@ agrupaR n xs = take n xs : agrupaR n (drop n xs)
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
+-- fracruzam
 agrupa :: Int -> [a] -> [[a]]
-agrupa n xs = undefined
+agrupa n = takeWhile (not.null) . map (take n) . iterate (drop n) 
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que todos los grupos de
@@ -296,22 +306,38 @@ agrupa n xs = undefined
 -- longitud menor). 
 -- ---------------------------------------------------------------------------- 
 
+-- fracruzam
+
 -- La propiedad es
 prop_AgrupaLongitud :: Int -> [Int] -> Property
-prop_AgrupaLongitud n xs = undefined
+prop_AgrupaLongitud n xs =
+    n > 0 && xs /= [] ==> all (\x -> length x == n) (init agrupanxs) &&
+                          length (last $ agrupanxs) <= n
+    where agrupanxs = agrupa n xs
 
 -- La comprobación es
+--    *Main> quickCheck prop_AgrupaLongitud
+--    +++ OK, passed 100 tests.
+
+-- ivaruicam
+prop_AgrupaLongitud2 :: Int -> [Int] -> Property
+prop_AgrupaLongitud2 n xs = n > 0 ==> all (<= n) (map (length) (agrupaR n xs))
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.4. Comprobar con QuickCheck que combinando todos los
--- grupos de ((agrupa n xs)) se obtiene la lista xs. 
+-- grupos de (agrupa n xs) se obtiene la lista xs. 
 -- ---------------------------------------------------------------------------- 
+
+-- fracruzam ivaruicam juamorrom1 manvermor
 
 -- La segunda propiedad es
 prop_AgrupaCombina :: Int -> [Int] -> Property
-prop_AgrupaCombina n xs = undefined
+prop_AgrupaCombina n xs = 
+    n > 0 && xs /= []  ==> xs == foldr1 (++) (agrupa n xs) 
 
 -- La comprobación es
+--    *Main> quickCheck prop_AgrupaCombina
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Sea la siguiente operación, aplicable a cualquier
@@ -349,7 +375,7 @@ prop_AgrupaCombina n xs = undefined
 --    siguiente 40  ==  20
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 alvalvdom1 ivaruicam josllagam manvermor
 siguiente :: Integer -> Integer
 siguiente n | even n    = div n 2
             | otherwise = 3 * n + 1
@@ -371,10 +397,18 @@ collatzR n = n : collatzR' n
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- juamorrom1
+-- juamorrom1 alvalvdom1 ivaruicam manvermor
 collatzR1 :: Integer -> [Integer]
 collatzR1 1 = [1]
 collatzR1 n = n : (collatzR1 (siguiente n))
+
+-- josllagam
+collatzR2 :: Integer -> [Integer]
+collatzR2 1 = [1]
+collatzR2 n | even n     = [n] ++ collatzR2 (n `div` 2)
+            | otherwise  = [n] ++ collatzR2 (n * 3 + 1)
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.3. Definir, sin recursión y con iterate, la función 
@@ -385,7 +419,7 @@ collatzR1 n = n : (collatzR1 (siguiente n))
 -- Indicación: Usar takeWhile e iterate.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor
 collatz :: Integer -> [Integer]
 collatz n = takeWhile (/=1) (iterate siguiente n) ++ [1]
 
@@ -404,7 +438,7 @@ menorCollatzMayor x =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- juamorrom1
+-- juamorrom1 alvalvdom1 ivaruicam manvermor
 menorCollatzMayor1 :: Int -> Integer
 menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 
@@ -416,7 +450,7 @@ menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 --    menorCollatzSupera 100  ==  15
 -- ---------------------------------------------------------------------
 
--- juamorrom1
+-- juamorrom1 alvalvdom1 ivaruicam manvermor
 menorCollatzSupera :: Integer -> Integer
 menorCollatzSupera x = head [n | n <- [1..], any (>x) (collatz n)]
 
@@ -437,7 +471,7 @@ menorCollatzSupera2 x =
 --    potenciasMenores 2 1000  ==  [2,4,8,16,32,64,128,256,512]
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 alvalvdom1 ivaruicam
 potenciasMenores :: Int -> Int -> [Int]
 potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 
@@ -448,7 +482,7 @@ potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 --    take 10 primos  ==  [2,3,5,7,11,13,17,19,23,29]
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1
+-- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor
 primos :: Integral a => [a]
 primos = criba [2..]
   where criba :: Integral a => [a] -> [a]
@@ -468,6 +502,12 @@ primo n = elem n (takeWhile (<=n) primos)
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- ivaruicam manvermor
+primo1 :: Int -> Bool
+primo1 n = elem n (take n primos) 
+
+-- Comentario: La definición anterior se puede mejorar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.3. Definir la función
 --    sumaDeDosPrimos :: Int -> [(Int,Int)]
@@ -479,10 +519,10 @@ primo n = elem n (takeWhile (<=n) primos)
 -- puede escribirse de 10 formas distintas como suma de dos primos.
 -- ---------------------------------------------------------------------
 
--- juamorrom1
+-- ivaruicam juamorrom1 manvermor
 sumaDeDosPrimos :: Int -> [(Int,Int)]
 sumaDeDosPrimos n = 
-    [(x,y) | x <- primos', y <- primos', x+y == n, y < n, x <= y]
+    [(x,y) | x <- primos', y <- primos', x+y == n, x <= y]
     where primos' = takeWhile (<n) primos
 
 -- Comentario: La definición anterior se puede mejorar.
@@ -513,6 +553,19 @@ factoriales1 = map (factorial) [0..]
 
 factorial n = if n < 2 then 1 else n * factorial (n-1)
 
+-- ivaruicam
+factoriales11:: [Integer]
+factoriales11 = map (factorial1) [0..]
+    where factorial1 n = product [1..n]
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- manvermor
+factoriales12 :: [Integer]
+factoriales12 = [factorial2 n | n <- [0..]]
+
+factorial2 n = product [1..n]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir, usando zipWith, la función
 --    factoriales2 :: [Integer]
@@ -534,6 +587,13 @@ factoriales2 = undefined
 factoriales3 :: [Integer]
 factoriales3 = 1 : aux 1 [1..]
     where aux x (y:ys) = (x*y) : aux (x*y) ys
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- manvermor
+factoriales3a :: [Integer]
+factoriales3a = aux 0
+    where  aux n = factorial2 n : aux (n+1)
 
 -- Comentario: La definición anterior se puede mejorar.
 
@@ -582,6 +642,12 @@ fib n | n > 1 = fib (n-1) + fib (n-2)
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- ivaruicam
+fib1 :: Integer -> Integer
+fib1 0 = 0
+fib1 1 = 1
+fib1 n = fib (n-1) + fib (n-2)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.2. Definir, por comprensión, la función
 --    fibs1 :: [Integer]
@@ -589,7 +655,7 @@ fib n | n > 1 = fib (n-1) + fib (n-2)
 --    take 10 fibs1  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- juamorrom1
+-- juamorrom1 ivaruicam
 fibs1 :: [Integer]
 fibs1 = map (fib) [0..]
 
@@ -610,6 +676,13 @@ fibs2 = aux xs
 
 -- Comentario: La definición anterior se puede mejorar sin usar la
 -- función fib.
+
+-- ivaruicam
+fibs21 :: [Integer]
+fibs21 = aux 0
+    where aux n = fib n : aux (n+1)
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.4. Definir, por recursión con zipWith, la función
@@ -678,4 +751,3 @@ pascal2 = undefined
 -- Ejercicio 11.3. Escribir la traza del cálculo de la expresión
 --    take 4 pascal2
 -- ---------------------------------------------------------------------
-
