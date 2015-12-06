@@ -33,6 +33,7 @@ import Test.QuickCheck
 
 -- juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor rubvilval
 -- carmengar silgongal erisancha marvilmor fracruzam carruirui3 alebergon
+-- javperlag lucgamgal manpende blaruiher isrbelnun migandben
 repite :: a -> [a]
 repite x = x : repite x
 
@@ -52,6 +53,7 @@ repite x = x : repite x
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor
 -- rubvilval carmengar silgongal erisancha marvilmor alebergon abrdelrod
+-- javperlag lucgamgal manpende blaruiher isrbelnun migandben
 
 repiteC :: a -> [a]
 repiteC x = [x | _ <- [1..]]
@@ -68,12 +70,12 @@ repiteC x = [x | _ <- [1..]]
 -- ---------------------------------------------------------------------
 
 -- fracruzam alvalvdom1 josllagam ivaruicam manvermor carmengar silgongal
--- alebergon abrdelrod
+-- alebergon abrdelrod javperlag lucgamgal manpende blaruiher migandben
 repiteFinitaR :: Int -> a -> [a]
 repiteFinitaR 0 _ = []
 repiteFinitaR n x = x : repiteFinitaR (n-1) x
 
--- juanarcon juamorrom1 rubvilval erisancha marvilmor
+-- juanarcon juamorrom1 rubvilval erisancha marvilmor isrbelnun
 repiteFinitaR2 :: Int -> a -> [a]
 repiteFinitaR2 n x  | n >= 1    = x : repiteFinitaR2 (n-1) x
                     | otherwise = []
@@ -91,6 +93,7 @@ repiteFinitaR2 n x  | n >= 1    = x : repiteFinitaR2 (n-1) x
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
 -- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon abrdelrod
+-- javperlag lucgamgal manpende blaruiher isrbelnun
 
 repiteFinitaC :: Int -> a -> [a]
 repiteFinitaC n x = [x | _ <- [1..n]]
@@ -108,9 +111,17 @@ repiteFinitaC n x = [x | _ <- [1..n]]
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
 -- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon
--- abrdelrod 
+-- abrdelrod javperlag manpende isrbelnun migandben
 repiteFinita :: Int -> a -> [a]
 repiteFinita n = take n . repite
+
+--lucgamgal
+repiteFinita2 :: Int -> a -> [a]
+repiteFinita2 n x = take n $ repite x
+
+-- blaruiher
+repiteFinita3 :: Int -> a -> [a]
+repiteFinita3 n x = take n (repite x)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.4. Comprobar con QuickCheck que las funciones
@@ -122,7 +133,8 @@ repiteFinita n = take n . repite
 --    quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor alebergon abrdelrod
+-- fracruzam alvalvdom1 manvermor alebergon abrdelrod javperlag manpende 
+-- migandben
 
 -- La propiedad es
 
@@ -137,7 +149,7 @@ prop_repiteFinitaEquiv n x =
 --    +++ OK, passed 100 tests.
 
 -- juamorrom1 juanarcon josllagam  ivaruicam rubvilval carmengar silgongal
--- erisancha marvilmor
+-- erisancha marvilmor lucgamgal blaruiher
 
 -- La propiedad es
 prop_repiteFinitaEquiv2 :: Int -> Int -> Bool
@@ -151,6 +163,18 @@ prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
 --    *Main> quickCheckWith (stdArgs {maxSize=7}) prop_repiteFin-- itaEquiv
 --    +++ OK, passed 100 tests.
 
+
+-- isrbelnun
+
+-- La propiedad es
+prop_repiteFinitaEquiv3 :: Int -> Int -> Bool
+prop_repiteFinitaEquiv3 n x = 
+    repiteFinitaR n x == repiteFinitaC n x &&
+    repiteFinitaC n x == repiteFinita n x
+
+-- La comprobación es
+-- +++ OK, passed 100 tests.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.5. Comprobar con QuickCheck que la longitud de
 -- (repiteFinita n x) es n, si n es positivo y 0 si no lo es.
@@ -162,7 +186,7 @@ prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
 -- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon
--- abrdelrod 
+-- abrdelrod javperlag lucgamgal manpende blaruiher isrbelnun migandben
 
 -- La propiedad es
 prop_repiteFinitaLongitud :: Int -> Int -> Bool
@@ -181,6 +205,7 @@ prop_repiteFinitaLongitud n x | n > 0     = longitud == n
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
 -- manvermor rubvilval silgongal erisancha marvilmor alebergon abrdelrod
+-- lucgamgal manpende blaruiher isrbelnun migandben
 
 -- La propiedad es
 prop_repiteFinitaIguales :: Int -> Int -> Bool
@@ -206,7 +231,8 @@ ecoC xs = concatMap replicate' (zip [1..] xs)
           replicate' (x,y) = replicate x y
 
 -- juanarcon josllagam juamorrom1 manvermor alvalvdom1 silgongal erisancha
--- marvilmor rubvilval alebergon abrdelrod
+-- marvilmor rubvilval alebergon abrdelrod javperlag manpende carmengar
+-- blaruiher isrbelnun
 ecoC2 :: String -> String
 ecoC2 xs = concat [replicate n x | (n,x) <- zip [1..] xs]
 
@@ -216,6 +242,10 @@ ecoC3 xs = concat [x | x <- zipWith (replicate) [1..] xs]
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- carruirui3
+ecoC4 :: String -> String
+ecoC4 xs = concat $ zipWith replicate [1..] xs
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
 --    ecoR :: String -> String
@@ -223,12 +253,13 @@ ecoC3 xs = concat [x | x <- zipWith (replicate) [1..] xs]
 -- repitiendo cada elemento tantas veces como indica su posición: el
 -- primer elemento se repite 1 vez, el segundo 2 veces y así
 -- sucesivamente. Por ejemplo, 
---    ecoR "abcd"  ==  "abbcccdddd"
+--    ecoR "abcd"  == "abbcccdddd"
+--    ecoR "Betis" == "Beetttiiiisssss"
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 juanarcon josllagam ivaruicam alvalvdom1 silgongal
--- erisancha marvilmor rubvilval alebergon abrdelrod
-
+-- erisancha marvilmor rubvilval alebergon abrdelrod javperlag manpende
+-- carmengar blaruiher migandben
 ecoR :: String -> String
 ecoR = ecoR_aux 1
     where ecoR_aux :: Int -> String -> String
@@ -254,6 +285,7 @@ ecoR = ecoR_aux 1
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
 -- manvermor silgongal erisancha marvilmor rubvilval alebergon abrdelrod
+-- javperlag manpende carmengar isrbelnun blaruiher migandben
 
 itera :: (a -> a) -> a -> [a]
 itera f x = x : itera f (f x)
@@ -273,7 +305,8 @@ itera f x = x : itera f (f x)
 -- ---------------------------------------------------------------------------- 
 
 -- fracruzam juamorrom1 juanarcon alvalvdom1 ivaruicam josllagam silgongal
--- manvermor erisancha rubvilval alebergon abrdelrod
+-- manvermor erisancha rubvilval alebergon abrdelrod manpende carmengar
+-- isrbelnun blaruiher migandben
 
 agrupaR :: Int -> [a] -> [[a]]
 agrupaR _ [] = []
@@ -293,7 +326,7 @@ agrupaR n xs = take n xs : agrupaR n (drop n xs)
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam erisancha
+-- fracruzam erisancha carmengar juanarcon isrbelnun migandben
 
 agrupa :: Int -> [a] -> [[a]]
 agrupa n = takeWhile (not.null) . map (take n) . iterate (drop n) 
@@ -304,7 +337,7 @@ agrupa n = takeWhile (not.null) . map (take n) . iterate (drop n)
 -- longitud menor). 
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam alvalvdom1 
+-- fracruzam alvalvdom1 manpende carmengar
 
 -- La propiedad es
 prop_AgrupaLongitud :: Int -> [Int] -> Property
@@ -313,15 +346,15 @@ prop_AgrupaLongitud n xs =
                           length (last $ agrupanxs) <= n
     where agrupanxs = agrupa n xs
 
--- La comprobación es
---    *Main> quickCheck prop_AgrupaLongitud
---    +++ OK, passed 100 tests.
-
--- ivaruicam erisancha alebergon
+-- ivaruicam erisancha alebergon juanarcon isrbelnun blaruiher
 prop_AgrupaLongitud2 :: Int -> [Int] -> Property
 prop_AgrupaLongitud2 n xs = n > 0 ==> all (<= n) (map (length) (agrupaR n xs))
 
 -- Comentario. Falta la longitud del último.
+
+-- La comprobación es
+--    *Main> quickCheck prop_AgrupaLongitud2
+--    +++ OK, passed 100 tests.
 
 -- abrdelrod
 prop_AgrupaLongitud3 :: Int -> [Int] -> Property
@@ -329,13 +362,27 @@ prop_AgrupaLongitud3 n xs =
     n > 0 && xs /= [] ==> and [n == length x | x <- init (agrupaR n xs)]
 
 -- Comentario. Falta la longitud del último.
- 
+
+-- La comprobación es
+--    *Main> quickCheck prop_AgrupaLongitud3
+--    +++ OK, passed 100 tests.
+
+-- albtorval
+prop_AgrupaLongitud4 :: Int -> [Int] -> Property
+prop_AgrupaLongitud4 n xs =
+    n > 0 && xs /= [] ==> all (<= n) (map (length) (agrupaR n xs)) &&
+                          length (last (agrupa n xs)) <= n
+
+-- La comprobación es
+--    *Main> quickCheck prop_AgrupaLongitud4
+--    +++ OK, passed 100 tests.
+
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.4. Comprobar con QuickCheck que combinando todos los
 -- grupos de (agrupa n xs) se obtiene la lista xs. 
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam ivaruicam juamorrom1 manvermor 
+-- fracruzam ivaruicam juamorrom1 manvermor
 
 -- La segunda propiedad es
 prop_AgrupaCombina :: Int -> [Int] -> Property
@@ -346,7 +393,9 @@ prop_AgrupaCombina n xs =
 --    *Main> quickCheck prop_AgrupaCombina
 --    +++ OK, passed 100 tests.
 
--- erisancha alvalvdm1 alebergon abrdelrod
+-- erisancha alvalvdm1 alebergon abrdelrod manpende carmengar juanarcon
+-- isrbelnun blaruiher
+ 
 prop_AgrupaCombina2 :: Int -> [Int] -> Property
 prop_AgrupaCombina2 n xs = n > 0 ==> concat (agrupa n xs) == xs
 
@@ -387,7 +436,9 @@ prop_AgrupaCombina2 n xs = n > 0 ==> concat (agrupa n xs) == xs
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 alvalvdom1 ivaruicam josllagam manvermor
--- erisancha silgongal rubvilval alebergon abrdelrod
+-- erisancha silgongal rubvilval alebergon abrdelrod javperlag
+-- manpende carmengar juanarcon isrbelnun migandben
+
 siguiente :: Integer -> Integer
 siguiente n | even n    = div n 2
             | otherwise = 3 * n + 1
@@ -401,12 +452,19 @@ siguiente n | even n    = div n 2
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor erisancha
--- silgongal rubvilval alebergon abrdelrod
+-- silgongal rubvilval alebergon abrdelrod javperlag carmengar 
+-- juanarcon  isrbelnun migandben blaruiher
+
 collatzR :: Integer -> [Integer]
 collatzR 1 = [1]
 collatzR n = n : collatzR (siguiente n)
 
--- josllagam
+-- albtorval
+collatzR1 :: Integer -> [Integer]
+collatzR1 1 = [1]
+collatzR1 n = n : (collatzR1 $ siguiente n)
+
+-- josllagam manpende
 collatzR2 :: Integer -> [Integer]
 collatzR2 1 = [1]
 collatzR2 n | even n     = [n] ++ collatzR2 (n `div` 2)
@@ -424,7 +482,8 @@ collatzR2 n | even n     = [n] ++ collatzR2 (n `div` 2)
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor josllagam erisancha
---silgongal rubvilval alebergon abrdelrod
+-- silgongal rubvilval alebergon abrdelrod javperlag manpende carmengar
+-- juanarcon isrbelnun migandben blaruiher
 
 collatz :: Integer -> [Integer]
 collatz n = takeWhile (/=1) (iterate siguiente n) ++ [1]
@@ -445,7 +504,9 @@ menorCollatzMayor x =
 -- Comentario: La definición anterior se puede simplificar.
 
 -- juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod
+-- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon
+-- isrbelnun blaruiher
+
 menorCollatzMayor1 :: Int -> Integer
 menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 
@@ -458,7 +519,9 @@ menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 -- ---------------------------------------------------------------------
 
 -- juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod
+-- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon 
+-- isrbelnun blaruiher
+
 menorCollatzSupera :: Integer -> Integer
 menorCollatzSupera x = head [n | n <- [1..], any (>x) (collatz n)]
 
@@ -480,7 +543,9 @@ menorCollatzSupera2 x =
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 alvalvdom1 ivaruicam josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod
+-- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon
+-- isrbelnun
+
 potenciasMenores :: Int -> Int -> [Int]
 potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 
@@ -492,7 +557,8 @@ potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 -- ---------------------------------------------------------------------
 
 -- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal
--- erisancha rubvilval alebergon abrdelrod
+-- erisancha rubvilval alebergon abrdelrod javperlag carmengar juanarcon
+-- isrbelnun blaruiher
 
 primos :: Integral a => [a]
 primos = criba [2..]
@@ -507,19 +573,19 @@ primos = criba [2..]
 --    primo 9  ==  False
 -- ---------------------------------------------------------------------
 
--- juamorrom1 josllagam silgongal rubvilval 
+-- juamorrom1 josllagam silgongal rubvilval blaruiher
 primo :: Int -> Bool
 primo n = elem n (takeWhile (<=n) primos)
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- ivaruicam manvermor erisancha abrdelrod
+-- ivaruicam manvermor erisancha abrdelrod javperlag juanarcon 
 primo1 :: Int -> Bool
 primo1 n = elem n (take n primos) 
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- alvalvdom1 alebergon
+-- alvalvdom1 alebergon carmengar
 primo2 :: Integral a => a -> Bool
 primo2 n = head [x | x <- primos, x >= n] == n
 
@@ -541,7 +607,7 @@ primo3 n = n == last (takeWhile (<=n) primos)
 -- ---------------------------------------------------------------------
 
 -- ivaruicam juamorrom1 manvermor josllagam silgongal fracruzam
--- rubvilval abrdelrod
+-- rubvilval abrdelrod juanarcon blaruiher
 sumaDeDosPrimos :: Int -> [(Int,Int)]
 sumaDeDosPrimos n = 
     [(x,y) | x <- primos', y <- primos', x+y == n, x <= y]
@@ -556,7 +622,7 @@ sumaDeDosPrimos2 n = [(x,n-x)| x <- primoh, x <= n-x, (n-x) `elem` primoh]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- alvalvdom1
+-- alvalvdom1 javperlag
 sumaDeDosPrimos3 :: Int -> [(Int,Int)]
 sumaDeDosPrimos3 n = 
     [(x,y) | x <- [2..n], y <- [2..n], x+y == n, x <= y, primo x, primo y]
@@ -571,12 +637,31 @@ sumaDeDosPrimos4 n =
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- carmengar
+sumaDeDosPrimos5 :: Int -> [(Int,Int)]
+sumaDeDosPrimos5 n = [(x,n-x) | x <- p, primo (n-x)]
+    where p = takeWhile (<= (div n 2)) primos
+
 -- El cálculo es
 menorSumaDeDosPrimos = 
     head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
 
 -- El menor número que puede escribirse de 10 formas distintas como 
 -- suma de dos primos es el 114.
+
+-- isrbelnun
+sumaDeDosPrimos6 :: Int -> [(Int,Int)]
+sumaDeDosPrimos6 n = 
+    [(x,y) | y <- (takeWhile (<n) primos),
+             x <- (takeWhile (<=y) primos), 
+             x + y == n]
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- El cálculo es
+elMenor :: Int
+elMenor = head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
+-- elMenor = 114
 
 -- ---------------------------------------------------------------------
 -- § La lista infinita de factoriales,                                --
@@ -589,7 +674,7 @@ menorSumaDeDosPrimos =
 --    take 10 factoriales1  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- juamorrom1
+-- juamorrom1 manpende blaruiher
 factoriales1 :: [Integer]
 factoriales1 = map (factorial) [0..]
 
@@ -597,7 +682,7 @@ factoriales1 = map (factorial) [0..]
 
 factorial n = if n < 2 then 1 else n * factorial (n-1)
 
--- ivaruicam
+-- ivaruicam isrbelnun
 factoriales11:: [Integer]
 factoriales11 = map (factorial1) [0..]
     where factorial1 n = product [1..n]
@@ -605,6 +690,7 @@ factoriales11 = map (factorial1) [0..]
 -- Comentario: La definición anterior se puede simplificar.
 
 -- manvermor erisancha josllagam alvalvdom1 alebergon abrdelrod
+-- carmengar juanarcon 
 
 factoriales12 :: [Integer]
 factoriales12 = [factorial2 n | n <- [0..]]
@@ -624,8 +710,8 @@ factoriales13 = [product [1..x] | x <- 1:[1..]]
 --    take 10 factoriales2  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- erisancha josllagam alebergon abrdelrod
-
+-- erisancha josllagam alebergon abrdelrod carmengar juanarcon isrbelnun
+-- blaruiher alvalvdom1
 factoriales2 :: [Integer]
 factoriales2 = 1 : zipWith (*) [1..] factoriales2
 
@@ -647,14 +733,14 @@ factoriales3 = 1 : aux 1 [1..]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- manvermor erisancha josllagam alebergon abrdelrod
+-- manvermor erisancha josllagam alebergon abrdelrod juanarcon 
 factoriales3a :: [Integer]
 factoriales3a = aux 0
     where  aux n = factorial2 n : aux (n+1)
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam
+-- fracruzam carmengar
 factoriales3b :: [Integer]
 factoriales3b = 1 : auxFactoriales3b 1 1
   where auxFactoriales3b :: Integer -> Integer -> [Integer]
@@ -668,7 +754,8 @@ factoriales3b = 1 : auxFactoriales3b 1 1
 --    take 10 factoriales4  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam josllagam alebergon abrdelrod
+-- erisancha fracruzam josllagam alebergon abrdelrod carmengar juanarcon 
+-- isrbelnun blaruiher
 
 factoriales4 :: [Integer]
 factoriales4 = 1 : scanl1 (*) [1..]
@@ -705,7 +792,7 @@ factoriales5 = 1 : 1 : iterate f 2
 -- ---------------------------------------------------------------------
 
 -- ivaruicam juamorrom1 erisancha fracruzam alvalvdom1 josllagam
--- alebergon abrdelrod 
+-- alebergon abrdelrod manpende carmengar juanarcon isrbelnun blaruiher
 fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
@@ -718,9 +805,9 @@ fib n = fib (n-1) + fib (n-2)
 --    take 10 fibs1  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- juamorrom1 ivaruicam
+-- juamorrom1 ivaruicam blaruiher
 fibs1 :: [Integer]
-fibs1 = map (fib) [0..]
+fibs1 = map fib [0..]
 
 -- Comentario: La definición anterior se puede simplificar
 
@@ -728,7 +815,8 @@ fibs1 = map (fib) [0..]
 fibs1a :: [Integer]
 fibs1a = map fib [0..]
 
--- erisancha alvalvdom1 josllagam alebergon abrdelrod
+-- erisancha alvalvdom1 josllagam alebergon abrdelrod manpende
+-- carmengar juanarcon isrbelnun
 fibs1b :: [Integer]
 fibs1b = [fib x | x<- [0..]]
 
@@ -752,7 +840,9 @@ fibs2 = aux xs
 -- Comentario: La definición anterior se puede mejorar sin usar la
 -- función fib.
 
--- ivaruicam erisancha fracruzam josllagam alebergon abrdelrod
+-- ivaruicam erisancha fracruzam josllagam alebergon abrdelrod juanarcon
+-- isrbelnun blaruiher
+ 
 fibs21 :: [Integer]
 fibs21 = aux 0
     where aux n = fib n : aux (n+1)
@@ -767,6 +857,11 @@ fibs2b = 0 : 1 : auxfibs2b 0
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- carmengar
+fibs2c :: [Integer]
+fibs2c = aux 0 1
+   where aux x y = x : y : aux (x+y) (x+2*y)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.4. Definir, por recursión con zipWith, la función
 --    fibs3 :: [Integer]
@@ -774,7 +869,9 @@ fibs2b = 0 : 1 : auxfibs2b 0
 --    take 10 fibs3  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam josllagam alebergon abrdelrod
+-- erisancha fracruzam josllagam alebergon abrdelrod carmengar juanarcon 
+-- isrbelnun alvalvdom1
+
 fibs3 :: [Integer]
 fibs3 = 0 : 1 : zipWith (+) fibs3 (tail fibs3)
 
@@ -791,6 +888,13 @@ fibs4 = 0 : 1 : auxFibs4 [0,1]
     where auxFibs4 :: [Integer] -> [Integer]
           auxFibs4 v@[_,b] = sumv : auxFibs4 [b,sumv]
               where sumv = sum v
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- carmengar
+fibs4b :: [Integer]
+fibs4b = 0 : 1 : aux [0,1]
+    where aux [a,b] = a+b : aux [b,a+b] 
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -828,13 +932,13 @@ pascal1 = iterate z [1]
     where z n = zipWith (+) (0:n) (n++[0])
 
 -- fracruzam
-pascal12 :: [[Integer]]
-pascal12 = 
+pascal1b :: [[Integer]]
+pascal1b = 
     iterate (\xs -> 1:(zipWith (\x y -> x+y) xs (tail xs)) ++ [1]) [1]
 
--- abrdelrod josllagam
-pascal13 :: [[Integer]]
-pascal13 = iterate f [1]
+-- abrdelrod josllagam carmengar juanarcon 
+pascal1c :: [[Integer]]
+pascal1c = iterate f [1]
     where f xs = 1 : zipWith (+) xs (tail xs) ++ [1]
 
 -- ---------------------------------------------------------------------
@@ -851,7 +955,7 @@ pascal2 :: [[Integer]]
 pascal2 = [1] : map z pascal2
     where z n = zipWith (+) (0:n) (n++[0])
 
--- abrdelrod
+-- abrdelrod carmengar
 pascal2b :: [[Integer]]
 pascal2b = map f [1..]
     where f 1 = [1]
