@@ -46,4 +46,7 @@ clase) y las soluciones definitivas.
 + **Relación 13**: Evaluación perezosa y listas infinitas.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_13.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_13_sol.hs)).
++ **Relación 14**: Aplicaciones de la programación funcional con listas infinitas.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14_sol.hs)).
 
