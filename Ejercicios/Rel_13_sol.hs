@@ -1,4 +1,4 @@
--- I1M 2015-16: Rel_13.hs (27 de noviembre de 2015)
+-- I1M 2015-16: Rel_13_sol.hs (27 de noviembre de 2015)
 -- Evaluación perezosa y listas infinitas.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
@@ -9,9 +9,9 @@
 -- ---------------------------------------------------------------------
 
 -- En esta relación se presentan ejercicios con listas infinitas y
--- evaluación perezosa. Estos ejercicios corresponden al tema 10 cuyas
--- transparencias se encuentran en  
---    http://www.cs.us.es/~jalonso/cursos/i1m-14/temas/tema-10.pdf
+-- evaluación perezosa. Estos ejercicios corresponden al tema 10 que
+-- se encuentra en  
+--    http://www.cs.us.es/~jalonso/cursos/i1m-15/temas/tema-10.html
 
 -- ---------------------------------------------------------------------
 -- Importación de librerías auxiliares                                  
@@ -31,13 +31,26 @@ import Test.QuickCheck
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor rubvilval
--- carmengar silgongal erisancha marvilmor fracruzam carruirui3 alebergon
--- javperlag lucgamgal manpende blaruiher isrbelnun migandben anaagusil
-repite :: a -> [a]
-repite x = x : repite x
+-- 1ª definición:
+repite1 :: a -> [a]
+repite1 x = x : repite1 x
 
--- Comentario: La definición anterior se puede mejorar.
+-- 2ª definición:
+repite2 :: a -> [a]
+repite2 x = ys 
+    where ys = x:ys
+
+-- La 2ª definición es más eficiente:
+--    ghci> last (take 100000000 (repite1 5))
+--    5
+--    (46.56 secs, 16001567944 bytes)
+--    ghci> last (take 100000000 (repite2 5))
+--    5
+--    (2.34 secs, 5601589608 bytes)
+
+-- Usaremos como repite la 2ª definición
+repite :: a -> [a]
+repite = repite2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir, por comprensión, la función 
@@ -51,12 +64,16 @@ repite x = x : repite x
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam manvermor
--- rubvilval carmengar silgongal erisancha marvilmor alebergon abrdelrod
--- javperlag lucgamgal manpende blaruiher isrbelnun migandben anaagusil
-
 repiteC :: a -> [a]
 repiteC x = [x | _ <- [1..]]
+
+-- La función repite2 es más eficiente que repiteC
+--    λ> last (take 10000000 (repiteC 5))
+--    5
+--    (6.05 secs, 1,997,740,536 bytes)
+--    λ> last (take 10000000 (repite2 5))
+--    5
+--    (0.31 secs, 541,471,280 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Definir, por recursión, la función 
@@ -69,16 +86,9 @@ repiteC x = [x | _ <- [1..]]
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 josllagam ivaruicam manvermor carmengar silgongal
--- alebergon abrdelrod javperlag lucgamgal manpende blaruiher migandben anaagusil
 repiteFinitaR :: Int -> a -> [a]
-repiteFinitaR 0 _ = []
-repiteFinitaR n x = x : repiteFinitaR (n-1) x
-
--- juanarcon juamorrom1 rubvilval erisancha marvilmor isrbelnun
-repiteFinitaR2 :: Int -> a -> [a]
-repiteFinitaR2 n x  | n >= 1    = x : repiteFinitaR2 (n-1) x
-                    | otherwise = []
+repiteFinitaR n x | n <= 0    = []
+                  | otherwise = x : repiteFinitaR (n-1) x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por comprensión, la función 
@@ -91,12 +101,16 @@ repiteFinitaR2 n x  | n >= 1    = x : repiteFinitaR2 (n-1) x
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
--- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon abrdelrod
--- javperlag lucgamgal manpende blaruiher isrbelnun anaagusil
-
 repiteFinitaC :: Int -> a -> [a]
 repiteFinitaC n x = [x | _ <- [1..n]]
+
+-- La función repiteFinitaC es más eficiente que repiteFinitaR
+--    λ> last (repiteFinitaR 10000000 5)
+--    5
+--    (17.04 secs, 2,475,222,448 bytes)
+--    λ> last (repiteFinitaC 10000000 5)
+--    5
+--    (5.43 secs, 1,511,227,176 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Definir, usando repite, la función 
@@ -109,19 +123,16 @@ repiteFinitaC n x = [x | _ <- [1..n]]
 -- definida en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
--- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon
--- abrdelrod javperlag manpende isrbelnun migandben
 repiteFinita :: Int -> a -> [a]
-repiteFinita n = take n . repite
+repiteFinita n x = take n (repite x)
 
---lucgamgal
-repiteFinita2 :: Int -> a -> [a]
-repiteFinita2 n x = take n $ repite x
-
--- blaruiher anaagusil
-repiteFinita3 :: Int -> a -> [a]
-repiteFinita3 n x = take n (repite x)
+-- La función repiteFinita es más eficiente que repiteFinitaC
+--    λ> last (repiteFinitaC 10000000 5)
+--    5
+--    (5.43 secs, 1,511,227,176 bytes)
+--    λ> last (repiteFinita 10000000 5)
+--    5
+--    (0.29 secs, 541,809,248 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.4. Comprobar con QuickCheck que las funciones
@@ -133,47 +144,17 @@ repiteFinita3 n x = take n (repite x)
 --    quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor alebergon abrdelrod javperlag manpende 
--- migandben anaagusil
-
 -- La propiedad es
-
--- prop_repiteFinitaEquiv :: Int -> Int -> Property 
-prop_repiteFinitaEquiv n x = 
-    n > 0 ==>
-      r == repiteFinitaR n x && r == repiteFinitaC n x && r == repiteFinita n x
-    where r = replicate n x
+prop_repiteFinitaEquiv :: Int -> Int -> Bool
+prop_repiteFinitaEquiv n x =
+    repiteFinitaR n x == y &&
+    repiteFinitaC n x == y &&
+    repiteFinita  n x == y
+    where y = replicate n x
 
 -- La comprobación es
---    *Main> quickCheckWith (stdArgs {maxSize=7}) prop_repiteFinitaEquiv
+--    ghci> quickCheckWith (stdArgs {maxSize=20}) prop_repiteFinitaEquiv
 --    +++ OK, passed 100 tests.
-
--- juamorrom1 juanarcon josllagam  ivaruicam rubvilval carmengar silgongal
--- erisancha marvilmor lucgamgal blaruiher
-
--- La propiedad es
-prop_repiteFinitaEquiv2 :: Int -> Int -> Bool
-prop_repiteFinitaEquiv2 n x = a == b && b == c && c == d
-    where a = replicate n x
-          b = repiteFinita n x
-          c = repiteFinitaR2 n x
-          d = repiteFinitaC n x
-
--- La comprobación es
---    *Main> quickCheckWith (stdArgs {maxSize=7}) prop_repiteFin-- itaEquiv
---    +++ OK, passed 100 tests.
-
-
--- isrbelnun
-
--- La propiedad es
-prop_repiteFinitaEquiv3 :: Int -> Int -> Bool
-prop_repiteFinitaEquiv3 n x = 
-    repiteFinitaR n x == repiteFinitaC n x &&
-    repiteFinitaC n x == repiteFinita n x
-
--- La comprobación es
--- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.5. Comprobar con QuickCheck que la longitud de
@@ -184,35 +165,33 @@ prop_repiteFinitaEquiv3 n x =
 --    quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
--- manvermor rubvilval carmengar silgongal erisancha marvilmor alebergon
--- abrdelrod javperlag lucgamgal manpende blaruiher isrbelnun migandben anaagusil
-
 -- La propiedad es
 prop_repiteFinitaLongitud :: Int -> Int -> Bool
-prop_repiteFinitaLongitud n x | n > 0     = longitud == n
-                              | otherwise = longitud == 0
-    where longitud = length $ repiteFinita n x
+prop_repiteFinitaLongitud n x 
+    | n > 0     = length (repiteFinita n x) == n
+    | otherwise = length (repiteFinita n x) == 0
 
 -- La comprobación es
---    *Main> quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
+--    ghci> quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaLongitud
 --    +++ OK, passed 100 tests.
+
+-- La expresión de la propiedad se puede simplificar
+prop_repiteFinitaLongitud2 :: Int -> Int -> Bool
+prop_repiteFinitaLongitud2 n x =
+    length (repiteFinita n x) == (if n > 0 then n else 0)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.6. Comprobar con QuickCheck que todos los elementos de 
 -- (repiteFinita n x) son iguales a x.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
--- manvermor rubvilval silgongal erisancha marvilmor alebergon abrdelrod
--- lucgamgal manpende blaruiher isrbelnun migandben anaagusil
-
 -- La propiedad es
 prop_repiteFinitaIguales :: Int -> Int -> Bool
-prop_repiteFinitaIguales n x = all (x ==) $ repiteFinita n x
+prop_repiteFinitaIguales n x =
+    all (==x) (repiteFinita n x)
 
 -- La comprobación es
---    *Main> quickCheck prop_repiteFinitaIguales
+--    ghci> quickCheckWith (stdArgs {maxSize=30}) prop_repiteFinitaIguales
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -225,26 +204,8 @@ prop_repiteFinitaIguales n x = all (x ==) $ repiteFinita n x
 --    ecoC "abcd"  ==  "abbcccdddd"
 -- ---------------------------------------------------------------------
 
--- fracruzam
-ecoC xs = concatMap replicate' (zip [1..] xs)
-    where replicate' :: (Int,Char) -> [Char]
-          replicate' (x,y) = replicate x y
-
--- juanarcon josllagam juamorrom1 manvermor alvalvdom1 silgongal erisancha
--- marvilmor rubvilval alebergon abrdelrod javperlag manpende carmengar
--- blaruiher isrbelnun anaagusil
-ecoC2 :: String -> String
-ecoC2 xs = concat [replicate n x | (n,x) <- zip [1..] xs]
-
--- ivaruicam
-ecoC3 :: String -> String
-ecoC3 xs = concat [x | x <- zipWith (replicate) [1..] xs]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- carruirui3
-ecoC4 :: String -> String
-ecoC4 xs = concat $ zipWith replicate [1..] xs
+ecoC :: String -> String
+ecoC xs = concat [replicate i x | (i,x) <- zip [1..] xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
@@ -253,18 +214,19 @@ ecoC4 xs = concat $ zipWith replicate [1..] xs
 -- repitiendo cada elemento tantas veces como indica su posición: el
 -- primer elemento se repite 1 vez, el segundo 2 veces y así
 -- sucesivamente. Por ejemplo, 
---    ecoR "abcd"  == "abbcccdddd"
---    ecoR "Betis" == "Beetttiiiisssss"
+--    ecoR "abcd"  ==  "abbcccdddd"
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon josllagam ivaruicam alvalvdom1 silgongal
--- erisancha marvilmor rubvilval alebergon abrdelrod javperlag manpende
--- carmengar blaruiher migandben anaagusil
+-- 1ª definición 
 ecoR :: String -> String
-ecoR = ecoR_aux 1
-    where ecoR_aux :: Int -> String -> String
-          ecoR_aux _ []    = []
-          ecoR_aux n (x:xs) = replicate n x ++ ecoR_aux (n+1) xs
+ecoR = aux 1
+    where aux n []     = []
+          aux n (x:xs) = replicate n x ++ aux (n+1) xs
+
+-- 2ª definición
+ecoR2 :: String -> String
+ecoR2 [x] = [x]
+ecoR2 xs  = (ecoR2 . init) xs ++ repiteFinita (length xs) (last xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir, por recursión, la función
@@ -283,10 +245,6 @@ ecoR = ecoR_aux 1
 -- en el preludio de Haskell.
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 josllagam ivaruicam
--- manvermor silgongal erisancha marvilmor rubvilval alebergon abrdelrod
--- javperlag manpende carmengar isrbelnun blaruiher migandben anaagusil
-
 itera :: (a -> a) -> a -> [a]
 itera f x = x : itera f (f x)
 
@@ -304,12 +262,8 @@ itera f x = x : itera f (f x)
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam juamorrom1 juanarcon alvalvdom1 ivaruicam josllagam silgongal
--- manvermor erisancha rubvilval alebergon abrdelrod manpende carmengar
--- isrbelnun blaruiher migandben anaagusil
-
 agrupaR :: Int -> [a] -> [[a]]
-agrupaR _ [] = []
+agrupaR n [] = []
 agrupaR n xs = take n xs : agrupaR n (drop n xs)
 
 -- ----------------------------------------------------------------------------
@@ -326,10 +280,18 @@ agrupaR n xs = take n xs : agrupaR n (drop n xs)
 --    ["todo ","necio"," conf","unde ","valor"," y pr","ecio"]
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam erisancha carmengar juanarcon isrbelnun migandben marvilmor anaagusil
-
 agrupa :: Int -> [a] -> [[a]]
-agrupa n = takeWhile (not.null) . map (take n) . iterate (drop n) 
+agrupa n = takeWhile (not . null)
+         . map (take n)
+         . iterate (drop n)
+
+-- Puede verse su funcionamiento en el siguiente ejemplo,
+--    iterate (drop 2) [5..10]  
+--    ==> [[5,6,7,8,9,10],[7,8,9,10],[9,10],[],[],...
+--    map (take 2) (iterate (drop 2) [5..10])
+--    ==> [[5,6],[7,8],[9,10],[],[],[],[],...
+--    takeWhile (not . null) (map (take 2) (iterate (drop 2) [5..10]))
+--    ==> [[5,6],[7,8],[9,10]]
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que todos los grupos de
@@ -337,79 +299,31 @@ agrupa n = takeWhile (not.null) . map (take n) . iterate (drop n)
 -- longitud menor). 
 -- ---------------------------------------------------------------------------- 
 
--- fracruzam alvalvdom1 manpende carmengar marvilmor
-
 -- La propiedad es
 prop_AgrupaLongitud :: Int -> [Int] -> Property
 prop_AgrupaLongitud n xs =
-    n > 0 && xs /= [] ==> all (\x -> length x == n) (init agrupanxs) &&
-                          length (last $ agrupanxs) <= n
-    where agrupanxs = agrupa n xs
-
--- ivaruicam erisancha alebergon juanarcon isrbelnun blaruiher
-prop_AgrupaLongitud2 :: Int -> [Int] -> Property
-prop_AgrupaLongitud2 n xs = n > 0 ==> all (<= n) (map (length) (agrupaR n xs))
-
--- Comentario. Falta la longitud del último.
-
--- La comprobación es
---    *Main> quickCheck prop_AgrupaLongitud2
---    +++ OK, passed 100 tests.
-
--- abrdelrod
-prop_AgrupaLongitud3 :: Int -> [Int] -> Property
-prop_AgrupaLongitud3 n xs = 
-    n > 0 && xs /= [] ==> and [n == length x | x <- init (agrupaR n xs)]
-
--- Comentario. Falta la longitud del último.
-
--- La comprobación es
---    *Main> quickCheck prop_AgrupaLongitud3
---    +++ OK, passed 100 tests.
-
--- albtorval
-prop_AgrupaLongitud4 :: Int -> [Int] -> Property
-prop_AgrupaLongitud4 n xs =
-    n > 0 && xs /= [] ==> all (<= n) (map (length) (agrupaR n xs)) &&
-                          length (last (agrupa n xs)) <= n
-
--- La comprobación es
---    *Main> quickCheck prop_AgrupaLongitud4
---    +++ OK, passed 100 tests.
-
--- anaagusil
-prop_AgrupaLongitud5 :: Int -> [Int] -> Property
-prop_AgrupaLongitud5 n xs =
-    n > 0 && not (null gs) ==> 
-      and [length g == n | g <- init gs] && 0 < l && l <= n
+    n > 0 && not (null gs) ==>
+      and [length g == n | g <- init gs] &&
+      0 < length (last gs) && length (last gs) <= n
     where gs = agrupa n xs
-          l  = length (last gs)
 
---La comprobación es 
---   *Main> quickCheck prop_AgrupaLongitud
---   +++ OK, passed 100 tests.
+-- La comprobación es
+--    ghci> quickCheck prop_AgrupaLongitud
+--    OK, passed 100 tests.
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 5.4. Comprobar con QuickCheck que combinando todos los
--- grupos de (agrupa n xs) se obtiene la lista xs. 
+-- grupos de ((agrupa n xs)) se obtiene la lista xs. 
 -- ---------------------------------------------------------------------------- 
-
--- fracruzam ivaruicam juamorrom1 manvermor marvilmor
 
 -- La segunda propiedad es
 prop_AgrupaCombina :: Int -> [Int] -> Property
-prop_AgrupaCombina n xs = 
-    n > 0 && xs /= []  ==> xs == foldr1 (++) (agrupa n xs) 
+prop_AgrupaCombina n xs =
+    n > 0 ==> concat (agrupa n xs) == xs 
 
 -- La comprobación es
---    *Main> quickCheck prop_AgrupaCombina
---    +++ OK, passed 100 tests.
-
--- erisancha alvalvdom1 alebergon abrdelrod manpende carmengar juanarcon
--- isrbelnun blaruiher anaagusil
- 
-prop_AgrupaCombina2 :: Int -> [Int] -> Property
-prop_AgrupaCombina2 n xs = n > 0 ==> concat (agrupa n xs) == xs
+--    ghci> quickCheck prop_AgrupaCombina
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Sea la siguiente operación, aplicable a cualquier
@@ -447,13 +361,8 @@ prop_AgrupaCombina2 n xs = n > 0 ==> concat (agrupa n xs) == xs
 --    siguiente 40  ==  20
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 alvalvdom1 ivaruicam josllagam manvermor
--- erisancha silgongal rubvilval alebergon abrdelrod javperlag
--- manpende carmengar juanarcon isrbelnun migandben marvilmor anaagusil
-
-siguiente :: Integer -> Integer
-siguiente n | even n    = div n 2
-            | otherwise = 3 * n + 1
+siguiente n | even n    = n `div` 2
+            | otherwise = 3*n+1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Definir, por recursión, la función 
@@ -463,26 +372,9 @@ siguiente n | even n    = div n 2
 --    collatzR 13  ==  [13,40,20,10,5,16,8,4,2,1]
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor erisancha
--- silgongal rubvilval alebergon abrdelrod javperlag carmengar 
--- juanarcon  isrbelnun migandben blaruiher marvilmor anaagusil
-
 collatzR :: Integer -> [Integer]
 collatzR 1 = [1]
 collatzR n = n : collatzR (siguiente n)
-
--- albtorval
-collatzR1 :: Integer -> [Integer]
-collatzR1 1 = [1]
-collatzR1 n = n : (collatzR1 $ siguiente n)
-
--- josllagam manpende
-collatzR2 :: Integer -> [Integer]
-collatzR2 1 = [1]
-collatzR2 n | even n     = [n] ++ collatzR2 (n `div` 2)
-            | otherwise  = [n] ++ collatzR2 (n * 3 + 1)
-
--- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.3. Definir, sin recursión y con iterate, la función 
@@ -492,10 +384,6 @@ collatzR2 n | even n     = [n] ++ collatzR2 (n `div` 2)
 --    collatz 13  ==  [13,40,20,10,5,16,8,4,2,1]
 -- Indicación: Usar takeWhile e iterate.
 -- ---------------------------------------------------------------------
-
--- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor josllagam erisancha
--- silgongal rubvilval alebergon abrdelrod javperlag manpende carmengar
--- juanarcon isrbelnun migandben blaruiher marvilmor anaagusil
 
 collatz :: Integer -> [Integer]
 collatz n = takeWhile (/=1) (iterate siguiente n) ++ [1]
@@ -508,19 +396,8 @@ collatz n = takeWhile (/=1) (iterate siguiente n) ++ [1]
 --    menorCollatzMayor 100  ==  27
 -- ---------------------------------------------------------------------
 
--- fracruzam
 menorCollatzMayor :: Int -> Integer
-menorCollatzMayor x = 
-    fromIntegral $ length (takeWhile (<x) (map length (map collatz [1..]))) + 1
-
--- Comentario: La definición anterior se puede simplificar.
-
--- juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon
--- isrbelnun blaruiher marvilmor anaagusil
-
-menorCollatzMayor1 :: Int -> Integer
-menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
+menorCollatzMayor x = head [y | y <- [1..], length (collatz y) > x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.5. Definir la función
@@ -530,21 +407,13 @@ menorCollatzMayor1 x = head [n | n <- [1..], length (collatz n) > x]
 --    menorCollatzSupera 100  ==  15
 -- ---------------------------------------------------------------------
 
--- juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon 
--- isrbelnun blaruiher marvilmor anaagusil
-
 menorCollatzSupera :: Integer -> Integer
-menorCollatzSupera x = head [n | n <- [1..], any (>x) (collatz n)]
+menorCollatzSupera x = 
+    head [y | y <- [1..], maximum (collatz y) > x]
 
--- fracruzam
+-- Otra definición alternativa es
 menorCollatzSupera2 :: Integer -> Integer
-menorCollatzSupera2 x = 
-    (fromIntegral $ 
-     length $ 
-     takeWhile not $ 
-     map (any (>x)) $ 
-     map collatz [1..]) + 1
+menorCollatzSupera2 x = head [n | n <- [1..], t <- collatz n, t > x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir, usando takeWhile y map, la función
@@ -554,12 +423,8 @@ menorCollatzSupera2 x =
 --    potenciasMenores 2 1000  ==  [2,4,8,16,32,64,128,256,512]
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 alvalvdom1 ivaruicam josllagam silgongal erisancha
--- rubvilval alebergon abrdelrod javperlag manpende carmengar juanarcon
--- isrbelnun marvilmor anaagusil
-
 potenciasMenores :: Int -> Int -> [Int]
-potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
+potenciasMenores x y = takeWhile (<y) (map (x^) [1..])
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.1. Definir, usando la criba de Eratóstenes, la constante
@@ -568,55 +433,22 @@ potenciasMenores x y = takeWhile (<y) $ map (x^) [1..]
 --    take 10 primos  ==  [2,3,5,7,11,13,17,19,23,29]
 -- ---------------------------------------------------------------------
 
--- fracruzam juamorrom1 alvalvdom1 ivaruicam manvermor josllagam silgongal
--- erisancha rubvilval alebergon abrdelrod javperlag carmengar juanarcon
--- isrbelnun blaruiher mantened marvilmor anaagusil
-
 primos :: Integral a => [a]
 primos = criba [2..]
-  where criba :: Integral a => [a] -> [a]
-        criba (p:xs) = p : criba [x | x <- xs, x `mod` p /= 0]
+    where criba []     = []
+          criba (n:ns) = n : criba (elimina n ns)
+          elimina n xs = [x | x <- xs, x `mod` n /= 0]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.2. Definir, usando primos, la función
+-- Ejercicio 8.2. Definir la función
 --    primo :: Integral a => a -> Bool
 -- tal que (primo n) se verifica si n es primo. Por ejemplo,
 --    primo 7  ==  True
 --    primo 9  ==  False
 -- ---------------------------------------------------------------------
 
--- juamorrom1 josllagam silgongal rubvilval blaruiher
 primo :: Int -> Bool
-primo n = elem n (takeWhile (<=n) primos)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- ivaruicam manvermor erisancha abrdelrod javperlag juanarcon 
--- manpende marvilmor
-primo1 :: Int -> Bool
-primo1 n = elem n (take n primos) 
-
--- Comentario: La definición anterior se puede mejorar.
-
--- alvalvdom1 alebergon carmengar
-primo2 :: Integral a => a -> Bool
-primo2 n = head [x | x <- primos, x >= n] == n
-
--- fracruzam
-primo3 :: Int -> Bool
-primo3 n = n == last (takeWhile (<=n) primos)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- manpende
-primo4 :: Int -> Bool
-primo4 n = any (== n) (takeWhile (<=n) primos)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- anaagusil
-primo5 :: Int -> Bool
-primo5 n = head (dropWhile (<n) primos) == n
+primo n = head (dropWhile (<n) primos) == n
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.3. Definir la función
@@ -629,62 +461,14 @@ primo5 n = head (dropWhile (<n) primos) == n
 -- puede escribirse de 10 formas distintas como suma de dos primos.
 -- ---------------------------------------------------------------------
 
--- ivaruicam juamorrom1 manvermor josllagam silgongal fracruzam
--- rubvilval abrdelrod juanarcon blaruiher manpende
 sumaDeDosPrimos :: Int -> [(Int,Int)]
 sumaDeDosPrimos n = 
-    [(x,y) | x <- primos', y <- primos', x+y == n, x <= y]
-    where primos' = takeWhile (<n) primos
-
--- Comentario: La definición anterior se puede mejorar.
-
--- erisancha anaagusil
-sumaDeDosPrimos2 :: Int -> [(Int,Int)]
-sumaDeDosPrimos2 n = [(x,n-x)| x <- primoh, x <= n-x, (n-x) `elem` primoh]
-    where primoh = takeWhile (<=n) primos
-
--- Comentario: La definición anterior se puede mejorar.
-
--- alvalvdom1 javperlag
-sumaDeDosPrimos3 :: Int -> [(Int,Int)]
-sumaDeDosPrimos3 n = 
-    [(x,y) | x <- [2..n], y <- [2..n], x+y == n, x <= y, primo x, primo y]
-
--- Comentario: La definición anterior se puede mejorar.
-
--- alebergon
-sumaDeDosPrimos4:: Int -> [(Int,Int)]
-sumaDeDosPrimos4 n = 
-    [(x,y) | x <- [2.. div n 2], y <- [div n 2..n-2], 
-             primo x, primo y, x+y == n]
-
--- Comentario: La definición anterior se puede mejorar.
-
--- carmengar marvvilmor erisancha
-sumaDeDosPrimos5 :: Int -> [(Int,Int)]
-sumaDeDosPrimos5 n = [(x,n-x) | x <- p, primo (n-x)]
-    where p = takeWhile (<= (div n 2)) primos
+    [(x,n-x) | x <- primosN, (n - x) `elem` primosN]
+    where primosN = takeWhile (<= (n `div` 2)) primos
 
 -- El cálculo es
-menorSumaDeDosPrimos = 
-    head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
-
--- El menor número que puede escribirse de 10 formas distintas como 
--- suma de dos primos es el 114.
-
--- isrbelnun
-sumaDeDosPrimos6 :: Int -> [(Int,Int)]
-sumaDeDosPrimos6 n = 
-    [(x,y) | y <- (takeWhile (<n) primos),
-             x <- (takeWhile (<=y) primos), 
-             x + y == n]
-
--- Comentario: La definición anterior se puede mejorar.
-
--- El cálculo es
-elMenor :: Int
-elMenor = head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
--- elMenor = 114
+--    ghci> head [x | x <- [1..], length (sumaDeDosPrimos x) == 10]
+--    114
 
 -- ---------------------------------------------------------------------
 -- § La lista infinita de factoriales,                                --
@@ -697,34 +481,13 @@ elMenor = head [n | n <- [1..], length (sumaDeDosPrimos n) == 10]
 --    take 10 factoriales1  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- juamorrom1 manpende blaruiher
 factoriales1 :: [Integer]
-factoriales1 = map (factorial) [0..]
+factoriales1 = [factorial n | n <- [0..]]
 
--- Comentario: La definición anterior se puede simplificar.
-
-factorial n = if n < 2 then 1 else n * factorial (n-1)
-
--- ivaruicam isrbelnun
-factoriales11:: [Integer]
-factoriales11 = map (factorial1) [0..]
-    where factorial1 n = product [1..n]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manvermor erisancha josllagam alvalvdom1 alebergon abrdelrod
--- carmengar juanarcon marvilmor anaagusil
-
-factoriales12 :: [Integer]
-factoriales12 = [factorial2 n | n <- [0..]]
-
-factorial2 n = product [1..n]
-
--- fracruzam
-factoriales13 :: [Integer]
-factoriales13 = [product [1..x] | x <- 1:[1..]]
-
--- Comentario: La definición anterior se puede simplificar.
+-- (factorial n) es el factorial de n. Por ejemplo,
+--    factorial 4  ==  24
+factorial :: Integer -> Integer
+factorial n = product [1..n]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir, usando zipWith, la función
@@ -733,70 +496,135 @@ factoriales13 = [product [1..x] | x <- 1:[1..]]
 --    take 10 factoriales2  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- erisancha josllagam alebergon abrdelrod carmengar juanarcon isrbelnun
--- blaruiher alvalvdom1 marvilmor anaagusil
 factoriales2 :: [Integer]
 factoriales2 = 1 : zipWith (*) [1..] factoriales2
 
--- fracruzam
-factoriales22 :: [Integer]
-factoriales22 = zipWith (\x y -> product [x..y]) [1,1..] (1:[1..])
+-- El cálculo es
+--    take 4 factoriales2
+--    = take 4 (1 : zipWith (*) [1..] factoriales2)
+--    = 1 : take 3 (zipWith (*) [1..] factoriales2)
+--    = 1 : take 3 (zipWith (*) [1..] [1|R1])           {R1 es tail factoriales2}
+--    = 1 : take 3 (1 : zipWith (*) [2..] [R1])      
+--    = 1 : 1 : take 2 (zipWith (*) [2..] [1|R2])       {R2 es drop 2 factoriales2}  
+--    = 1 : 1 : take 2 (2 : zipWith (*) [3..] [R2])
+--    = 1 : 1 : 2 : take 1 (zipWith (*) [3..] [2|R3])    {R3 es drop 3 factoriales2}  
+--    = 1 : 1 : 2 : take 1 (6 : zipWith (*) [4..] [R3])  
+--    = 1 : 1 : 2 : 6 : take 0 (zipWith (*) [4..] [R3])  
+--    = 1 : 1 : 2 : 6 : []
+--    = [1, 1, 2, 6]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.3. Definir, por recursión, la función
+-- Ejercicio 9.3. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 3000 factoriales1 in (sum xs - sum xs)
+--    let xs = take 3000 factoriales2 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 3000 factoriales1 in (sum xs - sum xs)
+--    0
+--    (17.51 secs, 5631214332 bytes)
+--    ghci> let xs = take 3000 factoriales2 in (sum xs - sum xs)
+--    0
+--    (0.04 secs, 17382284 bytes)
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 9.4. Definir, por recursión, la función
 --    factoriales3 :: [Integer]
 -- tal que factoriales3 es la lista de los factoriales. Por ejemplo,
 --    take 10 factoriales3  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- juamorrom1 anaagusil
 factoriales3 :: [Integer]
 factoriales3 = 1 : aux 1 [1..]
-    where aux x (y:ys) = (x*y) : aux (x*y) ys
+    where aux x (y:ys) = z : aux z ys where z = x*y
 
--- Comentario: La definición anterior se puede mejorar.
-
--- manvermor erisancha josllagam alebergon abrdelrod juanarcon 
--- manpende
-factoriales3a :: [Integer]
-factoriales3a = aux 0
-    where  aux n = factorial2 n : aux (n+1)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- fracruzam carmengar marvilmor
-factoriales3b :: [Integer]
-factoriales3b = 1 : auxFactoriales3b 1 1
-  where auxFactoriales3b :: Integer -> Integer -> [Integer]
-        auxFactoriales3b n y = z : auxFactoriales3b (n+1) z
-            where z = n*y
+-- El cálculo es
+--    take 4 factoriales3
+--    = take 4 (1 : aux 1 [1..])
+--    = 1 : take 3 (aux 1 [1..])
+--    = 1 : take 3 (1 : aux 1 [2..])
+--    = 1 : 1 : take 2 (aux 1 [2..])
+--    = 1 : 1 : take 2 (2 : aux 2 [3..])
+--    = 1 : 1 : 2 : take 1 (aux 2 [3..])
+--    = 1 : 1 : 2 : take 1 (6 : aux 6 [4..])
+--    = 1 : 1 : 2 : 6 : take 0 (aux 6 [4..])
+--    = 1 : 1 : 2 : 6 : []
+--    = [1,1,2,6]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.4. Definir, usando scanl1, la función
+-- Ejercicio 9.5. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 3000 factoriales2 in (sum xs - sum xs)
+--    let xs = take 3000 factoriales3 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 3000 factoriales2 in (sum xs - sum xs)
+--    0
+--    (0.04 secs, 17382284 bytes)
+--    ghci> let xs = take 3000 factoriales3 in (sum xs - sum xs)
+--    0
+--    (0.04 secs, 18110224 bytes)
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 9.6. Definir, usando scanl1, la función
 --    factoriales4 :: [Integer]
 -- tal que factoriales4 es la lista de los factoriales. Por ejemplo,
 --    take 10 factoriales4  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam josllagam alebergon abrdelrod carmengar juanarcon 
--- isrbelnun blaruiher marvilmor anaagusil
-
 factoriales4 :: [Integer]
 factoriales4 = 1 : scanl1 (*) [1..]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.5. Definir, usando iterate, la función
+-- Ejercicio 9.7. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 3000 factoriales3 in (sum xs - sum xs)
+--    let xs = take 3000 factoriales4 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 3000 factoriales3 in (sum xs - sum xs)
+--    0
+--    (0.04 secs, 18110224 bytes)
+--    ghci> let xs = take 3000 factoriales4 in (sum xs - sum xs)
+--    0
+--    (0.03 secs, 11965328 bytes)
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 9.8. Definir, usando iterate, la función
 --    factoriales5 :: [Integer]
 -- tal que factoriales5 es la lista de los factoriales. Por ejemplo,
 --    take 10 factoriales5  ==  [1,1,2,6,24,120,720,5040,40320,362880]
 -- ---------------------------------------------------------------------
 
--- abrdelrod alebergon erisancha anaagusil
 factoriales5 :: [Integer]
-factoriales5 = 1 : 1 : iterate f 2
-    where f n = n * head [k+1 | k <- [1..], product [1..k] == n]
+factoriales5 = map snd aux
+    where aux = iterate f (1,1) where f (x,y) = (x+1,x*y)
 
--- Comentario: La definición anterior se puede mejorar.
+-- El cálculo es
+--    take 4 factoriales5
+--    = take 4 (map snd aux)
+--    = take 4 (map snd (iterate f (1,1)))
+--    = take 4 (map snd [(1,1),(2,1),(3,2),(4,6),...])
+--    = take 4 [1,1,2,6,...]
+--    = [1,1,2,6]
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 9.9. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 3000 factoriales4 in (sum xs - sum xs)
+--    let xs = take 3000 factoriales5 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 3000 factoriales4 in (sum xs - sum xs)
+--    0
+--    (0.04 secs, 18110224 bytes)
+--    ghci> let xs = take 3000 factoriales5 in (sum xs - sum xs)
+--    0
+--    (0.03 secs, 11965760 bytes)
 
 -- ---------------------------------------------------------------------
 -- § La sucesión de Fibonacci                                         --
@@ -815,8 +643,6 @@ factoriales5 = 1 : 1 : iterate f 2
 --    fib 8  ==  21
 -- ---------------------------------------------------------------------
 
--- ivaruicam juamorrom1 erisancha fracruzam alvalvdom1 josllagam marvilmor
--- alebergon abrdelrod manpende carmengar juanarcon isrbelnun blaruiher anaagusil
 fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
@@ -829,24 +655,8 @@ fib n = fib (n-1) + fib (n-2)
 --    take 10 fibs1  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- juamorrom1 ivaruicam blaruiher
 fibs1 :: [Integer]
-fibs1 = map fib [0..]
-
--- Comentario: La definición anterior se puede simplificar
-
--- erisancha fracruzam marvilmor anaagusil
-fibs1a :: [Integer]
-fibs1a = map fib [0..]
-
--- erisancha alvalvdom1 josllagam alebergon abrdelrod manpende
--- carmengar juanarcon isrbelnun
-fibs1b :: [Integer]
-fibs1b = [fib x | x<- [0..]]
-
--- fracruzam
-fibs1c :: [Integer]
-fibs1c = 0:1:[fibs1b !! n + fibs1b !! (n+1) | n <- [0..]]
+fibs1 = [fib n | n <- [0..]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.3. Definir, por recursión, la función
@@ -855,77 +665,92 @@ fibs1c = 0:1:[fibs1b !! n + fibs1b !! (n+1) | n <- [0..]]
 --    take 10 fibs2  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- juamorrom1
 fibs2 :: [Integer]
-fibs2 = aux xs
-      where aux (x:xs) = fib x:(aux xs)
-            xs = [0..]
-
--- Comentario: La definición anterior se puede mejorar sin usar la
--- función fib.
-
--- ivaruicam erisancha fracruzam josllagam alebergon abrdelrod juanarcon
--- isrbelnun blaruiher anaagusil
- 
-fibs21 :: [Integer]
-fibs21 = aux 0
-    where aux n = fib n : aux (n+1)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- fracruzam
-fibs2b :: [Integer]
-fibs2b = 0 : 1 : auxfibs2b 0
-    where auxfibs2b :: Int -> [Integer]
-          auxfibs2b n = fibs2b !! n + fibs2b !! (n+1) : auxfibs2b (n+1)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- carmengar marvilmor
-fibs2c :: [Integer]
-fibs2c = aux 0 1
-   where aux x y = x : y : aux (x+y) (x+2*y)
+fibs2 = aux 0 1
+    where aux x y = x : aux y (x+y)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 10.4. Definir, por recursión con zipWith, la función
+-- Ejercicio 10.4. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 30 fibs1 in (sum xs - sum xs)
+--    let xs = take 30 fibs2 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 30 fibs1 in (sum xs - sum xs)
+--    0
+--    (6.02 secs, 421589672 bytes)
+--    ghci> let xs = take 30 fibs2 in (sum xs - sum xs)
+--    0
+--    (0.01 secs, 515856 bytes)
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 10.5. Definir, por recursión con zipWith, la función
 --    fibs3 :: [Integer]
 -- tal que fibs3 es la sucesión de Fibonacci. Por ejemplo,
 --    take 10 fibs3  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam josllagam alebergon abrdelrod carmengar juanarcon 
--- isrbelnun alvalvdom1 marvilmor anaagusil
-
 fibs3 :: [Integer]
-fibs3 = 0 : 1 : zipWith (+) fibs3 (tail fibs3)
+fibs3 = 0 : 1: zipWith (+) fibs3 (tail fibs3)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 10.5. Definir, por recursión con acumuladores, la función 
+-- Ejercicio 10.6. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 40000 fibs2 in (sum xs - sum xs)
+--    let xs = take 40000 fibs3 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
+
+-- El cálculo es
+--    ghci> let xs = take 40000 fibs2 in (sum xs - sum xs)
+--    0
+--    (0.90 secs, 221634544 bytes)
+--    ghci> let xs = take 40000 fibs3 in (sum xs - sum xs)
+--    0
+--    (1.14 secs, 219448176 bytes)
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 10.7. Definir, por recursión con acumuladores, la función 
 --    fibs4 :: [Integer]
 -- tal que fibs4 es la sucesión de Fibonacci. Por ejemplo,
 --    take 10 fibs4  ==  [0,1,1,2,3,5,8,13,21,34]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 fibs4 :: [Integer]
-fibs4 = 0 : 1 : auxFibs4 [0,1]
-    where auxFibs4 :: [Integer] -> [Integer]
-          auxFibs4 v@[_,b] = sumv : auxFibs4 [b,sumv]
-              where sumv = sum v
+fibs4 = fs where (xs,ys,fs) = (zipWith (+) ys fs, 1:xs, 0:ys)
 
--- Comentario: La definición anterior se puede simplificar.
+-- El cálculo de fibs4 es 
+--   +------------------------+-----------------+-------------------+
+--   | xs = zipWith (+) ys fs | ys = 1:xs       | fs = 0:ys         |
+--   +------------------------+-----------------+-------------------+
+--   |                        | 1:...           | 0:...             |
+--   |                        | ^               | ^                 |
+--   | 1:...                  | 1:1:...         | 0:1:1:...         |
+--   |                        |   ^             |   ^               |
+--   | 1:2:...                | 1:1:2:...       | 0:1:1:2:...       |
+--   |                        |     ^           |     ^             |
+--   | 1:2:3:...              | 1:1:2:3:...     | 0:1:1:2:3:...     |
+--   |                        |       ^         |       ^           |
+--   | 1:2:3:5:...            | 1:1:2:3:5:...   | 0:1:1:2:3:5:...   |
+--   |                        |         ^       |         ^         |
+--   | 1:2:3:5:8:...          | 1:1:2:3:5:8:... | 0:1:1:2:3:5:8:... |
+--   +------------------------+-----------------+-------------------+
+-- En la tercera columna se va construyendo la sucesión.
 
--- carmengar erisancha
-fibs4b :: [Integer]
-fibs4b = 0 : 1 : aux [0,1]
-    where aux [a,b] = a+b : aux [b,a+b] 
+-- ---------------------------------------------------------------------
+-- Ejercicio 10.8. Comparar el tiempo y espacio necesarios para calcular
+-- las siguientes expresiones
+--    let xs = take 40000 fibs3 in (sum xs - sum xs)
+--    let xs = take 40000 fibs4 in (sum xs - sum xs)
+-- ---------------------------------------------------------------------
 
--- Comentario: La definición anterior se puede simplificar.
-
--- anaagusil
-fibs4c :: [Integer]
-fibs4c = fs
-    where (xs,ys,fs) = (zipWith (+) ys fs, 1: xs, 0: xs)
+-- El cálculo es
+--    ghci> let xs = take 40000 fibs2 in (sum xs - sum xs)
+--    0
+--    (0.90 secs, 221634544 bytes)
+--    ghci> let xs = take 40000 fibs4 in (sum xs - sum xs)
+--    0
+--    (0.84 secs, 219587064 bytes)
 
 -- ---------------------------------------------------------------------
 -- § El triángulo de Pascal                                           --
@@ -946,7 +771,7 @@ fibs4c = fs
 --   de la fila superior y añadiendo un 1 al principio y al final de la
 --   fila. 
 -- 
--- Definir, con iterate y zipWith, la función
+-- Definir la función
 --    pascal1 :: [[Integer]]
 -- tal que pascal es la lista de las líneas del triángulo de Pascal. Por
 -- ejemplo, 
@@ -954,23 +779,18 @@ fibs4c = fs
 --    [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1],[1,5,10,10,5,1]]
 -- ---------------------------------------------------------------------
 
--- erisancha marvilmor 
 pascal1 :: [[Integer]]
-pascal1 = iterate z [1]
-    where z n = zipWith (+) (0:n) (n++[0])
+pascal1 = iterate f [1]
+    where f xs = zipWith (+) (0:xs) (xs++[0])
 
--- fracruzam
-pascal1b :: [[Integer]]
-pascal1b = 
-    iterate (\xs -> 1:(zipWith (\x y -> x+y) xs (tail xs)) ++ [1]) [1]
-
--- abrdelrod josllagam carmengar juanarcon alebergon anaagusil
-pascal1c :: [[Integer]]
-pascal1c = iterate f [1]
-    where f xs = 1 : zipWith (+) xs (tail xs) ++ [1]
+-- Por ejemplo,
+--    xs      = [1,2,1]
+--    0:xs    = [0,1,2,1]
+--    xs++[0] = [1,2,1,0]
+--    +       = [1,3,3,1]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 11.2. Definir, con map y zipWith, la función
+-- Ejercicio 11.2. Definir la función
 --    pascal2 :: [[Integer]]
 -- tal que pascal es la lista de las líneas del triángulo de Pascal. Por
 -- ejemplo, 
@@ -978,31 +798,41 @@ pascal1c = iterate f [1]
 --    [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1],[1,5,10,10,5,1]]
 -- ---------------------------------------------------------------------
 
--- erisancha josllagam marvilmor anagusil
 pascal2 :: [[Integer]]
-pascal2 = [1] : map z pascal2
-    where z n = zipWith (+) (0:n) (n++[0])
-
--- abrdelrod carmengar alebergon
-pascal2b :: [[Integer]]
-pascal2b = map f [1..]
-    where f 1 = [1]
-          f n = 1 : zipWith (+) (f (n-1)) (tail $ f (n-1)) ++ [1]
+pascal2 = [1] : map f pascal2
+    where f xs = zipWith (+) (0:xs) (xs++[0])
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Escribir la traza del cálculo de la expresión
---    take 4 pascal2
+--    take 4 pascal
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- Nota: El cálculo es
+--    take 4 pascal
+--    = take 4 ([1] : map f pascal)
+--    = [1] : (take 3 (map f pascal))    
+--    = [1] : (take 3 (map f ([1]:R1pascal)))
+--    = [1] : (take 3 ((f [1]) : map R1pascal)))
+--    = [1] : (take 3 ((zipWith (+) (0:[1]) ([1]++[0]) : map R1pascal)))
+--    = [1] : (take 3 ((zipWith (+) [0,1] [1,0]) : map R1pascal)))
+--    = [1] : (take 3 ([1,1] : map R1pascal)))
+--    = [1] : [1,1] : (take 2 (map R1pascal)))
+--    = [1] : [1,1] : (take 2 (map ([1,1]:R2pascal)))
+--    = [1] : [1,1] : (take 2 ((f [1,1]) : map R2pascal)))
+--    = [1] : [1,1] : (take 2 ((zipWith (+) (0:[1,1]) ([1,1]++[0]) : map R2pascal)))
+--    = [1] : [1,1] : (take 2 ((zipWith (+) [0,1,1] [1,1,0]) : map R2pascal)))
+--    = [1] : [1,1] : (take 2 ([1,2,1] : map R2pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 (map R2pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 (map ([1,2,1]:R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 ((f [1,2,1]) : map R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 ((zipWith (+) (0:[1,2,1]) ([1,2,1]++[0]) : map R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 ((zipWith (+) [0,1,2,1] [1,2,1,0]) : map R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : (take 1 ([1,3,3,1] : map R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : [1,3,3,1] : (take 0 (map R3pascal)))
+--    = [1] : [1,1] : [1,2,1] : [1,3,3,1] : []
+--    = [[1],[1,1],[1,2,1],[1,3,3,1]]
+-- en el cálculo con R1pascal, R2pascal y R3pascal es la el triángulo de
+-- Pascal si el primero, los dos primeros o los tres primeros elementos,
+-- respectivamente. 
 
--- take 4 pascal2 = [1] : []
--- take 4 pascal2 = [[1]]
--- take (4-1) pascal2 = [1] : [[1] : [1]] : []
--- take 3 pascal2 = [[1],[1,1],[]]
--- take (3-1) pascal2 = [1] : [1,1] : [[1] : [2,1]] : []
--- take 2 pascal2 = [[1],[1,1],[1,2,1],[]]
--- take (2-1) pascal2 = [1] : [1,1] : [1,2,1] : [[1] : [3,3,1]] : []
--- take 1 pascal2 = [[1],[1,1],[1,2,1],[1,3,3,1],[]]
--- take (1-1) pascal2 = [1] : [1,1] : [1,2,1] : [1,3,3,1] : []
--- take 0 pascal2 = [[1],[1,1],[1,2,1],[1,3,3,1]]
+
