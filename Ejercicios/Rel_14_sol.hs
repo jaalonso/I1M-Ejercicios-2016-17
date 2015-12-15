@@ -1,26 +1,26 @@
--- I1M 2015-16: Relación 27 (12 de diciembre de 2015)
--- Aplicaciones de la programación funcional con listas infinitas.
--- Departamento de Ciencias de la Computación e I.A.
+-- I1M 2015-16: RelaciÃ³n 14 (12 de diciembre de 2015)
+-- Aplicaciones de la programaciÃ³n funcional con listas infinitas.
+-- Departamento de Ciencias de la ComputaciÃ³n e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
--- Introducción                                                       --
+-- IntroducciÃ³n                                                       --
 -- ---------------------------------------------------------------------
 
--- En esta relación se estudia distintas aplicaciones de la programación
+-- En esta relaciÃ³n se estudia distintas aplicaciones de la programaciÃ³n
 -- funcional que usan listas infinitas
--- + la sucesión de Hamming,
+-- + la sucesiÃ³n de Hamming,
 -- + problemas 10 y 12 del proyecto Euler,
--- + enumeración de los números enteros,
+-- + enumeraciÃ³n de los nÃºmeros enteros,
 -- + el problema de la bicicleta de Turing,
--- + la sucesión de Golomb,
--- + la codificación por longitud,
--- + la sucesión de Kolakoski y
--- + el triángulo de Floyd.
+-- + la sucesiÃ³n de Golomb,
+-- + la codificaciÃ³n por longitud,
+-- + la sucesiÃ³n de Kolakoski y
+-- + el triÃ¡ngulo de Floyd.
 
 -- ---------------------------------------------------------------------
--- Importación de librerías                                           --
+-- ImportaciÃ³n de librerÃ­as                                           --
 -- ---------------------------------------------------------------------
 
 import Data.Char 
@@ -29,67 +29,97 @@ import Data.Numbers.Primes
 import Test.QuickCheck
 
 -- ---------------------------------------------------------------------
--- § Sucesión de Hamming                                              --
+-- Â§ SucesiÃ³n de Hamming                                              --
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.1. Definir la función
---    divisoresEn :: Integer -> [Integer] -> Bool
--- tal que (divisoresEn x ys) se verifica si x puede expresarse como un
--- producto de potencias de elementos de ys. Por ejemplo,
---    divisoresEn 12 [2,3,5]  ==  True
---    divisoresEn 14 [2,3,5]  ==  False
+-- Ejercicio 1.1. Definir la funciÃ³n
+--    divisoresPrimosEn :: Integer -> [Integer] -> Bool
+-- tal que (divisoresPrimosEn x ys) se verifica si x puede expresarse
+-- como un producto de potencias de elementos de la lista de nÃºmeros
+-- primos ys. Por ejemplo, 
+--    divisoresPrimosEn 12 [2,3,5]  ==  True
+--    divisoresPrimosEn 14 [2,3,5]  ==  False
 -- ---------------------------------------------------------------------
 
-divisoresEn :: Integer -> [Integer] -> Bool
-divisoresEn = undefined
+-- manvermor alvalvdom1 ivaruicam josllagam blaruiher
+divisoresPrimosEn :: Integer -> [Integer] -> Bool
+divisoresPrimosEn x ys = and [elem y ys | y <- primeFactors x] 
+
+-- carmengar juamorrom1 fracruzam
+divisoresPrimosEn2 :: Integer -> [Integer] -> Bool
+divisoresPrimosEn2 n ns = all (`elem` ns) p
+    where p = primeFactors n
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.2. Los números de Hamming forman una sucesión 
--- estrictamente creciente de números que cumplen las siguientes 
+-- Ejercicio 1.2. Los nÃºmeros de Hamming forman una sucesiÃ³n 
+-- estrictamente creciente de nÃºmeros que cumplen las siguientes 
 -- condiciones: 
---    1. El número 1 está en la sucesión.
---    2. Si x está en la sucesión, entonces 2x, 3x y 5x también están.
---    3. Ningún otro número está en la sucesión.
--- Definir, usando divisoresEn, la constante
+--    1. El nÃºmero 1 estÃ¡ en la sucesiÃ³n.
+--    2. Si x estÃ¡ en la sucesiÃ³n, entonces 2x, 3x y 5x tambiÃ©n estÃ¡n.
+--    3. NingÃºn otro nÃºmero estÃ¡ en la sucesiÃ³n.
+-- Definir, usando divisoresPrimosEn, la constante
 --    hamming :: [Integer]
--- tal que hamming es la sucesión de Hamming. Por ejemplo,
+-- tal que hamming es la sucesiÃ³n de Hamming. Por ejemplo,
 --    take 12 hamming  ==  [1,2,3,4,5,6,8,9,10,12,15,16]
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 carmengar juamorrom1 ivaruicam josllagam blaruiher
 hamming :: [Integer]
-hamming = undefined
+hamming = [x | x <- [1..], divisoresPrimosEn x [2,3,5]]
+
+-- fracruzam
+hamming2 :: [Integer]
+hamming2 = filter esHamming [1..]
+    where esHamming :: Integer -> Bool
+          esHamming 1 = True
+          esHamming n | n `rem` 2 == 0 = esHamming (n `div` 2)
+                      | n `rem` 3 == 0 = esHamming (n `div` 3)
+                      | n `rem` 5 == 0 = esHamming (n `div` 5)
+                      | otherwise      = False
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.3. Definir la función
+-- Ejercicio 1.3. Definir la funciÃ³n
 --    cantidadHammingMenores :: Integer -> Int
--- tal que (cantidadHammingMenores x) es la cantidad de números de
+-- tal que (cantidadHammingMenores x) es la cantidad de nÃºmeros de
 -- Hamming menores que x. Por ejemplo,
 --    cantidadHammingMenores 6  ==  5
 --    cantidadHammingMenores 7  ==  6
 --    cantidadHammingMenores 8  ==  6
 -- ---------------------------------------------------------------------
-
+ 
+-- manvermor alvalvdom1 carmengar juamorrom1 fracruzam ivaruicam josllagam 
+-- blaruiher
 cantidadHammingMenores :: Integer -> Int
-cantidadHammingMenores x = undefined
+cantidadHammingMenores x = length $ takeWhile (<x) hamming
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.4. Definir la función
+-- Ejercicio 1.4. Definir la funciÃ³n
 --    siguienteHamming :: Integer -> Integer
--- tal que (siguienteHamming x) es el menor número de la sucesión de
+-- tal que (siguienteHamming x) es el menor nÃºmero de la sucesiÃ³n de
 -- Hamming mayor que x. Por ejemplo,
 --    siguienteHamming 6  ==  8
 --    siguienteHamming 21  ==  24
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 fracruzam ivaruicam josllagam blaruiher
 siguienteHamming :: Integer -> Integer
-siguienteHamming x = undefined
+siguienteHamming x = head $ dropWhile (<=x) hamming
+
+-- carmengar
+siguienteHamming2 :: Integer -> Integer
+siguienteHamming2 x =
+    head $ filter (`divisoresPrimosEn` [2,3,5]) [x+1..]
+
+-- juamorrom1
+siguienteHamming3 :: Integer -> Integer
+siguienteHamming3 x = head $ filter (>x) hamming
 
 -- ---------------------------------------------------------------------
--- Ejercicio 1.5. Definir la función
+-- Ejercicio 1.5. Definir la funciÃ³n
 --    huecoHamming :: Integer -> [(Integer,Integer)]
--- tal que (huecoHamming n) es la lista de pares de números consecutivos
--- en la sucesión de Hamming cuya distancia es mayor que n. Por ejemplo,  
+-- tal que (huecoHamming n) es la lista de pares de nÃºmeros consecutivos
+-- en la sucesiÃ³n de Hamming cuya distancia es mayor que n. Por ejemplo,  
 --    take 4 (huecoHamming 2)   ==  [(12,15),(20,24),(27,30),(32,36)]
 --    take 3 (huecoHamming 2)   ==  [(12,15),(20,24),(27,30)]
 --    take 2 (huecoHamming 3)   ==  [(20,24),(32,36)]
@@ -97,27 +127,50 @@ siguienteHamming x = undefined
 --    head (huecoHamming 1000)  ==  (34992,36000)
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 ivaruicam
 huecoHamming :: Integer -> [(Integer,Integer)]
-huecoHamming n = undefined
+huecoHamming n = 
+    [(x,y) | (x,y) <- zip  hamming (tail (hamming)), y-x > n]
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
+
+-- juamorrom1 josllagam blaruiher
+huecoHamming2 :: Integer -> [(Integer,Integer)]
+huecoHamming2 n = 
+    [(x,siguienteHamming x) | x <- hamming, 
+                              (siguienteHamming x)-x > n ]
+
+-- fracruzam
+huecoHamming3 :: Integer -> [(Integer,Integer)]
+huecoHamming3 n = 
+    filter (\(x,y) -> y - x > n) $ zip hamming (tail hamming)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.6. Comprobar con QuickCheck que para todo n, existen
--- pares de números consecutivos en la sucesión de Hamming cuya
+-- pares de nÃºmeros consecutivos en la sucesiÃ³n de Hamming cuya
 -- distancia es mayor o igual que n.
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 carmengar juamorrom1 fracruzam ivaruicam josllagam blaruiher
+
 -- La propiedad es
+huecoHamming' :: Integer -> [(Integer,Integer)]
+huecoHamming' n = 
+    [(x,y) | (x,y) <- zip hamming (tail hamming), y-x>=n]
+
 prop_Hamming :: Integer -> Bool
-prop_Hamming n = undefined
+prop_Hamming n = not $ null $ huecoHamming' n
 
--- La comprobación es
-
--- ---------------------------------------------------------------------
--- § Problema 10 del Proyecto Euler                                   --
--- ---------------------------------------------------------------------
+-- La comprobaciÃ³n es 
+--    Î»> quickCheck prop_Hamming
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 2. Definir la función 
+-- Â§ Problema 10 del Proyecto Euler                                   --
+-- ---------------------------------------------------------------------
+
+-- ---------------------------------------------------------------------
+-- Ejercicio 2. Definir la funciÃ³n 
 --    sumaPrimoMenores :: Integer -> Integer
 -- tal que (sumaPrimoMenores n) es la suma de los primos menores que
 -- n. Por ejemplo,
@@ -125,53 +178,111 @@ prop_Hamming n = undefined
 --    sumaPrimoMenores 7   ==  10                       
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 carmengar fracruzam josllagam
 sumaPrimoMenores :: Integer -> Integer
-sumaPrimoMenores n = undefined
+sumaPrimoMenores n = sum (takeWhile (< n) primes)
 
+-- ivaruicam
+sumaPrimoMenores2 :: Integer -> Integer
+sumaPrimoMenores2 n = aux n 0 primes 
+    where aux n v (x:xs) | x < n     = aux n (v+x) xs
+                         | otherwise = v 
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
+
+-- blaruiher
+sumaPrimoMenores3 :: Integer -> Integer
+sumaPrimoMenores3 n = foldl1 (+) $ takeWhile (<n) primes
 
 -- ---------------------------------------------------------------------
--- § Problema 12 del Proyecto Euler                                   --
+-- Â§ Problema 12 del Proyecto Euler                                   --
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.1. Los números triangulares se forman como sigue
+-- Ejercicio 3.1. Los nÃºmeros triangulares se forman como sigue
 --    *     *      * 
 --         * *    * *
 --               * * *
 --    1     3      6
 -- 
--- La sucesión de los números triangulares se obtiene sumando los
--- números naturales. Así, los 5 primeros números triangulares son
+-- La sucesiÃ³n de los nÃºmeros triangulares se obtiene sumando los
+-- nÃºmeros naturales. AsÃ­, los 5 primeros nÃºmeros triangulares son
 --     1 = 1
 --     3 = 1+2
 --     6 = 1+2+3
 --    10 = 1+2+3+4
 --    15 = 1+2+3+4+5
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    triangulares :: [Integer]
--- tal que triangulares es la lista de los números triangulares. Por
+-- tal que triangulares es la lista de los nÃºmeros triangulares. Por
 -- ejemplo, 
---    take 10 triangulares  ==  [1,3,6,10,15,21,28,36,45,55]
+--    take 10 triangulares     ==  [1,3,6,10,15,21,28,36,45,55]
+--    triangulares !! 2000000  ==  2000003000001
 -- ---------------------------------------------------------------------
 
+-- manvermor
 triangulares :: [Integer]
-triangulares = undefined
+triangulares = aux 1
+    where aux n = sum [x | x <- [1..n]] : aux (n+1)
+
+-- carmengar josllagam
+triangulares2 :: [Integer]
+triangulares2 = [sum [1..n] | n <- [1..]] 
+
+-- ivaruicam
+triangulares3 :: [Integer]
+triangulares3 = aux 1 [0..]
+    where aux v (x:xs) = v : aux (v+x) xs 
+
+-- fracruzam
+triangulares4 :: [Integer]
+triangulares4 = aux 0 1
+    where aux :: Integer -> Integer -> [Integer]
+          aux n s = (n+s) : aux (n+s) (s+1)
+
+-- blaruiher
+triangulares5 :: [Integer]
+triangulares5 = [sumh x | x <- [2..]]
+    where sumh x = sum [1..x-1]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.2. Definir la función
+-- Ejercicio 3.2. Definir la funciÃ³n
 --    nDivisores :: Integer -> Integer
--- tal que (nDivisores n) es el número de los divisores de n. Por
+-- tal que (nDivisores n) es el nÃºmero de los divisores de n. Por
 -- ejemplo, 
 --    nDivisores 28                 ==  6
 --    nDivisores (product [1..200]) == 139503973313460993785856000000
 -- ---------------------------------------------------------------------
 
+-- carmengar
 nDivisores :: Integer -> Integer
-nDivisores = undefined
+nDivisores n = product [x+1 | (_,x) <- factorizacionAbreviada n]
+
+factorizacionAbreviada :: Integer -> [(Integer,Integer)]
+factorizacionAbreviada n = 
+    [(x, contar x (primeFactors n)) | x <- nub (primeFactors n)] 
+
+contar :: Eq a => a -> [a] -> Integer
+contar _ [] = 0
+contar x (y:ys) | x == y    = 1 + contar x ys
+                | otherwise = contar x ys
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar usando la funciÃ³n
+-- group de la librerÃ­a Data.List descrita en http://bit.ly/1mhRPOW
+
+-- carmengar 
+nDivisores2 :: Integer -> Integer
+nDivisores2 = 
+    product . map (\x -> genericLength x +1) . group . primeFactors
+
+-- fracruzam
+nDivisores3 :: Integer -> Integer
+nDivisores3 n = 
+    genericLength (filter (\x -> n `rem` x == 0) [2..n `div`2]) + 2
 
 -- ---------------------------------------------------------------------
--- Ejercicio 3.3. Los divisores de los primeros 7 números triangulares
+-- Ejercicio 3.3. Los divisores de los primeros 7 nÃºmeros triangulares
 -- son: 
 --     1: 1
 --     3: 1,3
@@ -180,217 +291,279 @@ nDivisores = undefined
 --    15: 1,3,5,15
 --    21: 1,3,7,21
 --    28: 1,2,4,7,14,28
--- Como se puede observar, 28 es el menor número triangular con más de 5
+-- Como se puede observar, 28 es el menor nÃºmero triangular con mÃ¡s de 5
 -- divisores. 
 -- 
--- Definir la función 
+-- Definir la funciÃ³n 
 --    euler12 :: Int -> Integer
--- tal que (euler12 n) es el menor número triangular con más de n
+-- tal que (euler12 n) es el menor nÃºmero triangular con mÃ¡s de n
 -- divisores. Por ejemplo,
 --    euler12 5    ==  28
 --    euler12 500  ==  76576500
 -- ---------------------------------------------------------------------
 
+-- carmengar manvermor ivaruicam josllagam fracruzam blaruiher
 euler12 :: Integer -> Integer
-euler12 n = undefined
+euler12 n = head [x | x <- triangulares, nDivisores x > n]
 
 -- ---------------------------------------------------------------------
--- § Enumeración de los números enteros                               --
+-- Â§ EnumeraciÃ³n de los nÃºmeros enteros                               --
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.1. Los números enteros se pueden ordenar como sigue 
+-- Ejercicio 4.1. Los nÃºmeros enteros se pueden ordenar como sigue 
 --    0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, -6, 6, -7, 7, ...
--- Definir, por comprensión, la constante
+-- Definir, por comprensiÃ³n, la constante
 --    enteros :: [Int]
--- tal que enteros es la lista de los enteros con la ordenación
+-- tal que enteros es la lista de los enteros con la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    take 10 enteros  ==  [0,-1,1,-2,2,-3,3,-4,4,-5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
 enteros :: [Int]
-enteros = undefined
+enteros = 0 : mezcla [-1,-2..] [1..]
+
+mezcla :: [Int] -> [Int] -> [Int]
+mezcla (x:xs) (y:ys) = x:y:mezcla xs ys
+
+-- carmengar ivaruicam
+enteros2 :: [Int]
+enteros2 = [f x | x <- [0..]]
+    where f n | even n    = div n 2
+              | otherwise = -1 - div n 2
+
+-- manvermor blaruiher josllagam
+enteros3 :: [Int]
+enteros3 = 0 : aux 1
+    where aux n = -n : n : aux (n+1)
+
+-- fracruzam
+enteros4 :: [Int]
+enteros4 = 0 : (concat $ [[-x,x] | x <- [1..]])
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.2. Definir, por iteración, la constante
+-- Ejercicio 4.2. Definir, por iteraciÃ³n, la constante
 --    enteros' :: [Int]
--- tal que enteros' es la lista de los enteros con la ordenación
+-- tal que enteros' es la lista de los enteros con la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    take 10 enteros  ==  [0,-1,1,-2,2,-3,3,-4,4,-5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
 enteros' :: [Int]
-enteros' = undefined
+enteros' = 0 : mezcla (iterate (1-) (-1)) (iterate (1+) 1)
+
+-- carmengar ivaruicam fracruzam josllagam
+enteros'2 :: [Int]
+enteros'2 = iterate f 0
+    where f n | n >= 0    = -(n+1)
+              | otherwise = -n
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.3. Definir, por selección con takeWhile, la función
+-- Ejercicio 4.3. Definir, por selecciÃ³n con takeWhile, la funciÃ³n
 --    posicion :: Int -> Int
--- tal que (posicion x) es la posición del entero x en la ordenación
+-- tal que (posicion x) es la posiciÃ³n del entero x en la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    posicion 2  ==  4
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 carmengar manvermor ivaruicam fracruzam blaruiher josllagam
 posicion :: Int -> Int
-posicion x = undefined
+posicion x = length $ takeWhile (/= x) enteros
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.4. Definir, por recursión, la función
+-- Ejercicio 4.4. Definir, por recursiÃ³n, la funciÃ³n
 --    posicionR :: Int -> Int
--- tal que (posicionR x) es la posición del entero x en la ordenación
+-- tal que (posicionR x) es la posiciÃ³n del entero x en la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    posicionR 2  ==  4
 -- ---------------------------------------------------------------------
 
+-- carmengar manvermor ivaruicam alvalvdom1 fracruzam blaruiher josllagam
 posicionR :: Int -> Int
-posicionR x = undefined
+posicionR x = aux x enteros
+    where aux x (y:ys) | x == y    = 0
+                       | otherwise = 1 + aux x ys
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.5. Definir, por comprensión, la función
+-- Ejercicio 4.5. Definir, por comprensiÃ³n, la funciÃ³n
 --    posicionC :: Int -> Int
--- tal que (posicionC x) es la posición del entero x en la ordenación
+-- tal que (posicionC x) es la posiciÃ³n del entero x en la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    posicionC 2  ==  4
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 blaruiher
 posicionC :: Int -> Int
-posicionC x = undefined
+posicionC x = head [y | y <- [0..], enteros !! y == x]
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar eliminando el uso
+-- de (!!).
+
+-- carmengar
+posicionC2 :: Int -> Int
+posicionC2 x = length [1 | _ <- takeWhile (/=x) enteros] 
+
+-- manvermor ivaruicam fracruzam josllagam
+posicionC3 :: Int -> Int
+posicionC3 x = head [v | (u,v) <- zip enteros [0..], u == x]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4.6. Definir, sin búsqueda, la función
+-- Ejercicio 4.6. Definir, sin bÃºsqueda, la funciÃ³n
 --    posicion2 :: Int -> Int
--- tal que (posicion2 x) es la posición del entero x en la ordenación
+-- tal que (posicion2 x) es la posiciÃ³n del entero x en la ordenaciÃ³n
 -- anterior. Por ejemplo,
 --    posicion2 2  ==  4
 -- ---------------------------------------------------------------------
 
--- Definición directa
+-- DefiniciÃ³n directa
+-- manvermor carmengar ivaruicam alvalvdom1 fracruzam blaruiher josllagam
 posicion2 :: Int -> Int
-posicion2 = undefined
+posicion2 x | x >= 0    = 2 * x
+            | otherwise = -2 * x - 1
 
 -- ---------------------------------------------------------------------
--- § El problema de la bicicleta de Turing                            --
+-- Â§ El problema de la bicicleta de Turing                            --
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
--- Ejercicio 5.1. Cuentan que Alan Turing tenía una bicicleta vieja,
--- que tenía una cadena con un eslabón débil y además uno de los radios
--- de la rueda estaba doblado. Cuando el radio doblado coincidía con el
--- eslabón débil, entonces la cadena se rompía.   
+-- Ejercicio 5.1. Cuentan que Alan Turing tenÃ­a una bicicleta vieja,
+-- que tenÃ­a una cadena con un eslabÃ³n dÃ©bil y ademÃ¡s uno de los radios
+-- de la rueda estaba doblado. Cuando el radio doblado coincidÃ­a con el
+-- eslabÃ³n dÃ©bil, entonces la cadena se rompÃ­a.   
 --
--- La bicicleta se identifica por los parámetros (i,d,n) donde 
--- - i es el número del eslabón que coincide con el radio doblado al
+-- La bicicleta se identifica por los parÃ¡metros (i,d,n) donde 
+-- - i es el nÃºmero del eslabÃ³n que coincide con el radio doblado al
 --   empezar a andar,
--- - d es el número de eslabones que se desplaza la cadena en cada
+-- - d es el nÃºmero de eslabones que se desplaza la cadena en cada
 --   vuelta de la rueda y  
--- - n es el número de eslabones de la cadena (el número n es el débil).
--- Si i=2 y d=7 y n=25, entonces la lista con el número de eslabón que 
+-- - n es el nÃºmero de eslabones de la cadena (el nÃºmero n es el dÃ©bil).
+-- Si i=2 y d=7 y n=25, entonces la lista con el nÃºmero de eslabÃ³n que 
 -- toca el radio doblado en cada vuelta es 
 --    [2,9,16,23,5,12,19,1,8,15,22,4,11,18,0,7,14,21,3,10,17,24,6,...
--- Con lo que la cadena se rompe en la vuelta número 14.
+-- Con lo que la cadena se rompe en la vuelta nÃºmero 14.
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    eslabones :: Int -> Int -> Int -> [Int]
--- tal que (eslabones i d n) es la lista con los números de eslabones 
+-- tal que (eslabones i d n) es la lista con los nÃºmeros de eslabones 
 -- que tocan el radio doblado en cada vuelta en una bicicleta de tipo 
 -- (i,d,n). Por ejemplo, 
 --    take 10 (eslabones 2 7 25)  ==  [2,9,16,23,5,12,19,1,8,15]
 -- ---------------------------------------------------------------------
 
+-- carmengar
 eslabones :: Int -> Int -> Int -> [Int]
-eslabones i d n = undefined
+eslabones i d n = aux i n
+    where aux i n = mod i n : aux (i+d) n
 
--- 2ª definición (con iterate):
+-- carmengar fracruzam josllagam
 eslabones2 :: Int -> Int -> Int -> [Int]
-eslabones2 i d n = undefined
+eslabones2 i d n = iterate ((`mod` n) . (+d)) i
+
+-- fracruzam josllagam
+eslabones3 :: Int -> Int -> Int -> [Int]
+eslabones3 i d n = [(i + x*d) `mod` n | x <- [0..]]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 5.2. Definir la función
+-- Ejercicio 5.2. Definir la funciÃ³n
 --    numeroVueltas :: Int -> Int -> Int -> Int 
--- tal que (numeroVueltas i d n) es el número de vueltas que pasarán 
+-- tal que (numeroVueltas i d n) es el nÃºmero de vueltas que pasarÃ¡n 
 -- hasta que la cadena se rompa en una bicicleta de tipo (i,d,n). Por 
 -- ejemplo,
 --    numeroVueltas 2 7 25  ==  14
 -- ---------------------------------------------------------------------
 
+-- carmengar fracruzam josllagam
 numeroVueltas :: Int -> Int -> Int -> Int
-numeroVueltas i d n = undefined
+numeroVueltas i d n = length $ takeWhile (/=0) (eslabones i d n)
 
 -- ---------------------------------------------------------------------
--- § La sucesión de Golomb                                            --
+-- Â§ La sucesiÃ³n de Golomb                                            --
 -- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. [Basado en el problema 341 del proyecto Euler]. La
--- sucesión de Golomb {G(n)} es una sucesión auto descriptiva: es la
--- única sucesión no decreciente de números naturales tal que el número
--- n aparece G(n) veces en la sucesión. Los valores de G(n) para los
--- primeros números son los siguientes:
+-- sucesiÃ³n de Golomb {G(n)} es una sucesiÃ³n auto descriptiva: es la
+-- Ãºnica sucesiÃ³n no decreciente de nÃºmeros naturales tal que el nÃºmero
+-- n aparece G(n) veces en la sucesiÃ³n. Los valores de G(n) para los
+-- primeros nÃºmeros son los siguientes:
 --    n       1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ...
 --    G(n)    1 2 2 3 3 4 4 4 5  5  5  6  6  6  6 ...
--- En los apartados de este ejercicio se definirá una función para
--- calcular los términos de la sucesión de Golomb. 
+-- En los apartados de este ejercicio se definirÃ¡ una funciÃ³n para
+-- calcular los tÃ©rminos de la sucesiÃ³n de Golomb. 
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    golomb :: Int -> Int
--- tal que (golomb n) es el n-ésimo término de la sucesión de Golomb. 
+-- tal que (golomb n) es el n-Ã©simo tÃ©rmino de la sucesiÃ³n de Golomb. 
 -- Por ejemplo,
 --    golomb 5  ==  3
 --    golomb 9  ==  5
--- Indicación: Se puede usar la función sucGolomb del apartado 2.
+-- IndicaciÃ³n: Se puede usar la funciÃ³n sucGolomb del apartado 2.
 -- ---------------------------------------------------------------------
 
+-- fracruzam josllagam
 golomb :: Int -> Int
-golomb n = undefined
+golomb n = sucGolomb !! (n-1)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6.2. Definir la función
+-- Ejercicio 6.2. Definir la funciÃ³n
 --    sucGolomb :: [Int]
--- tal que sucGolomb es la lista de los términos de la sucesión de
+-- tal que sucGolomb es la lista de los tÃ©rminos de la sucesiÃ³n de
 -- Golomb. Por ejemplo,
 --    take 15 sucGolomb  ==  [1,2,2,3,3,4,4,4,5,5,5,6,6,6,6]
--- Indicación: Se puede usar la función subSucGolomb del apartado 3.
+-- IndicaciÃ³n: Se puede usar la funciÃ³n subSucGolomb del apartado 3.
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 sucGolomb :: [Int]
-sucGolomb = undefined
+sucGolomb = 1:2:2:3:3: aux 4
+    where aux :: Int -> [Int]
+          aux n = replicate (golomb n) n ++ aux (n+1)
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar usando la
+-- una definiciÃ³n subSucGolomb del apartado 3 que no use sucGolomb. 
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6.3. Definir la función
+-- Ejercicio 6.3. Definir la funciÃ³n
 --    subSucGolomb :: Int -> [Int]
--- tal que (subSucGolomb x) es la lista de los términos de la sucesión
+-- tal que (subSucGolomb x) es la lista de los tÃ©rminos de la sucesiÃ³n
 -- de Golomb a partir de la primera ocurrencia de x. Por ejemplo,
 --    take 10 (subSucGolomb 4)  ==  [4,4,4,5,5,5,6,6,6,6]
--- Indicación: Se puede usar la función golomb del apartado 1.
+-- IndicaciÃ³n: Se puede usar la funciÃ³n golomb del apartado 1.
 -- ---------------------------------------------------------------------
 
+-- fracruzam josllagam
 subSucGolomb :: Int -> [Int]
-subSucGolomb = undefined
+subSucGolomb x = filter (>= x) sucGolomb
 
 -- ---------------------------------------------------------------------
--- § La codificación por longitud                                     --
+-- Â§ La codificaciÃ³n por longitud                                     --
 -- ---------------------------------------------------------------------
 
--- La codificación por longitud, o comprensión RLE (del inglés,
--- "Run-length encoding"), es una compresión de datos en la que
+-- La codificaciÃ³n por longitud, o comprensiÃ³n RLE (del inglÃ©s,
+-- "Run-length encoding"), es una compresiÃ³n de datos en la que
 -- secuencias de datos con el mismo valor consecutivas son almacenadas
--- como un único valor más su recuento. Por ejemplo, la cadena 
+-- como un Ãºnico valor mÃ¡s su recuento. Por ejemplo, la cadena 
 --    BBBBBBBBBBBBNBBBBBBBBBBBBNNNBBBBBBBBBBBBBBBBBBBBBBBBNBBBBBBBBBBBBBB
 -- se codifica por 
 --    12B1N12B3N24B1N14B
 -- Interpretado esto como 12 letras B, 1 letra N , 12 letras B, 3 letras
 -- N, etc.
 -- 
--- En los siguientes ejercicios se definirán funciones para codificar y
+-- En los siguientes ejercicios se definirÃ¡n funciones para codificar y
 -- descodificar por longitud.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.1. Una lista se puede comprimir indicando el número de
+-- Ejercicio 7.1. Una lista se puede comprimir indicando el nÃºmero de
 -- veces consecutivas que aparece cada elemento. Por ejemplo, la lista 
 -- comprimida de [1,1,7,7,7,5,5,7,7,7,7] es [(2,1),(3,7),(2,5),(4,7)],
 -- indicando que comienza con dos 1, seguido de tres 7, dos 5 y cuatro
 -- 7. 
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    comprimida :: Eq a => [a] -> [(Int,a)]
 -- tal que (comprimida xs) es la lista obtenida al comprimir por
 -- longitud la lista xs. Por ejemplo, 
@@ -400,11 +573,19 @@ subSucGolomb = undefined
 --    [(12,'B'),(1,'N'),(12,'B'),(3,'N'),(19,'B')]
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1
 comprimida :: Eq a => [a] -> [(Int,a)]
-comprimida xs = undefined
+comprimida xs = [(x,y) | (x,y) <- zip (map length ys) (map head ys)]
+    where ys = group xs
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar.
+
+-- fracruzam
+comprimida2 :: Eq a => [a] -> [(Int,a)]
+comprimida2 = map (\x -> (length x, head x)) . group
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.2. Definir la función
+-- Ejercicio 7.2. Definir la funciÃ³n
 --    expandida :: [(Int,a)] -> [a]
 -- tal que (expandida ps) es la lista expandida correspondiente a ps (es
 -- decir, es la lista xs tal que la comprimida de xs es ps). Por
@@ -412,32 +593,39 @@ comprimida xs = undefined
 --    expandida [(2,1),(3,7),(2,5),(4,7)]  ==  [1,1,7,7,7,5,5,7,7,7,7]
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 fracruzam
 expandida :: [(Int,a)] -> [a]
-expandida ps = undefined
+expandida ps =  concat [replicate k x | (k,x) <- ps]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.3. Comprobar con QuickCheck que dada una lista de enteros,
--- si se la comprime y después se expande se obtiene la lista inicial. 
+-- si se la comprime y despuÃ©s se expande se obtiene la lista inicial. 
 -- ---------------------------------------------------------------------
+
+-- manvermor alvalvdom1 fracruzam
 
 -- La propiedad es
 prop_expandida_comprimida :: [Int] -> Bool 
-prop_expandida_comprimida xs = undefined
+prop_expandida_comprimida xs = (expandida . comprimida) xs == xs
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> quickCheck prop_expandida_comprimida
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.4. Comprobar con QuickCheck que dada una lista de pares
--- de enteros, si se la expande y después se comprime se obtiene la
+-- de enteros, si se la expande y despuÃ©s se comprime se obtiene la
 -- lista inicial.  
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 fracruzam
+
 -- La propiedad es
 prop_comprimida_expandida :: [(Int,Int)] -> Bool 
-prop_comprimida_expandida xs = undefined
+prop_comprimida_expandida xs = (comprimida . expandida) xs == xs
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.5. Definir la función
+-- Ejercicio 7.5. Definir la funciÃ³n
 --    listaAcadena :: [(Int,Char)] -> String
 -- tal que (listaAcadena xs) es la cadena correspondiente a la lista de
 -- pares de xs. Por ejemplo,
@@ -445,11 +633,19 @@ prop_comprimida_expandida xs = undefined
 --    "12B1N12B3N19B"
 -- ---------------------------------------------------------------------
 
+-- manvermor
 listaAcadena :: [(Int,Char)] -> String
-listaAcadena xs = undefined
+listaAcadena xs = concat [ reverse (y : (reverse (show x))) | (x,y) <- xs]
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar.
+
+-- fracruzam
+listaAcadena2 :: [(Int,Char)] -> String
+listaAcadena2 []         = []
+listaAcadena2 ((n,c):xs) = show n ++ [c] ++ listaAcadena2 xs 
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.6. Definir la función
+-- Ejercicio 7.6. Definir la funciÃ³n
 --    cadenaComprimida :: String -> String
 -- tal que (cadenaComprimida cs) es la cadena obtenida comprimiendo por
 -- longitud la cadena cs. Por ejemplo,
@@ -457,11 +653,19 @@ listaAcadena xs = undefined
 --    "12B1N12B3N10B3N"
 -- ---------------------------------------------------------------------
 
+-- manvermor
 cadenaComprimida :: String -> String
-cadenaComprimida = undefined
+cadenaComprimida cs = (listaAcadena . comprimida) cs
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
+
+-- fracruzam
+cadenaComprimida2 :: String -> String 
+cadenaComprimida2 = 
+    foldr1 (++) . map (\x -> show (length x)++[head x]) . group
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.7. Definir la función 
+-- Ejercicio 7.7. Definir la funciÃ³n 
 --    cadenaAlista :: String -> [(Int,Char)]
 -- tal que (cadenaAlista cs) es la lista de pares correspondientes a la
 -- cadena cs. Por ejemplo,
@@ -469,11 +673,34 @@ cadenaComprimida = undefined
 --    [(12,'B'),(1,'N'),(12,'B'),(3,'N'),(10,'B'),(3,'N')]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 cadenaAlista :: String -> [(Int,Char)]
-cadenaAlista = undefined
+cadenaAlista cs = [ (read x, y) | (x,y) <- zip (numeros cs) (letras cs)]
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar usando la funciÃ³n
+-- span de la librerÃ­a Data.List descrita en http://bit.ly/1OqHqXP
+
+numeros :: [Char] -> [[Char]]
+numeros [] = []
+numeros xs = takeWhile (isDigit) xs : numeros (tail (dropWhile (isDigit) xs))
+
+letras :: [Char] -> [Char]
+letras [] =  []
+letras (x:xs) | isAlpha x = x : letras xs
+              | otherwise = letras xs
+
+-- fracruzam
+cadenaAlista2 :: String -> [(Int,Char)]
+cadenaAlista2 [] = []
+cadenaAlista2 ps = 
+    (read num, head (filter isAlpha ps)) : cadenaAlista2 (drop (n+1) ps)
+    where num = takeWhile isDigit ps
+          n   = length num
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7.8. Definir la función
+-- Ejercicio 7.8. Definir la funciÃ³n
 --    cadenaExpandida :: String -> String
 -- tal que (cadenaExpandida cs) es la cadena expandida correspondiente a
 -- cs (es decir, es la cadena xs que al comprimirse por longitud da cs). 
@@ -482,114 +709,136 @@ cadenaAlista = undefined
 --    "BBBBBBBBBBBBNBBBBBBBBBBBBNNNBBBBBBBBBBNNN"
 -- ---------------------------------------------------------------------
 
+-- manvermor
 cadenaExpandida :: String -> String
-cadenaExpandida = undefined
+cadenaExpandida cs = (expandida . cadenaAlista) cs
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
+
+-- fracruzam
+cadenaExpandida2 :: String -> String
+cadenaExpandida2 [] = []
+cadenaExpandida2 ps = 
+    replicate (read num) (head (filter isAlpha ps)) ++ 
+    cadenaExpandida2 (drop (n+1) ps)
+    where num = takeWhile isDigit ps
+          n   = length num
+
+-- Comentario: La definiciÃ³n anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
--- § La sucesión de Kolakoski                                         --
+-- Â§ La sucesiÃ³n de Kolakoski                                         --
 -- ---------------------------------------------------------------------
 
--- Dada una sucesión, su contadora es la sucesión de las longitudes de
+-- Dada una sucesiÃ³n, su contadora es la sucesiÃ³n de las longitudes de
 -- de sus bloque de elementos consecutivos iguales. Por ejemplo, la
--- sucesión contadora de abbaaabbba es 12331; es decir; 1 vez la a,
+-- sucesiÃ³n contadora de abbaaabbba es 12331; es decir; 1 vez la a,
 -- 2 la b, 3 la a, 3 la b y 1 la a.
 -- 
--- La sucesión de Kolakoski es una sucesión infinita de los símbolos 1 y
--- 2 que es su propia contadora. Los primeros términos de la sucesión
+-- La sucesiÃ³n de Kolakoski es una sucesiÃ³n infinita de los sÃ­mbolos 1 y
+-- 2 que es su propia contadora. Los primeros tÃ©rminos de la sucesiÃ³n
 -- de Kolakoski son 1221121221221... que coincide con su contadora (es
 -- decir, 1 vez el 1, 2 veces el 2, 2 veces el 1, ...). 
 -- 
--- En esta sección se define la sucesión de Kolakoski.
+-- En esta secciÃ³n se define la sucesiÃ³n de Kolakoski.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.1. Dados los símbolos a y b, la sucesión contadora de
+-- Ejercicio 8.1. Dados los sÃ­mbolos a y b, la sucesiÃ³n contadora de
 --    abbaaabbba... =  a bb aaa bbb a ...  
 -- es
 --    1233...       =  1 2  3   3...
 -- es decir; 1 vez la a, 2 la b, 3 la a, 3 la b, 1 la a, ...
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    contadora :: Eq a => [a] -> [Int]
--- tal que (contadora xs) es la sucesión contadora de xs. Por ejemplo,
+-- tal que (contadora xs) es la sucesiÃ³n contadora de xs. Por ejemplo,
 --    contadora "abbaaabbb"        ==  [1,2,3,3]
 --    contadora "122112122121121"  ==  [1,2,2,1,1,2,1,1,2,1,1]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 fracruzam
 contadora :: Eq a => [a] -> [Int]
-contadora xs = undefined
-
+contadora xs = map length (group xs)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.2. Definir la función
+-- Ejercicio 8.2. Definir la funciÃ³n
 --    contada :: [Int] -> [a] -> [a]
--- tal que (contada ns xs) es la sucesión formada por los símbolos de xs
+-- tal que (contada ns xs) es la sucesiÃ³n formada por los sÃ­mbolos de xs
 -- cuya contadora es ns. Por ejemplo,
 --    contada [1,2,3,3] "ab"                ==  "abbaaabbb"
 --    contada [1,2,3,3] "abc"               ==  "abbcccaaa"
 --    contada [1,2,2,1,1,2,1,1,2,1,1] "12"  ==  "122112122121121"
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 contada :: [Int] -> [a] -> [a]
-contada = undefined
+contada ns cs = aux ns cs cs
+    where aux :: [Int] -> [a] -> [a] -> [a]
+          aux (n:ns) (c:cs) xs = replicate n c ++ aux ns cs xs
+          aux ns     []     xs = aux ns xs xs
+          aux []     _      _  = []
 
 -- ---------------------------------------------------------------------
--- Ejercicio 8.3. La sucesión autocontadora (o sucesión de  Kolakoski) es
--- la sucesión xs formada por 1 y 2 tal que coincide con su contada; es
--- decir (contadora xs) == xs. Los primeros términos de la función
+-- Ejercicio 8.3. La sucesiÃ³n autocontadora (o sucesiÃ³n de  Kolakoski) es
+-- la sucesiÃ³n xs formada por 1 y 2 tal que coincide con su contada; es
+-- decir (contadora xs) == xs. Los primeros tÃ©rminos de la funciÃ³n
 -- autocontadora son
 --    1221121221221... = 1 22 11 2 1 22 1 22 11 ...
 -- y su contadora es
 --    122112122...     = 1 2  2  1 1 2  1 2  2...
 -- que coincide con la inicial. 
 -- 
--- Definir la función
+-- Definir la funciÃ³n
 --    autocontadora :: [Int]
--- tal que autocontadora es la sucesión autocondadora con los números 1
+-- tal que autocontadora es la sucesiÃ³n autocondadora con los nÃºmeros 1
 -- y 2. Por ejemplo,
---    take 11 autocontadora  ==  [1,2,2,1,1,2,1,1,2,1,1]
---    take 12 autocontadora  ==  [1,2,2,1,1,2,1,1,2,1,1,2]
+--    take 11 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2]
+--    take 12 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2,2]
+--    take 18 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2,2,1,1,2,1,1,2]
 -- ---------------------------------------------------------------------
 
 autocontadora :: [Int]
 autocontadora = undefined
 
 -- ---------------------------------------------------------------------
--- § El triángulo de Floyd                                            --
+-- Â§ El triÃ¡ngulo de Floyd                                            --
 -- ---------------------------------------------------------------------
 
--- El triángulo de Floyd, llamado así en honor a Robert Floyd, es un
--- triángulo rectángulo formado con números naturales. Para crear un
--- triángulo de Floyd, se comienza con un 1 en la esquina superior
--- izquierda, y se continúa escribiendo la secuencia de los números
--- naturales de manera que cada línea contenga un número más que la
--- anterior. Las 5 primeras líneas del triángulo de Floyd son
+-- El triÃ¡ngulo de Floyd, llamado asÃ­ en honor a Robert Floyd, es un
+-- triÃ¡ngulo rectÃ¡ngulo formado con nÃºmeros naturales. Para crear un
+-- triÃ¡ngulo de Floyd, se comienza con un 1 en la esquina superior
+-- izquierda, y se continÃºa escribiendo la secuencia de los nÃºmeros
+-- naturales de manera que cada lÃ­nea contenga un nÃºmero mÃ¡s que la
+-- anterior. Las 5 primeras lÃ­neas del triÃ¡ngulo de Floyd son
 --     1
 --     2   3
 --     4   5   6
 --     7   8   9  10
 --    11  12  13  14  15
 -- 
--- El triángulo de Floyd tiene varias propiedades matemáticas
--- interesantes. Los números del cateto de la parte izquierda forman la
--- secuencia de los números poligonales centrales, mientras que los de
--- la hipotenusa nos dan el conjunto de los números triangulares.
+-- El triÃ¡ngulo de Floyd tiene varias propiedades matemÃ¡ticas
+-- interesantes. Los nÃºmeros del cateto de la parte izquierda forman la
+-- secuencia de los nÃºmeros poligonales centrales, mientras que los de
+-- la hipotenusa nos dan el conjunto de los nÃºmeros triangulares.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.1. Definir la función
+-- Ejercicio 9.1. Definir la funciÃ³n
 --    siguienteF :: [Integer] -> [Integer]
--- tal que (siguienteF xs) es la lista de los elementos de la línea xs en
--- el triángulo de Lloyd. Por ejemplo,
+-- tal que (siguienteF xs) es la lista de los elementos de la lÃ­nea xs en
+-- el triÃ¡ngulo de Lloyd. Por ejemplo,
 --    siguienteF [2,3]    ==  [4,5,6]
 --    siguienteF [4,5,6]  ==  [7,8,9,10]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 siguienteF :: [Integer] -> [Integer]
-siguienteF xs = undefined
+siguienteF xs = [lxs .. lxs + genericLength xs]
+    where lxs = last xs + 1
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.2. Definir la función        
+-- Ejercicio 9.2. Definir la funciÃ³n        
 --    trianguloFloyd :: [[Integer]]
--- tal que trianguloFloyd es el triángulo de Floyd. Por ejemplo,
+-- tal que trianguloFloyd es el triÃ¡ngulo de Floyd. Por ejemplo,
 --    ghci> take 4 trianguloFloyd
 --    [[1],
 --     [2,3],
@@ -597,29 +846,31 @@ siguienteF xs = undefined
 --     [7,8,9,10]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 trianguloFloyd :: [[Integer]]
-trianguloFloyd = undefined
+trianguloFloyd = [1] : map siguienteF trianguloFloyd
 
--- Filas del triángulo de Floyd
+-- Filas del triÃ¡ngulo de Floyd
 -- ============================
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.3. Definir la función
+-- Ejercicio 9.3. Definir la funciÃ³n
 --    filaTrianguloFloyd :: Integer -> [Integer]
--- tal que (filaTrianguloFloyd n) es la fila n-ésima del triángulo de
+-- tal que (filaTrianguloFloyd n) es la fila n-Ã©sima del triÃ¡ngulo de
 -- Floyd. Por ejemplo,  
 --    filaTrianguloFloyd 3  ==  [4,5,6]
 --    filaTrianguloFloyd 4  ==  [7,8,9,10]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 filaTrianguloFloyd :: Integer -> [Integer]
-filaTrianguloFloyd n = undefined
+filaTrianguloFloyd n = trianguloFloyd !! fromIntegral (n-1)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.4. Definir la función
+-- Ejercicio 9.4. Definir la funciÃ³n
 --    sumaFilaTrianguloFloyd :: Integer -> Integer
--- tal que (sumaFilaTrianguloFloyd n) es la suma de los fila n-ésima del
--- triángulo de Floyd. Por ejemplo,
+-- tal que (sumaFilaTrianguloFloyd n) es la suma de los fila n-Ã©sima del
+-- triÃ¡ngulo de Floyd. Por ejemplo,
 --    sumaFilaTrianguloFloyd 1  ==  1
 --    sumaFilaTrianguloFloyd 2  ==  5
 --    sumaFilaTrianguloFloyd 3  ==  15
@@ -627,12 +878,13 @@ filaTrianguloFloyd n = undefined
 --    sumaFilaTrianguloFloyd 5  ==  65
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 sumaFilaTrianguloFloyd :: Integer -> Integer
-sumaFilaTrianguloFloyd = undefined
+sumaFilaTrianguloFloyd n = sum (filaTrianguloFloyd n)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.5. A partir de los valores de (sumaFilaTrianguloFloyd n)
--- para n entre 1 y 5, conjeturar una fórmula para calcular
+-- para n entre 1 y 5, conjeturar una fÃ³rmula para calcular
 -- (sumaFilaTrianguloFloyd n). 
 -- ---------------------------------------------------------------------
 
@@ -646,34 +898,40 @@ sumaFilaTrianguloFloyd = undefined
 prop_sumaFilaTrianguloFloyd :: Integer -> Property
 prop_sumaFilaTrianguloFloyd n = undefined
   
--- La comprobación es
+-- La comprobaciÃ³n es
 
--- Hipotenusa del triángulo de Floyd y números triangulares
+-- Hipotenusa del triÃ¡ngulo de Floyd y nÃºmeros triangulares
 -- ========================================================
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.7. Definir la función
+-- Ejercicio 9.7. Definir la funciÃ³n
 --    hipotenusaFloyd :: [Integer]
 -- tal que hipotenusaFloyd es la lista de los elementos de la hipotenusa
--- del triángulo de Floyd. Por ejemplo, 
+-- del triÃ¡ngulo de Floyd. Por ejemplo, 
 --    take 5 hipotenusaFloyd  ==  [1,3,6,10,15]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 hipotenusaFloyd :: [Integer]
-hipotenusaFloyd = undefined
+hipotenusaFloyd = map last trianguloFloyd
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9.9. Definir la función 
+-- Ejercicio 9.9. Definir la funciÃ³n 
 --    prop_hipotenusaFloyd :: Int -> Bool
 -- tal que (prop_hipotenusaFloyd n) se verifica si los n primeros
--- elementos de la hipotenusa del triángulo de Floyd son los primeros n
--- números triangulares. 
+-- elementos de la hipotenusa del triÃ¡ngulo de Floyd son los primeros n
+-- nÃºmeros triangulares. 
 -- 
 -- Comprobar la propiedad para los 1000 primeros elementos.
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 -- La propiedad es
 prop_hipotenusaFloyd :: Int -> Bool
-prop_hipotenusaFloyd n = undefined
+prop_hipotenusaFloyd n = 
+    take n hipotenusaFloyd == take n triangulares
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> prop_hipotenusaFloyd 1000
+--    True
+--    (0.06 secs, 89,568,624 bytes)

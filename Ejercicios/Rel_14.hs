@@ -34,15 +34,16 @@ import Test.QuickCheck
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.1. Definir la función
---    divisoresEn :: Integer -> [Integer] -> Bool
--- tal que (divisoresEn x ys) se verifica si x puede expresarse como un
--- producto de potencias de elementos de ys. Por ejemplo,
---    divisoresEn 12 [2,3,5]  ==  True
---    divisoresEn 14 [2,3,5]  ==  False
+--    divisoresPrimosEn :: Integer -> [Integer] -> Bool
+-- tal que (divisoresPrimosEn x ys) se verifica si x puede expresarse
+-- como un producto de potencias de elementos de la lista de números
+-- primos ys. Por ejemplo, 
+--    divisoresPrimosEn 12 [2,3,5]  ==  True
+--    divisoresPrimosEn 14 [2,3,5]  ==  False
 -- ---------------------------------------------------------------------
 
-divisoresEn :: Integer -> [Integer] -> Bool
-divisoresEn = undefined
+divisoresPrimosEn :: Integer -> [Integer] -> Bool
+divisoresPrimosEn = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Los números de Hamming forman una sucesión 
@@ -51,7 +52,7 @@ divisoresEn = undefined
 --    1. El número 1 está en la sucesión.
 --    2. Si x está en la sucesión, entonces 2x, 3x y 5x también están.
 --    3. Ningún otro número está en la sucesión.
--- Definir, usando divisoresEn, la constante
+-- Definir, usando divisoresPrimosEn, la constante
 --    hamming :: [Integer]
 -- tal que hamming es la sucesión de Hamming. Por ejemplo,
 --    take 12 hamming  ==  [1,2,3,4,5,6,8,9,10,12,15,16]
@@ -546,8 +547,9 @@ contada = undefined
 --    autocontadora :: [Int]
 -- tal que autocontadora es la sucesión autocondadora con los números 1
 -- y 2. Por ejemplo,
---    take 11 autocontadora  ==  [1,2,2,1,1,2,1,1,2,1,1]
---    take 12 autocontadora  ==  [1,2,2,1,1,2,1,1,2,1,1,2]
+--    take 11 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2]
+--    take 12 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2,2]
+--    take 18 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2,2,1,1,2,1,1,2]
 -- ---------------------------------------------------------------------
 
 autocontadora :: [Int]
