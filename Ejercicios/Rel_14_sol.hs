@@ -46,7 +46,7 @@ import Test.QuickCheck
 divisoresPrimosEn :: Integer -> [Integer] -> Bool
 divisoresPrimosEn x ys = and [elem y ys | y <- primeFactors x] 
 
--- carmengar juamorrom1 fracruzam
+-- carmengar juamorrom1 fracruzam rubvilval
 divisoresPrimosEn2 :: Integer -> [Integer] -> Bool
 divisoresPrimosEn2 n ns = all (`elem` ns) p
     where p = primeFactors n
@@ -65,6 +65,7 @@ divisoresPrimosEn2 n ns = all (`elem` ns) p
 -- ---------------------------------------------------------------------
 
 -- manvermor alvalvdom1 carmengar juamorrom1 ivaruicam josllagam blaruiher
+-- rubvilval
 hamming :: [Integer]
 hamming = [x | x <- [1..], divisoresPrimosEn x [2,3,5]]
 
@@ -89,7 +90,7 @@ hamming2 = filter esHamming [1..]
 -- ---------------------------------------------------------------------
  
 -- manvermor alvalvdom1 carmengar juamorrom1 fracruzam ivaruicam josllagam 
--- blaruiher
+-- blaruiher rubvilval
 cantidadHammingMenores :: Integer -> Int
 cantidadHammingMenores x = length $ takeWhile (<x) hamming
 
@@ -102,7 +103,7 @@ cantidadHammingMenores x = length $ takeWhile (<x) hamming
 --    siguienteHamming 21  ==  24
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 fracruzam ivaruicam josllagam blaruiher
+-- manvermor alvalvdom1 fracruzam ivaruicam josllagam blaruiher rubvilval
 siguienteHamming :: Integer -> Integer
 siguienteHamming x = head $ dropWhile (<=x) hamming
 
@@ -127,7 +128,7 @@ siguienteHamming3 x = head $ filter (>x) hamming
 --    head (huecoHamming 1000)  ==  (34992,36000)
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 ivaruicam
+-- manvermor alvalvdom1 ivaruicam rubvilval
 huecoHamming :: Integer -> [(Integer,Integer)]
 huecoHamming n = 
     [(x,y) | (x,y) <- zip  hamming (tail (hamming)), y-x > n]
@@ -165,6 +166,16 @@ prop_Hamming n = not $ null $ huecoHamming' n
 --    λ> quickCheck prop_Hamming
 --    +++ OK, passed 100 tests.
 
+-- rubvilval
+
+-- La propiedad es
+prop_Hamming2 :: Integer -> Bool
+prop_Hamming2 n = huecoHamming n /= []
+
+-- La comprobación es
+--    λ> quickCheck prop_Hamming
+--    +++ OK, passed 100 tests.
+
 -- ---------------------------------------------------------------------
 -- § Problema 10 del Proyecto Euler                                   --
 -- ---------------------------------------------------------------------
@@ -184,13 +195,13 @@ sumaPrimoMenores n = sum (takeWhile (< n) primes)
 
 -- ivaruicam
 sumaPrimoMenores2 :: Integer -> Integer
-sumaPrimoMenores2 n = aux n 0 primes 
-    where aux n v (x:xs) | x < n     = aux n (v+x) xs
-                         | otherwise = v 
+sumaPrimoMenores2 n = aux n primes
+    where aux n (x:xs) | x < n     = x + aux n xs
+                       | otherwise = 0
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- blaruiher
+-- blaruiher rubvilval
 sumaPrimoMenores3 :: Integer -> Integer
 sumaPrimoMenores3 n = foldl1 (+) $ takeWhile (<n) primes
 
@@ -226,7 +237,7 @@ triangulares :: [Integer]
 triangulares = aux 1
     where aux n = sum [x | x <- [1..n]] : aux (n+1)
 
--- carmengar josllagam
+-- carmengar josllagam rubvilval
 triangulares2 :: [Integer]
 triangulares2 = [sum [1..n] | n <- [1..]] 
 
@@ -302,7 +313,7 @@ nDivisores3 n =
 --    euler12 500  ==  76576500
 -- ---------------------------------------------------------------------
 
--- carmengar manvermor ivaruicam josllagam fracruzam blaruiher
+-- carmengar manvermor ivaruicam josllagam fracruzam blaruiher rubvilval
 euler12 :: Integer -> Integer
 euler12 n = head [x | x <- triangulares, nDivisores x > n]
 
@@ -344,6 +355,15 @@ enteros4 = 0 : (concat $ [[-x,x] | x <- [1..]])
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- rubvilval
+enteros5 :: [Int]
+enteros5 = intercala [0..] [-1,-2..]
+    where intercala []     ys     = ys
+          intercala xs     []     = xs
+          intercala (x:xs) (y:ys) = x:y:intercala xs ys
+
+-- Comentario: La definición anterior se puede simplificar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Definir, por iteración, la constante
 --    enteros' :: [Int]
@@ -356,7 +376,7 @@ enteros4 = 0 : (concat $ [[-x,x] | x <- [1..]])
 enteros' :: [Int]
 enteros' = 0 : mezcla (iterate (1-) (-1)) (iterate (1+) 1)
 
--- carmengar ivaruicam fracruzam josllagam
+-- carmengar ivaruicam fracruzam josllagam rubvilval
 enteros'2 :: [Int]
 enteros'2 = iterate f 0
     where f n | n >= 0    = -(n+1)
@@ -371,6 +391,7 @@ enteros'2 = iterate f 0
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 carmengar manvermor ivaruicam fracruzam blaruiher josllagam
+-- rubvilval
 posicion :: Int -> Int
 posicion x = length $ takeWhile (/= x) enteros
 
@@ -387,6 +408,15 @@ posicionR :: Int -> Int
 posicionR x = aux x enteros
     where aux x (y:ys) | x == y    = 0
                        | otherwise = 1 + aux x ys
+
+-- rubvilval
+posicionR2 :: Int -> Int
+posicionR2 0           = 0
+posicionR2 x | x>0     = 2+(posicionR2 (x-1))
+             | x==(-1) = 1
+             | x<0     = 2+(posicionR2 (x+1))
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.5. Definir, por comprensión, la función
@@ -407,7 +437,7 @@ posicionC x = head [y | y <- [0..], enteros !! y == x]
 posicionC2 :: Int -> Int
 posicionC2 x = length [1 | _ <- takeWhile (/=x) enteros] 
 
--- manvermor ivaruicam fracruzam josllagam
+-- manvermor ivaruicam fracruzam josllagam rubvilval
 posicionC3 :: Int -> Int
 posicionC3 x = head [v | (u,v) <- zip enteros [0..], u == x]
 
@@ -421,6 +451,7 @@ posicionC3 x = head [v | (u,v) <- zip enteros [0..], u == x]
 
 -- Definición directa
 -- manvermor carmengar ivaruicam alvalvdom1 fracruzam blaruiher josllagam
+-- rubvilval
 posicion2 :: Int -> Int
 posicion2 x | x >= 0    = 2 * x
             | otherwise = -2 * x - 1
@@ -454,7 +485,7 @@ posicion2 x | x >= 0    = 2 * x
 --    take 10 (eslabones 2 7 25)  ==  [2,9,16,23,5,12,19,1,8,15]
 -- ---------------------------------------------------------------------
 
--- carmengar
+-- carmengar ivaruicam
 eslabones :: Int -> Int -> Int -> [Int]
 eslabones i d n = aux i n
     where aux i n = mod i n : aux (i+d) n
@@ -467,6 +498,18 @@ eslabones2 i d n = iterate ((`mod` n) . (+d)) i
 eslabones3 :: Int -> Int -> Int -> [Int]
 eslabones3 i d n = [(i + x*d) `mod` n | x <- [0..]]
 
+-- rubvilval
+eslabones4 :: Int -> Int -> Int -> [Int]
+eslabones4 i d n = i:esl i d n
+    where esl i d n | i+d<n     = i+d:esl (i+d) d n
+                    | otherwise = i+d-n:esl (i+d-n) d n
+
+-- 2ª definición (con iterate):
+eslabones2' :: Int -> Int -> Int -> [Int]
+eslabones2' i d n = iterate (f d n) i
+    where f d n x | (x+d)<n   = x+d
+                  | otherwise = x+d-n
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir la función
 --    numeroVueltas :: Int -> Int -> Int -> Int 
@@ -476,9 +519,15 @@ eslabones3 i d n = [(i + x*d) `mod` n | x <- [0..]]
 --    numeroVueltas 2 7 25  ==  14
 -- ---------------------------------------------------------------------
 
--- carmengar fracruzam josllagam
+-- carmengar fracruzam josllagam rubvilval
 numeroVueltas :: Int -> Int -> Int -> Int
 numeroVueltas i d n = length $ takeWhile (/=0) (eslabones i d n)
+
+-- ivaruicam
+numeroVueltas2 :: Int -> Int -> Int -> Int
+numeroVueltas2 i d n = vueltas (eslabones2 i d n)
+    where vueltas (x:xs) | x /= 0 = 1 + vueltas xs
+                         | otherwise = 0
 
 -- ---------------------------------------------------------------------
 -- § La sucesión de Golomb                                            --
@@ -504,7 +553,7 @@ numeroVueltas i d n = length $ takeWhile (/=0) (eslabones i d n)
 -- Indicación: Se puede usar la función sucGolomb del apartado 2.
 -- ---------------------------------------------------------------------
 
--- fracruzam josllagam
+-- fracruzam josllagam rubvilval
 golomb :: Int -> Int
 golomb n = sucGolomb !! (n-1)
 
@@ -535,7 +584,7 @@ sucGolomb = 1:2:2:3:3: aux 4
 -- Indicación: Se puede usar la función golomb del apartado 1.
 -- ---------------------------------------------------------------------
 
--- fracruzam josllagam
+-- fracruzam josllagam rubvilval
 subSucGolomb :: Int -> [Int]
 subSucGolomb x = filter (>= x) sucGolomb
 
@@ -580,9 +629,15 @@ comprimida xs = [(x,y) | (x,y) <- zip (map length ys) (map head ys)]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam
+-- fracruzam ivaruicam
 comprimida2 :: Eq a => [a] -> [(Int,a)]
 comprimida2 = map (\x -> (length x, head x)) . group
+
+-- rubvilval josllagam
+comprimida3 :: Eq a => [a] -> [(Int,a)]
+comprimida3 xs = zip (map length (group xs)) (concat (map nub (group xs)))
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.2. Definir la función
@@ -593,7 +648,7 @@ comprimida2 = map (\x -> (length x, head x)) . group
 --    expandida [(2,1),(3,7),(2,5),(4,7)]  ==  [1,1,7,7,7,5,5,7,7,7,7]
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 fracruzam
+-- manvermor alvalvdom1 fracruzam ivaruicam rubvilval josllagam
 expandida :: [(Int,a)] -> [a]
 expandida ps =  concat [replicate k x | (k,x) <- ps]
 
@@ -602,7 +657,7 @@ expandida ps =  concat [replicate k x | (k,x) <- ps]
 -- si se la comprime y después se expande se obtiene la lista inicial. 
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 fracruzam
+-- manvermor alvalvdom1 fracruzam ivaruicam rubvilval josllagam
 
 -- La propiedad es
 prop_expandida_comprimida :: [Int] -> Bool 
@@ -618,7 +673,7 @@ prop_expandida_comprimida xs = (expandida . comprimida) xs == xs
 -- lista inicial.  
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 fracruzam
+-- manvermor alvalvdom1 fracruzam ivaruicam rubvilval josllagam
 
 -- La propiedad es
 prop_comprimida_expandida :: [(Int,Int)] -> Bool 
@@ -633,13 +688,13 @@ prop_comprimida_expandida xs = (comprimida . expandida) xs == xs
 --    "12B1N12B3N19B"
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor rubvilval
 listaAcadena :: [(Int,Char)] -> String
 listaAcadena xs = concat [ reverse (y : (reverse (show x))) | (x,y) <- xs]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam
+-- fracruzam ivaruicam
 listaAcadena2 :: [(Int,Char)] -> String
 listaAcadena2 []         = []
 listaAcadena2 ((n,c):xs) = show n ++ [c] ++ listaAcadena2 xs 
@@ -653,7 +708,7 @@ listaAcadena2 ((n,c):xs) = show n ++ [c] ++ listaAcadena2 xs
 --    "12B1N12B3N10B3N"
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor ivaruicam
 cadenaComprimida :: String -> String
 cadenaComprimida cs = (listaAcadena . comprimida) cs
 
@@ -664,6 +719,9 @@ cadenaComprimida2 :: String -> String
 cadenaComprimida2 = 
     foldr1 (++) . map (\x -> show (length x)++[head x]) . group
 
+-- rubvilval
+cadenaComprimida3 :: String -> String
+cadenaComprimida3 = listaAcadena.comprimida
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.7. Definir la función 
 --    cadenaAlista :: String -> [(Int,Char)]
@@ -673,7 +731,7 @@ cadenaComprimida2 =
 --    [(12,'B'),(1,'N'),(12,'B'),(3,'N'),(10,'B'),(3,'N')]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor rubvilval
 cadenaAlista :: String -> [(Int,Char)]
 cadenaAlista cs = [ (read x, y) | (x,y) <- zip (numeros cs) (letras cs)]
 
@@ -693,11 +751,17 @@ letras (x:xs) | isAlpha x = x : letras xs
 cadenaAlista2 :: String -> [(Int,Char)]
 cadenaAlista2 [] = []
 cadenaAlista2 ps = 
-    (read num, head (filter isAlpha ps)) : cadenaAlista2 (drop (n+1) ps)
-    where num = takeWhile isDigit ps
-          n   = length num
+    (read (fst par), head sndpar): cadenaAlista2 (tail sndpar)
+    where par    = span isDigit ps
+          sndpar = snd par
 
--- Comentario: La definición anterior se puede mejorar.
+-- Comentario: La definición anterior se puede simplificar.
+
+-- ivaruicam
+cadenaAlista3 :: String -> [(Int,Char)]
+cadenaAlista3 [] = []
+cadenaAlista3 xs = (read a, head b) : cadenaAlista (tail b) 
+    where (a,b) = span isDigit xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.8. Definir la función
@@ -709,7 +773,7 @@ cadenaAlista2 ps =
 --    "BBBBBBBBBBBBNBBBBBBBBBBBBNNNBBBBBBBBBBNNN"
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor ivaruicam
 cadenaExpandida :: String -> String
 cadenaExpandida cs = (expandida . cadenaAlista) cs
 
@@ -718,13 +782,16 @@ cadenaExpandida cs = (expandida . cadenaAlista) cs
 -- fracruzam
 cadenaExpandida2 :: String -> String
 cadenaExpandida2 [] = []
-cadenaExpandida2 ps = 
-    replicate (read num) (head (filter isAlpha ps)) ++ 
-    cadenaExpandida2 (drop (n+1) ps)
-    where num = takeWhile isDigit ps
-          n   = length num
+cadenaExpandida2 ps = replicate (read $ fst par) (head sndpar) ++
+                      cadenaExpandida2 (tail sndpar)
+    where par    = span isDigit ps
+          sndpar = snd par
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- rubvilval
+cadenaExpandida3 :: String -> String
+cadenaExpandida3 = expandida . cadenaAlista
 
 -- ---------------------------------------------------------------------
 -- § La sucesión de Kolakoski                                         --
@@ -756,7 +823,8 @@ cadenaExpandida2 ps =
 --    contadora "122112122121121"  ==  [1,2,2,1,1,2,1,1,2,1,1]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 fracruzam
+-- alvalvdom1 fracruzam rubvilval
+
 contadora :: Eq a => [a] -> [Int]
 contadora xs = map length (group xs)
 
@@ -778,6 +846,14 @@ contada ns cs = aux ns cs cs
           aux ns     []     xs = aux ns xs xs
           aux []     _      _  = []
 
+-- rubvilval
+contada2 :: [Int] -> [a] -> [a]
+contada2 ns xs = concat [replicate a b | (a,b) <- pares ns xs]
+
+pares :: [Int] -> [a] -> [(Int,a)]
+pares ns xs | length ns <= length xs = zip ns xs
+            | otherwise = (zip ns xs)++(pares (drop (length xs) ns) xs)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.3. La sucesión autocontadora (o sucesión de  Kolakoski) es
 -- la sucesión xs formada por 1 y 2 tal que coincide con su contada; es
@@ -797,8 +873,10 @@ contada ns cs = aux ns cs cs
 --    take 18 autocontadora  ==  [1,2,2,1,1,2,1,2,2,1,2,2,1,1,2,1,1,2]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 autocontadora :: [Int]
-autocontadora = undefined
+autocontadora = 1:2:xs
+    where xs = 2 : contada xs [1,2]
 
 -- ---------------------------------------------------------------------
 -- § El triángulo de Floyd                                            --
@@ -835,6 +913,10 @@ siguienteF :: [Integer] -> [Integer]
 siguienteF xs = [lxs .. lxs + genericLength xs]
     where lxs = last xs + 1
 
+-- rubvilval
+siguienteF2 :: [Integer] -> [Integer]
+siguienteF2 xs = dropWhile (/=xs) trianguloFloyd !! 1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir la función        
 --    trianguloFloyd :: [[Integer]]
@@ -849,6 +931,10 @@ siguienteF xs = [lxs .. lxs + genericLength xs]
 -- fracruzam
 trianguloFloyd :: [[Integer]]
 trianguloFloyd = [1] : map siguienteF trianguloFloyd
+
+-- rubvilval
+trianguloFloyd2 :: [[Integer]]
+trianguloFloyd2 = [filaTrianguloFloyd x | x <- [1..]]
 
 -- Filas del triángulo de Floyd
 -- ============================
@@ -866,6 +952,12 @@ trianguloFloyd = [1] : map siguienteF trianguloFloyd
 filaTrianguloFloyd :: Integer -> [Integer]
 filaTrianguloFloyd n = trianguloFloyd !! fromIntegral (n-1)
 
+-- rubvilval
+filaTrianguloFloyd2 :: Integer -> [Integer]
+filaTrianguloFloyd2 n = [sum[1..n-1]+1..sum[1..n]]
+
+-- Comentario: La definición anterior se puede mejorar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.4. Definir la función
 --    sumaFilaTrianguloFloyd :: Integer -> Integer
@@ -878,7 +970,7 @@ filaTrianguloFloyd n = trianguloFloyd !! fromIntegral (n-1)
 --    sumaFilaTrianguloFloyd 5  ==  65
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 sumaFilaTrianguloFloyd :: Integer -> Integer
 sumaFilaTrianguloFloyd n = sum (filaTrianguloFloyd n)
 
@@ -911,7 +1003,7 @@ prop_sumaFilaTrianguloFloyd n = undefined
 --    take 5 hipotenusaFloyd  ==  [1,3,6,10,15]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 hipotenusaFloyd :: [Integer]
 hipotenusaFloyd = map last trianguloFloyd
 
@@ -925,7 +1017,7 @@ hipotenusaFloyd = map last trianguloFloyd
 -- Comprobar la propiedad para los 1000 primeros elementos.
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 -- La propiedad es
 prop_hipotenusaFloyd :: Int -> Bool
 prop_hipotenusaFloyd n = 
