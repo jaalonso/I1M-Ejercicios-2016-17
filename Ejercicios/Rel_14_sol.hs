@@ -46,7 +46,7 @@ import Test.QuickCheck
 divisoresPrimosEn :: Integer -> [Integer] -> Bool
 divisoresPrimosEn x ys = and [elem y ys | y <- primeFactors x] 
 
--- carmengar juamorrom1 fracruzam rubvilval
+-- carmengar juamorrom1 fracruzam rubvilval manpende
 divisoresPrimosEn2 :: Integer -> [Integer] -> Bool
 divisoresPrimosEn2 n ns = all (`elem` ns) p
     where p = primeFactors n
@@ -65,7 +65,7 @@ divisoresPrimosEn2 n ns = all (`elem` ns) p
 -- ---------------------------------------------------------------------
 
 -- manvermor alvalvdom1 carmengar juamorrom1 ivaruicam josllagam blaruiher
--- rubvilval
+-- rubvilval manpende
 hamming :: [Integer]
 hamming = [x | x <- [1..], divisoresPrimosEn x [2,3,5]]
 
@@ -90,7 +90,7 @@ hamming2 = filter esHamming [1..]
 -- ---------------------------------------------------------------------
  
 -- manvermor alvalvdom1 carmengar juamorrom1 fracruzam ivaruicam josllagam 
--- blaruiher rubvilval
+-- blaruiher rubvilval manpende
 cantidadHammingMenores :: Integer -> Int
 cantidadHammingMenores x = length $ takeWhile (<x) hamming
 
@@ -104,6 +104,7 @@ cantidadHammingMenores x = length $ takeWhile (<x) hamming
 -- ---------------------------------------------------------------------
 
 -- manvermor alvalvdom1 fracruzam ivaruicam josllagam blaruiher rubvilval
+-- manpende
 siguienteHamming :: Integer -> Integer
 siguienteHamming x = head $ dropWhile (<=x) hamming
 
@@ -135,7 +136,7 @@ huecoHamming n =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- juamorrom1 josllagam blaruiher
+-- juamorrom1 josllagam blaruiher manpende
 huecoHamming2 :: Integer -> [(Integer,Integer)]
 huecoHamming2 n = 
     [(x,siguienteHamming x) | x <- hamming, 
@@ -153,6 +154,7 @@ huecoHamming3 n =
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 carmengar juamorrom1 fracruzam ivaruicam josllagam blaruiher
+-- manpende
 
 -- La propiedad es
 huecoHamming' :: Integer -> [(Integer,Integer)]
@@ -201,7 +203,7 @@ sumaPrimoMenores2 n = aux n primes
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- blaruiher rubvilval
+-- blaruiher rubvilval manpende
 sumaPrimoMenores3 :: Integer -> Integer
 sumaPrimoMenores3 n = foldl1 (+) $ takeWhile (<n) primes
 
@@ -237,7 +239,7 @@ triangulares :: [Integer]
 triangulares = aux 1
     where aux n = sum [x | x <- [1..n]] : aux (n+1)
 
--- carmengar josllagam rubvilval
+-- carmengar josllagam rubvilval alvalvdom1
 triangulares2 :: [Integer]
 triangulares2 = [sum [1..n] | n <- [1..]] 
 
@@ -252,7 +254,7 @@ triangulares4 = aux 0 1
     where aux :: Integer -> Integer -> [Integer]
           aux n s = (n+s) : aux (n+s) (s+1)
 
--- blaruiher
+-- blaruiher manpende
 triangulares5 :: [Integer]
 triangulares5 = [sumh x | x <- [2..]]
     where sumh x = sum [1..x-1]
@@ -287,7 +289,7 @@ nDivisores2 :: Integer -> Integer
 nDivisores2 = 
     product . map (\x -> genericLength x +1) . group . primeFactors
 
--- fracruzam
+-- fracruzam manpende
 nDivisores3 :: Integer -> Integer
 nDivisores3 n = 
     genericLength (filter (\x -> n `rem` x == 0) [2..n `div`2]) + 2
@@ -314,6 +316,7 @@ nDivisores3 n =
 -- ---------------------------------------------------------------------
 
 -- carmengar manvermor ivaruicam josllagam fracruzam blaruiher rubvilval
+-- alvalvdom1 manpende
 euler12 :: Integer -> Integer
 euler12 n = head [x | x <- triangulares, nDivisores x > n]
 
@@ -344,7 +347,7 @@ enteros2 = [f x | x <- [0..]]
     where f n | even n    = div n 2
               | otherwise = -1 - div n 2
 
--- manvermor blaruiher josllagam
+-- manvermor blaruiher josllagam manpende
 enteros3 :: [Int]
 enteros3 = 0 : aux 1
     where aux n = -n : n : aux (n+1)
@@ -391,7 +394,7 @@ enteros'2 = iterate f 0
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 carmengar manvermor ivaruicam fracruzam blaruiher josllagam
--- rubvilval
+-- rubvilval manpende
 posicion :: Int -> Int
 posicion x = length $ takeWhile (/= x) enteros
 
@@ -404,6 +407,7 @@ posicion x = length $ takeWhile (/= x) enteros
 -- ---------------------------------------------------------------------
 
 -- carmengar manvermor ivaruicam alvalvdom1 fracruzam blaruiher josllagam
+-- manpende
 posicionR :: Int -> Int
 posicionR x = aux x enteros
     where aux x (y:ys) | x == y    = 0
@@ -426,7 +430,7 @@ posicionR2 x | x>0     = 2+(posicionR2 (x-1))
 --    posicionC 2  ==  4
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 blaruiher
+-- alvalvdom1 blaruiher manpende
 posicionC :: Int -> Int
 posicionC x = head [y | y <- [0..], enteros !! y == x]
 
@@ -451,7 +455,7 @@ posicionC3 x = head [v | (u,v) <- zip enteros [0..], u == x]
 
 -- Definición directa
 -- manvermor carmengar ivaruicam alvalvdom1 fracruzam blaruiher josllagam
--- rubvilval
+-- rubvilval manpende
 posicion2 :: Int -> Int
 posicion2 x | x >= 0    = 2 * x
             | otherwise = -2 * x - 1
@@ -498,7 +502,7 @@ eslabones2 i d n = iterate ((`mod` n) . (+d)) i
 eslabones3 :: Int -> Int -> Int -> [Int]
 eslabones3 i d n = [(i + x*d) `mod` n | x <- [0..]]
 
--- rubvilval
+-- rubvilval manpende
 eslabones4 :: Int -> Int -> Int -> [Int]
 eslabones4 i d n = i:esl i d n
     where esl i d n | i+d<n     = i+d:esl (i+d) d n
@@ -519,7 +523,7 @@ eslabones2' i d n = iterate (f d n) i
 --    numeroVueltas 2 7 25  ==  14
 -- ---------------------------------------------------------------------
 
--- carmengar fracruzam josllagam rubvilval
+-- carmengar fracruzam josllagam rubvilval manpende
 numeroVueltas :: Int -> Int -> Int -> Int
 numeroVueltas i d n = length $ takeWhile (/=0) (eslabones i d n)
 
@@ -694,7 +698,7 @@ listaAcadena xs = concat [ reverse (y : (reverse (show x))) | (x,y) <- xs]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam ivaruicam
+-- fracruzam ivaruicam alvalvdom1
 listaAcadena2 :: [(Int,Char)] -> String
 listaAcadena2 []         = []
 listaAcadena2 ((n,c):xs) = show n ++ [c] ++ listaAcadena2 xs 
@@ -719,7 +723,7 @@ cadenaComprimida2 :: String -> String
 cadenaComprimida2 = 
     foldr1 (++) . map (\x -> show (length x)++[head x]) . group
 
--- rubvilval
+-- rubvilval alvalvdom1
 cadenaComprimida3 :: String -> String
 cadenaComprimida3 = listaAcadena.comprimida
 -- ---------------------------------------------------------------------
@@ -789,7 +793,7 @@ cadenaExpandida2 ps = replicate (read $ fst par) (head sndpar) ++
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- rubvilval
+-- rubvilval alvalvdom1
 cadenaExpandida3 :: String -> String
 cadenaExpandida3 = expandida . cadenaAlista
 
@@ -917,6 +921,10 @@ siguienteF xs = [lxs .. lxs + genericLength xs]
 siguienteF2 :: [Integer] -> [Integer]
 siguienteF2 xs = dropWhile (/=xs) trianguloFloyd !! 1
 
+-- alvalvdom1
+siguienteF3 :: [Integer] -> [Integer]
+siguienteF3 xs = take (length xs + 1) (iterate (+1) (last xs + 1))
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir la función        
 --    trianguloFloyd :: [[Integer]]
@@ -936,6 +944,10 @@ trianguloFloyd = [1] : map siguienteF trianguloFloyd
 trianguloFloyd2 :: [[Integer]]
 trianguloFloyd2 = [filaTrianguloFloyd x | x <- [1..]]
 
+-- alvalvdom1
+trianguloFloyd3 :: [[Integer]]
+trianguloFloyd3 = iterate siguienteF [1]
+
 -- Filas del triángulo de Floyd
 -- ============================
 
@@ -948,7 +960,7 @@ trianguloFloyd2 = [filaTrianguloFloyd x | x <- [1..]]
 --    filaTrianguloFloyd 4  ==  [7,8,9,10]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam alvalvdom1
 filaTrianguloFloyd :: Integer -> [Integer]
 filaTrianguloFloyd n = trianguloFloyd !! fromIntegral (n-1)
 
@@ -973,6 +985,10 @@ filaTrianguloFloyd2 n = [sum[1..n-1]+1..sum[1..n]]
 -- fracruzam rubvilval
 sumaFilaTrianguloFloyd :: Integer -> Integer
 sumaFilaTrianguloFloyd n = sum (filaTrianguloFloyd n)
+
+-- alvalvdom1
+sumaFilaTrianguloFloyd2 :: Integer -> Integer
+sumaFilaTrianguloFloyd2 = sum . filaTrianguloFloyd
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.5. A partir de los valores de (sumaFilaTrianguloFloyd n)
@@ -1003,7 +1019,7 @@ prop_sumaFilaTrianguloFloyd n = undefined
 --    take 5 hipotenusaFloyd  ==  [1,3,6,10,15]
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval
+-- fracruzam rubvilval alvalvdom1
 hipotenusaFloyd :: [Integer]
 hipotenusaFloyd = map last trianguloFloyd
 
@@ -1017,7 +1033,7 @@ hipotenusaFloyd = map last trianguloFloyd
 -- Comprobar la propiedad para los 1000 primeros elementos.
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval
+-- fracruzam rubvilval alvalvdom1
 -- La propiedad es
 prop_hipotenusaFloyd :: Int -> Bool
 prop_hipotenusaFloyd n = 
