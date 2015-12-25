@@ -61,6 +61,10 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- fracruzam alvalvdom1
+finalizado2 :: Tablero -> Bool
+finalizado2 = all (0==)
+
 -- ---------------------------------------------------------------------
 -- Ejecicio 2.2. Definir la función
 --    valida :: Tablero -> Int -> Int -> Bool
@@ -78,6 +82,15 @@ valida t f n = if n >= 1 && head (drop (f-1) t) >= n then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- fracruzam
+valida2 :: Tablero -> Int -> Int -> Bool
+valida2 _ _ 0 = False
+valida2 t f n = t !! (f-1) >= n
+
+-- alvalvdom1
+valida3 :: Tablero -> Int -> Int -> Bool
+valida3 t f n = n > 0 && t !! (f-1) >= n
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
 --    jugada :: Tablero -> Int -> Int -> Tablero
@@ -92,6 +105,10 @@ jugada t _ 0 = t
 jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
+-- fracruzam alvalvdom1
+jugada2 :: Tablero -> Int -> Int -> Tablero
+jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la acción
 --    nuevaLinea :: IO ()
@@ -101,9 +118,13 @@ jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
 --    ghci> 
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha alvalvdom1
 nuevaLinea :: IO ()
 nuevaLinea = do putChar '\n'
+
+-- fracruzam
+nuevaLinea2 :: IO ()
+nuevaLinea2 = do putStrLn ""
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -114,9 +135,14 @@ nuevaLinea = do putChar '\n'
 --    "* * * "
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha alvalvdom1
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
+
+-- fracruzam
+estrellas2 :: Int -> String
+estrellas2 0 = ""
+estrellas2 n = "* " ++ estrellas (n-1)
                               
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la acción
@@ -132,6 +158,10 @@ escribeFila :: Int -> Int -> IO ()
 escribeFila f n =  do putStr (show f ++ ": ") 
                       putStrLn (estrellas n)
 
+-- fracruzam alvalvdom1
+escribeFila2 :: Int -> Int -> IO ()
+escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la acción
 --    escribeTablero :: Tablero -> IO ()
@@ -145,7 +175,7 @@ escribeFila f n =  do putStr (show f ++ ": ")
 --    5: * 
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha fracruzam alvalvdom1
 
 escribeTablero :: Tablero -> IO ()
 escribeTablero [a,b,c,d,e] = do escribeFila 1 a
@@ -172,9 +202,26 @@ escribeTablero [a,b,c,d,e] = do escribeFila 1 a
 --    3
 -- ---------------------------------------------------------------------
 
+-- carruirui3
+-- ¿Se podría utilizar un Maybe Int para validar n?
 leeDigito :: String -> IO Int
-leeDigito c = undefined
+leeDigito c = do putStr c
+                 n <- getChar
+                 putChar '\n'
+                 if isDigit n
+                    then return $ digitToInt n
+                    else do putStrLn "ERROR: Entrada incorrecta"
+                            leeDigito c
 
+-- fracruzam alvalvdom1
+leeDigito2 :: String -> IO Int
+leeDigito2 c = do putStr c
+                  a <- getLine
+                  if all isDigit a 
+                     then return (read a) 
+                     else do putStrLn "ERROR: Entrada incorrecta"  
+                             leeDigito2 c
+ 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Los jugadores se representan por los números 1 y 2.
 -- Definir la función 
@@ -182,10 +229,14 @@ leeDigito c = undefined
 -- tal que (siguiente j) es el jugador siguiente de j. 
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha alvalvdom1
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
+
+-- fracruzam
+siguiente2 :: Int -> Int
+siguiente2 n = n `mod` 2 + 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la acción
@@ -223,8 +274,46 @@ siguiente 2 = 1
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 juego :: Tablero -> Int -> IO ()
-juego t j = undefined
+juego t j = do nuevaLinea
+               escribeTablero t
+               nuevaLinea
+               putStrLn ("J " ++ show j)
+               putStr "Elige una fila: " 
+               f <- getLine
+               putStr "Elige cuantas estrellas retiras: " 
+               n <- getLine
+               (juegoAux t (read f) (read n) j)
+
+juegoAux :: Tablero -> Int -> Int -> Int -> IO ()
+juegoAux t f n j 
+    | finalizado sig = putStrLn ("J " ++ show j ++ " ha ganado")
+    | valida t f n   = juego sig (siguiente j)
+    | otherwise      = juego t j   
+  where sig = jugada t f n                       
+
+-- carruirui3 alvalvdom1
+juego2 :: Tablero -> Int -> IO ()
+juego2 t j = do nuevaLinea
+                escribeTablero t
+                nuevaLinea
+                if finalizado t
+                   then putStr ("J " ++ show (anterior j) ++ " He ganado")
+                   else do putStr ("J " ++ show j)
+                           nuevaLinea
+                           f <- leeDigito "Elige una fila: "
+                           n <- leeDigito "Elige cuántas estrellas retiras: "
+                           if (valida t f n)
+                              then juego2 (jugada t f n) (siguiente j)
+                              else do putStrLn "ERROR: Jugada no válida"
+                                      juego2 t j
+
+anterior :: Int -> Int
+anterior = siguiente
+
+-- Versión para r jugadores:
+-- anterior j = (j-2) `mod` r + 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la acción
@@ -312,5 +401,10 @@ juego t j = undefined
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 nim :: IO ()
-nim = undefined
+nim = juego [1..5] 1
+
+-- rubvilval alvalvdom1
+nim2 :: IO ()
+nim2 = juego inicial 1

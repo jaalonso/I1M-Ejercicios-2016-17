@@ -1,20 +1,20 @@
--- I1M 2015-16: Relación 17 (21 de diciembre de 2015)
--- Mayorías parlamentarias.
--- Departamento de Ciencias de la Computación e I.A.
+-- I1M 2015-16: RelaciÃ³n 17 (21 de diciembre de 2015)
+-- MayorÃ­as parlamentarias.
+-- Departamento de Ciencias de la ComputaciÃ³n e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
--- Introducción                                                       --
+-- IntroducciÃ³n                                                       --
 -- ---------------------------------------------------------------------
 
--- En esta relación se presenta un caso de estudio de los tipos
--- de datos algebraicos para estudiar las mayorías parlamentarias. 
--- Además, con QuickCheck, se comprueban propiedades de las funciones
+-- En esta relaciÃ³n se presenta un caso de estudio de los tipos
+-- de datos algebraicos para estudiar las mayorÃ­as parlamentarias. 
+-- AdemÃ¡s, con QuickCheck, se comprueban propiedades de las funciones
 -- definidas. 
 
 -- ---------------------------------------------------------------------
--- Importación de librerías auxiliares                                --
+-- ImportaciÃ³n de librerÃ­as auxiliares                                --
 -- ---------------------------------------------------------------------
 
 import Data.List
@@ -23,16 +23,16 @@ import Test.QuickCheck
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir el tipo de datos Partido para representar los
 -- partidos de un Parlamento. Los partidos son P1, P2,..., P8. La clase 
--- Partido está contenida en Eq, Ord y Show. 
+-- Partido estÃ¡ contenida en Eq, Ord y Show. 
 -- ---------------------------------------------------------------------
 
 data Partido
     = P1 | P2 | P3 | P4 | P5 | P6 | P7 | P8
-    deriving ( Eq, Ord, Show )
+    deriving (Eq, Ord, Show)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir el tipo Parlamentarios para representar el
--- número de parlamentarios que posee un partido en el parlamento. 
+-- nÃºmero de parlamentarios que posee un partido en el parlamento. 
 -- ---------------------------------------------------------------------
 
 type Parlamentarios = Integer
@@ -48,43 +48,49 @@ type Tabla a b = [(a,b)]
 type Asamblea  = Tabla Partido Parlamentarios
 
 -- ---------------------------------------------------------------------
--- Ejercicio 4. Definir la función
+-- Ejercicio 4. Definir la funciÃ³n
 --    partidos :: Asamblea -> [Partido]
 -- tal que (partidos a) es la lista de partidos en la asamblea a. Por
 -- ejemplo, 
 --    partidos [(P1,3),(P3,5),(P4,3)]  ==>  [P1,P3,P4]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 partidos :: Asamblea -> [Partido]
-partidos a = undefined
+partidos = map fst
 
 -- ---------------------------------------------------------------------
--- Ejercicio 5. Definir la función
+-- Ejercicio 5. Definir la funciÃ³n
 --    parlamentarios :: Asamblea -> Integer
--- tal que (parlamentarios a) es el número de parlamentarios en la
+-- tal que (parlamentarios a) es el nÃºmero de parlamentarios en la
 -- asamblea a. Por ejemplo,
 --    parlamentarios [(P1,3),(P3,5),(P4,3)]  ==>  11
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 parlamentarios :: Asamblea -> Integer
-parlamentarios a = undefined
+parlamentarios = sum . map snd
 
 -- ---------------------------------------------------------------------
--- Ejercicio 6. Definir la función
+-- Ejercicio 6. Definir la funciÃ³n
 --    busca :: Eq a => a -> Tabla a b -> b
 -- tal que (busca x t) es el valor correspondiente a x en la tabla
 -- t. Por ejemplo, 
---    Main> busca P3 parlamento
+--    ghci> busca P3 [(P1,2),(P3,19)]
 --    19
---    Main> busca P8 parlamento
---    Program error: no tiene valor en la tabla
+--    ghci> busca P8 [(P1,2),(P3,19)]
+--    *** Exception: no tiene valor en la tabla
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 busca :: Eq a => a -> Tabla a b -> b
-busca = undefined
+busca p = snd . head . filter (\(a,_) -> p == a)
+
+-- Comentario: La definiciÃ³n anterior se puede mejorar para ajustarse al
+-- mensaje del 2Âº ejemplo,
 
 -- ---------------------------------------------------------------------
--- Ejercicio 7. Definir la función
+-- Ejercicio 7. Definir la funciÃ³n
 --    busca' :: Eq a => a -> Table a b -> Maybe b 
 -- tal que (busca' x t) es justo el valor correspondiente a x en la
 -- tabla t, o Nothing si x no tiene valor. Por ejemplo, 
@@ -92,30 +98,43 @@ busca = undefined
 --    busca' P8 parlamento   ==   Nothing
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 busca' :: Eq a => a -> Tabla a b -> Maybe b
-busca' = undefined
+busca' p t = if null f 
+             then Nothing 
+             else Just $ snd $ head f
+  where f = filter (\(a,_) -> p == a) t
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck que si (busca' x t) es
 -- Nothing, entonces x es distinto de todos los elementos de t. 
 -- ---------------------------------------------------------------------
 
+-- fracruzam
+
 -- La propiedad es
 prop_BuscaNothing :: Integer -> [(Integer,Integer)] -> Property
-prop_BuscaNothing x t = undefined
+prop_BuscaNothing x t = 
+    busca' x t == Nothing ==> all (x /=) (map fst t)
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> quickCheck prop_BuscaNothing
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 9. Comprobar que la función busca' es equivalente a la
--- función lookup del Prelude. 
+-- Ejercicio 9. Comprobar que la funciÃ³n busca' es equivalente a la
+-- funciÃ³n lookup del Prelude. 
 -- ---------------------------------------------------------------------
+
+-- fracruzam
 
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
-prop_BuscaEquivLookup x t = undefined
+prop_BuscaEquivLookup x t = busca' x t == lookup x t
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> quickCheck prop_BuscaEquivLookup
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir el tipo Coalicion como una lista de partidos.
@@ -124,19 +143,20 @@ prop_BuscaEquivLookup x t = undefined
 type Coalicion = [Partido]
 
 -- ---------------------------------------------------------------------
--- Ejercicio 11. Definir la función
+-- Ejercicio 11. Definir la funciÃ³n
 --    mayoria :: Asamblea -> Integer
--- tal que (mayoria xs) es el número de parlamentarios que se necesitan
--- para tener la mayoría en la asamblea xs. Por ejemplo,
+-- tal que (mayoria xs) es el nÃºmero de parlamentarios que se necesitan
+-- para tener la mayorÃ­a en la asamblea xs. Por ejemplo,
 --    mayoria [(P1,3),(P3,5),(P4,3)]   ==   6 
--- Ayuda: Pueden usarse las funciones ceiling y fromIntegral.
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 mayoria :: Asamblea -> Integer
-mayoria xs = undefined
+mayoria xs = floor (pxs / 2 + 1)
+  where pxs = fromIntegral $ parlamentarios xs
 
 -- ---------------------------------------------------------------------
--- Ejercicio 12. Definir la función
+-- Ejercicio 12. Definir la funciÃ³n
 --    coaliciones :: Asamblea -> Integer -> [Coalicion]
 -- tal que (coaliciones xs n) es la lista de coaliciones necesarias para
 -- alcanzar n parlamentarios. Por ejemplo,
@@ -146,11 +166,15 @@ mayoria xs = undefined
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 2   ==  [[P4],[P3],[P1]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 coaliciones :: Asamblea -> Integer -> [Coalicion]
-coaliciones = undefined
+coaliciones a n | null xs   = [] 
+                | otherwise = map (map fst) $ filter (\x -> length x == l) xs
+  where xs = filter (\p -> parlamentarios p >= n) $ subsequences a
+        l  = minimum (map length xs)
 
 -- ---------------------------------------------------------------------
--- Ejercicio 13. Definir la función
+-- Ejercicio 13. Definir la funciÃ³n
 --    mayorias :: Asamblea -> [Coalicion]
 -- tal que (mayorias a) es la lista de coaliciones mayoritarias en la
 -- asamblea a. Por ejemplo,
@@ -171,14 +195,16 @@ data Asamblea2 = A Asamblea
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la propiedad
 --    esMayoritaria :: Coalicion -> Asamblea -> Bool
--- tal que (esMayoritaria c a) se verifica si la coalición c es
+-- tal que (esMayoritaria c a) se verifica si la coaliciÃ³n c es
 -- mayoritaria en la asamblea a. Por ejemplo, 
 --    esMayoritaria [P3,P4] [(P1,3),(P3,5),(P4,3)]   ==   True
 --    esMayoritaria [P4] [(P1,3),(P3,5),(P4,3)]      ==   False
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 esMayoritaria :: Coalicion -> Asamblea -> Bool
-esMayoritaria c a = undefined
+esMayoritaria c a = 
+  sum (map (\p -> busca p a) c) >= mayoria a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Comprobar con QuickCheck que las coaliciones
@@ -186,22 +212,28 @@ esMayoritaria c a = undefined
 -- asamblea. 
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 -- La propiedad es
 prop_MayoriasSonMayoritarias :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritarias (A asamblea) = undefined
+prop_MayoriasSonMayoritarias (A a) = 
+  all (\c -> esMayoritaria c a) (mayorias a)
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> quickCheck prop_MayoriasSonMayoritarias
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 17. Definir la función
+-- Ejercicio 17. Definir la funciÃ³n
 --    esMayoritariaMinimal :: Coalicion -> Asamblea -> Bool
--- tal que (esMayoritariaMinimal c a) se verifica si la coalición c es
+-- tal que (esMayoritariaMinimal c a) se verifica si la coaliciÃ³n c es
 -- mayoritaria en la asamblea a, pero si se quita a c cualquiera de sus
--- partidos la coalición resultante no es mayoritaria. Por ejemplo, 
---    esMayoritariaMinimal [P3,P4] [(P1,3),(P3,5),(P4,3)]     ==  True
---    esMayoritariaMinimal [P1,P3,P4] [(P1,3),(P3,5),(P4,3)]  ==  False
+-- partidos la coaliciÃ³n resultante no es mayoritaria. Por ejemplo, 
+--    esMayoritariaMinimal [P3,P4] [(P1,3),(P3,5),(P4,3)]           ==  True
+--    esMayoritariaMinimal [P1,P3,P4] [(P1,3),(P3,5),(P4,3)]        ==  False
+--    esMayoritariaMinimal [P2,P3,P4] [(P1,3),(P2,2),(P3,1),(P4,1)] == True
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 esMayoritariaMinimal :: Coalicion -> Asamblea -> Bool
 esMayoritariaMinimal c a = undefined
 
@@ -211,14 +243,19 @@ esMayoritariaMinimal c a = undefined
 -- asamblea.  
 -- ---------------------------------------------------------------------
 
+-- fracruzam
+
 -- La propiedad es
 prop_MayoriasSonMayoritariasMinimales :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritariasMinimales (A asamblea) = undefined
+prop_MayoriasSonMayoritariasMinimales (A a) = 
+  all (\c -> esMayoritariaMinimal c a) (mayorias a)
 
--- La comprobación es
+-- La comprobaciÃ³n es
+--    *Main> quickCheck prop_MayoriasSonMayoritariasMinimales
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
--- Ejercicio 19. Definir la función
+-- Ejercicio 19. Definir la funciÃ³n
 --    coalicionesMinimales :: Asamblea -> Integer -> [Coalicion,Parlamentarios]
 -- tal que (coalicionesMinimales xs n) es la lista de coaliciones
 -- minimales necesarias para alcanzar n parlamentarios. Por ejemplo, 
@@ -228,11 +265,17 @@ prop_MayoriasSonMayoritariasMinimales (A asamblea) = undefined
 --    [([P3],5),([P1,P4],6)]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 coalicionesMinimales :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
-coalicionesMinimales = undefined
+coalicionesMinimales a n = 
+  map (\l -> (map fst l, parlamentarios l)) $ filter (minimal n) (subsequences a)
+  where minimal :: Integer -> Asamblea -> Bool
+        minimal n a = all (\(_,m) -> m > d) a && x >= n
+          where d = x - n
+                x = parlamentarios a
 
 -- ---------------------------------------------------------------------
--- Ejercicio 20. Definir la función
+-- Ejercicio 20. Definir la funciÃ³n
 --    mayoriasMinimales :: Asamblea -> [Coalicion]
 -- tal que (mayoriasMinimales a) es la lista de coaliciones mayoritarias
 -- minimales en la asamblea a. Por ejemplo,
@@ -240,7 +283,7 @@ coalicionesMinimales = undefined
 -- ---------------------------------------------------------------------
 
 mayoriasMinimales :: Asamblea -> [Coalicion]
-mayoriasMinimales asamblea = undefined
+mayoriasMinimales = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Comprobar con QuickCheck que las coaliciones
@@ -252,7 +295,7 @@ mayoriasMinimales asamblea = undefined
 prop_MayoriasMinimalesSonMayoritariasMinimales :: Asamblea2 -> Bool
 prop_MayoriasMinimalesSonMayoritariasMinimales (A asamblea) = undefined
 
--- La comprobación es
+-- La comprobaciÃ³n es
 
 -- ---------------------------------------------------------------------
 -- Funciones auxiliares                                               --
@@ -310,4 +353,4 @@ generaAsamblea =
 
 instance Arbitrary Asamblea2 where
     arbitrary   = generaAsamblea
-    coarbitrary = undefined
+    -- coarbitrary = undefined
