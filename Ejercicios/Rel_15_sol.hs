@@ -61,9 +61,13 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor abrdelrod rubvilval
 finalizado2 :: Tablero -> Bool
 finalizado2 = all (0==)
+
+-- ivaruicam
+finalizado3 :: Tablero -> Bool
+finalizado3 xs = sum xs == 0
 
 -- ---------------------------------------------------------------------
 -- Ejecicio 2.2. Definir la función
@@ -82,12 +86,12 @@ valida t f n = if n >= 1 && head (drop (f-1) t) >= n then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam
+-- fracruzam ivaruicam  rubvilval
 valida2 :: Tablero -> Int -> Int -> Bool
 valida2 _ _ 0 = False
 valida2 t f n = t !! (f-1) >= n
 
--- alvalvdom1
+-- alvalvdom1 manvermor abrdelrod
 valida3 :: Tablero -> Int -> Int -> Bool
 valida3 t f n = n > 0 && t !! (f-1) >= n
 
@@ -105,9 +109,16 @@ jugada t _ 0 = t
 jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor abrdelrod rubvilval
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
+
+-- ivaruicam
+jugada3 :: Tablero -> Int -> Int -> Tablero
+jugada3 t f n = (\(as,x:xs) ->  as ++ (x-n): xs) (a,b)
+    where (a,b) = splitAt (f-1) t
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la acción
@@ -118,13 +129,17 @@ jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
 --    ghci> 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1
+-- erisancha alvalvdom1 ivaruicam
 nuevaLinea :: IO ()
 nuevaLinea = do putChar '\n'
 
--- fracruzam
+-- fracruzam manvermor abrdelrod
 nuevaLinea2 :: IO ()
 nuevaLinea2 = do putStrLn ""
+
+-- rubvilval
+nuevaLinea3 :: IO ()
+nuevaLinea3 = putChar '\n'
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -135,7 +150,7 @@ nuevaLinea2 = do putStrLn ""
 --    "* * * "
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1
+-- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
 
@@ -153,12 +168,12 @@ estrellas2 n = "* " ++ estrellas (n-1)
 --    2: * * *
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha abrdelrod
 escribeFila :: Int -> Int -> IO ()
 escribeFila f n =  do putStr (show f ++ ": ") 
                       putStrLn (estrellas n)
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor ivaruicam rubvilval
 escribeFila2 :: Int -> Int -> IO ()
 escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 
@@ -175,14 +190,20 @@ escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 --    5: * 
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam alvalvdom1
+-- erisancha fracruzam alvalvdom1 manvermor ivaruicam rubvilval
 
 escribeTablero :: Tablero -> IO ()
-escribeTablero [a,b,c,d,e] = do escribeFila 1 a
-                                escribeFila 2 b
-                                escribeFila 3 c
-                                escribeFila 4 d
-                                escribeFila 5 e  
+escribeTablero [a,b,c,d,e] = do 
+  escribeFila 1 a
+  escribeFila 2 b
+  escribeFila 3 c
+  escribeFila 4 d
+  escribeFila 5 e  
+
+-- abrdelrod (acción generalizada para un tablero de n filas)
+escribeTablero2 :: Tablero -> IO ()
+escribeTablero2 t = do 
+  sequence_ [escribeFila n (t!!(n-1)) | n <- [1..length t]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la acción
@@ -213,7 +234,7 @@ leeDigito c = do putStr c
                     else do putStrLn "ERROR: Entrada incorrecta"
                             leeDigito c
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval
 leeDigito2 :: String -> IO Int
 leeDigito2 c = do putStr c
                   a <- getLine
@@ -229,7 +250,7 @@ leeDigito2 c = do putStr c
 -- tal que (siguiente j) es el jugador siguiente de j. 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1
+-- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
@@ -293,7 +314,7 @@ juegoAux t f n j
     | otherwise      = juego t j   
   where sig = jugada t f n                       
 
--- carruirui3 alvalvdom1
+-- carruirui3 alvalvdom1 ivaruicam abrdelrod
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
@@ -314,6 +335,29 @@ anterior = siguiente
 
 -- Versión para r jugadores:
 -- anterior j = (j-2) `mod` r + 1
+
+-- rubvilval
+juego3 :: Tablero -> Int -> IO ()
+juego3 t j = do 
+  nuevaLinea
+  escribeTablero t
+  nuevaLinea
+  putStrLn ("J "++ show j)
+  putStr "Elige una fila: "
+  f <- getLine
+  putStr "Elige cuantas estrellas retiras: "
+  e <- getLine
+  if valida t (read f::Int) (read e::Int) 
+  then opciones t (read f::Int) (read e::Int) j
+  else do putStrLn "Jugada no valida, prueba de nuevo"
+          juego t j
+
+opciones t f e j
+    | finalizado (jugada t f e) = do nuevaLinea
+                                     escribeTablero (jugada t f e) 
+                                     nuevaLinea
+                                     putStrLn ("J "++(show j)++" He ganado")
+    | otherwise = juego (jugada t f e) (siguiente j)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la acción
@@ -405,6 +449,6 @@ anterior = siguiente
 nim :: IO ()
 nim = juego [1..5] 1
 
--- rubvilval alvalvdom1
+-- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod
 nim2 :: IO ()
 nim2 = juego inicial 1

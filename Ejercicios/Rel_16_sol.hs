@@ -47,7 +47,7 @@ aleatorio a b = unsafePerformIO $
 --    [3,7,7,5,7,7,5,8,6,4,7,2,8,8,2,8,7,6,5,5]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 fracruzam
+-- alvalvdom1 fracruzam manvermor ivaruicam rubvilval
 aleatorios :: Random t => t -> t -> [t]
 aleatorios m n = aleatorio m n : aleatorios m n
 
@@ -62,7 +62,7 @@ aleatorios m n = aleatorio m n : aleatorios m n
 --     (0.5610432040657063,-0.7648360614536891)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor alvalvdom1 ivaruicam rubvilval
 puntosDelCuadrado :: [(Double,Double)]
 puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1)
 
@@ -75,11 +75,11 @@ puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1)
 --    2
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam ivaruicam rubvilval
 puntosEnElCirculo :: [(Double,Double)] -> Int
 puntosEnElCirculo = length . filter (\(x,y) -> x^2 + y^2 <= 1)
 
--- alvalvdom1
+-- alvalvdom1 manvermor
 puntosEnElCirculo2 :: [(Double,Double)] -> Int
 puntosEnElCirculo2 xs = length [(x,y) | (x,y) <- xs, x^2+y^2 <= 1]
 
@@ -97,7 +97,7 @@ puntosEnElCirculo2 xs = length [(x,y) | (x,y) <- xs, x^2+y^2 <= 1]
 --    3.13484
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1
+-- fracruzam alvalvdom1 manvermor ivaruicam rubvilval
 calculoDePi :: Int -> Double
 calculoDePi n = 4 * (fromIntegral (puntosEnElCirculo xs) / fromIntegral n)
     where xs = take n puntosDelCuadrado

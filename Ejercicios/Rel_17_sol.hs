@@ -55,9 +55,13 @@ type Asamblea  = Tabla Partido Parlamentarios
 --    partidos [(P1,3),(P3,5),(P4,3)]  ==>  [P1,P3,P4]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 partidos :: Asamblea -> [Partido]
 partidos = map fst
+
+-- manvermor alvalvdom1 ivaruicam
+partidos2 :: Asamblea -> [Partido]
+partidos2 a = [x | (x,_) <- a]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -67,9 +71,13 @@ partidos = map fst
 --    parlamentarios [(P1,3),(P3,5),(P4,3)]  ==>  11
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 parlamentarios :: Asamblea -> Integer
 parlamentarios = sum . map snd
+
+-- manvermor alvalvdom1 ivaruicam
+parlamentarios2 :: Asamblea -> Integer
+parlamentarios2 a = sum [x | (_,x) <- a]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -89,6 +97,10 @@ busca p = snd . head . filter (\(a,_) -> p == a)
 -- Comentario: La definición anterior se puede mejorar para ajustarse al
 -- mensaje del 2º ejemplo,
 
+-- manvermor alvalvdom1 ivaruicam rubvilval
+busca2 :: Eq a => a -> Tabla a b -> b
+busca2 x t = head [y | (z,y) <- t , x == z]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
 --    busca' :: Eq a => a -> Table a b -> Maybe b 
@@ -105,17 +117,30 @@ busca' p t = if null f
              else Just $ snd $ head f
   where f = filter (\(a,_) -> p == a) t
 
+-- manvermor alvalvdom1 ivaruicam rubvilval
+busca'2 :: Eq a => a -> Tabla a b -> Maybe b
+busca'2 x t | null xs   = Nothing
+            | otherwise = Just (head xs)
+    where xs =  [y | (z,y) <- t, x == z] 
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck que si (busca' x t) es
 -- Nothing, entonces x es distinto de todos los elementos de t. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam rubvilval
 
 -- La propiedad es
 prop_BuscaNothing :: Integer -> [(Integer,Integer)] -> Property
 prop_BuscaNothing x t = 
     busca' x t == Nothing ==> all (x /=) (map fst t)
+
+
+-- manvermor alvalvdom1 ivaruicam
+prop_BuscaNothing2 :: Integer -> [(Integer,Integer)] -> Property
+prop_BuscaNothing2 x t = 
+    busca' x t == Nothing ==> notElem x [z | (z,y) <- t] 
+
 
 -- La comprobación es
 --    *Main> quickCheck prop_BuscaNothing
@@ -126,7 +151,7 @@ prop_BuscaNothing x t =
 -- función lookup del Prelude. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manvermor alvalvdom1 ivaruicam rubvilval
 
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
@@ -153,25 +178,30 @@ type Coalicion = [Partido]
 -- fracruzam
 mayoria :: Asamblea -> Integer
 mayoria xs = floor (pxs / 2 + 1)
-  where pxs = fromIntegral $ parlamentarios xs
+    where pxs = fromIntegral $ parlamentarios xs
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- manvermor alvalvdom1 ivaruicam rubvilval
+mayoria2 :: Asamblea -> Integer
+mayoria2 xs = ceiling $ fromIntegral (parlamentarios xs) / 2
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
 --    coaliciones :: Asamblea -> Integer -> [Coalicion]
 -- tal que (coaliciones xs n) es la lista de coaliciones necesarias para
 -- alcanzar n parlamentarios. Por ejemplo,
+--    coaliciones [(P1,3),(P2,2),(P3,1)] 3   ==  [[P2,P3],[P1]]
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 6   ==  [[P3,P4],[P1,P4],[P1,P3]]
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 9   ==  [[P1,P3,P4]]
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 14  ==  []
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 2   ==  [[P4],[P3],[P1]]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 coaliciones :: Asamblea -> Integer -> [Coalicion]
-coaliciones a n | null xs   = [] 
-                | otherwise = map (map fst) $ filter (\x -> length x == l) xs
-  where xs = filter (\p -> parlamentarios p >= n) $ subsequences a
-        l  = minimum (map length xs)
+coaliciones a n = undefined
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -182,8 +212,9 @@ coaliciones a n | null xs   = []
 --    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3],[P1,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
+-- rubvilval
 mayorias :: Asamblea -> [Coalicion]
-mayorias asamblea =  undefined
+mayorias asamblea = coaliciones asamblea (mayoria asamblea)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir el tipo de datos Asamblea.
@@ -204,7 +235,13 @@ data Asamblea2 = A Asamblea
 -- fracruzam
 esMayoritaria :: Coalicion -> Asamblea -> Bool
 esMayoritaria c a = 
-  sum (map (\p -> busca p a) c) >= mayoria a
+    sum (map (\p -> busca p a) c) >= mayoria a
+
+-- rubvilval
+esMayoritaria3 :: Coalicion -> Asamblea -> Bool
+esMayoritaria3 c a = sum (valores c a) >= mayoria a
+    where valores [] _ = []
+          valores (c:cs) a = busca c a : valores cs a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Comprobar con QuickCheck que las coaliciones
@@ -212,11 +249,16 @@ esMayoritaria c a =
 -- asamblea. 
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam ivaruicam
 -- La propiedad es
 prop_MayoriasSonMayoritarias :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritarias (A a) = 
-  all (\c -> esMayoritaria c a) (mayorias a)
+    all (\c -> esMayoritaria c a) (mayorias a)
+
+-- manvermor
+prop_MayoriasSonMayoritarias2 :: Asamblea2 -> Bool
+prop_MayoriasSonMayoritarias2 (A a) = 
+    and [esMayoritaria c a | c <- mayorias a] 
 
 -- La comprobación es
 --    *Main> quickCheck prop_MayoriasSonMayoritarias
@@ -233,9 +275,22 @@ prop_MayoriasSonMayoritarias (A a) =
 --    esMayoritariaMinimal [P2,P3,P4] [(P1,3),(P2,2),(P3,1),(P4,1)] == True
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- ivaruicam
 esMayoritariaMinimal :: Coalicion -> Asamblea -> Bool
-esMayoritariaMinimal c a = undefined
+esMayoritariaMinimal c a = 
+    esMayoritaria c a && all (\x -> not (esMayoritaria x a)) (menosuna c) 
+
+menosuna xs = take (length xs) (permutaciones xs)
+    where permutaciones (x:xs) = xs : permutaciones (xs ++ [x])
+
+-- rubvilval
+esMayoritariaMinimal2 :: Coalicion -> Asamblea -> Bool
+esMayoritariaMinimal2 c a = 
+    esMayoritaria c a && 
+    null (filter (\c -> esMayoritaria c a) (menos c))
+    where menos c = [a | a <- subsequences c, length c - 1 == length a] 
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Comprobar con QuickCheck si las coaliciones obtenidas
@@ -248,7 +303,12 @@ esMayoritariaMinimal c a = undefined
 -- La propiedad es
 prop_MayoriasSonMayoritariasMinimales :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritariasMinimales (A a) = 
-  all (\c -> esMayoritariaMinimal c a) (mayorias a)
+    all (\c -> esMayoritariaMinimal c a) (mayorias a)
+      
+-- manvermor rubvilval
+prop_MayoriasSonMayoritariasMinimales2 :: Asamblea2 -> Bool
+prop_MayoriasSonMayoritariasMinimales2 (A a) = 
+    and [esMayoritariaMinimal c a | c <- mayorias a]
 
 -- La comprobación es
 --    *Main> quickCheck prop_MayoriasSonMayoritariasMinimales
@@ -268,11 +328,32 @@ prop_MayoriasSonMayoritariasMinimales (A a) =
 -- fracruzam
 coalicionesMinimales :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
 coalicionesMinimales a n = 
-  map (\l -> (map fst l, parlamentarios l)) $ filter (minimal n) (subsequences a)
+  map (\l -> (map fst l, parlamentarios l)) $ 
+      filter (minimal n) (subsequences a)
   where minimal :: Integer -> Asamblea -> Bool
         minimal n a = all (\(_,m) -> m > d) a && x >= n
           where d = x - n
                 x = parlamentarios a
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- rubvilval
+coalicionesMinimales2 :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
+coalicionesMinimales2 xs n = 
+    [(a,b) | (a,b) <- pares xs, length a < length xs, esminimal a xs n] 
+
+-- Comentario: La definición anterior se puede mejorar.
+
+pares xs = zip (subsequences $ partidos xs) 
+               (map sum (map (\a->corr a xs)
+                             (subsequences $ partidos xs)))
+
+esminimal a xs n = 
+    sum (corr a xs) >= n && null (filter (\a->sum (corr a xs)>=n ) (menos a))
+    where menos a = [x | x <- subsequences a, (length a)-1==length x]
+
+corr [] _ = []
+corr (c:cs) a = busca c a : corr cs a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -282,8 +363,12 @@ coalicionesMinimales a n =
 --    mayoriasMinimales [(P1,3),(P3,5),(P4,3)] == [[P3,P4],[P1,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
+-- rubvilval
 mayoriasMinimales :: Asamblea -> [Coalicion]
-mayoriasMinimales = undefined
+mayoriasMinimales a = filter (\x->esMayoritariaMinimal x a)
+                             (subsequences $ partidos a)
+
+-- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Comprobar con QuickCheck que las coaliciones
@@ -293,9 +378,13 @@ mayoriasMinimales = undefined
 
 -- La propiedad es
 prop_MayoriasMinimalesSonMayoritariasMinimales :: Asamblea2 -> Bool
-prop_MayoriasMinimalesSonMayoritariasMinimales (A asamblea) = undefined
+prop_MayoriasMinimalesSonMayoritariasMinimales (A asamblea) =  
+    all (\x -> esMayoritariaMinimal x asamblea) 
+        (mayoriasMinimales asamblea)
 
 -- La comprobación es
+--    *Main> quickCheck prop_MayoriasMinimalesSonMayoritariasMinimales
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Funciones auxiliares                                               --
