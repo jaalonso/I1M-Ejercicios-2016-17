@@ -55,7 +55,7 @@ type Asamblea  = Tabla Partido Parlamentarios
 --    partidos [(P1,3),(P3,5),(P4,3)]  ==>  [P1,P3,P4]
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval
+-- fracruzam rubvilval manpende
 partidos :: Asamblea -> [Partido]
 partidos = map fst
 
@@ -71,7 +71,7 @@ partidos2 a = [x | (x,_) <- a]
 --    parlamentarios [(P1,3),(P3,5),(P4,3)]  ==>  11
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval
+-- fracruzam rubvilval manpende
 parlamentarios :: Asamblea -> Integer
 parlamentarios = sum . map snd
 
@@ -97,7 +97,7 @@ busca p = snd . head . filter (\(a,_) -> p == a)
 -- Comentario: La definición anterior se puede mejorar para ajustarse al
 -- mensaje del 2º ejemplo,
 
--- manvermor alvalvdom1 ivaruicam rubvilval
+-- manvermor alvalvdom1 ivaruicam rubvilval manpende
 busca2 :: Eq a => a -> Tabla a b -> b
 busca2 x t = head [y | (z,y) <- t , x == z]
 
@@ -117,7 +117,7 @@ busca' p t = if null f
              else Just $ snd $ head f
   where f = filter (\(a,_) -> p == a) t
 
--- manvermor alvalvdom1 ivaruicam rubvilval
+-- manvermor alvalvdom1 ivaruicam rubvilval manpende
 busca'2 :: Eq a => a -> Tabla a b -> Maybe b
 busca'2 x t | null xs   = Nothing
             | otherwise = Just (head xs)
@@ -136,7 +136,7 @@ prop_BuscaNothing x t =
     busca' x t == Nothing ==> all (x /=) (map fst t)
 
 
--- manvermor alvalvdom1 ivaruicam
+-- manvermor alvalvdom1 ivaruicam manpende
 prop_BuscaNothing2 :: Integer -> [(Integer,Integer)] -> Property
 prop_BuscaNothing2 x t = 
     busca' x t == Nothing ==> notElem x [z | (z,y) <- t] 
@@ -151,7 +151,7 @@ prop_BuscaNothing2 x t =
 -- función lookup del Prelude. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor alvalvdom1 ivaruicam rubvilval
+-- fracruzam manvermor alvalvdom1 ivaruicam rubvilval manpende
 
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
@@ -188,6 +188,10 @@ mayoria2 xs = ceiling $ fromIntegral (parlamentarios xs) / 2
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- manpende
+mayoria3 :: Asamblea -> Integer
+mayoria3 xs = div (parlamentarios xs) 2 + 1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
 --    coaliciones :: Asamblea -> Integer -> [Coalicion]
@@ -212,7 +216,7 @@ coaliciones a n = undefined
 --    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3],[P1,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval
+-- rubvilval manpende
 mayorias :: Asamblea -> [Coalicion]
 mayorias asamblea = coaliciones asamblea (mayoria asamblea)
 
@@ -232,7 +236,7 @@ data Asamblea2 = A Asamblea
 --    esMayoritaria [P4] [(P1,3),(P3,5),(P4,3)]      ==   False
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 esMayoritaria :: Coalicion -> Asamblea -> Bool
 esMayoritaria c a = 
     sum (map (\p -> busca p a) c) >= mayoria a
@@ -255,7 +259,7 @@ prop_MayoriasSonMayoritarias :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritarias (A a) = 
     all (\c -> esMayoritaria c a) (mayorias a)
 
--- manvermor
+-- manvermor manpende
 prop_MayoriasSonMayoritarias2 :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritarias2 (A a) = 
     and [esMayoritaria c a | c <- mayorias a] 
@@ -292,6 +296,16 @@ esMayoritariaMinimal2 c a =
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- manpende
+esMayoritariaMinimal3 :: Coalicion -> Asamblea -> Bool
+esMayoritariaMinimal3 c a = 
+    esMayoritaria c a && 
+    null [ x | x <- subsequences c, 
+               genericLength x < genericLength c, 
+               esMayoritaria x a] 
+
+-- Comentario: La definición anterior se puede mejorar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Comprobar con QuickCheck si las coaliciones obtenidas
 -- por (mayorias asamblea) son coaliciones mayoritarias minimales en la
@@ -305,7 +319,7 @@ prop_MayoriasSonMayoritariasMinimales :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritariasMinimales (A a) = 
     all (\c -> esMayoritariaMinimal c a) (mayorias a)
       
--- manvermor rubvilval
+-- manvermor rubvilval manpende
 prop_MayoriasSonMayoritariasMinimales2 :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritariasMinimales2 (A a) = 
     and [esMayoritariaMinimal c a | c <- mayorias a]

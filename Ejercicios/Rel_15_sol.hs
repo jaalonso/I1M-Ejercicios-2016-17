@@ -61,7 +61,7 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alvalvdom1 manvermor abrdelrod rubvilval
+-- fracruzam alvalvdom1 manvermor abrdelrod rubvilval javperlag josllagam
 finalizado2 :: Tablero -> Bool
 finalizado2 = all (0==)
 
@@ -86,12 +86,12 @@ valida t f n = if n >= 1 && head (drop (f-1) t) >= n then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam ivaruicam  rubvilval
+-- fracruzam ivaruicam  rubvilval josllagam
 valida2 :: Tablero -> Int -> Int -> Bool
 valida2 _ _ 0 = False
 valida2 t f n = t !! (f-1) >= n
 
--- alvalvdom1 manvermor abrdelrod
+-- alvalvdom1 manvermor abrdelrod javperlag
 valida3 :: Tablero -> Int -> Int -> Bool
 valida3 t f n = n > 0 && t !! (f-1) >= n
 
@@ -109,7 +109,7 @@ jugada t _ 0 = t
 jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
--- fracruzam alvalvdom1 manvermor abrdelrod rubvilval
+-- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
 
@@ -120,6 +120,11 @@ jugada3 t f n = (\(as,x:xs) ->  as ++ (x-n): xs) (a,b)
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- javperlag
+jugada4 :: Tablero -> Int -> Int -> Tablero
+jugada4 (a:t) f n | f == 1    = (a-n):t
+                  | otherwise = a: jugada t (f-1)n 
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la acción
 --    nuevaLinea :: IO ()
@@ -129,11 +134,11 @@ jugada3 t f n = (\(as,x:xs) ->  as ++ (x-n): xs) (a,b)
 --    ghci> 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 ivaruicam
+-- erisancha alvalvdom1 ivaruicam javperlag
 nuevaLinea :: IO ()
 nuevaLinea = do putChar '\n'
 
--- fracruzam manvermor abrdelrod
+-- fracruzam manvermor abrdelrod josllagam
 nuevaLinea2 :: IO ()
 nuevaLinea2 = do putStrLn ""
 
@@ -150,7 +155,8 @@ nuevaLinea3 = putChar '\n'
 --    "* * * "
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval
+-- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
+-- josllagam
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
 
@@ -168,12 +174,12 @@ estrellas2 n = "* " ++ estrellas (n-1)
 --    2: * * *
 -- ---------------------------------------------------------------------
 
--- erisancha abrdelrod
+-- erisancha abrdelrod javperlag
 escribeFila :: Int -> Int -> IO ()
 escribeFila f n =  do putStr (show f ++ ": ") 
                       putStrLn (estrellas n)
 
--- fracruzam alvalvdom1 manvermor ivaruicam rubvilval
+-- fracruzam alvalvdom1 manvermor ivaruicam rubvilval josllagam
 escribeFila2 :: Int -> Int -> IO ()
 escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 
@@ -203,7 +209,16 @@ escribeTablero [a,b,c,d,e] = do
 -- abrdelrod (acción generalizada para un tablero de n filas)
 escribeTablero2 :: Tablero -> IO ()
 escribeTablero2 t = do 
-  sequence_ [escribeFila n (t!!(n-1)) | n <- [1..length t]]
+  sequence_ [escribeFila n (t!!(n-1)) | n <- [1..length t]] 
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- javperlag 
+escribeTablero3 :: Tablero -> IO ()
+escribeTablero3 [a,b,c,d,e] = 
+    sequence_ [escribeFila f n | (f,n) <- zip [1..5] [a,b,c,d,e]]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la acción
@@ -250,7 +265,7 @@ leeDigito2 c = do putStr c
 -- tal que (siguiente j) es el jugador siguiente de j. 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval
+-- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
@@ -314,7 +329,7 @@ juegoAux t f n j
     | otherwise      = juego t j   
   where sig = jugada t f n                       
 
--- carruirui3 alvalvdom1 ivaruicam abrdelrod
+-- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
