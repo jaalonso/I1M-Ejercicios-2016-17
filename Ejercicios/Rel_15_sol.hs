@@ -197,6 +197,7 @@ escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 -- ---------------------------------------------------------------------
 
 -- erisancha fracruzam alvalvdom1 manvermor ivaruicam rubvilval
+-- josllagam
 
 escribeTablero :: Tablero -> IO ()
 escribeTablero [a,b,c,d,e] = do 
@@ -249,7 +250,7 @@ leeDigito c = do putStr c
                     else do putStrLn "ERROR: Entrada incorrecta"
                             leeDigito c
 
--- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval
+-- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam
 leeDigito2 :: String -> IO Int
 leeDigito2 c = do putStr c
                   a <- getLine
@@ -266,6 +267,7 @@ leeDigito2 c = do putStr c
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
+-- josllagam
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
@@ -329,7 +331,7 @@ juegoAux t f n j
     | otherwise      = juego t j   
   where sig = jugada t f n                       
 
--- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag
+-- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
@@ -464,6 +466,6 @@ opciones t f e j
 nim :: IO ()
 nim = juego [1..5] 1
 
--- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod
+-- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam
 nim2 :: IO ()
 nim2 = juego inicial 1
