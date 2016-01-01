@@ -59,7 +59,7 @@ type Asamblea  = Tabla Partido Parlamentarios
 partidos :: Asamblea -> [Partido]
 partidos = map fst
 
--- manvermor alvalvdom1 ivaruicam
+-- manvermor alvalvdom1 ivaruicam javperlag
 partidos2 :: Asamblea -> [Partido]
 partidos2 a = [x | (x,_) <- a]
 
@@ -75,7 +75,7 @@ partidos2 a = [x | (x,_) <- a]
 parlamentarios :: Asamblea -> Integer
 parlamentarios = sum . map snd
 
--- manvermor alvalvdom1 ivaruicam
+-- manvermor alvalvdom1 ivaruicam javperlag
 parlamentarios2 :: Asamblea -> Integer
 parlamentarios2 a = sum [x | (_,x) <- a]
 
@@ -101,6 +101,10 @@ busca p = snd . head . filter (\(a,_) -> p == a)
 busca2 :: Eq a => a -> Tabla a b -> b
 busca2 x t = head [y | (z,y) <- t , x == z]
 
+-- javperlag 
+busca3 x ((p,n):xs)|x==p     = n
+                   |otherwise= busca x xs
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
 --    busca' :: Eq a => a -> Table a b -> Maybe b 
@@ -117,7 +121,7 @@ busca' p t = if null f
              else Just $ snd $ head f
   where f = filter (\(a,_) -> p == a) t
 
--- manvermor alvalvdom1 ivaruicam rubvilval manpende
+-- manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag
 busca'2 :: Eq a => a -> Tabla a b -> Maybe b
 busca'2 x t | null xs   = Nothing
             | otherwise = Just (head xs)
@@ -136,7 +140,7 @@ prop_BuscaNothing x t =
     busca' x t == Nothing ==> all (x /=) (map fst t)
 
 
--- manvermor alvalvdom1 ivaruicam manpende
+-- manvermor alvalvdom1 ivaruicam manpende javperlag
 prop_BuscaNothing2 :: Integer -> [(Integer,Integer)] -> Property
 prop_BuscaNothing2 x t = 
     busca' x t == Nothing ==> notElem x [z | (z,y) <- t] 
@@ -151,7 +155,7 @@ prop_BuscaNothing2 x t =
 -- función lookup del Prelude. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor alvalvdom1 ivaruicam rubvilval manpende
+-- fracruzam manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag
 
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
@@ -182,13 +186,13 @@ mayoria xs = floor (pxs / 2 + 1)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor alvalvdom1 ivaruicam rubvilval
+-- manvermor alvalvdom1 ivaruicam rubvilval 
 mayoria2 :: Asamblea -> Integer
 mayoria2 xs = ceiling $ fromIntegral (parlamentarios xs) / 2
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manpende
+-- manpende javperlag
 mayoria3 :: Asamblea -> Integer
 mayoria3 xs = div (parlamentarios xs) 2 + 1
 
@@ -202,10 +206,20 @@ mayoria3 xs = div (parlamentarios xs) 2 + 1
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 9   ==  [[P1,P3,P4]]
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 14  ==  []
 --    coaliciones [(P1,3),(P3,5),(P4,3)] 2   ==  [[P4],[P3],[P1]]
+--    coaliciones [(P1,2),(P3,5),(P4,3)] 6   ==  [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
+-- javperlag
 coaliciones :: Asamblea -> Integer -> [Coalicion]
-coaliciones a n = undefined
+coaliciones xs n = 
+    [partidos ys 
+    | ys <- subsequences xs
+    , parlamentarios ys >= n
+    , all (<n) (map parlamentarios (init (subsequences ys)))]
+
+-- Esta definición calcula todos los ejemplos menos el segundo del próximo 
+-- ejercicio, en que obtengo [[P3],[P1,P4]] porque entiendo que si P3 hace
+-- mayoría por sí solo no necesita el apoyo de P1.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -213,10 +227,10 @@ coaliciones a n = undefined
 -- tal que (mayorias a) es la lista de coaliciones mayoritarias en la
 -- asamblea a. Por ejemplo,
 --    mayorias [(P1,3),(P3,5),(P4,3)]   ==   [[P3,P4],[P1,P4],[P1,P3]]
---    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3],[P1,P4],[P1,P3]]
+--    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval manpende
+-- rubvilval manpende javperlag
 mayorias :: Asamblea -> [Coalicion]
 mayorias asamblea = coaliciones asamblea (mayoria asamblea)
 

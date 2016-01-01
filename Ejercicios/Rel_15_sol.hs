@@ -1,7 +1,7 @@
 -- I1M 2015-16: Relación 15 (21 de diciembre de 2015)
 -- El juego del nim y las funciones de entrada/salida. 
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla
+-- Universidad de Sevilla 
 -- =====================================================================
 
 ------------------------------------------------------------------------
