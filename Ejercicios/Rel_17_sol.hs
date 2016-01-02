@@ -59,7 +59,7 @@ type Asamblea  = Tabla Partido Parlamentarios
 partidos :: Asamblea -> [Partido]
 partidos = map fst
 
--- manvermor alvalvdom1 ivaruicam javperlag
+-- manvermor alvalvdom1 ivaruicam javperlag juanarcon
 partidos2 :: Asamblea -> [Partido]
 partidos2 a = [x | (x,_) <- a]
 
@@ -75,7 +75,7 @@ partidos2 a = [x | (x,_) <- a]
 parlamentarios :: Asamblea -> Integer
 parlamentarios = sum . map snd
 
--- manvermor alvalvdom1 ivaruicam javperlag
+-- manvermor alvalvdom1 ivaruicam javperlag juanarcon
 parlamentarios2 :: Asamblea -> Integer
 parlamentarios2 a = sum [x | (_,x) <- a]
 
@@ -97,7 +97,7 @@ busca p = snd . head . filter (\(a,_) -> p == a)
 -- Comentario: La definición anterior se puede mejorar para ajustarse al
 -- mensaje del 2º ejemplo,
 
--- manvermor alvalvdom1 ivaruicam rubvilval manpende
+-- manvermor alvalvdom1 ivaruicam rubvilval manpende juanarcon
 busca2 :: Eq a => a -> Tabla a b -> b
 busca2 x t = head [y | (z,y) <- t , x == z]
 
@@ -121,7 +121,7 @@ busca' p t = if null f
              else Just $ snd $ head f
   where f = filter (\(a,_) -> p == a) t
 
--- manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag
+-- manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag juanarcon
 busca'2 :: Eq a => a -> Tabla a b -> Maybe b
 busca'2 x t | null xs   = Nothing
             | otherwise = Just (head xs)
@@ -140,7 +140,7 @@ prop_BuscaNothing x t =
     busca' x t == Nothing ==> all (x /=) (map fst t)
 
 
--- manvermor alvalvdom1 ivaruicam manpende javperlag
+-- manvermor alvalvdom1 ivaruicam manpende javperlag juanarcon
 prop_BuscaNothing2 :: Integer -> [(Integer,Integer)] -> Property
 prop_BuscaNothing2 x t = 
     busca' x t == Nothing ==> notElem x [z | (z,y) <- t] 
@@ -156,6 +156,7 @@ prop_BuscaNothing2 x t =
 -- ---------------------------------------------------------------------
 
 -- fracruzam manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag
+-- juanarcon
 
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
@@ -186,7 +187,7 @@ mayoria xs = floor (pxs / 2 + 1)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor alvalvdom1 ivaruicam rubvilval 
+-- manvermor alvalvdom1 ivaruicam rubvilval juanarcon
 mayoria2 :: Asamblea -> Integer
 mayoria2 xs = ceiling $ fromIntegral (parlamentarios xs) / 2
 
@@ -209,7 +210,7 @@ mayoria3 xs = div (parlamentarios xs) 2 + 1
 --    coaliciones [(P1,2),(P3,5),(P4,3)] 6   ==  [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- javperlag
+-- javperlag juanarcon
 coaliciones :: Asamblea -> Integer -> [Coalicion]
 coaliciones xs n = 
     [partidos ys 
@@ -230,7 +231,7 @@ coaliciones xs n =
 --    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval manpende javperlag
+-- rubvilval manpende javperlag juanarcon
 mayorias :: Asamblea -> [Coalicion]
 mayorias asamblea = coaliciones asamblea (mayoria asamblea)
 
@@ -260,6 +261,10 @@ esMayoritaria3 :: Coalicion -> Asamblea -> Bool
 esMayoritaria3 c a = sum (valores c a) >= mayoria a
     where valores [] _ = []
           valores (c:cs) a = busca c a : valores cs a
+
+-- juanarcon
+esMayoritaria4 :: Coalicion -> Asamblea -> Bool
+esMayoritaria4 c a = elem c (mayorias a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Comprobar con QuickCheck que las coaliciones

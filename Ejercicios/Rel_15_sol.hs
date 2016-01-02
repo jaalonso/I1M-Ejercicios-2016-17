@@ -62,6 +62,7 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam alvalvdom1 manvermor abrdelrod rubvilval javperlag josllagam
+-- juanarcon isrbelnun
 finalizado2 :: Tablero -> Bool
 finalizado2 = all (0==)
 
@@ -86,7 +87,7 @@ valida t f n = if n >= 1 && head (drop (f-1) t) >= n then True else False
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam ivaruicam  rubvilval josllagam
+-- fracruzam ivaruicam  rubvilval josllagam juanarcon
 valida2 :: Tablero -> Int -> Int -> Bool
 valida2 _ _ 0 = False
 valida2 t f n = t !! (f-1) >= n
@@ -94,6 +95,10 @@ valida2 t f n = t !! (f-1) >= n
 -- alvalvdom1 manvermor abrdelrod javperlag
 valida3 :: Tablero -> Int -> Int -> Bool
 valida3 t f n = n > 0 && t !! (f-1) >= n
+
+-- isrbelnun
+valida4 :: Tablero -> Int -> Int -> Bool
+valida4 t f n = last (take f t) >= n && n >= 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -109,7 +114,7 @@ jugada t _ 0 = t
 jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
--- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam
+-- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam isrbelnun
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
 
@@ -120,7 +125,7 @@ jugada3 t f n = (\(as,x:xs) ->  as ++ (x-n): xs) (a,b)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- javperlag
+-- javperlag juanarcon
 jugada4 :: Tablero -> Int -> Int -> Tablero
 jugada4 (a:t) f n | f == 1    = (a-n):t
                   | otherwise = a: jugada t (f-1)n 
@@ -134,7 +139,7 @@ jugada4 (a:t) f n | f == 1    = (a-n):t
 --    ghci> 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 ivaruicam javperlag
+-- erisancha alvalvdom1 ivaruicam javperlag juanarcon isrbelnun
 nuevaLinea :: IO ()
 nuevaLinea = do putChar '\n'
 
@@ -156,11 +161,11 @@ nuevaLinea3 = putChar '\n'
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam
+-- josllagam isrbelnun
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
 
--- fracruzam
+-- fracruzam juanarcon
 estrellas2 :: Int -> String
 estrellas2 0 = ""
 estrellas2 n = "* " ++ estrellas (n-1)
@@ -174,12 +179,12 @@ estrellas2 n = "* " ++ estrellas (n-1)
 --    2: * * *
 -- ---------------------------------------------------------------------
 
--- erisancha abrdelrod javperlag
+-- erisancha abrdelrod javperlag isrbelnun
 escribeFila :: Int -> Int -> IO ()
 escribeFila f n =  do putStr (show f ++ ": ") 
                       putStrLn (estrellas n)
 
--- fracruzam alvalvdom1 manvermor ivaruicam rubvilval josllagam
+-- fracruzam alvalvdom1 manvermor ivaruicam rubvilval josllagam juanarcon
 escribeFila2 :: Int -> Int -> IO ()
 escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 
@@ -197,7 +202,7 @@ escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 -- ---------------------------------------------------------------------
 
 -- erisancha fracruzam alvalvdom1 manvermor ivaruicam rubvilval
--- josllagam
+-- josllagam isrbelnun
 
 escribeTablero :: Tablero -> IO ()
 escribeTablero [a,b,c,d,e] = do 
@@ -214,7 +219,7 @@ escribeTablero2 t = do
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- javperlag 
+-- javperlag juanarcon
 escribeTablero3 :: Tablero -> IO ()
 escribeTablero3 [a,b,c,d,e] = 
     sequence_ [escribeFila f n | (f,n) <- zip [1..5] [a,b,c,d,e]]
@@ -250,7 +255,7 @@ leeDigito c = do putStr c
                     else do putStrLn "ERROR: Entrada incorrecta"
                             leeDigito c
 
--- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam
+-- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam juanarcon
 leeDigito2 :: String -> IO Int
 leeDigito2 c = do putStr c
                   a <- getLine
@@ -259,6 +264,17 @@ leeDigito2 c = do putStr c
                      else do putStrLn "ERROR: Entrada incorrecta"  
                              leeDigito2 c
  
+-- isrbelnun
+leeDigito3 :: String -> IO Int
+leeDigito3 c = do 
+  putStr c
+  n <- getLine
+  if all isDigit n
+  then return (read n)
+  else do putStr "ERROR: Entrada incorrecta"
+          putChar '\n'
+          leeDigito3 c
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Los jugadores se representan por los números 1 y 2.
 -- Definir la función 
@@ -267,7 +283,7 @@ leeDigito2 c = do putStr c
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam
+-- josllagam juanarcon isrbelnun
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
@@ -331,7 +347,7 @@ juegoAux t f n j
     | otherwise      = juego t j   
   where sig = jugada t f n                       
 
--- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam
+-- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam juanarcon
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
@@ -375,6 +391,23 @@ opciones t f e j
                                      nuevaLinea
                                      putStrLn ("J "++(show j)++" He ganado")
     | otherwise = juego (jugada t f e) (siguiente j)
+
+-- isrbelnun
+juego4 :: Tablero -> Int -> IO ()
+juego4 t j = do 
+  putChar '\n'
+  escribeTablero t
+  if finalizado t
+  then putStr ("J " ++ (show j) ++ " He ganado")
+  else do putChar '\n'
+          putStr "J "
+          putStrLn (show j)
+          putStr "Elige una fila: "
+          f <- getLine
+          putStr "Elige cuantas estrellas retiras: "
+          e <- getLine                               
+          putChar '\n'
+          juego4 (jugada t (read f) (read e)) (siguiente j)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la acción
@@ -462,10 +495,10 @@ opciones t f e j
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam isrbelnun
 nim :: IO ()
 nim = juego [1..5] 1
 
--- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam
+-- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam juanarcon
 nim2 :: IO ()
 nim2 = juego inicial 1
