@@ -62,7 +62,7 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam alvalvdom1 manvermor abrdelrod rubvilval javperlag josllagam
--- juanarcon isrbelnun
+-- juanarcon isrbelnun manpende
 finalizado2 :: Tablero -> Bool
 finalizado2 = all (0==)
 
@@ -92,7 +92,7 @@ valida2 :: Tablero -> Int -> Int -> Bool
 valida2 _ _ 0 = False
 valida2 t f n = t !! (f-1) >= n
 
--- alvalvdom1 manvermor abrdelrod javperlag
+-- alvalvdom1 manvermor abrdelrod javperlag manpende
 valida3 :: Tablero -> Int -> Int -> Bool
 valida3 t f n = n > 0 && t !! (f-1) >= n
 
@@ -115,6 +115,7 @@ jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
 -- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam isrbelnun
+-- manpende
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
 
@@ -161,7 +162,7 @@ nuevaLinea3 = putChar '\n'
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam isrbelnun
+-- josllagam isrbelnun manpende
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
 
@@ -288,7 +289,7 @@ siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
 
--- fracruzam
+-- fracruzam manpende
 siguiente2 :: Int -> Int
 siguiente2 n = n `mod` 2 + 1
 

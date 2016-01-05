@@ -43,7 +43,7 @@ import Test.QuickCheck
 -- ---------------------------------------------------------------------
 
 -- manvermor alvalvdom1 ivaruicam josllagam blaruiher marvilmor
--- abrdelrod alebergon juanarcon javoliher migandben
+-- abrdelrod alebergon juanarcon javoliher migandben jespergue
 divisoresPrimosEn :: Integer -> [Integer] -> Bool
 divisoresPrimosEn x ys = and [elem y ys | y <- primeFactors x] 
 
@@ -67,7 +67,7 @@ divisoresPrimosEn2 n ns = all (`elem` ns) p
 
 -- manvermor alvalvdom1 carmengar juamorrom1 ivaruicam josllagam
 -- blaruiher rubvilval manpende erisancha marvilmor abrdelrod alebergon
--- juanarcon javoliher migandben isrbelnun
+-- juanarcon javoliher migandben isrbelnun jespergue
 hamming :: [Integer]
 hamming = [x | x <- [1..], divisoresPrimosEn x [2,3,5]]
 
