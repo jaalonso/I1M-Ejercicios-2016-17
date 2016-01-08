@@ -1,7 +1,7 @@
 -- I1M 2015-16: Relación 17 (21 de diciembre de 2015)
 -- Mayorías parlamentarias.
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla 
+-- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -55,13 +55,17 @@ type Asamblea  = Tabla Partido Parlamentarios
 --    partidos [(P1,3),(P3,5),(P4,3)]  ==>  [P1,P3,P4]
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval manpende isrbelnun
+-- fracruzam rubvilval manpende isrbelnun 
 partidos :: Asamblea -> [Partido]
 partidos = map fst
 
 -- manvermor alvalvdom1 ivaruicam javperlag juanarcon
 partidos2 :: Asamblea -> [Partido]
 partidos2 a = [x | (x,_) <- a]
+
+-- blaruiher
+partidos3 :: Asamblea -> [Partido]
+partidos3 a = [fst b | b <- a]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -75,9 +79,13 @@ partidos2 a = [x | (x,_) <- a]
 parlamentarios :: Asamblea -> Integer
 parlamentarios = sum . map snd
 
--- manvermor alvalvdom1 ivaruicam javperlag juanarcon
+-- manvermor alvalvdom1 ivaruicam javperlag juanarcon 
 parlamentarios2 :: Asamblea -> Integer
 parlamentarios2 a = sum [x | (_,x) <- a]
+
+-- blaruiher
+parlamentarios3 :: Asamblea -> Integer
+parlamentarios3 a = sum [snd x | x <- a]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -98,6 +106,7 @@ busca p = snd . head . filter (\(a,_) -> p == a)
 -- mensaje del 2º ejemplo,
 
 -- manvermor alvalvdom1 ivaruicam rubvilval manpende juanarcon isrbelnun
+-- blaruiher
 busca2 :: Eq a => a -> Tabla a b -> b
 busca2 x t = head [y | (z,y) <- t , x == z]
 
@@ -236,7 +245,7 @@ coaliciones xs n =
 --    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval manpende javperlag juanarcon isrbelnun
+-- rubvilval manpende javperlag juanarcon isrbelnun alvalvdom1
 mayorias :: Asamblea -> [Coalicion]
 mayorias asamblea = coaliciones asamblea (mayoria asamblea)
 
@@ -267,7 +276,7 @@ esMayoritaria3 c a = sum (valores c a) >= mayoria a
     where valores [] _ = []
           valores (c:cs) a = busca c a : valores cs a
 
--- juanarcon isrbelnun
+-- juanarcon isrbelnun alvalvdom1
 esMayoritaria4 :: Coalicion -> Asamblea -> Bool
 esMayoritaria4 c a = elem c (mayorias a)
 
@@ -283,7 +292,7 @@ prop_MayoriasSonMayoritarias :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritarias (A a) = 
     all (\c -> esMayoritaria c a) (mayorias a)
 
--- manvermor manpende isrbelnun
+-- manvermor manpende isrbelnun alvalvdom1
 prop_MayoriasSonMayoritarias2 :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritarias2 (A a) = 
     and [esMayoritaria c a | c <- mayorias a] 
@@ -343,7 +352,7 @@ prop_MayoriasSonMayoritariasMinimales :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritariasMinimales (A a) = 
     all (\c -> esMayoritariaMinimal c a) (mayorias a)
       
--- manvermor rubvilval manpende isrbelnun
+-- manvermor rubvilval manpende isrbelnun alvalvdom1
 prop_MayoriasSonMayoritariasMinimales2 :: Asamblea2 -> Bool
 prop_MayoriasSonMayoritariasMinimales2 (A a) = 
     and [esMayoritariaMinimal c a | c <- mayorias a]

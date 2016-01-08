@@ -1,7 +1,7 @@
 -- I1M 2015-16: Relación 15 (21 de diciembre de 2015)
 -- El juego del nim y las funciones de entrada/salida. 
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla 
+-- Universidad de Sevilla
 -- =====================================================================
 
 ------------------------------------------------------------------------
@@ -62,7 +62,7 @@ finalizado xs = if xs == [0,0,0,0,0] then True else False
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam alvalvdom1 manvermor abrdelrod rubvilval javperlag josllagam
--- juanarcon isrbelnun manpende
+-- juanarcon isrbelnun manpende blaruiher migandben
 finalizado2 :: Tablero -> Bool
 finalizado2 = all (0==)
 
@@ -92,7 +92,7 @@ valida2 :: Tablero -> Int -> Int -> Bool
 valida2 _ _ 0 = False
 valida2 t f n = t !! (f-1) >= n
 
--- alvalvdom1 manvermor abrdelrod javperlag manpende
+-- alvalvdom1 manvermor abrdelrod javperlag manpende blaruiher migandben
 valida3 :: Tablero -> Int -> Int -> Bool
 valida3 t f n = n > 0 && t !! (f-1) >= n
 
@@ -115,7 +115,7 @@ jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
     where p = take f t
 
 -- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam isrbelnun
--- manpende
+-- manpende blaruiher migandben
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
 
@@ -141,10 +141,11 @@ jugada4 (a:t) f n | f == 1    = (a-n):t
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 ivaruicam javperlag juanarcon isrbelnun
+-- blaruiher 
 nuevaLinea :: IO ()
 nuevaLinea = do putChar '\n'
 
--- fracruzam manvermor abrdelrod josllagam
+-- fracruzam manvermor abrdelrod josllagam migandben
 nuevaLinea2 :: IO ()
 nuevaLinea2 = do putStrLn ""
 
@@ -162,11 +163,11 @@ nuevaLinea3 = putChar '\n'
 -- ---------------------------------------------------------------------
 
 -- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam isrbelnun manpende
+-- josllagam isrbelnun manpende blaruiher
 estrellas :: Int -> String
 estrellas n = concat (replicate n "* ") 
 
--- fracruzam juanarcon
+-- fracruzam juanarcon migandben
 estrellas2 :: Int -> String
 estrellas2 0 = ""
 estrellas2 n = "* " ++ estrellas (n-1)
@@ -186,6 +187,7 @@ escribeFila f n =  do putStr (show f ++ ": ")
                       putStrLn (estrellas n)
 
 -- fracruzam alvalvdom1 manvermor ivaruicam rubvilval josllagam juanarcon
+-- blaruiher
 escribeFila2 :: Int -> Int -> IO ()
 escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 
@@ -203,7 +205,7 @@ escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 -- ---------------------------------------------------------------------
 
 -- erisancha fracruzam alvalvdom1 manvermor ivaruicam rubvilval
--- josllagam isrbelnun
+-- josllagam isrbelnun blaruiher
 
 escribeTablero :: Tablero -> IO ()
 escribeTablero [a,b,c,d,e] = do 
@@ -226,6 +228,10 @@ escribeTablero3 [a,b,c,d,e] =
     sequence_ [escribeFila f n | (f,n) <- zip [1..5] [a,b,c,d,e]]
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- blaruiher 
+escribeTablero4 :: Tablero -> IO ()
+escribeTablero4 t = sequence_ [escribeFila f n | (f,n) <- zip [1..] t]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la acción
@@ -289,7 +295,7 @@ siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
 
--- fracruzam manpende
+-- fracruzam manpende blaruiher
 siguiente2 :: Int -> Int
 siguiente2 n = n `mod` 2 + 1
 
@@ -349,6 +355,7 @@ juegoAux t f n j
   where sig = jugada t f n                       
 
 -- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam juanarcon
+-- blaruiher
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
@@ -496,7 +503,7 @@ juego4 t j = do
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
--- fracruzam isrbelnun
+-- fracruzam isrbelnun blaruiher
 nim :: IO ()
 nim = juego [1..5] 1
 
