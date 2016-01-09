@@ -262,7 +262,8 @@ leeDigito c = do putStr c
                     else do putStrLn "ERROR: Entrada incorrecta"
                             leeDigito c
 
--- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam juanarcon
+-- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam
+-- juanarcon erisancha 
 leeDigito2 :: String -> IO Int
 leeDigito2 c = do putStr c
                   a <- getLine
@@ -355,7 +356,8 @@ juegoAux t f n j
   where sig = jugada t f n                       
 
 -- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam juanarcon
--- blaruiher
+-- blaruiher erisancha
+
 juego2 :: Tablero -> Int -> IO ()
 juego2 t j = do nuevaLinea
                 escribeTablero t
@@ -507,6 +509,7 @@ juego4 t j = do
 nim :: IO ()
 nim = juego [1..5] 1
 
--- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam juanarcon
+-- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam
+-- juanarcon erisancha 
 nim2 :: IO ()
 nim2 = juego inicial 1

@@ -1,7 +1,7 @@
 -- I1M 2015-16: Relación 16 (21 de diciembre de 2015)
 -- Cálculo del número pi mediante el método de Montecarlo.
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla 
+-- Universidad de Sevilla
 -- =====================================================================
 
 ------------------------------------------------------------------------
@@ -48,7 +48,7 @@ aleatorio a b = unsafePerformIO $
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 fracruzam manvermor ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam
+-- isrbelnun josllagam erisancha
 aleatorios :: Random t => t -> t -> [t]
 aleatorios m n = aleatorio m n : aleatorios m n
 
@@ -68,7 +68,8 @@ aleatorios2 m n = [aleatorio m n | x <- [0..]]
 -- ---------------------------------------------------------------------
 
 -- fracruzam manvermor alvalvdom1 ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam blaruiher abrdelrod manpende
+-- isrbelnun josllagam blaruiher abrdelrod manpende erisancha
+
 puntosDelCuadrado :: [(Double,Double)]
 puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1)
 
@@ -86,7 +87,7 @@ puntosEnElCirculo :: [(Double,Double)] -> Int
 puntosEnElCirculo = length . filter (\(x,y) -> x^2 + y^2 <= 1)
 
 -- alvalvdom1 manvermor javperlag juanarcon josllagam blaruiher abrdelrod
--- manpende
+-- manpende erisancha
 puntosEnElCirculo2 :: [(Double,Double)] -> Int
 puntosEnElCirculo2 xs = length [(x,y) | (x,y) <- xs, x^2+y^2 <= 1]
 
@@ -115,7 +116,7 @@ puntosEnElCirculo3 (x:xs)
 -- ---------------------------------------------------------------------
 
 -- fracruzam alvalvdom1 manvermor ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam blaruiher abrdelrod manpende
+-- isrbelnun josllagam blaruiher abrdelrod manpende erisancha
 calculoDePi :: Int -> Double
 calculoDePi n = 4 * (fromIntegral (puntosEnElCirculo xs) / fromIntegral n)
     where xs = take n puntosDelCuadrado
