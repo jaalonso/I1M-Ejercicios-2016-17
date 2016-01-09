@@ -10,11 +10,11 @@
 
 -- En el juego del nim el tablero tiene 5 filas numeradas de estrellas,
 -- cuyo contenido inicial es el siguiente 
---    1:      
---    2:     
---    3:    
---    4:   
---    5:  
+--    1: ∗∗∗∗∗
+--    2: ∗∗∗∗
+--    3: ∗∗∗
+--    4: ∗∗
+--    5: ∗
 -- Dos jugadores retiran por turno una o más estrellas de una fila. El
 -- ganador es el jugador que retire la última estrella. En este
 -- ejercicio se va implementar el juego del Nim para practicar con las
@@ -44,7 +44,7 @@ type Tablero = [Int]
 
 -- inicial es el tablero al principio del juego.
 inicial ::  Tablero
-inicial =  [5,4,3,2,1]
+inicial = [5,4,3,2,1]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -55,20 +55,8 @@ inicial =  [5,4,3,2,1]
 --    finalizado [1,3,0,0,1]  ==  False
 -- ---------------------------------------------------------------------
 
--- erisancha
 finalizado :: Tablero -> Bool
-finalizado xs = if xs == [0,0,0,0,0] then True else False
-
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam alvalvdom1 manvermor abrdelrod rubvilval javperlag josllagam
--- juanarcon isrbelnun manpende blaruiher migandben
-finalizado2 :: Tablero -> Bool
-finalizado2 = all (0==)
-
--- ivaruicam
-finalizado3 :: Tablero -> Bool
-finalizado3 xs = sum xs == 0
+finalizado = all (== 0)
 
 -- ---------------------------------------------------------------------
 -- Ejecicio 2.2. Definir la función
@@ -81,24 +69,8 @@ finalizado3 xs = sum xs == 0
 --    valida [4,3,2,1,0] 2 0  ==  False
 -- ---------------------------------------------------------------------
 
--- erisancha
 valida :: Tablero -> Int -> Int -> Bool
-valida t f n = if n >= 1 && head (drop (f-1) t) >= n then True else False
-
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam ivaruicam  rubvilval josllagam juanarcon
-valida2 :: Tablero -> Int -> Int -> Bool
-valida2 _ _ 0 = False
-valida2 t f n = t !! (f-1) >= n
-
--- alvalvdom1 manvermor abrdelrod javperlag manpende blaruiher migandben
-valida3 :: Tablero -> Int -> Int -> Bool
-valida3 t f n = n > 0 && t !! (f-1) >= n
-
--- isrbelnun
-valida4 :: Tablero -> Int -> Int -> Bool
-valida4 t f n = last (take f t) >= n && n >= 1
+valida t f n = (n >= 1) && (t !! (f-1) >= n)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -108,28 +80,8 @@ valida4 t f n = last (take f t) >= n && n >= 1
 --    jugada [4,3,2,1,0] 2 1  ==  [4,2,2,1,0]
 -- ---------------------------------------------------------------------
 
--- erisancha
 jugada :: Tablero -> Int -> Int -> Tablero
-jugada t _ 0 = t
-jugada t f n = if f > length t then t else init p ++ [(last p)-n] ++ drop f t
-    where p = take f t
-
--- fracruzam alvalvdom1 manvermor abrdelrod rubvilval josllagam isrbelnun
--- manpende blaruiher migandben
-jugada2 :: Tablero -> Int -> Int -> Tablero
-jugada2 t f n = take (f-1) t ++ (t !! (f-1) - n) : drop f t
-
--- ivaruicam
-jugada3 :: Tablero -> Int -> Int -> Tablero
-jugada3 t f n = (\(as,x:xs) ->  as ++ (x-n): xs) (a,b)
-    where (a,b) = splitAt (f-1) t
-
--- Comentario: La definición anterior se puede simplificar.
-
--- javperlag juanarcon
-jugada4 :: Tablero -> Int -> Int -> Tablero
-jugada4 (a:t) f n | f == 1    = (a-n):t
-                  | otherwise = a: jugada t (f-1)n 
+jugada t f n = [if x == f then y-n else y | (x,y) <- zip [1..5] t]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la acción
@@ -140,18 +92,8 @@ jugada4 (a:t) f n | f == 1    = (a-n):t
 --    ghci> 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 ivaruicam javperlag juanarcon isrbelnun
--- blaruiher 
 nuevaLinea :: IO ()
-nuevaLinea = do putChar '\n'
-
--- fracruzam manvermor abrdelrod josllagam migandben
-nuevaLinea2 :: IO ()
-nuevaLinea2 = do putStrLn ""
-
--- rubvilval
-nuevaLinea3 :: IO ()
-nuevaLinea3 = putChar '\n'
+nuevaLinea = putChar '\n'
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -162,15 +104,8 @@ nuevaLinea3 = putChar '\n'
 --    "* * * "
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam isrbelnun manpende blaruiher
 estrellas :: Int -> String
-estrellas n = concat (replicate n "* ") 
-
--- fracruzam juanarcon migandben
-estrellas2 :: Int -> String
-estrellas2 0 = ""
-estrellas2 n = "* " ++ estrellas (n-1)
+estrellas n = concat (replicate n "* ")
                               
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la acción
@@ -180,16 +115,11 @@ estrellas2 n = "* " ++ estrellas (n-1)
 --    ghci> escribeFila 2 3
 --    2: * * *
 -- ---------------------------------------------------------------------
-
--- erisancha abrdelrod javperlag isrbelnun
+ 
 escribeFila :: Int -> Int -> IO ()
-escribeFila f n =  do putStr (show f ++ ": ") 
-                      putStrLn (estrellas n)
-
--- fracruzam alvalvdom1 manvermor ivaruicam rubvilval josllagam juanarcon
--- blaruiher
-escribeFila2 :: Int -> Int -> IO ()
-escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
+escribeFila f n = do putStr (show f)
+                     putStr ": "
+                     putStrLn (estrellas n)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la acción
@@ -204,39 +134,14 @@ escribeFila2 f n = do putStrLn ((show f) ++ ":" ++ estrellas n)
 --    5: * 
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam alvalvdom1 manvermor ivaruicam rubvilval
--- josllagam isrbelnun blaruiher
-
 escribeTablero :: Tablero -> IO ()
-escribeTablero [a,b,c,d,e] = do 
-  escribeFila 1 a
-  escribeFila 2 b
-  escribeFila 3 c
-  escribeFila 4 d
-  escribeFila 5 e  
-
--- abrdelrod (acción generalizada para un tablero de n filas)
-escribeTablero2 :: Tablero -> IO ()
-escribeTablero2 t = do 
-  sequence_ [escribeFila n (t!!(n-1)) | n <- [1..length t]] 
-
--- Comentario: La definición anterior se puede simplificar.
-
--- javperlag juanarcon
-escribeTablero3 :: Tablero -> IO ()
-escribeTablero3 [a,b,c,d,e] = 
-    sequence_ [escribeFila f n | (f,n) <- zip [1..5] [a,b,c,d,e]]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- blaruiher 
-escribeTablero4 :: Tablero -> IO ()
-escribeTablero4 t = sequence_ [escribeFila f n | (f,n) <- zip [1..] t]
+escribeTablero t = 
+    sequence_ [escribeFila n (t!!(n-1)) | n <- [1..length t]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la acción
 --    leeDigito :: String -> IO Int
--- tal que (leeDigito c) escribe una nueva línea con l cadena "prueba",
+-- tal que (leeDigito c) escribe una nueva línea con la cadena "prueba",
 -- lee un carácter y comprueba que es un dígito. Además, si el carácter
 -- leido es un dígito entonces devuelve el entero correspondiente y si
 -- no lo es entonces escribe el mensaje "Entrada incorrecta" y vuelve a
@@ -251,37 +156,14 @@ escribeTablero4 t = sequence_ [escribeFila f n | (f,n) <- zip [1..] t]
 --    3
 -- ---------------------------------------------------------------------
 
--- carruirui3
--- ¿Se podría utilizar un Maybe Int para validar n?
 leeDigito :: String -> IO Int
 leeDigito c = do putStr c
-                 n <- getChar
-                 putChar '\n'
-                 if isDigit n
-                    then return $ digitToInt n
+                 x <- getChar
+                 nuevaLinea
+                 if isDigit x
+                    then return (digitToInt x)
                     else do putStrLn "ERROR: Entrada incorrecta"
                             leeDigito c
-
--- fracruzam alvalvdom1 ivaruicam abrdelrod rubvilval josllagam
--- juanarcon erisancha 
-leeDigito2 :: String -> IO Int
-leeDigito2 c = do putStr c
-                  a <- getLine
-                  if all isDigit a 
-                     then return (read a) 
-                     else do putStrLn "ERROR: Entrada incorrecta"  
-                             leeDigito2 c
- 
--- isrbelnun
-leeDigito3 :: String -> IO Int
-leeDigito3 c = do 
-  putStr c
-  n <- getLine
-  if all isDigit n
-  then return (read n)
-  else do putStr "ERROR: Entrada incorrecta"
-          putChar '\n'
-          leeDigito3 c
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Los jugadores se representan por los números 1 y 2.
@@ -290,15 +172,9 @@ leeDigito3 c = do
 -- tal que (siguiente j) es el jugador siguiente de j. 
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 manvermor ivaruicam abrdelrod rubvilval javperlag
--- josllagam juanarcon isrbelnun
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
-
--- fracruzam manpende blaruiher
-siguiente2 :: Int -> Int
-siguiente2 n = n `mod` 2 + 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la acción
@@ -336,94 +212,30 @@ siguiente2 n = n `mod` 2 + 1
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
--- fracruzam
 juego :: Tablero -> Int -> IO ()
 juego t j = do nuevaLinea
                escribeTablero t
-               nuevaLinea
-               putStrLn ("J " ++ show j)
-               putStr "Elige una fila: " 
-               f <- getLine
-               putStr "Elige cuantas estrellas retiras: " 
-               n <- getLine
-               (juegoAux t (read f) (read n) j)
-
-juegoAux :: Tablero -> Int -> Int -> Int -> IO ()
-juegoAux t f n j 
-    | finalizado sig = putStrLn ("J " ++ show j ++ " ha ganado")
-    | valida t f n   = juego sig (siguiente j)
-    | otherwise      = juego t j   
-  where sig = jugada t f n                       
-
--- carruirui3 alvalvdom1 ivaruicam abrdelrod javperlag josllagam juanarcon
--- blaruiher erisancha
-
-juego2 :: Tablero -> Int -> IO ()
-juego2 t j = do nuevaLinea
-                escribeTablero t
-                nuevaLinea
-                if finalizado t
-                   then putStr ("J " ++ show (anterior j) ++ " He ganado")
-                   else do putStr ("J " ++ show j)
-                           nuevaLinea
-                           f <- leeDigito "Elige una fila: "
-                           n <- leeDigito "Elige cuántas estrellas retiras: "
-                           if (valida t f n)
-                              then juego2 (jugada t f n) (siguiente j)
-                              else do putStrLn "ERROR: Jugada no válida"
-                                      juego2 t j
-
-anterior :: Int -> Int
-anterior = siguiente
-
--- Versión para r jugadores:
--- anterior j = (j-2) `mod` r + 1
-
--- rubvilval
-juego3 :: Tablero -> Int -> IO ()
-juego3 t j = do 
-  nuevaLinea
-  escribeTablero t
-  nuevaLinea
-  putStrLn ("J "++ show j)
-  putStr "Elige una fila: "
-  f <- getLine
-  putStr "Elige cuantas estrellas retiras: "
-  e <- getLine
-  if valida t (read f::Int) (read e::Int) 
-  then opciones t (read f::Int) (read e::Int) j
-  else do putStrLn "Jugada no valida, prueba de nuevo"
-          juego t j
-
-opciones t f e j
-    | finalizado (jugada t f e) = do nuevaLinea
-                                     escribeTablero (jugada t f e) 
-                                     nuevaLinea
-                                     putStrLn ("J "++(show j)++" He ganado")
-    | otherwise = juego (jugada t f e) (siguiente j)
-
--- isrbelnun
-juego4 :: Tablero -> Int -> IO ()
-juego4 t j = do 
-  putChar '\n'
-  escribeTablero t
-  if finalizado t
-  then putStr ("J " ++ (show j) ++ " He ganado")
-  else do putChar '\n'
-          putStr "J "
-          putStrLn (show j)
-          putStr "Elige una fila: "
-          f <- getLine
-          putStr "Elige cuantas estrellas retiras: "
-          e <- getLine                               
-          putChar '\n'
-          juego4 (jugada t (read f) (read e)) (siguiente j)
+               if finalizado t 
+                then do nuevaLinea
+                        putStr "J "
+                        putStr (show (siguiente j))
+                        putStrLn " He ganado"
+                else do nuevaLinea
+                        putStr "J "
+                        putStrLn (show j)
+                        f <- leeDigito "Elige una fila: "
+                        n <- leeDigito "Elige cuantas estrellas retiras: "
+                        if valida t f n 
+                         then juego (jugada t f n) (siguiente j)
+                         else do nuevaLinea
+                                 putStrLn "ERROR: jugada incorrecta"
+                                 juego t j
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la acción
 --    nim :: IO ()
--- consistente en una partida del nim. Por ejemplo, se puede desarrollar
--- en una consola (no en la shell de emacs) como sigue
+-- consistente en una partida del nim. Por ejemplo (en una consola no en
+-- la shell de emacs),
 --    ghci> nim
 --    
 --    1: * * * * * 
@@ -505,11 +317,5 @@ juego4 t j = do
 --    J 1 He ganado
 -- ---------------------------------------------------------------------
 
--- fracruzam isrbelnun blaruiher
 nim :: IO ()
-nim = juego [1..5] 1
-
--- rubvilval alvalvdom1 manvermor ivaruicam abrdelrod josllagam
--- juanarcon erisancha 
-nim2 :: IO ()
-nim2 = juego inicial 1
+nim = juego inicial 1

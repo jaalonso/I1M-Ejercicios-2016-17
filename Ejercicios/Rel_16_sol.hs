@@ -47,14 +47,8 @@ aleatorio a b = unsafePerformIO $
 --    [3,7,7,5,7,7,5,8,6,4,7,2,8,8,2,8,7,6,5,5]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 fracruzam manvermor ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam erisancha
 aleatorios :: Random t => t -> t -> [t]
 aleatorios m n = aleatorio m n : aleatorios m n
-
--- blaruiher abrdelrod manpende
-aleatorios2 :: Random t => t -> t -> [t]
-aleatorios2 m n = [aleatorio m n | x <- [0..]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -67,11 +61,8 @@ aleatorios2 m n = [aleatorio m n | x <- [0..]]
 --     (0.5610432040657063,-0.7648360614536891)]
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor alvalvdom1 ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam blaruiher abrdelrod manpende erisancha
-
 puntosDelCuadrado :: [(Double,Double)]
-puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1)
+puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -82,24 +73,8 @@ puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1)
 --    2
 -- ---------------------------------------------------------------------
 
--- fracruzam ivaruicam rubvilval
 puntosEnElCirculo :: [(Double,Double)] -> Int
-puntosEnElCirculo = length . filter (\(x,y) -> x^2 + y^2 <= 1)
-
--- alvalvdom1 manvermor javperlag juanarcon josllagam blaruiher abrdelrod
--- manpende erisancha
-puntosEnElCirculo2 :: [(Double,Double)] -> Int
-puntosEnElCirculo2 xs = length [(x,y) | (x,y) <- xs, x^2+y^2 <= 1]
-
--- isrbelnun
-puntosEnElCirculo3 :: [(Double,Double)] -> Int
-puntosEnElCirculo3 [] = 0
-puntosEnElCirculo3 (x:xs) 
-    | sqrt ((fst x)^2 + (snd x)^2) <= 1 = 1 + puntosEnElCirculo3 xs
-    | otherwise                         = puntosEnElCirculo xs
-
--- Comentario: La definición anterior se puede simplificar, para
--- eliminar el uso de fst y snd.
+puntosEnElCirculo xs = length [(x,y) | (x,y) <- xs, x^2+y^2 <= 1]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -115,8 +90,9 @@ puntosEnElCirculo3 (x:xs)
 --    3.13484
 -- ---------------------------------------------------------------------
 
--- fracruzam alvalvdom1 manvermor ivaruicam rubvilval javperlag juanarcon
--- isrbelnun josllagam blaruiher abrdelrod manpende erisancha
 calculoDePi :: Int -> Double
-calculoDePi n = 4 * (fromIntegral (puntosEnElCirculo xs) / fromIntegral n)
-    where xs = take n puntosDelCuadrado
+calculoDePi n = 4 * enCirculo / total
+    where xs        = take n puntosDelCuadrado
+          enCirculo = fromIntegral (puntosEnElCirculo xs)
+          total     = fromIntegral n
+

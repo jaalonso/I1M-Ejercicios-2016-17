@@ -55,17 +55,13 @@ type Asamblea  = Tabla Partido Parlamentarios
 --    partidos [(P1,3),(P3,5),(P4,3)]  ==>  [P1,P3,P4]
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval manpende isrbelnun 
+-- 1ª definición
 partidos :: Asamblea -> [Partido]
-partidos = map fst
+partidos a = [p | (p,_) <- a]
 
--- manvermor alvalvdom1 ivaruicam javperlag juanarcon abrdelrod erisancha
+-- 2ª definición
 partidos2 :: Asamblea -> [Partido]
-partidos2 a = [x | (x,_) <- a]
-
--- blaruiher
-partidos3 :: Asamblea -> [Partido]
-partidos3 a = [fst b | b <- a]
+partidos2 = map fst
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -75,18 +71,13 @@ partidos3 a = [fst b | b <- a]
 --    parlamentarios [(P1,3),(P3,5),(P4,3)]  ==>  11
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval manpende isrbelnun
+-- 1ª definición
 parlamentarios :: Asamblea -> Integer
-parlamentarios = sum . map snd
+parlamentarios a = sum [e | (_,e) <- a]
 
--- manvermor alvalvdom1 ivaruicam javperlag juanarcon abrdelrod
--- erisancha  
-parlamentarios2 :: Asamblea -> Integer 
-parlamentarios2 a = sum [x | (_,x) <- a]
-
--- blaruiher
-parlamentarios3 :: Asamblea -> Integer
-parlamentarios3 a = sum [snd x | x <- a]
+-- 2ª definición
+parlamentarios2 :: Asamblea -> Integer
+parlamentarios2 = sum . map snd
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -99,87 +90,70 @@ parlamentarios3 a = sum [snd x | x <- a]
 --    *** Exception: no tiene valor en la tabla
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- 1ª solución (por comprensión)
 busca :: Eq a => a -> Tabla a b -> b
-busca p = snd . head . filter (\(a,_) -> p == a)
+busca x t | null xs   = error "no tiene valor en la tabla"
+          | otherwise = head xs
+   where xs = [b | (a,b) <- t, a == x]
 
--- Comentario: La definición anterior se puede mejorar para ajustarse al
--- mensaje del 2º ejemplo,
 
--- manvermor alvalvdom1 ivaruicam rubvilval manpende juanarcon isrbelnun
--- blaruiher abrdelrod erisancha
+-- 2ª definición (por recursión)
 busca2 :: Eq a => a -> Tabla a b -> b
-busca2 x t = head [y | (z,y) <- t , x == z]
-
--- javperlag 
-busca3 x ((p,n):xs)|x==p     = n
-                   |otherwise= busca x xs
+busca2 x []            = error "no tiene valor en la tabla"
+busca2 x ((x',y):xys)
+    | x == x'         = y
+    | otherwise       = busca2 x xys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
 --    busca' :: Eq a => a -> Table a b -> Maybe b 
 -- tal que (busca' x t) es justo el valor correspondiente a x en la
 -- tabla t, o Nothing si x no tiene valor. Por ejemplo, 
---    busca' P3 parlamento   ==   Just 19
---    busca' P8 parlamento   ==   Nothing
+--    busca' P3 [(P1,2),(P3,19)]   ==   Just 19
+--    busca' P8 [(P1,2),(P3,19)]   ==   Nothing
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- 1ª definición
 busca' :: Eq a => a -> Tabla a b -> Maybe b
-busca' p t = if null f 
-             then Nothing 
-             else Just $ snd $ head f
-  where f = filter (\(a,_) -> p == a) t
+busca' x t | null xs   = Nothing
+           | otherwise = Just (head xs)
+   where xs = [b | (a,b) <- t, a == x]
 
--- manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag juanarcon
--- isrbelnun blaruiher irecasmat abrdelrod erisancha
+-- 2ª definición
 busca'2 :: Eq a => a -> Tabla a b -> Maybe b
-busca'2 x t | null xs   = Nothing
-            | otherwise = Just (head xs)
-    where xs =  [y | (z,y) <- t, x == z] 
+busca'2 x []          = Nothing
+busca'2 x ((x',y):xys)
+    | x == x'         = Just y
+    | otherwise       = busca'2 x xys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck que si (busca' x t) es
 -- Nothing, entonces x es distinto de todos los elementos de t. 
 -- ---------------------------------------------------------------------
 
--- fracruzam rubvilval blaruiher irecasmat
-
 -- La propiedad es
 prop_BuscaNothing :: Integer -> [(Integer,Integer)] -> Property
-prop_BuscaNothing x t = 
-    busca' x t == Nothing ==> all (x /=) (map fst t)
-
-
--- manvermor alvalvdom1 ivaruicam manpende javperlag juanarcon abrdelrod 
-prop_BuscaNothing2 :: Integer -> [(Integer,Integer)] -> Property
-prop_BuscaNothing2 x t = 
-    busca' x t == Nothing ==> notElem x [z | (z,y) <- t] 
-
--- isrbelnun erisancha
-prop_BuscaNothing3 :: Integer -> [(Integer,Integer)] -> Property
-prop_BuscaNothing3 x t = 
-    busca' x t == Nothing ==> notElem x (map fst t)
+prop_BuscaNothing x t =
+    busca' x t == Nothing ==>
+    x `notElem` [a | (a,_) <- t]
 
 -- La comprobación es
---    *Main> quickCheck prop_BuscaNothing
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_BuscaNothing
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Comprobar que la función busca' es equivalente a la
 -- función lookup del Prelude. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor alvalvdom1 ivaruicam rubvilval manpende javperlag
--- juanarcon isrbelnun blaruiher irecasmat abrdelrod erisancha
-
 -- La propiedad es
 prop_BuscaEquivLookup :: Integer -> [(Integer,Integer)] -> Bool
-prop_BuscaEquivLookup x t = busca' x t == lookup x t
+prop_BuscaEquivLookup x t =
+    busca' x t == lookup x t
 
 -- La comprobación es
---    *Main> quickCheck prop_BuscaEquivLookup
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_BuscaEquivLookup
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir el tipo Coalicion como una lista de partidos.
@@ -193,25 +167,11 @@ type Coalicion = [Partido]
 -- tal que (mayoria xs) es el número de parlamentarios que se necesitan
 -- para tener la mayoría en la asamblea xs. Por ejemplo,
 --    mayoria [(P1,3),(P3,5),(P4,3)]   ==   6 
+--    mayoria [(P1,3),(P3,6)]          ==   5
 -- ---------------------------------------------------------------------
 
--- fracruzam
 mayoria :: Asamblea -> Integer
-mayoria xs = floor (pxs / 2 + 1)
-    where pxs = fromIntegral $ parlamentarios xs
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manvermor alvalvdom1 ivaruicam rubvilval juanarcon isrbelnun blaruiher
--- irecasmat abrdelrod
-mayoria2 :: Asamblea -> Integer
-mayoria2 xs = ceiling $ fromIntegral (parlamentarios xs) / 2
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manpende javperlag erisancha
-mayoria3 :: Asamblea -> Integer
-mayoria3 xs = div (parlamentarios xs) 2 + 1
+mayoria xs = parlamentarios xs `div` 2 + 1 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -226,17 +186,11 @@ mayoria3 xs = div (parlamentarios xs) 2 + 1
 --    coaliciones [(P1,2),(P3,5),(P4,3)] 6   ==  [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- javperlag juanarcon isrbelnun abrdelrod erisancha
 coaliciones :: Asamblea -> Integer -> [Coalicion]
-coaliciones xs n = 
-    [partidos ys 
-    | ys <- subsequences xs
-    , parlamentarios ys >= n
-    , all (<n) (map parlamentarios (init (subsequences ys)))]
-
--- Esta definición calcula todos los ejemplos menos el segundo del próximo 
--- ejercicio, en que obtengo [[P3],[P1,P4]] porque entiendo que si P3 hace
--- mayoría por sí solo no necesita el apoyo de P1.
+coaliciones _ n | n <= 0  = [[]]
+coaliciones [] n          = []
+coaliciones ((p,m):xs) n  =
+    coaliciones xs n ++ [p:c | c <- coaliciones xs (n-m)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -247,10 +201,9 @@ coaliciones xs n =
 --    mayorias [(P1,2),(P3,5),(P4,3)]   ==   [[P3,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval manpende javperlag juanarcon isrbelnun alvalvdom1 blaruiher 
--- iremascat abrdelrod erisancha
 mayorias :: Asamblea -> [Coalicion]
-mayorias asamblea = coaliciones asamblea (mayoria asamblea)
+mayorias asamblea = 
+    coaliciones asamblea (mayoria asamblea)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir el tipo de datos Asamblea.
@@ -268,20 +221,9 @@ data Asamblea2 = A Asamblea
 --    esMayoritaria [P4] [(P1,3),(P3,5),(P4,3)]      ==   False
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
 esMayoritaria :: Coalicion -> Asamblea -> Bool
-esMayoritaria c a = 
-    sum (map (\p -> busca p a) c) >= mayoria a
-
--- rubvilval
-esMayoritaria3 :: Coalicion -> Asamblea -> Bool
-esMayoritaria3 c a = sum (valores c a) >= mayoria a
-    where valores [] _ = []
-          valores (c:cs) a = busca c a : valores cs a
-
--- juanarcon isrbelnun alvalvdom1 blaruiher iremascat abrdelrod erisancha
-esMayoritaria4 :: Coalicion -> Asamblea -> Bool
-esMayoritaria4 c a = elem c (mayorias a)
+esMayoritaria c a =
+    sum [busca p a | p <- c] >= mayoria a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Comprobar con QuickCheck que las coaliciones
@@ -289,20 +231,14 @@ esMayoritaria4 c a = elem c (mayorias a)
 -- asamblea. 
 -- ---------------------------------------------------------------------
 
--- fracruzam ivaruicam
 -- La propiedad es
 prop_MayoriasSonMayoritarias :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritarias (A a) = 
-    all (\c -> esMayoritaria c a) (mayorias a)
-
--- manvermor manpende isrbelnun alvalvdom1 blaruiher irecasmat abrdelrod erisancha
-prop_MayoriasSonMayoritarias2 :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritarias2 (A a) = 
-    and [esMayoritaria c a | c <- mayorias a] 
+prop_MayoriasSonMayoritarias (A asamblea) =
+  and [esMayoritaria c asamblea | c <- mayorias asamblea]
 
 -- La comprobación es
---    *Main> quickCheck prop_MayoriasSonMayoritarias
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_MayoriasSonMayoritarias
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Definir la función
@@ -310,37 +246,14 @@ prop_MayoriasSonMayoritarias2 (A a) =
 -- tal que (esMayoritariaMinimal c a) se verifica si la coalición c es
 -- mayoritaria en la asamblea a, pero si se quita a c cualquiera de sus
 -- partidos la coalición resultante no es mayoritaria. Por ejemplo, 
---    esMayoritariaMinimal [P3,P4] [(P1,3),(P3,5),(P4,3)]           ==  True
---    esMayoritariaMinimal [P1,P3,P4] [(P1,3),(P3,5),(P4,3)]        ==  False
---    esMayoritariaMinimal [P2,P3,P4] [(P1,3),(P2,2),(P3,1),(P4,1)] == True
+--    esMayoritariaMinimal [P3,P4] [(P1,3),(P3,5),(P4,3)]     ==  True
+--    esMayoritariaMinimal [P1,P3,P4] [(P1,3),(P3,5),(P4,3)]  ==  False
 -- ---------------------------------------------------------------------
 
--- ivaruicam erisancha
 esMayoritariaMinimal :: Coalicion -> Asamblea -> Bool
-esMayoritariaMinimal c a = 
-    esMayoritaria c a && all (\x -> not (esMayoritaria x a)) (menosuna c) 
-
-menosuna xs = take (length xs) (permutaciones xs)
-    where permutaciones (x:xs) = xs : permutaciones (xs ++ [x])
-
--- rubvilval
-esMayoritariaMinimal2 :: Coalicion -> Asamblea -> Bool
-esMayoritariaMinimal2 c a = 
-    esMayoritaria c a && 
-    null (filter (\c -> esMayoritaria c a) (menos c))
-    where menos c = [a | a <- subsequences c, length c - 1 == length a] 
-
--- Comentario: La definición anterior se puede mejorar.
-
--- manpende isrbelnun abrdelrod
-esMayoritariaMinimal3 :: Coalicion -> Asamblea -> Bool
-esMayoritariaMinimal3 c a = 
-    esMayoritaria c a && 
-    null [ x | x <- subsequences c, 
-               genericLength x < genericLength c, 
-               esMayoritaria x a] 
-
--- Comentario: La definición anterior se puede mejorar.
+esMayoritariaMinimal c a =
+    esMayoritaria c a &&
+    and [not(esMayoritaria (delete p c) a) | p <-c]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Comprobar con QuickCheck si las coaliciones obtenidas
@@ -348,70 +261,49 @@ esMayoritariaMinimal3 c a =
 -- asamblea.  
 -- ---------------------------------------------------------------------
 
--- fracruzam erisancha
-
 -- La propiedad es
 prop_MayoriasSonMayoritariasMinimales :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritariasMinimales (A a) = 
-    all (\c -> esMayoritariaMinimal c a) (mayorias a)
-      
--- manvermor rubvilval manpende isrbelnun alvalvdom1 abrdelrod
-prop_MayoriasSonMayoritariasMinimales2 :: Asamblea2 -> Bool
-prop_MayoriasSonMayoritariasMinimales2 (A a) = 
-    and [esMayoritariaMinimal c a | c <- mayorias a]
+prop_MayoriasSonMayoritariasMinimales (A asamblea) =
+  and [esMayoritariaMinimal c asamblea | c <- mayorias asamblea]
 
 -- La comprobación es
---    *Main> quickCheck prop_MayoriasSonMayoritariasMinimales
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_MayoriasSonMayoritariasMinimales
+--    Falsifiable, after 0 tests:
+--    A [(P1,1),(P2,0),(P3,1),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
+
+-- Por tanto, no se cumple la propiedad. Para buscar una coalición no
+-- minimal generada por mayorias, definimos la función
+contraejemplo a =
+    head [c | c <- mayorias a, not(esMayoritariaMinimal c a)]
+
+-- el cálculo del contraejemplo es
+-- ghci> contraejemplo [(P1,1),(P2,0),(P3,1),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
+-- [P4,P6,P7,P8]
+
+-- La coalición [P4,P6,P7,P8] no es minimal ya que [P4,P6,P8] también es
+-- mayoritaria. En efecto,
+--    ghci> esMayoritaria [P4,P6,P8] 
+--                        [(P1,1),(P2,0),(P3,1),(P4,1),
+--                         (P5,0),(P6,1),(P7,0),(P8,1)]
+--    True
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 19. Definir la función
 --    coalicionesMinimales :: Asamblea -> Integer -> [Coalicion,Parlamentarios]
 -- tal que (coalicionesMinimales xs n) es la lista de coaliciones
 -- minimales necesarias para alcanzar n parlamentarios. Por ejemplo, 
---    Main> coalicionesMinimales [(P1,3),(P3,5),(P4,3)] 6
+--    ghci> coalicionesMinimales [(P1,3),(P3,5),(P4,3)] 6
 --    [([P3,P4],8),([P1,P4],6),([P1,P3],8)]
---    Main> coalicionesMinimales [(P1,3),(P3,5),(P4,3)] 5
+--    ghci> coalicionesMinimales [(P1,3),(P3,5),(P4,3)] 5
 --    [([P3],5),([P1,P4],6)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 coalicionesMinimales :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
-coalicionesMinimales a n = 
-  map (\l -> (map fst l, parlamentarios l)) $ 
-      filter (minimal n) (subsequences a)
-  where minimal :: Integer -> Asamblea -> Bool
-        minimal n a = all (\(_,m) -> m > d) a && x >= n
-          where d = x - n
-                x = parlamentarios a
-
--- Comentario: La definición anterior se puede mejorar.
-
--- rubvilval
-coalicionesMinimales2 :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
-coalicionesMinimales2 xs n = 
-    [(a,b) | (a,b) <- pares xs, length a < length xs, esminimal a xs n] 
-
--- Comentario: La definición anterior se puede mejorar.
-
-pares xs = zip (subsequences $ partidos xs) 
-               (map sum (map (\a->corr a xs)
-                             (subsequences $ partidos xs)))
-
-esminimal a xs n = 
-    sum (corr a xs) >= n && null (filter (\a->sum (corr a xs)>=n ) (menos a))
-    where menos a = [x | x <- subsequences a, (length a)-1==length x]
-
-corr [] _ = []
-corr (c:cs) a = busca c a : corr cs a
-
--- isrbelnun erisancha
-coalicionesMinimales3 :: Asamblea -> Integer -> [(Coalicion,Parlamentarios)]
-coalicionesMinimales3 xs n = 
-    [(map fst ps,parlamentarios ps) 
-    | ps <- subsequences xs
-    , parlamentarios ps >= n
-    , all (<n) (map parlamentarios (init (subsequences ps)))]
+coalicionesMinimales _ n | n <= 0  = [([],0)]
+coalicionesMinimales [] n          = []
+coalicionesMinimales ((p,m):xs) n  =
+    coalicionesMinimales xs n ++ 
+    [(p:ys, t+m) | (ys,t) <- coalicionesMinimales xs (n-m), t<n]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -421,17 +313,9 @@ coalicionesMinimales3 xs n =
 --    mayoriasMinimales [(P1,3),(P3,5),(P4,3)] == [[P3,P4],[P1,P4],[P1,P3]]
 -- ---------------------------------------------------------------------
 
--- rubvilval
 mayoriasMinimales :: Asamblea -> [Coalicion]
-mayoriasMinimales a = filter (\x->esMayoritariaMinimal x a)
-                             (subsequences $ partidos a)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- isrbelnun erisancha
-mayoriasMinimales2 :: Asamblea -> [Coalicion]
-mayoriasMinimales2 asamblea = 
-    map fst (coalicionesMinimales asamblea (mayoria asamblea))
+mayoriasMinimales asamblea = 
+    [c | (c,_) <- coalicionesMinimales asamblea (mayoria asamblea)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Comprobar con QuickCheck que las coaliciones
@@ -441,18 +325,13 @@ mayoriasMinimales2 asamblea =
 
 -- La propiedad es
 prop_MayoriasMinimalesSonMayoritariasMinimales :: Asamblea2 -> Bool
-prop_MayoriasMinimalesSonMayoritariasMinimales (A asamblea) =  
-    all (\x -> esMayoritariaMinimal x asamblea) 
-        (mayoriasMinimales asamblea)
-
--- isrbelnun erisancha abrdelrod
-prop_MayoriasMinimalesSonMayoritariasMinimales2 :: Asamblea2 -> Bool
-prop_MayoriasMinimalesSonMayoritariasMinimales2 (A asamblea) =
-    and [esMayoritariaMinimal m asamblea | m <- mayoriasMinimales asamblea]
+prop_MayoriasMinimalesSonMayoritariasMinimales (A asamblea) =
+  and [esMayoritariaMinimal c asamblea 
+       | c <- mayoriasMinimales asamblea]
 
 -- La comprobación es
---    *Main> quickCheck prop_MayoriasMinimalesSonMayoritariasMinimales
---    +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_MayoriasMinimalesSonMayoritariasMinimales
+--    OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Funciones auxiliares                                               --
@@ -460,13 +339,13 @@ prop_MayoriasMinimalesSonMayoritariasMinimales2 (A asamblea) =
 
 -- (listaDe n g) es una lista de n elementos, donde cada elemento es
 -- generado por g. Por ejemplo, 
---    Main> muestra (listaDe 3 (arbitrary :: Gen Int))
+--    ghci> muestra (listaDe 3 (arbitrary :: Gen Int))
 --    [-1,1,-1]
 --    [-2,-4,-1]
 --    [1,-1,0]
 --    [1,-1,1]
 --    [1,-1,1]
---    Main> muestra (listaDe 3 (arbitrary :: Gen Bool))
+--    ghci> muestra (listaDe 3 (arbitrary :: Gen Bool))
 --    [False,True,False]
 --    [True,True,False]
 --    [False,False,True]
@@ -477,13 +356,13 @@ listaDe n g = sequence [g | i <- [1..n]]
 
 -- paresDeIgualLongitud genera pares de listas de igual longitud. Por
 -- ejemplo, 
---    Main> muestra (paresDeIgualLongitud (arbitrary :: Gen Int))
+--    ghci> muestra (paresDeIgualLongitud (arbitrary :: Gen Int))
 --    ([-4,5],[-4,2])
 --    ([],[])
 --    ([0,0],[-2,-3])
 --    ([2,-2],[-2,1])
 --    ([0],[-1])
---    Main> muestra (paresDeIgualLongitud (arbitrary :: Gen Bool))
+--    ghci> muestra (paresDeIgualLongitud (arbitrary :: Gen Bool))
 --    ([False,True,False],[True,True,True])
 --    ([True],[True])
 --    ([],[])
@@ -497,7 +376,7 @@ paresDeIgualLongitud gen =
        return (xs,ys)
 
 -- generaAsamblea esun generador de datos de tipo Asamblea. Por ejemplo, 
---    Main> muestra generaAsamblea
+--    ghci> muestra generaAsamblea
 --    A [(P1,1),(P2,1),(P3,0),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
 --    A [(P1,0),(P2,1),(P3,1),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
 --    A [(P1,1),(P2,2),(P3,0),(P4,1),(P5,0),(P6,1),(P7,2),(P8,0)]

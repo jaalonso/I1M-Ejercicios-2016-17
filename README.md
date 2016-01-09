@@ -55,7 +55,7 @@ clase) y las soluciones definitivas.
 + **Relación 16**: Cálculo del número pi mediante el método de Montecarlo.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_16.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_16_sol.hs)).
-+ **Relación 14**: Mayorías parlamentarias. 
-  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14.hs) y
-   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14_sol.hs)).
++ **Relación 17**: Mayorías parlamentarias. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17_sol.hs)).
 
