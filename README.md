@@ -58,4 +58,10 @@ clase) y las soluciones definitivas.
 + **Relación 17**: Mayorías parlamentarias. 
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17_sol.hs)).
++ **Relación 18**: Vectores y matrices.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18_sol.hs)).
++ **Relación 19**: Método de Gauss para triangularizar matrices,
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19_sol.hs)).
 
