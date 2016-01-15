@@ -47,8 +47,11 @@ type Matriz a = Array (Int,Int) a
 --                         ((2,1),2),((2,2),4),((2,3),7)]
 -- --------------------------------------------------------------------
 
+-- fracruzam
 listaMatriz :: Num a => [[a]] -> Matriz a
-listaMatriz xss = undefined
+listaMatriz ys@(xs:xss) = listArray ((1,1),(n,m)) (concat ys)
+    where n = length ys
+          m = length xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -59,8 +62,10 @@ listaMatriz xss = undefined
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 separa :: Int -> [a] -> [[a]]
-separa = undefined
+separa _ [] = []
+separa n xs = take n xs : separa n (drop n xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -75,8 +80,9 @@ separa = undefined
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 matrizLista :: Num a => Matriz a -> [[a]]
-matrizLista p = undefined
+matrizLista p = separa (numColumnas p) (elems p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -86,8 +92,9 @@ matrizLista p = undefined
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 numFilas :: Num a => Matriz a -> Int
-numFilas = undefined
+numFilas = fst . snd . bounds
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -97,8 +104,9 @@ numFilas = undefined
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 numColumnas:: Num a => Matriz a -> Int
-numColumnas = undefined
+numColumnas = snd . snd . bounds
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -107,8 +115,9 @@ numColumnas = undefined
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 dimension :: Num a => Matriz a -> (Int,Int)
-dimension p = undefined
+dimension = snd . bounds
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -118,12 +127,14 @@ dimension p = undefined
 --    ghci> let p = listaMatriz [[5,1,0],[3,2,6]]
 --    ghci> diagonalPral p
 --    array (1,2) [(1,5),(2,2)]
---    ghci> vectorLista (diagonalPral p)
+--    ghci> elems (diagonalPral p)
 --    [5,2]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 diagonalPral :: Num a => Matriz a -> Vector a
-diagonalPral p = undefined
+diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
+    where q = min (numFilas p) (numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Transformaciones elementales                                       --
@@ -143,8 +154,13 @@ diagonalPral p = undefined
 --    [[4,6,9],[3,2,6],[5,1,0]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 intercambiaFilas :: Num a => Int -> Int -> Matriz a -> Matriz a
-intercambiaFilas k l p = undefined
+intercambiaFilas k l p = array (bounds p) (map (aux k l) (assocs p))
+    where aux :: Int -> Int -> ((Int,Int),a) -> ((Int,Int),a)
+          aux k l ((f,c),v) | f == k    = ((l,c),v)
+                            | f == l    = ((k,c),v)
+                            | otherwise = ((f,c),v)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -156,8 +172,13 @@ intercambiaFilas k l p = undefined
 --    [[0,1,5],[6,2,3],[9,6,4]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 intercambiaColumnas :: Num a => Int -> Int -> Matriz a -> Matriz a
-intercambiaColumnas k l p = undefined
+intercambiaColumnas k l p = array (bounds p) (map (aux k l) (assocs p))
+    where aux :: Int -> Int -> ((Int,Int),a) -> ((Int,Int),a)
+          aux k l ((f,c),v) | c == k    = ((f,l),v)
+                            | c == l    = ((f,k),v)
+                            | otherwise = ((f,c),v)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -169,8 +190,12 @@ intercambiaColumnas k l p = undefined
 --    [[5,1,0],[9,6,18],[4,6,9]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 multFilaPor :: Num a => Int -> a -> Matriz a -> Matriz a
-multFilaPor k x p = undefined
+multFilaPor k x p = array (bounds p) (map (aux k x) (assocs p))
+    where aux :: Num a => Int -> a -> ((Int,Int),a) -> ((Int,Int),a)
+          aux k x ((f,c),v) | f == k    = ((f,c),x*v)
+                            | otherwise = ((f,c),v)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -182,8 +207,13 @@ multFilaPor k x p = undefined
 --    [[5,1,0],[7,8,15],[4,6,9]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 sumaFilaFila :: Num a => Int -> Int -> Matriz a -> Matriz a
-sumaFilaFila k l p = undefined
+sumaFilaFila k l p = 
+    array (bounds p) 
+          (map (\((f,c),v) -> if f == k 
+                              then ((f,c),v+p!(l,c)) 
+                              else ((f,c),v))(assocs p))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -195,8 +225,13 @@ sumaFilaFila k l p = undefined
 --    [[5,1,0],[43,62,96],[4,6,9]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 sumaFilaPor :: Num a => Int -> Int -> a -> Matriz a -> Matriz a
-sumaFilaPor k l x p = undefined
+sumaFilaPor k l x p = 
+    array (bounds p) 
+          (map (\((f,c),v) -> if f == k 
+                              then ((f,c),v+p!(l,c)*x) 
+                              else ((f,c),v))(assocs p))
 
 -- ---------------------------------------------------------------------
 -- Triangularización de matrices                                      --
@@ -217,8 +252,10 @@ sumaFilaPor k l x p = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 buscaIndiceDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
-buscaIndiceDesde p j i = undefined
+buscaIndiceDesde p j i = if null xs then Nothing else Just (head xs)
+    where xs = [k | ((k,c),v) <- assocs p, k >= i, v /= 0, c == j]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
@@ -234,8 +271,13 @@ buscaIndiceDesde p j i = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 buscaPivoteDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe a
-buscaPivoteDesde p j i = undefined
+buscaPivoteDesde p j i = 
+    if m == Nothing then Nothing else Just $ p ! (aux m,j)
+    where m = buscaIndiceDesde p j i
+          aux :: Maybe Int -> Int
+          aux (Just a) = a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -252,8 +294,9 @@ buscaPivoteDesde p j i = undefined
 --    False
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 anuladaColumnaDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Bool
-anuladaColumnaDesde p j i = undefined
+anuladaColumnaDesde p j i = buscaIndiceDesde p j i == Nothing
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función
@@ -315,9 +358,9 @@ elementosNoNulosColDesde p j i = undefined
 --                            Matriz a -> Int -> Int -> Bool
 -- tal que (existeColNoNulaDesde p j i) se verifica si la matriz p tiene
 -- una columna a partir de la j tal que tiene algún elemento no nulo por
--- debajo de la j; es decir, si la submatriz de p obtenida eliminando
--- las i-1 primeras filas y las j-1 primeras columnas es no nula. Por
--- ejemplo, 
+-- debajo de la fila i; es decir, si la submatriz de p obtenida
+-- eliminando las i-1 primeras filas y las j-1 primeras columnas es no
+-- nula. Por ejemplo, 
 --    ghci> let p = listaMatriz [[3,2,5],[5,0,0],[6,0,0]]
 --    ghci> existeColNoNulaDesde p 2 2
 --    False
@@ -354,8 +397,8 @@ menorIndiceColNoNulaDesde p j i = undefined
 -- Ejercicio 21. Definir la función
 --    gaussAux :: (Fractional a, Eq a) => 
 --                Matriz a -> Int -> Int -> Matriz a
--- tal que (gauss p) es la matriz que en el que las i-1 primeras filas y
--- las j-1 primeras columnas son las de p y las restantes están
+-- tal que (gaussAux p) es la matriz que en el que las i-1 primeras
+-- filas y las j-1 primeras columnas son las de p y las restantes están
 -- triangularizadas por el método de Gauss; es decir,
 --    1. Si la dimensión de p es (i,j), entonces p.
 --    2. Si la submatriz de p sin las i-1 primeras filas y las j-1
@@ -472,4 +515,3 @@ gaussC p = undefined
 
 determinante :: (Fractional a, Eq a) => Matriz a -> a
 determinante p = undefined
-

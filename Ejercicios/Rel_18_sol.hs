@@ -12,7 +12,7 @@
 -- matrices con el tipo de tablas de las tablas, definido en el módulo
 -- Data.Array y explicado en el tema 18 cuyas transparencias se
 -- encuentran en 
---    http://www.cs.us.es/~jalonso/cursos/i1m-14/temas/tema-18t.pdf
+--    http://www.cs.us.es/~jalonso/cursos/i1m-15/temas/tema-18.html
  
 -- ---------------------------------------------------------------------
 -- Importación de librerías                                           --
@@ -44,8 +44,13 @@ type Matriz a = Array (Int,Int) a
 --    array (1,3) [(1,3),(2,2),(3,5)]
 -- ---------------------------------------------------------------------
 
+-- isrbelnun blaruiher alvalvdom1 manvermor
 listaVector :: Num a => [a] -> Vector a
-listaVector xs = undefined
+listaVector xs = array (1,length xs) (zip [1..] xs)
+
+-- fracruzam abrdelrod manpende
+listaVector2 :: Num a => [a] -> Vector a
+listaVector2 xs = listArray (1,length xs) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -57,8 +62,11 @@ listaVector xs = undefined
 --                         ((2,1),2),((2,2),4),((2,3),7)]
 -- ---------------------------------------------------------------------
 
+-- fracruzam abrdelrod alvalvdom1 manvermor manpende
 listaMatriz :: Num a => [[a]] -> Matriz a
-listaMatriz xss = undefined
+listaMatriz ys@(xs:xss) = listArray ((1,1),(a,b)) (concat ys)
+    where a = length ys
+          b = length xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -68,8 +76,9 @@ listaMatriz xss = undefined
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
+-- fracruzam abrdelrod alvalvdom1 manvermor manpende
 numFilas :: Num a => Matriz a -> Int
-numFilas = undefined
+numFilas = fst . snd . bounds
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -79,8 +88,9 @@ numFilas = undefined
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
+-- fracruzam abrdelrod alvalvdom1 manvermor manpende
 numColumnas:: Num a => Matriz a -> Int
-numColumnas = undefined
+numColumnas = snd . snd . bounds
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -89,8 +99,13 @@ numColumnas = undefined
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
+-- fracruzam alvalvdom1 manpende
 dimension :: Num a => Matriz a -> (Int,Int)
-dimension p = undefined
+dimension = snd . bounds
+
+-- abrdelrod manvermor
+dimension2 :: Num a => Matriz a -> (Int,Int)
+dimension2 p = (numFilas p,numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -101,8 +116,17 @@ dimension p = undefined
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende
 separa :: Int -> [a] -> [[a]]
-separa = undefined
+separa n xs | length xs > n = [take n xs] ++ separa n (drop n xs)
+            | otherwise     = [xs]
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam abrdelrod
+separa2 :: Int -> [a] -> [[a]]
+separa2 _ [] = []
+separa2 n xs = take n xs : separa n (drop n xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -117,8 +141,9 @@ separa = undefined
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 fracruzam abrdelrod manvermor manpende
 matrizLista :: Num a => Matriz a -> [[a]]
-matrizLista p = undefined
+matrizLista p = separa (numColumnas p) (elems p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -132,8 +157,9 @@ matrizLista p = undefined
 --    [3,2,5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 fracruzam abrdelrod manvermor manpende
 vectorLista :: Num a => Vector a -> [a]
-vectorLista = undefined
+vectorLista = elems
 
 -- ---------------------------------------------------------------------
 -- Suma de matrices                                                   --
@@ -150,8 +176,13 @@ vectorLista = undefined
 --    [[9,7,3],[4,7,8]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam abrdelrod alvalvdom1 manvermor manpende
 sumaMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices p q = undefined
+sumaMatrices p q = 
+    array ((1,1),dim) 
+          [((i,j), p!(i,j) + q!(i,j))
+          | i <- [1..fst dim], j <- [1..snd dim]]
+    where dim = dimension p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -165,8 +196,26 @@ sumaMatrices p q = undefined
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 abrdelrod manpende
 filaMat :: Num a => Int -> Matriz a -> Vector a
-filaMat i p = undefined
+filaMat i p = listArray (1,numColumnas p) (matrizLista p !! (i-1))
+
+-- Comentario: La definición anterior se puede simplificar usando listaVector.
+
+-- fracruzam
+filaMat2 :: Num a => Int -> Matriz a -> Vector a
+filaMat2 i p = 
+    array (1,d)
+    $ map (\((_,c),v) -> (c,v))
+    $ filter (\((f,_),_) -> f == i) 
+    $ assocs p
+    where d = numColumnas p
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- manvermor
+filaMat3 :: Num a => Int -> Matriz a -> Vector a
+filaMat3 i p = listaVector $ (matrizLista p) !! (i-1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -180,8 +229,27 @@ filaMat i p = undefined
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 abrdelrod manpende
 columnaMat :: Num a => Int -> Matriz a -> Vector a
-columnaMat j p = undefined
+columnaMat j p = listArray (1,numFilas p) (map (!! (j-1)) (matrizLista p))
+
+-- Comentario: La definición anterior se puede simplificar usando
+-- listaVector.
+
+-- fracruzam
+columnaMat2 :: Num a => Int -> Matriz a -> Vector a
+columnaMat2 i p = 
+    array (1,d) 
+    $ map (\((f,_),v) -> (f,v)) 
+    $ filter (\((_,c),_) -> c == i) 
+    $ assocs p
+  where d = numFilas p
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- manvermor
+columnaMat3 :: Num a => Int -> Matriz a -> Vector a
+columnaMat3 j p = listaVector [xs !! (j-1) | xs <- matrizLista p]
 
 -- ---------------------------------------------------------------------
 -- Producto de matrices                                               --
@@ -197,8 +265,11 @@ columnaMat j p = undefined
 --    110
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 fracruzam abrdelrod manvermor manpende
 prodEscalar :: Num a => Vector a -> Vector a -> a
-prodEscalar v1 v2 = undefined
+prodEscalar v1 v2 = sum [x*y | (x,y) <- zip (elems v1) (elems v2)]
+
+-- Comentario: La definición anterior se puede simplificar usando zipWith.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -217,8 +288,12 @@ prodEscalar v1 v2 = undefined
 --    [[26],[34]]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 abrdelrod manvermor manpende
 prodMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
-prodMatrices p q = undefined
+prodMatrices p q = array ((1,1),(m,n))
+                         [((i,j),f i j) | i <- [1..m], j <- [1..n]]
+    where f i j = prodEscalar (filaMat i p) (columnaMat j q)
+          (m,n) = (numFilas p,numColumnas q)
 
 -- ---------------------------------------------------------------------
 -- Matriz identidad                                                   --
@@ -234,8 +309,18 @@ prodMatrices p q = undefined
 --                         ((3,1),0),((3,2),0),((3,3),1)]
 -- ---------------------------------------------------------------------
 
+-- fracruzam manvermor
 identidad :: Num a => Int -> Matriz a
-identidad n = undefined     
+identidad n = 
+    listArray ((1,1),(n,n)) 
+              [(\i j -> if i == j then 1 else 0) i j | i <- xs, j <- xs]
+    where xs = [1..n]    
+
+-- abrdelrod alvalvdom1 manpende
+identidad2 :: Num a => Int -> Matriz a
+identidad2 n = 
+    array ((1,1), (n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
+    where f i j = if i == j then 1 else 0
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -258,8 +343,18 @@ identidad n = undefined
 q :: Matriz Int
 q = listArray ((1,1),(2,2)) [1,1,1,0] 
 
+-- alvalvdom1
 potencia :: Num a => Matriz a -> Int -> Matriz a
-potencia = undefined
+potencia p n | n > 0  = prodMatrices (potencia p (n-1)) p
+             | n == 0 = identidad (numFilas p)
+
+-- abrdelrod manvermor
+potencia2 :: Num a => Matriz a -> Int -> Matriz a
+potencia2 p 1 = p
+potencia2 p n = prodMatrices (potencia p (n-1)) p
+
+-- Comentario: La definición anterior está incompleta, falta el caso de
+-- exponente igual a cero.
 
 -- ---------------------------------------------------------------------
 -- Traspuestas                                                        --
@@ -278,8 +373,21 @@ potencia = undefined
 --    [[5,3],[1,2],[0,6]]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 abrdelrod manvermor
 traspuesta :: Num a => Matriz a -> Matriz a
-traspuesta p = undefined
+traspuesta p = array ((1,1),(n,m)) [((i,j),f i j) | i <- [1..n], j <- [1..m]]
+    where f i j = p!(j,i)
+          (m,n) = dimension p
+
+-- Comentario: La definición anterior se puede simplificar eliminando la
+-- función f.
+
+-- fracruzam
+traspuesta2 :: Num a => Matriz a -> Matriz a
+traspuesta2 p = 
+    array ((1,1),dim) [((j,i),v) | ((i,j),v) <- assocs p]
+        where (i,j) = dimension p
+              dim   = (j,i)
 
 -- ---------------------------------------------------------------------
 -- Tipos de matrices                                                  --
@@ -297,9 +405,10 @@ traspuesta p = undefined
 --    ghci> esCuadrada q
 --    True
 -- ---------------------------------------------------------------------
-
+ 
+-- alvalvdom1 fracruzam abrdelrod manvermor
 esCuadrada :: Num a => Matriz a -> Bool
-esCuadrada x = undefined
+esCuadrada x = numFilas x == numColumnas x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función
@@ -314,8 +423,9 @@ esCuadrada x = undefined
 --    False
 -- ---------------------------------------------------------------------    
 
+-- alvalvdom1 fracruzam abrdelrod manvermor
 esSimetrica :: (Num a, Eq a) => Matriz a -> Bool
-esSimetrica x = undefined
+esSimetrica x = x == traspuesta x
 
 -- ---------------------------------------------------------------------
 -- Diagonales de una matriz                                           --
@@ -333,8 +443,17 @@ esSimetrica x = undefined
 --    [5,2]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 diagonalPral :: Num a => Matriz a -> Vector a
-diagonalPral p = undefined
+diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
+    where q = min (numColumnas p) (numFilas p)
+
+-- manvermor
+diagonalPral2 :: Num a => Matriz a -> Vector a
+diagonalPral2 p = 
+    listaVector [ p!(i,j) | i <- [1..numFilas p], 
+                            j <- [1..numColumnas p],
+                            i == j]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -344,8 +463,13 @@ diagonalPral p = undefined
 --    ghci> let p = listaMatriz [[5,1,0],[3,2,6]]
 --    ghci> diagonalSec p
 --    array (1,2) [(1,1),(2,3)]
---    ghci> vectorLista (diagonalPral p)
---    [5,2]
+--    ghci> vectorLista (diagonalSec p)
+--    [1,3]
+--    ghci> let q = traspuesta p
+--    ghci> matrizLista q
+--    [[5,3],[1,2],[0,6]]
+--    ghci> vectorLista (diagonalSec q)
+--    [3,1]
 -- ---------------------------------------------------------------------
 
 diagonalSec :: Num a => Matriz a -> Vector a
@@ -367,8 +491,15 @@ diagonalSec p = undefined
 --    [[5,1],[4,6]]
 -- ---------------------------------------------------------------------
 
+-- fracruzam
 submatriz :: Num a => Int -> Int -> Matriz a -> Matriz a
-submatriz i j p = undefined 
+submatriz i j p = 
+    array ((1,1),dim) 
+          [((aux f i,aux c j), v) | ((f,c),v) <- assocs p, f /= i, c /= j]
+    where dim = (numFilas p - 1, numColumnas p - 1)
+          aux :: Int -> Int -> Int
+          aux f i | f < i     = f
+                  | otherwise = f-1
 
 -- ---------------------------------------------------------------------
 -- Determinante                                                       --
@@ -387,6 +518,14 @@ submatriz i j p = undefined
 --    -33.0
 -- ---------------------------------------------------------------------
 
+-- abrdelrod
 determinante:: Matriz Double -> Double
-determinante p = undefined
+determinante p = 
+    aux p (numFilas p)
+    where aux p 1 = head (elems p)
+          aux p n = sum [x * determinante (submatriz i 1 p) * (-1)^(i+1)
+                        | (i,x) <- zip [1..] (elems (columnaMat 1 p))]
+
+-- Comentario: La definición anterior se puede simplificar sin usar zip,
+-- elems ni columnaMat.
 
