@@ -463,7 +463,7 @@ primo n = head (dropWhile (<n) primos) == n
 
 sumaDeDosPrimos :: Int -> [(Int,Int)]
 sumaDeDosPrimos n = 
-    [(x,n-x) | x <- primosN, (n - x) `elem` primosN]
+    [(x,n-x) | x <- primosN, primo (n-x)]
     where primosN = takeWhile (<= (n `div` 2)) primos
 
 -- El cálculo es
