@@ -295,7 +295,7 @@ prodEscalar v1 v2 = sum [x*y | (x,y) <- zip (elems v1) (elems v2)]
 
 -- Comentario: La definición anterior se puede simplificar usando zipWith.
 
--- fracruzam juamorrom1 javoliher
+-- fracruzam juamorrom1 javoliher josllagam
 prodEscalar2 :: Num a => Vector a -> Vector a -> a
 prodEscalar2 v1 v2 = sum $ zipWith (*) (elems v1) (elems v2)
 
@@ -321,6 +321,7 @@ prodEscalar3 v1 v2 = sum [v1!i * v2!i | i <- indices v1]
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 abrdelrod manvermor manpende blaruiher ivaruicam javoliher
+-- josllagam
 prodMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
 prodMatrices p q = array ((1,1),(m,n))
                          [((i,j),f i j) | i <- [1..m], j <- [1..n]]
@@ -348,7 +349,7 @@ identidad n =
               [(\i j -> if i == j then 1 else 0) i j | i <- xs, j <- xs]
     where xs = [1..n]    
 
--- abrdelrod alvalvdom1 manpende ivaruicam blaruiher javoliher
+-- abrdelrod alvalvdom1 manpende ivaruicam blaruiher javoliher josllagam 
 identidad2 :: Num a => Int -> Matriz a
 identidad2 n = 
     array ((1,1), (n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
@@ -380,7 +381,7 @@ potencia :: Num a => Matriz a -> Int -> Matriz a
 potencia p n | n > 0  = prodMatrices (potencia p (n-1)) p
              | n == 0 = identidad (numFilas p)
 
--- abrdelrod manvermor ivaruicam
+-- abrdelrod manvermor ivaruicam josllagam
 potencia2 :: Num a => Matriz a -> Int -> Matriz a
 potencia2 p 0 = identidad (numFilas p)
 potencia2 p n = prodMatrices (potencia p (n-1)) p
@@ -425,7 +426,7 @@ traspuesta2 p =
         where (i,j) = dimension p
               dim   = (j,i)
 
--- ivaruicam blaruiher
+-- ivaruicam blaruiher josllagam
 traspuesta3 :: Num a => Matriz a -> Matriz a
 traspuesta3 p = 
     array ((1,1), (m,n)) [((i,j), p!(j,i))| i <- [1..m], j <- [1..n]]
@@ -450,6 +451,7 @@ traspuesta3 p =
 -- ---------------------------------------------------------------------
  
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
+-- josllagam
 esCuadrada :: Num a => Matriz a -> Bool
 esCuadrada x = numFilas x == numColumnas x
 
@@ -467,6 +469,7 @@ esCuadrada x = numFilas x == numColumnas x
 -- ---------------------------------------------------------------------    
 
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
+-- josllagam
 esSimetrica :: (Num a, Eq a) => Matriz a -> Bool
 esSimetrica x = x == traspuesta x
 
@@ -497,7 +500,7 @@ diagonalPral2 p =
     listaVector [ p!(i,j) | i <- [1..numFilas p], 
                             j <- [1..numColumnas p],
                             i == j]
--- abrdelrod ivaruicam
+-- abrdelrod ivaruicam josllagam
 diagonalPral3 :: Num a => Matriz a -> Vector a
 diagonalPral3 p = listArray (1, m) [x | ((i,j),x) <- assocs p, i==j]
     where m = min (numFilas p) (numColumnas p)
@@ -527,7 +530,7 @@ diagonalSec p = listArray (1,m) (f (matrizLista p) m)
           m = min (numFilas p) (numColumnas p)
 
 
--- carmengar
+-- carmengar josllagam
 diagonalSec2 :: Num a => Matriz a -> Vector a 
 diagonalSec2 p = 
     array (1,q) [(i,v) | ((i,j),v) <- assocs p, i+j == q+1]
