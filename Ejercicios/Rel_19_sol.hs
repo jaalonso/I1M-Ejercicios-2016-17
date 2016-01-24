@@ -47,7 +47,7 @@ type Matriz a = Array (Int,Int) a
 --                         ((2,1),2),((2,2),4),((2,3),7)]
 -- --------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 listaMatriz :: Num a => [[a]] -> Matriz a
 listaMatriz ys@(xs:xss) = listArray ((1,1),(n,m)) (concat ys)
     where n = length ys
@@ -62,7 +62,7 @@ listaMatriz ys@(xs:xss) = listArray ((1,1),(n,m)) (concat ys)
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 separa :: Int -> [a] -> [[a]]
 separa _ [] = []
 separa n xs = take n xs : separa n (drop n xs)
@@ -80,7 +80,7 @@ separa n xs = take n xs : separa n (drop n xs)
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 matrizLista :: Num a => Matriz a -> [[a]]
 matrizLista p = separa (numColumnas p) (elems p)
 
@@ -92,7 +92,7 @@ matrizLista p = separa (numColumnas p) (elems p)
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 numFilas :: Num a => Matriz a -> Int
 numFilas = fst . snd . bounds
 
@@ -104,7 +104,7 @@ numFilas = fst . snd . bounds
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 numColumnas:: Num a => Matriz a -> Int
 numColumnas = snd . snd . bounds
 
@@ -115,7 +115,7 @@ numColumnas = snd . snd . bounds
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 dimension :: Num a => Matriz a -> (Int,Int)
 dimension = snd . bounds
 
@@ -134,6 +134,11 @@ dimension = snd . bounds
 -- fracruzam
 diagonalPral :: Num a => Matriz a -> Vector a
 diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
+    where q = min (numFilas p) (numColumnas p)
+
+-- manpende
+diagonalPral2 :: Num a => Matriz a -> Vector a
+diagonalPral2 p = array (1,q) [(i,p!(i,i)) | i <- [1..q]]
     where q = min (numFilas p) (numColumnas p)
 
 -- ---------------------------------------------------------------------
@@ -162,6 +167,16 @@ intercambiaFilas k l p = array (bounds p) (map (aux k l) (assocs p))
                             | f == l    = ((k,c),v)
                             | otherwise = ((f,c),v)
 
+-- manpende
+intercambiaFilas2 :: Num a => Int -> Int -> Matriz a -> Matriz a
+intercambiaFilas2 k l p = 
+    array ((1,1), dimension p) [((i,j), f i j )| i <- [1..m], j <- [1..n]]
+    where f i j | i == k    = p ! (l,j)
+                | i == l    = p ! (k,j)
+                | otherwise = p ! (i,j)
+          m = numColumnas p
+          n = numFilas p
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
 --    intercambiaColumnas :: Num a => Int -> Int -> Matriz a -> Matriz a
@@ -180,6 +195,16 @@ intercambiaColumnas k l p = array (bounds p) (map (aux k l) (assocs p))
                             | c == l    = ((f,k),v)
                             | otherwise = ((f,c),v)
 
+-- manpende
+intercambiaColumnas2 :: Num a => Int -> Int -> Matriz a -> Matriz a
+intercambiaColumnas2 k l p = 
+    array ((1,1), dimension p) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
+    where f i j | j == k    = p ! (i,l)
+                | j == l    = p ! (i,k)
+                | otherwise = p ! (i,j)
+          m = numColumnas p
+          n = numFilas p
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
 --    multFilaPor :: Num a => Int -> a -> Matriz a -> Matriz a
@@ -196,6 +221,15 @@ multFilaPor k x p = array (bounds p) (map (aux k x) (assocs p))
     where aux :: Num a => Int -> a -> ((Int,Int),a) -> ((Int,Int),a)
           aux k x ((f,c),v) | f == k    = ((f,c),x*v)
                             | otherwise = ((f,c),v)
+
+-- manpende
+multFilaPor2 :: Num a => Int -> a -> Matriz a -> Matriz a
+multFilaPor2 k x p = 
+    array ((1,1),dimension p) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
+    where f i j | i == k    = x * p ! (i,j)
+                | otherwise = p ! (i,j)
+          m = numColumnas p
+          n = numFilas p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -215,6 +249,15 @@ sumaFilaFila k l p =
                               then ((f,c),v+p!(l,c)) 
                               else ((f,c),v))(assocs p))
 
+-- manpende
+sumaFilaFila2 :: Num a => Int -> Int -> Matriz a -> Matriz a
+sumaFilaFila2 k l p = 
+    array ((1,1),(m,n)) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
+    where f i j | i == k    = p ! (i,j) + p ! (l,j)
+                | otherwise = p ! (i,j)
+          m = numColumnas p
+          n = numFilas p
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
 --    sumaFilaPor :: Num a => Int -> Int -> a -> Matriz a -> Matriz a
@@ -232,6 +275,15 @@ sumaFilaPor k l x p =
           (map (\((f,c),v) -> if f == k 
                               then ((f,c),v+p!(l,c)*x) 
                               else ((f,c),v))(assocs p))
+
+-- manpende
+sumaFilaPor2 :: Num a => Int -> Int -> a -> Matriz a -> Matriz a
+sumaFilaPor2 k l x p = 
+    array ((1,1),(m,n)) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
+    where f i j | i == k    = p ! (i,j) + x * p ! (l,j)
+                | otherwise = p ! (i,j)
+          m = numColumnas p
+          n = numFilas p
 
 -- ---------------------------------------------------------------------
 -- Triangularización de matrices                                      --
@@ -257,6 +309,12 @@ buscaIndiceDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
 buscaIndiceDesde p j i = if null xs then Nothing else Just (head xs)
     where xs = [k | ((k,c),v) <- assocs p, k >= i, v /= 0, c == j]
 
+-- manpende
+buscaIndiceDesde2 :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
+buscaIndiceDesde2 p j i = if null xs then Nothing else Just (head xs)
+    where xs = [k | k <- [i..m], p ! (k,j)/= 0]
+          m = numColumnas p
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
 --    buscaPivoteDesde :: (Num a, Eq a) => 
@@ -271,7 +329,7 @@ buscaIndiceDesde p j i = if null xs then Nothing else Just (head xs)
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 buscaPivoteDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe a
 buscaPivoteDesde p j i = 
     if m == Nothing then Nothing else Just $ p ! (aux m,j)
@@ -294,7 +352,7 @@ buscaPivoteDesde p j i =
 --    False
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 anuladaColumnaDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Bool
 anuladaColumnaDesde p j i = buscaIndiceDesde p j i == Nothing
 
@@ -310,9 +368,17 @@ anuladaColumnaDesde p j i = buscaIndiceDesde p j i == Nothing
 --    [[2.0,3.0,1.0],[5.0,0.0,5.0],[4.0,0.0,7.0]]
 -- ---------------------------------------------------------------------
 
+-- manpende
 anulaEltoColumnaDesde :: (Fractional a, Eq a) => 
                          Matriz a -> Int -> Int -> Matriz a
-anulaEltoColumnaDesde p j i = undefined
+anulaEltoColumnaDesde p j i 
+    | anuladaColumnaDesde p j i=p
+    | otherwise = sumaFilaPor (bID p j (i+1))i (-(bPD p j (i+1))/(p!(i,j)))p
+    where bID p j i = head [k | ((k,c),v) <- assocs p, k >= i, v /= 0, c == j]
+          bPD p j i = head [v | ((k,c),v) <- assocs p, k >= i, v /= 0, c == j]
+
+-- He vuelto a definir buscaIndiceDesde y buscaPivoteDesde por un
+-- problema con el tipo Maybe Int que no sé resolver 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Definir la función
@@ -330,9 +396,12 @@ anulaEltoColumnaDesde p j i = undefined
 --    [[4 % 1,5 % 1],[0 % 1,1 % 1],[0 % 1,5 % 2]]
 -- ---------------------------------------------------------------------
 
+-- manpende
 anulaColumnaDesde :: (Fractional a, Eq a) => 
                      Matriz a -> Int -> Int -> Matriz a
-anulaColumnaDesde p j i = undefined
+anulaColumnaDesde p j i 
+    | anuladaColumnaDesde p j i= p
+    | otherwise = anulaColumnaDesde(anulaEltoColumnaDesde p j i)j i  
 
 -- ---------------------------------------------------------------------
 -- Algoritmo de Gauss para triangularizar matrices                    --

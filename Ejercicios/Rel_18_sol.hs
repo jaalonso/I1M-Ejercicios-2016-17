@@ -1,7 +1,7 @@
 -- I1M 2015-16: Relación 18 (11 de enero de 2016)
 -- Vectores y matrices.
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla
+-- Universidad de Sevilla 
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -349,7 +349,7 @@ identidad n =
               [(\i j -> if i == j then 1 else 0) i j | i <- xs, j <- xs]
     where xs = [1..n]    
 
--- abrdelrod alvalvdom1 manpende ivaruicam blaruiher javoliher josllagam 
+-- abrdelrod alvalvdom1 manpende ivaruicam blaruiher javoliher josllagam
 identidad2 :: Num a => Int -> Matriz a
 identidad2 n = 
     array ((1,1), (n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
@@ -381,7 +381,7 @@ potencia :: Num a => Matriz a -> Int -> Matriz a
 potencia p n | n > 0  = prodMatrices (potencia p (n-1)) p
              | n == 0 = identidad (numFilas p)
 
--- abrdelrod manvermor ivaruicam josllagam
+-- abrdelrod manvermor ivaruicam josllagam manpende
 potencia2 :: Num a => Matriz a -> Int -> Matriz a
 potencia2 p 0 = identidad (numFilas p)
 potencia2 p n = prodMatrices (potencia p (n-1)) p
@@ -410,7 +410,7 @@ potencia3 q n = (iterate (prodMatrices q) q) !! (n-1)
 --    [[5,3],[1,2],[0,6]]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manvermor
+-- alvalvdom1 abrdelrod manvermor manpende
 traspuesta :: Num a => Matriz a -> Matriz a
 traspuesta p = array ((1,1),(n,m)) [((i,j),f i j) | i <- [1..n], j <- [1..m]]
     where f i j = p!(j,i)
@@ -451,7 +451,7 @@ traspuesta3 p =
 -- ---------------------------------------------------------------------
  
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
--- josllagam
+-- josllagam manpende
 esCuadrada :: Num a => Matriz a -> Bool
 esCuadrada x = numFilas x == numColumnas x
 
@@ -469,7 +469,7 @@ esCuadrada x = numFilas x == numColumnas x
 -- ---------------------------------------------------------------------    
 
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
--- josllagam
+-- josllagam manpende
 esSimetrica :: (Num a, Eq a) => Matriz a -> Bool
 esSimetrica x = x == traspuesta x
 
@@ -489,7 +489,7 @@ esSimetrica x = x == traspuesta x
 --    [5,2]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam manpende
 diagonalPral :: Num a => Matriz a -> Vector a
 diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
     where q = min (numColumnas p) (numFilas p)
@@ -536,6 +536,11 @@ diagonalSec2 p =
     array (1,q) [(i,v) | ((i,j),v) <- assocs p, i+j == q+1]
     where q = min (numFilas p) (numColumnas p)
 
+-- manpende
+diagonalSec3 :: Num a => Matriz a -> Vector a
+diagonalSec3 p = listaVector [p!(i,n-i+1) | i <- [1..n]]
+    where n = min (numFilas p) (numColumnas p) 
+
 -- --------------------------------------------------------------------
 -- Submatrices                                                        --
 -- ---------------------------------------------------------------------
@@ -568,6 +573,17 @@ submatriz2 i j p = listaMatriz (borraFil i $ borraCol j (matrizLista p))
       where borraFil i xss =  take (i-1) xss ++ drop i xss
             borraCol j xss = [borraFil j xs | xs <- xss]
 
+-- manpende
+submatriz3 :: Num a => Int -> Int -> Matriz a -> Matriz a
+submatriz3 a b p = 
+    array ((1,1),(m-1,n-1)) [((i,j), f i j) | i <- [1..m-1], j <- [1..n-1]]
+    where n = numColumnas p
+          m = numFilas p
+          f i j | i >= a && j >= b = p ! (i+1,j+1)
+                | i < a  && j >= b = p ! (i,j+1)
+                | i < a  && j <  b = p ! (i,j)
+                | i >= a && j <  b = p ! (i+1,j)
+
 -- ---------------------------------------------------------------------
 -- Determinante                                                       --
 -- ---------------------------------------------------------------------
@@ -585,7 +601,7 @@ submatriz2 i j p = listaMatriz (borraFil i $ borraCol j (matrizLista p))
 --    -33.0
 -- ---------------------------------------------------------------------
 
--- abrdelrod
+-- abrdelrod manpende
 determinante:: Matriz Double -> Double
 determinante p = aux p (numFilas p)
     where aux p 1 = head (elems p)
