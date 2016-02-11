@@ -48,7 +48,7 @@ type Matriz a = Array (Int,Int) a
 listaVector :: Num a => [a] -> Vector a
 listaVector xs = array (1,length xs) (zip [1..] xs)
 
--- fracruzam abrdelrod manpende jespergue ivaruicam javoliher
+-- fracruzam abrdelrod manpende jespergue ivaruicam javoliher guache
 listaVector2 :: Num a => [a] -> Vector a
 listaVector2 xs = listArray (1,length xs) xs
 
@@ -68,6 +68,11 @@ listaMatriz :: Num a => [[a]] -> Matriz a
 listaMatriz ys@(xs:xss) = listArray ((1,1),(a,b)) (concat ys)
     where a = length ys
           b = length xs
+
+-- guache
+listaMatriz2 :: Num a => [[a]] -> Matriz a
+listaMatriz2 xss = 
+    listArray ((1,1),(length xss,length $ head xss)) (concat xss)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -120,7 +125,7 @@ dimension2 p = (numFilas p,numColumnas p)
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende blaruiher
+-- alvalvdom1 manvermor manpende blaruiher jespergue
 separa :: Int -> [a] -> [[a]]
 separa n xs | length xs > n = [take n xs] ++ separa n (drop n xs)
             | otherwise     = [xs]
@@ -183,7 +188,7 @@ vectorLista = elems
 -- ---------------------------------------------------------------------
 
 -- fracruzam abrdelrod alvalvdom1 manvermor manpende ivaruicam juamorrom1 
--- javoliher
+-- javoliher jespergue
 sumaMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
 sumaMatrices p q = 
     array ((1,1),dim) 
@@ -211,7 +216,7 @@ sumaMatrices2 p q =
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manpende josllagam
+-- alvalvdom1 abrdelrod manpende josllagam jespergue
 filaMat :: Num a => Int -> Matriz a -> Vector a
 filaMat i p = listArray (1,numColumnas p) (matrizLista p !! (i-1))
 
@@ -244,7 +249,7 @@ filaMat3 i p = listaVector $ (matrizLista p) !! (i-1)
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manpende josllagam
+-- alvalvdom1 abrdelrod manpende josllagam jespergue
 columnaMat :: Num a => Int -> Matriz a -> Vector a
 columnaMat j p = listArray (1,numFilas p) (map (!! (j-1)) (matrizLista p))
 
@@ -274,6 +279,10 @@ columnaMat4 j p = listaVector [i | ((_,n),i) <- assocs p , n == j]
 columnaMat5 :: Num a => Int -> Matriz a -> Vector a
 columnaMat5 j p = listaVector (map f (matrizLista p))
     where f xs = xs !! (j-1)
+
+-- paocabper
+columnaMat6 :: Num a => Int -> Matriz a -> Vector a
+columnaMat6 j p = listArray (1,numFilas p) (matrizLista p!!(j-1))
 
 -- ---------------------------------------------------------------------
 -- Producto de matrices                                               --
@@ -489,7 +498,7 @@ esSimetrica x = x == traspuesta x
 --    [5,2]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1
 diagonalPral :: Num a => Matriz a -> Vector a
 diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
     where q = min (numColumnas p) (numFilas p)
@@ -573,7 +582,7 @@ submatriz2 i j p = listaMatriz (borraFil i $ borraCol j (matrizLista p))
       where borraFil i xss =  take (i-1) xss ++ drop i xss
             borraCol j xss = [borraFil j xs | xs <- xss]
 
--- manpende
+-- manpende alvalvdom1
 submatriz3 :: Num a => Int -> Int -> Matriz a -> Matriz a
 submatriz3 a b p = 
     array ((1,1),(m-1,n-1)) [((i,j), f i j) | i <- [1..m-1], j <- [1..n-1]]

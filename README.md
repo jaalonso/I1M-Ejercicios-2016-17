@@ -64,4 +64,7 @@ clase) y las soluciones definitivas.
 + **Relación 19**: Método de Gauss para triangularizar matrices,
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19_sol.hs)).
++ **Relación 20**: Vectores y matrices con las librerías.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20_sol.hs)).
 

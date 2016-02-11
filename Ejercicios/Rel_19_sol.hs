@@ -53,6 +53,11 @@ listaMatriz ys@(xs:xss) = listArray ((1,1),(n,m)) (concat ys)
     where n = length ys
           m = length xs
 
+-- guache
+listaMatriz2 :: Num a => [[a]] -> Matriz a
+listaMatriz2 xss = 
+    listArray ((1,1),(length xss,length $ head xss)) (concat xss)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
 --    separa :: Int -> [a] -> [[a]]
