@@ -67,4 +67,7 @@ clase) y las soluciones definitivas.
 + **Relación 20**: Vectores y matrices con las librerías.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20_sol.hs)).
++ **Relación 21**: Cálculo numérico: Diferenciación y métodos de Herón y de Newton.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21_sol.hs)).
 
