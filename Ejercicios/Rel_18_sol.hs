@@ -45,6 +45,7 @@ type Matriz a = Array (Int,Int) a
 -- ---------------------------------------------------------------------
 
 -- isrbelnun blaruiher alvalvdom1 manvermor josllagam juamorrom1
+-- juanarcon anaagusil silgongal paocabper
 listaVector :: Num a => [a] -> Vector a
 listaVector xs = array (1,length xs) (zip [1..] xs)
 
@@ -63,7 +64,8 @@ listaVector2 xs = listArray (1,length xs) xs
 -- ---------------------------------------------------------------------
 
 -- fracruzam abrdelrod alvalvdom1 manvermor manpende jespergue blaruiher
--- josllagam ivaruicam juamorrom1 javioliher
+-- josllagam ivaruicam paocabper juamorrom1 javioliher juanarcon
+-- anaagusil silgongal 
 listaMatriz :: Num a => [[a]] -> Matriz a
 listaMatriz ys@(xs:xss) = listArray ((1,1),(a,b)) (concat ys)
     where a = length ys
@@ -83,7 +85,8 @@ listaMatriz2 xss =
 -- ---------------------------------------------------------------------
 
 -- fracruzam abrdelrod alvalvdom1 manvermor manpende jespergue blaruiher
--- josllagam ivaruicam juamorrom1 javoliher
+-- josllagam ivaruicam juamorrom1 javoliher juanarcon anaagusil
+-- silgongal paocabper 
 numFilas :: Num a => Matriz a -> Int
 numFilas = fst . snd . bounds
 
@@ -96,7 +99,8 @@ numFilas = fst . snd . bounds
 -- ---------------------------------------------------------------------
 
 -- fracruzam abrdelrod alvalvdom1 manvermor manpende jespergue blaruiher
--- josllagam ivaruicam juamorrom1 javoliher
+-- josllagam ivaruicam juamorrom1 javoliher juanarcon anaagusil
+-- silgongal paocabper 
 numColumnas:: Num a => Matriz a -> Int
 numColumnas = snd . snd . bounds
 
@@ -108,11 +112,11 @@ numColumnas = snd . snd . bounds
 -- ---------------------------------------------------------------------
 
 -- fracruzam alvalvdom1 manpende jespergue blaruiher josllagam ivaruicam
--- juamorrom1 javoliher
+-- juamorrom1 javoliher juanarcon silgongal
 dimension :: Num a => Matriz a -> (Int,Int)
 dimension = snd . bounds
 
--- abrdelrod manvermor
+-- abrdelrod manvermor anaagusil paocabper
 dimension2 :: Num a => Matriz a -> (Int,Int)
 dimension2 p = (numFilas p,numColumnas p)
 
@@ -125,7 +129,7 @@ dimension2 p = (numFilas p,numColumnas p)
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende blaruiher jespergue
+-- alvalvdom1 manvermor manpende blaruiher jespergue anaagusil paocabper
 separa :: Int -> [a] -> [[a]]
 separa n xs | length xs > n = [take n xs] ++ separa n (drop n xs)
             | otherwise     = [xs]
@@ -133,6 +137,7 @@ separa n xs | length xs > n = [take n xs] ++ separa n (drop n xs)
 -- Comentario: La definición anterior se puede simplificar.
 
 -- fracruzam abrdelrod jespergue josllagam ivaruicam juamorrom1 javoliher
+-- juanarcon silgongal
 separa2 :: Int -> [a] -> [[a]]
 separa2 _ [] = []
 separa2 n xs = take n xs : separa n (drop n xs)
@@ -151,8 +156,9 @@ separa2 n xs = take n xs : separa n (drop n xs)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 fracruzam abrdelrod manvermor manpende jespergue blaruiher
--- josllagam ivaruicam juamorrom1 javoliher
-matrizLista :: Num a => Matriz a -> [[a]]
+-- josllagam ivaruicam juamorrom1 javoliher juanarcon anaagusil
+-- silgongal paocabper 
+matrizLista :: Num a => Matriz a -> [[a]] 
 matrizLista p = separa (numColumnas p) (elems p)
 
 -- ---------------------------------------------------------------------
@@ -168,7 +174,8 @@ matrizLista p = separa (numColumnas p) (elems p)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 fracruzam abrdelrod manvermor manpende jespergue blaruiher
--- josllagam ivaruicam juamorrom1 javoliher
+-- josllagam ivaruicam juamorrom1 javoliher juanarcon anaagusil
+-- silgongal paocabper 
 vectorLista :: Num a => Vector a -> [a]
 vectorLista = elems
 
@@ -188,7 +195,7 @@ vectorLista = elems
 -- ---------------------------------------------------------------------
 
 -- fracruzam abrdelrod alvalvdom1 manvermor manpende ivaruicam juamorrom1 
--- javoliher jespergue
+-- javoliher jespergue juanarcon silgongal paocabper
 sumaMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
 sumaMatrices p q = 
     array ((1,1),dim) 
@@ -196,13 +203,19 @@ sumaMatrices p q =
           | i <- [1..fst dim], j <- [1..snd dim]]
     where dim = dimension p
 
--- josllagam
+-- josllagam 
 sumaMatrices2:: Num a => Matriz a -> Matriz a -> Matriz a
 sumaMatrices2 p q = 
     listArray ((1,1),(dimension p)) (zipWith (+) (elems p) (elems q))
 
 -- Comentario: La definición anterior se puede simplificar usando
 -- bounds. 
+
+-- anaagusil
+
+sumaMatrices3 :: Num a => Matriz a -> Matriz a -> Matriz a
+sumaMatrices3 p q = 
+    listArray (bounds p) (zipWith (+) (elems p) (elems q))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -216,7 +229,7 @@ sumaMatrices2 p q =
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manpende josllagam jespergue
+-- alvalvdom1 abrdelrod manpende josllagam jespergue 
 filaMat :: Num a => Int -> Matriz a -> Vector a
 filaMat i p = listArray (1,numColumnas p) (matrizLista p !! (i-1))
 
@@ -233,7 +246,8 @@ filaMat2 i p =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor blaruiher ivaruicam juamorrom1 javoliher
+-- manvermor blaruiher ivaruicam juamorrom1 javoliher juanarcon
+-- anaagusil paocabper 
 filaMat3 :: Num a => Int -> Matriz a -> Vector a
 filaMat3 i p = listaVector $ (matrizLista p) !! (i-1)
 
@@ -249,7 +263,7 @@ filaMat3 i p = listaVector $ (matrizLista p) !! (i-1)
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manpende josllagam jespergue
+-- alvalvdom1 abrdelrod manpende josllagam jespergue 
 columnaMat :: Num a => Int -> Matriz a -> Vector a
 columnaMat j p = listArray (1,numFilas p) (map (!! (j-1)) (matrizLista p))
 
@@ -267,7 +281,7 @@ columnaMat2 i p =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- manvermor blaruiher juamorrom1
+-- manvermor blaruiher juamorrom1 juanarcon
 columnaMat3 :: Num a => Int -> Matriz a -> Vector a
 columnaMat3 j p = listaVector [xs !! (j-1) | xs <- matrizLista p]
 
@@ -280,7 +294,7 @@ columnaMat5 :: Num a => Int -> Matriz a -> Vector a
 columnaMat5 j p = listaVector (map f (matrizLista p))
     where f xs = xs !! (j-1)
 
--- paocabper
+-- paocabper anaagusil
 columnaMat6 :: Num a => Int -> Matriz a -> Vector a
 columnaMat6 j p = listArray (1,numFilas p) (matrizLista p!!(j-1))
 
@@ -304,7 +318,7 @@ prodEscalar v1 v2 = sum [x*y | (x,y) <- zip (elems v1) (elems v2)]
 
 -- Comentario: La definición anterior se puede simplificar usando zipWith.
 
--- fracruzam juamorrom1 javoliher josllagam
+-- fracruzam juamorrom1 javoliher josllagam juanarcon paocabper anaagusil
 prodEscalar2 :: Num a => Vector a -> Vector a -> a
 prodEscalar2 v1 v2 = sum $ zipWith (*) (elems v1) (elems v2)
 
@@ -330,7 +344,7 @@ prodEscalar3 v1 v2 = sum [v1!i * v2!i | i <- indices v1]
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 abrdelrod manvermor manpende blaruiher ivaruicam javoliher
--- josllagam
+-- josllagam juanarcon anaagusil juamorrom1 paocabper
 prodMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
 prodMatrices p q = array ((1,1),(m,n))
                          [((i,j),f i j) | i <- [1..m], j <- [1..n]]
@@ -359,6 +373,7 @@ identidad n =
     where xs = [1..n]    
 
 -- abrdelrod alvalvdom1 manpende ivaruicam blaruiher javoliher josllagam
+-- juanarcon anaagusil juamorrom1 paocabper
 identidad2 :: Num a => Int -> Matriz a
 identidad2 n = 
     array ((1,1), (n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
@@ -390,7 +405,8 @@ potencia :: Num a => Matriz a -> Int -> Matriz a
 potencia p n | n > 0  = prodMatrices (potencia p (n-1)) p
              | n == 0 = identidad (numFilas p)
 
--- abrdelrod manvermor ivaruicam josllagam manpende
+-- abrdelrod manvermor paocabper ivaruicam josllagam manpende juanarcon
+-- anagusil 
 potencia2 :: Num a => Matriz a -> Int -> Matriz a
 potencia2 p 0 = identidad (numFilas p)
 potencia2 p n = prodMatrices (potencia p (n-1)) p
@@ -401,6 +417,12 @@ potencia3 q n = (iterate (prodMatrices q) q) !! (n-1)
 
 -- La definición anterior está incompleta: le falta el caso de exponente
 -- cero. 
+
+-- juamorrom1
+potencia4 :: Num a => Matriz a -> Int -> Matriz a
+potencia4 p 0 = identidad (numFilas p)
+potencia4 p n = 
+    listaMatriz $ (map matrizLista (iterate (`prodMatrices` p) p) !! (n-1))
 
 -- ---------------------------------------------------------------------
 -- Traspuestas                                                        --
@@ -419,7 +441,7 @@ potencia3 q n = (iterate (prodMatrices q) q) !! (n-1)
 --    [[5,3],[1,2],[0,6]]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 abrdelrod manvermor manpende
+-- alvalvdom1 abrdelrod manvermor paocabper manpende juamorrom1
 traspuesta :: Num a => Matriz a -> Matriz a
 traspuesta p = array ((1,1),(n,m)) [((i,j),f i j) | i <- [1..n], j <- [1..m]]
     where f i j = p!(j,i)
@@ -435,7 +457,7 @@ traspuesta2 p =
         where (i,j) = dimension p
               dim   = (j,i)
 
--- ivaruicam blaruiher josllagam
+-- ivaruicam blaruiher josllagam juanarcon anaagusil
 traspuesta3 :: Num a => Matriz a -> Matriz a
 traspuesta3 p = 
     array ((1,1), (m,n)) [((i,j), p!(j,i))| i <- [1..m], j <- [1..n]]
@@ -460,7 +482,7 @@ traspuesta3 p =
 -- ---------------------------------------------------------------------
  
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
--- josllagam manpende
+-- josllagam mantened juanarcon anaagusil paocabper juamorrom1
 esCuadrada :: Num a => Matriz a -> Bool
 esCuadrada x = numFilas x == numColumnas x
 
@@ -478,7 +500,7 @@ esCuadrada x = numFilas x == numColumnas x
 -- ---------------------------------------------------------------------    
 
 -- alvalvdom1 fracruzam abrdelrod manvermor ivaruicam blaruiher
--- josllagam manpende
+-- josllagam mantened juanarcon anaagusil juamorrom1 paocabper
 esSimetrica :: (Num a, Eq a) => Matriz a -> Bool
 esSimetrica x = x == traspuesta x
 
@@ -498,7 +520,7 @@ esSimetrica x = x == traspuesta x
 --    [5,2]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende alvalvdom1
+-- fracruzam manpende alvalvdom1 juanarcon anaagusil juamorrom1 paocabper
 diagonalPral :: Num a => Matriz a -> Vector a
 diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
     where q = min (numColumnas p) (numFilas p)
@@ -531,7 +553,7 @@ diagonalPral3 p = listArray (1, m) [x | ((i,j),x) <- assocs p, i==j]
 --    [3,1]
 -- ---------------------------------------------------------------------
 
--- abrdelrod
+-- abrdelrod paocabper
 diagonalSec :: Num a => Matriz a -> Vector a
 diagonalSec p = listArray (1,m) (f (matrizLista p) m)
     where f _ 0        = []
@@ -539,13 +561,13 @@ diagonalSec p = listArray (1,m) (f (matrizLista p) m)
           m = min (numFilas p) (numColumnas p)
 
 
--- carmengar josllagam
+-- carmengar josllagam juanarcon
 diagonalSec2 :: Num a => Matriz a -> Vector a 
 diagonalSec2 p = 
     array (1,q) [(i,v) | ((i,j),v) <- assocs p, i+j == q+1]
     where q = min (numFilas p) (numColumnas p)
 
--- manpende
+-- manpende 
 diagonalSec3 :: Num a => Matriz a -> Vector a
 diagonalSec3 p = listaVector [p!(i,n-i+1) | i <- [1..n]]
     where n = min (numFilas p) (numColumnas p) 
@@ -576,7 +598,7 @@ submatriz i j p =
           aux f i | f < i     = f
                   | otherwise = f-1
 
--- abrdelrod
+-- abrdelrod juanarcon paocabper
 submatriz2 :: Num a => Int -> Int -> Matriz a -> Matriz a
 submatriz2 i j p = listaMatriz (borraFil i $ borraCol j (matrizLista p))
       where borraFil i xss =  take (i-1) xss ++ drop i xss
@@ -610,7 +632,7 @@ submatriz3 a b p =
 --    -33.0
 -- ---------------------------------------------------------------------
 
--- abrdelrod manpende
+-- abrdelrod manpende juanarcon  paocabper
 determinante:: Matriz Double -> Double
 determinante p = aux p (numFilas p)
     where aux p 1 = head (elems p)

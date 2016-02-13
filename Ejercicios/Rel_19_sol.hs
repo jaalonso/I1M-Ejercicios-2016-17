@@ -21,6 +21,7 @@
 
 import Data.Array
 import Data.Ratio
+import Data.List
 
 -- ---------------------------------------------------------------------
 -- Tipos de los vectores y de las matrices                            --
@@ -47,13 +48,13 @@ type Matriz a = Array (Int,Int) a
 --                         ((2,1),2),((2,2),4),((2,3),7)]
 -- --------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende juanarcon juamorrom1 manvermor
 listaMatriz :: Num a => [[a]] -> Matriz a
 listaMatriz ys@(xs:xss) = listArray ((1,1),(n,m)) (concat ys)
     where n = length ys
           m = length xs
 
--- guache
+-- guache alvalvdom1 abrdelrod
 listaMatriz2 :: Num a => [[a]] -> Matriz a
 listaMatriz2 xss = 
     listArray ((1,1),(length xss,length $ head xss)) (concat xss)
@@ -67,7 +68,7 @@ listaMatriz2 xss =
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon juamorrom1 manvermor
 separa :: Int -> [a] -> [[a]]
 separa _ [] = []
 separa n xs = take n xs : separa n (drop n xs)
@@ -85,7 +86,7 @@ separa n xs = take n xs : separa n (drop n xs)
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon juamorrom1 manvermor
 matrizLista :: Num a => Matriz a -> [[a]]
 matrizLista p = separa (numColumnas p) (elems p)
 
@@ -97,7 +98,7 @@ matrizLista p = separa (numColumnas p) (elems p)
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon juamorrom1 manvermor
 numFilas :: Num a => Matriz a -> Int
 numFilas = fst . snd . bounds
 
@@ -109,7 +110,7 @@ numFilas = fst . snd . bounds
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon juamorrom1 manvermor
 numColumnas:: Num a => Matriz a -> Int
 numColumnas = snd . snd . bounds
 
@@ -120,7 +121,7 @@ numColumnas = snd . snd . bounds
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon juamorrom1 manvermor
 dimension :: Num a => Matriz a -> (Int,Int)
 dimension = snd . bounds
 
@@ -136,7 +137,7 @@ dimension = snd . bounds
 --    [5,2]
 -- ---------------------------------------------------------------------
 
--- fracruzam
+-- fracruzam alvalvdom1 juanarcon juamorrom1 manvermor
 diagonalPral :: Num a => Matriz a -> Vector a
 diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
     where q = min (numFilas p) (numColumnas p)
@@ -145,6 +146,12 @@ diagonalPral p = array (1,q) [(i,v) | ((i,j),v) <- assocs p, i == j]
 diagonalPral2 :: Num a => Matriz a -> Vector a
 diagonalPral2 p = array (1,q) [(i,p!(i,i)) | i <- [1..q]]
     where q = min (numFilas p) (numColumnas p)
+
+-- abrdelrod
+diagonalPral3 :: Num a => Matriz a -> Vector a
+diagonalPral3 p = 
+    listArray (1, min x y) [x | ((i,j),x) <- assocs p, i == j]
+    where (x,y) = dimension p
 
 -- ---------------------------------------------------------------------
 -- Transformaciones elementales                                       --
@@ -172,7 +179,7 @@ intercambiaFilas k l p = array (bounds p) (map (aux k l) (assocs p))
                             | f == l    = ((k,c),v)
                             | otherwise = ((f,c),v)
 
--- manpende
+-- manpende alvalvdom1 juanarcon manvermor
 intercambiaFilas2 :: Num a => Int -> Int -> Matriz a -> Matriz a
 intercambiaFilas2 k l p = 
     array ((1,1), dimension p) [((i,j), f i j )| i <- [1..m], j <- [1..n]]
@@ -181,6 +188,12 @@ intercambiaFilas2 k l p =
                 | otherwise = p ! (i,j)
           m = numColumnas p
           n = numFilas p
+
+-- abrdelrod
+intercambiaFilas3 :: Num a => Int -> Int -> Matriz a -> Matriz a
+intercambiaFilas3 k l p = 
+    p // ([((l,j),p!(k,j)) | j <- [1..numColumnas p]] ++ 
+          [((k,j),p!(l,j)) | j <- [1..numColumnas p]])
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -200,7 +213,7 @@ intercambiaColumnas k l p = array (bounds p) (map (aux k l) (assocs p))
                             | c == l    = ((f,k),v)
                             | otherwise = ((f,c),v)
 
--- manpende
+-- manpende alvalvdom1 juanarcon manvermor
 intercambiaColumnas2 :: Num a => Int -> Int -> Matriz a -> Matriz a
 intercambiaColumnas2 k l p = 
     array ((1,1), dimension p) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
@@ -209,6 +222,14 @@ intercambiaColumnas2 k l p =
                 | otherwise = p ! (i,j)
           m = numColumnas p
           n = numFilas p
+
+-- abrdelrod
+intercambiaColumnas3 :: Num a => Int -> Int -> Matriz a -> Matriz a
+intercambiaColumnas3 k l p = 
+    traspuesta (intercambiaFilas k l (traspuesta p))
+    where traspuesta p = array ((1,1),(y,x)) 
+                               [((i,j),p!(j,i)) | i <-[1..y], j <- [1..x]]
+          (x,y)        = dimension p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -227,7 +248,7 @@ multFilaPor k x p = array (bounds p) (map (aux k x) (assocs p))
           aux k x ((f,c),v) | f == k    = ((f,c),x*v)
                             | otherwise = ((f,c),v)
 
--- manpende
+-- manpende alvalvdom1 juanarcon manvermor
 multFilaPor2 :: Num a => Int -> a -> Matriz a -> Matriz a
 multFilaPor2 k x p = 
     array ((1,1),dimension p) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
@@ -235,6 +256,10 @@ multFilaPor2 k x p =
                 | otherwise = p ! (i,j)
           m = numColumnas p
           n = numFilas p
+
+-- abrdelrod
+multFilaPor3 :: Num a => Int -> a -> Matriz a -> Matriz a
+multFilaPor3 k x p = p // [((k,j),p!(k,j)*x)| j <- [1..numColumnas p]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -254,7 +279,7 @@ sumaFilaFila k l p =
                               then ((f,c),v+p!(l,c)) 
                               else ((f,c),v))(assocs p))
 
--- manpende
+-- manpende alvalvdom1 juanarcon manvermor
 sumaFilaFila2 :: Num a => Int -> Int -> Matriz a -> Matriz a
 sumaFilaFila2 k l p = 
     array ((1,1),(m,n)) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
@@ -262,6 +287,11 @@ sumaFilaFila2 k l p =
                 | otherwise = p ! (i,j)
           m = numColumnas p
           n = numFilas p
+
+-- abrdelrod
+sumaFilaFila3 :: Num a => Int -> Int -> Matriz a -> Matriz a
+sumaFilaFila3 k l p = 
+    p // [((k,j),p!(k,j)+p!(l,j)) | j <- [1..numColumnas p]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -281,7 +311,7 @@ sumaFilaPor k l x p =
                               then ((f,c),v+p!(l,c)*x) 
                               else ((f,c),v))(assocs p))
 
--- manpende
+-- manpende alvalvdom1 juanarcon manvermor
 sumaFilaPor2 :: Num a => Int -> Int -> a -> Matriz a -> Matriz a
 sumaFilaPor2 k l x p = 
     array ((1,1),(m,n)) [((i,j), f i j) | i <- [1..m], j <- [1..n]]
@@ -289,6 +319,11 @@ sumaFilaPor2 k l x p =
                 | otherwise = p ! (i,j)
           m = numColumnas p
           n = numFilas p
+
+-- abrdelrod
+sumaFilaPor3 :: Num a => Int -> Int -> a -> Matriz a -> Matriz a
+sumaFilaPor3 k l x p = 
+    p // [((k,j),p!(k,j)+x*p!(l,j)) | j <- [1..numColumnas p]]
 
 -- ---------------------------------------------------------------------
 -- Triangularización de matrices                                      --
@@ -314,11 +349,23 @@ buscaIndiceDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
 buscaIndiceDesde p j i = if null xs then Nothing else Just (head xs)
     where xs = [k | ((k,c),v) <- assocs p, k >= i, v /= 0, c == j]
 
--- manpende
+-- manpende juanarcon manvermor
 buscaIndiceDesde2 :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
 buscaIndiceDesde2 p j i = if null xs then Nothing else Just (head xs)
     where xs = [k | k <- [i..m], p ! (k,j)/= 0]
           m = numColumnas p
+
+-- alvalvdom1
+buscaIndiceDesde3 :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
+buscaIndiceDesde3 p j i = 
+    find (/= 0) (filter (\x -> p!(x,j) /= 0) [i..numFilas p])
+
+-- abrdelrod
+buscaIndiceDesde4:: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe Int
+buscaIndiceDesde4 p j i | all (==0) xs = Nothing
+                       | otherwise = Just ((fst.fst.head) (filter p'(assocs p)))
+      where xs = drop (i-1) $ map (!!(j-1)) (matrizLista p)
+            p' ((a,b),c) = b == j && a >= i && c /= 0
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
@@ -334,7 +381,7 @@ buscaIndiceDesde2 p j i = if null xs then Nothing else Just (head xs)
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon manvermor
 buscaPivoteDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Maybe a
 buscaPivoteDesde p j i = 
     if m == Nothing then Nothing else Just $ p ! (aux m,j)
@@ -357,9 +404,9 @@ buscaPivoteDesde p j i =
 --    False
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende
+-- fracruzam manpende alvalvdom1 abrdelrod juanarcon
 anuladaColumnaDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Bool
-anuladaColumnaDesde p j i = buscaIndiceDesde p j i == Nothing
+anuladaColumnaDesde p j i = buscaIndiceDesde p j (i+1) == Nothing
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función
@@ -385,6 +432,26 @@ anulaEltoColumnaDesde p j i
 -- He vuelto a definir buscaIndiceDesde y buscaPivoteDesde por un
 -- problema con el tipo Maybe Int que no sé resolver 
 
+-- alvalvdom1
+anulaEltoColumnaDesde2 :: (Fractional a, Eq a) => 
+                          Matriz a -> Int -> Int -> Matriz a
+anulaEltoColumnaDesde2 p j i 
+     | anuladaColumnaDesde p j i = p
+     | otherwise = sumaFilaPor (aux (buscaIndiceDesde p j (i+1))) 
+                               i 
+                               (-(aux (buscaPivoteDesde p j (i+1)))/(p!(i,j))) 
+                               p
+      where aux (Just a) = a
+
+-- abrdelrod
+anulaEltoColumnaDesde3 :: (Fractional a, Eq a) => 
+                          Matriz a -> Int -> Int -> Matriz a
+anulaEltoColumnaDesde3 p j i | anuladaColumnaDesde p j i = p
+                             | otherwise = sumaFilaPor k i x p
+     where k = f (buscaIndiceDesde p j (i+1))
+           x = - (f (buscaPivoteDesde p j (i+1))) / (p!(i,j))
+           f (Just a) = a
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Definir la función
 --    anulaColumnaDesde :: (Fractional a, Eq a) => 
@@ -401,7 +468,7 @@ anulaEltoColumnaDesde p j i
 --    [[4 % 1,5 % 1],[0 % 1,1 % 1],[0 % 1,5 % 2]]
 -- ---------------------------------------------------------------------
 
--- manpende
+-- manpende alvalvdom1 abrdelrod
 anulaColumnaDesde :: (Fractional a, Eq a) => 
                      Matriz a -> Int -> Int -> Matriz a
 anulaColumnaDesde p j i 
@@ -423,8 +490,15 @@ anulaColumnaDesde p j i
 --    [5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1
 elementosNoNulosColDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> [a]
-elementosNoNulosColDesde p j i = undefined
+elementosNoNulosColDesde p j i = 
+    [p!(k,j) | k <- [i..numFilas p], p!(k,j) /= 0]
+
+-- abrdelrod
+elementosNoNulosColDesde2 :: (Num a, Eq a) => Matriz a -> Int -> Int -> [a]
+elementosNoNulosColDesde2 p j i = 
+    filter (/= 0) (drop (i-1) ((map (!!(j-1)) (matrizLista p))))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 19. Definir la función
@@ -441,9 +515,16 @@ elementosNoNulosColDesde p j i = undefined
 --    ghci> let q = listaMatriz [[3,2,5],[5,7,0],[6,0,0]]
 --    ghci> existeColNoNulaDesde q 2 2
 -- ---------------------------------------------------------------------
-  
+
+-- abrdelrod
 existeColNoNulaDesde :: (Num a, Eq a) => Matriz a -> Int -> Int -> Bool
-existeColNoNulaDesde p j i = undefined
+existeColNoNulaDesde p j i = 
+    or [elementosNoNulosColDesde p k i /= [] | k <- [j..numColumnas p]]
+
+-- alvalvdom1
+existeColNoNulaDesde2 :: (Num a, Eq a) => Matriz a -> Int -> Int -> Bool
+existeColNoNulaDesde2 p j i = 
+    any (/= []) [elementosNoNulosColDesde p x i | x <- [j..numColumnas p]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -463,9 +544,14 @@ existeColNoNulaDesde p j i = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- abrdelrod alvalvdom1
 menorIndiceColNoNulaDesde :: (Num a, Eq a) => 
                              Matriz a -> Int -> Int -> Maybe Int
-menorIndiceColNoNulaDesde p j i = undefined
+menorIndiceColNoNulaDesde p j i 
+    | existeColNoNulaDesde p j i = 
+        Just (head [k | k <- [j..numColumnas p], 
+                              elementosNoNulosColDesde p k i /= []])
+    | otherwise = Nothing
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la función
@@ -494,8 +580,17 @@ menorIndiceColNoNulaDesde p j i = undefined
 --    [[1.0,2.0,3.0],[1.0,2.0,4.0],[2.0,0.0,1.0]]
 -- ---------------------------------------------------------------------
 
+-- abrdelrod alvalvdom1
 gaussAux :: (Fractional a, Eq a) => Matriz a -> Int -> Int -> Matriz a
-gaussAux p i j = undefined
+gaussAux p i j | dimension p == (i,j) = p
+               | not (existeColNoNulaDesde p j i) = p
+               | otherwise = gaussAux p' (i+1) (j+1)
+              where j' = f (menorIndiceColNoNulaDesde p j i)
+                    p1 = intercambiaColumnas j j' p
+                    i' = f (buscaIndiceDesde p1 j i)
+                    p2 = intercambiaFilas i i' p1
+                    p' = anulaColumnaDesde p2 j i
+                    f (Just a) = a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 22. Definir la función
@@ -520,8 +615,9 @@ gaussAux p i j = undefined
 --    [[1.0,3.0,0.0],[0.0,1.0,0.0],[0.0,0.0,0.0]]
 -- ---------------------------------------------------------------------
 
+-- abrdelrod alvalvdom1
 gauss :: (Fractional a, Eq a) => Matriz a -> Matriz a
-gauss p = undefined
+gauss p = gaussAux p 1 1
 
 -- ---------------------------------------------------------------------
 -- Determinante                                                       --
@@ -558,9 +654,22 @@ gauss p = undefined
 --                            ((3,1),0.0),((3,2),0.0),((3,3),0.0)])
 -- ---------------------------------------------------------------------
 
+-- abrdelrod
 gaussCAux :: (Fractional a, Eq a) => 
-             Matriz a -> Int -> Int -> Int -> (Int,Matriz a)
-gaussCAux p i j c = undefined
+             Matriz a -> Int -> Int -> Int -> (Int, Matriz a)
+gaussCAux p i j c | dimension p == (i,j) = (c,p)
+                  | not (existeColNoNulaDesde p j i) = (c,p)
+                  | otherwise = gaussCAux (snd par') (i+1) (j+1) (fst par')
+    where j' = f (menorIndiceColNoNulaDesde p j i)
+          par1 = (c+r,intercambiaColumnas j j' p)
+          i' = f (buscaIndiceDesde (snd par1) j i)
+          par2 = (fst par1+s,intercambiaFilas i i' (snd par1))
+          par' = (fst par2,anulaColumnaDesde (snd par2) j i)
+          f (Just a) = a
+          r  | j == j' = 0
+             | otherwise = 1
+          s  | i == i' = 0
+             | otherwise = 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 24. Definir la función
@@ -575,8 +684,9 @@ gaussCAux p i j c = undefined
 --                            ((3,1),0.0),((3,2),0.0),((3,3),0.0)])
 -- ---------------------------------------------------------------------
 
+-- abrdelrod
 gaussC :: (Fractional a, Eq a) => Matriz a -> (Int,Matriz a)
-gaussC p = undefined
+gaussC p = gaussCAux p 1 1 0
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 25. Definir la función
@@ -587,5 +697,7 @@ gaussC p = undefined
 --    2.0
 -- ---------------------------------------------------------------------
 
+-- abrdelrod
 determinante :: (Fractional a, Eq a) => Matriz a -> a
-determinante p = undefined
+determinante p = (-1)^a * product [x | ((i,j),x) <- assocs b, i==j]
+    where (a,b) = gaussC p
