@@ -34,8 +34,9 @@ import Test.QuickCheck
 --    derivada 0.001 cos pi  ==  4.999999583255033e-4
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 derivada :: Double -> (Double -> Double) -> Double -> Double
-derivada a f x = undefined
+derivada a f x = (f (x+a) - f x) / a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir las funciones
@@ -55,14 +56,17 @@ derivada a f x = undefined
 --    derivadaSuper cos pi  ==  5.000444502911705e-7
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 derivadaBurda :: (Double -> Double) -> Double -> Double
-derivadaBurda = undefined
+derivadaBurda = derivada 0.01
 
+-- manvermor manpende blaruiher
 derivadaFina :: (Double -> Double) -> Double -> Double
-derivadaFina  = undefined
+derivadaFina = derivada 0.0001
 
+-- manvermor manpende blaruiher
 derivadaSuper :: (Double -> Double) -> Double -> Double
-derivadaSuper = undefined
+derivadaSuper = derivada 0.000001
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Definir la función
@@ -72,8 +76,9 @@ derivadaSuper = undefined
 --    derivadaFinaDelSeno pi  ==  -0.9999999983354436
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 derivadaFinaDelSeno :: Double -> Double
-derivadaFinaDelSeno = undefined
+derivadaFinaDelSeno = derivadaFina sin
 
 -- ---------------------------------------------------------------------
 -- Cálculo de la raíz cuadrada                                        --
@@ -98,8 +103,13 @@ derivadaFinaDelSeno = undefined
 --    raiz 9  ==  3.000000001396984
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 raiz :: Double -> Double
-raiz x = undefined
+raiz x = raizA 1
+    where raizA y | loEs y = y
+                  | otherwise = raizA (mejorar y)
+          loEs y =  abs (y^2 -x) < 0.00001
+          mejorar y = (y+x/y) / 2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir el operador 
@@ -109,9 +119,10 @@ raiz x = undefined
 --    3.00005 ~= 3.00007  == True
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 infix 5 ~=
 (~=) :: Double -> Double -> Bool
-x ~= y = undefined
+x ~= y = abs (x-y) < 0.001
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Comprobar con QuickCheck que si x es positivo,
@@ -119,9 +130,10 @@ x ~= y = undefined
 --    (raiz x)^2 ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_raiz :: Double -> Bool
-prop_raiz x = undefined
+prop_raiz x = (raiz (abs x))^2 ~= abs x
 
 -- La comprobación es
 --    ghci> quickCheck prop_raiz
@@ -137,8 +149,15 @@ prop_raiz x = undefined
 -- Nota: until' es equivalente a la predefinida until.
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 until' :: (a -> Bool) -> (a -> a) -> a -> a
-until' p f x = undefined
+until' p f x | p x       = x
+             | otherwise = until' p f (f x)
+
+-- No es por recursión.
+-- blaruiher
+until'2 :: (a -> Bool) -> (a -> a) -> a -> a
+until'2 p f x = head (dropWhile (not.p) (iterate f x))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.5. Definir, por iteración con until, la función
@@ -148,8 +167,11 @@ until' p f x = undefined
 --    raizI 9  ==  3.000000001396984
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 raizI :: (Fractional a, Ord a) => a -> a
-raizI x = undefined
+raizI x = until' loEs mejorar 1
+    where loEs y    = abs (y^2 -x) < 0.00001
+          mejorar y = (y+x/y) / 2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.6. Comprobar con QuickCheck que si x es positivo,
@@ -157,9 +179,10 @@ raizI x = undefined
 --    (raizI x)^2 ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_raizI :: Double -> Bool
-prop_raizI x = undefined
+prop_raizI x = (raizI (abs x))^2 ~= abs x
 
 -- La comprobación es
 --    ghci> quickCheck prop_raizI
@@ -186,8 +209,13 @@ prop_raizI x = undefined
 --    puntoCero cos  ==  1.5707963267949576
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 puntoCero :: (Double -> Double) -> Double
-puntoCero f = undefined
+puntoCero f = puntoCeroAux f 1
+    where puntoCeroAux f x | verifica x = x
+                           | otherwise  = puntoCeroAux f (mejorar x)
+          verifica b = abs (f b) < 0.00001
+          mejorar b  = b - (f b) / derivadaFina f b
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por iteración con until, la función
@@ -197,8 +225,11 @@ puntoCero f = undefined
 --    puntoCeroI cos  ==  1.5707963267949576
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 puntoCeroI :: (Double -> Double) -> Double
-puntoCeroI f = undefined
+puntoCeroI f = until' verifica mejorar 1
+    where verifica b = abs (f b) < 0.00001
+          mejorar b  = b - (f b) / derivadaFina f b
 
 -- ---------------------------------------------------------------------
 -- Funciones inversas                                                 --
@@ -214,8 +245,15 @@ puntoCeroI f = undefined
 --    raizCuadrada 9  ==  3.000000002941184
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 raizCuadrada :: Double -> Double
-raizCuadrada a = undefined
+raizCuadrada a = puntoCero f 
+    where f y = y^2 -a 
+
+-- blaruiher
+raizCuadrada2 :: Double -> Double
+raizCuadrada2 a = puntoCero (\x -> x^2 - a)
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Comprobar con QuickCheck que si x es positivo,
@@ -223,13 +261,15 @@ raizCuadrada a = undefined
 --    (raizCuadrada x)^2 ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_raizCuadrada :: Double -> Bool
-prop_raizCuadrada x = undefined
+prop_raizCuadrada x = (raizCuadrada (abs x))^2 ~= abs x
 
 -- La comprobación es
 --    ghci> quickCheck prop_raizCuadrada
 --    OK, passed 100 tests.
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.3. Definir, usando puntoCero, la función
@@ -238,8 +278,14 @@ prop_raizCuadrada x = undefined
 --    raizCubica 27  ==  3.0000000000196048
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 raizCubica :: Double -> Double
-raizCubica a = undefined
+raizCubica a = puntoCero f 
+    where f y = y^3 -a 
+
+-- blaruiher
+raizCubica2 :: Double -> Double
+raizCubica2 a = puntoCero (\x -> x^3 - a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.4. Comprobar con QuickCheck que si x es positivo,
@@ -247,9 +293,10 @@ raizCubica a = undefined
 --    (raizCubica x)^3 ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_raizCubica :: Double -> Bool
-prop_raizCubica x = undefined
+prop_raizCubica x = (raizCubica (abs x))^3 ~= abs x
 
 -- La comprobación es
 --    ghci> quickCheck prop_raizCubica
@@ -262,8 +309,14 @@ prop_raizCubica x = undefined
 --    arcoseno 1  == 1.5665489428306574
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 arcoseno :: Double -> Double
-arcoseno a = undefined
+arcoseno a = puntoCero f
+    where f y = sin y - a
+
+-- blaruiher
+arcoseno2 :: Double -> Double
+arcoseno2 a = puntoCero (\x -> sin x - a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.6. Comprobar con QuickCheck que si x está entre 0 y 1,
@@ -271,9 +324,11 @@ arcoseno a = undefined
 --    sin (arcoseno x) ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_arcoseno :: Double -> Bool
-prop_arcoseno x = undefined
+prop_arcoseno x = sin (arcoseno (abs y)) ~= abs y
+    where y = x - fromIntegral (truncate x)
 
 -- La comprobación es
 --    ghci> quickCheck prop_arcoseno
@@ -286,8 +341,14 @@ prop_arcoseno x = undefined
 --    arcocoseno 0  == 1.5707963267949576
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende 
 arcocoseno :: Double -> Double
-arcocoseno a = undefined
+arcocoseno a = puntoCero f
+    where f y = cos y - a
+                           
+-- blaruiher
+arcocoseno2 :: Double -> Double
+arcocoseno2 a = puntoCero(\x -> cos x - a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.8. Comprobar con QuickCheck que si x está entre 0 y 1,
@@ -295,9 +356,12 @@ arcocoseno a = undefined
 --    cos (arcocoseno x) ~= x
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende blaruiher
 -- La propiedad es
 prop_arcocoseno :: Double -> Bool
-prop_arcocoseno x = undefined
+prop_arcocoseno x = cos (arcocoseno (abs y)) ~= abs y
+    where y = x - fromIntegral (truncate x)
+
 
 -- La comprobación es
 --    ghci> quickCheck prop_arcocoseno
@@ -311,15 +375,22 @@ prop_arcocoseno x = undefined
 --    inversa (^2) 9  ==  3.000000002941184
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 inversa :: (Double -> Double) -> Double -> Double
-inversa g a = undefined
+inversa g a = puntoCero f
+    where f x = g x - a
 
+-- blaruiher
+inversa2 :: (Double -> Double) -> Double -> Double
+inversa2 g a = puntoCero (\x -> g x - a)
+              
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.10. Redefinir, usando inversa, las funciones raizCuadrada,
 -- raizCubica, arcoseno y arcocoseno.
 -- ---------------------------------------------------------------------
 
-raizCuadrada' = undefined
-raizCubica'   = undefined
-arcoseno'     = undefined  
-arcocoseno'   = undefined
+-- manvermor manpende blaruiher
+raizCuadrada' = inversa (^2)
+raizCubica'   = inversa (^3)
+arcoseno'     = inversa sin
+arcocoseno'   = inversa cos

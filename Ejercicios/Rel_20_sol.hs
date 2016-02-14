@@ -48,8 +48,9 @@ import Data.Ratio
 --    fromList [3,2,5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 listaVector :: Num a => [a] -> V.Vector a
-listaVector = undefined
+listaVector = V.fromList
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -61,8 +62,9 @@ listaVector = undefined
 --    ( 2 4 7 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 listaMatriz :: Num a => [[a]] -> Matrix a
-listaMatriz = undefined
+listaMatriz = fromLists
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -72,8 +74,9 @@ listaMatriz = undefined
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 numFilas :: Num a => Matrix a -> Int
-numFilas = undefined
+numFilas = nrows
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -83,8 +86,9 @@ numFilas = undefined
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 numColumnas:: Num a => Matrix a -> Int
-numColumnas = undefined
+numColumnas = ncols
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -93,8 +97,15 @@ numColumnas = undefined
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende
 dimension :: Num a => Matrix a -> (Int,Int)
-dimension p = undefined
+dimension p = (numFilas p, numColumnas p)
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- blaruiher
+dimension2 :: Num a => Matrix a -> (Int,Int)
+dimension2 p = (nrows p, ncols p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -109,8 +120,15 @@ dimension p = undefined
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende
 matrizLista :: Num a => Matrix a -> [[a]]
-matrizLista p = undefined
+matrizLista p = [vectorLista (filaMat i p) | i <- [1..numFilas p]]
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam blaruiher
+matrizLista2 :: Num a => Matrix a -> [[a]]
+matrizLista2 = toLists
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -124,8 +142,9 @@ matrizLista p = undefined
 --    [3,2,5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 vectorLista :: Num a => V.Vector a -> [a]
-vectorLista = undefined
+vectorLista = V.toList
 
 -- ---------------------------------------------------------------------
 -- Suma de matrices                                                   --
@@ -143,8 +162,15 @@ vectorLista = undefined
 --    ( 4 7 8 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende blaruiher
 sumaMatrices:: Num a => Matrix a -> Matrix a -> Matrix a
-sumaMatrices p q = undefined
+sumaMatrices p q = p+q
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam
+sumaMatrices2 :: Num a => Matrix a -> Matrix a -> Matrix a
+sumaMatrices2 = (+)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -158,8 +184,15 @@ sumaMatrices p q = undefined
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam blaruiher
 filaMat :: Num a => Int -> Matrix a -> V.Vector a
-filaMat = undefined
+filaMat = getRow
+
+-- manpende
+filaMat2 :: Num a => Int -> Matrix a -> V.Vector a
+filaMat2 i p = listaVector [ p ! (i,j) | j <- [1..ncols p]]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -173,8 +206,15 @@ filaMat = undefined
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam blaruiher
 columnaMat :: Num a => Int -> Matrix a -> V.Vector a
-columnaMat = undefined
+columnaMat = getCol
+
+-- manpende
+columnaMat2 :: Num a => Int -> Matrix a -> V.Vector a
+columnaMat2 i p = listaVector [ p ! (j,i) | j <- [1..nrows p]]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Producto de matrices                                               --
@@ -190,8 +230,24 @@ columnaMat = undefined
 --    110
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor
 prodEscalar :: Num a => V.Vector a -> V.Vector a -> a
-prodEscalar v1 v2 = undefined
+prodEscalar v1 v2 = sum $ zipWith (*) (vectorLista v1) (vectorLista v2)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam blaruiher
+prodEscalar2 :: Num a => V.Vector a -> V.Vector a -> a
+prodEscalar2 v1 v2 = foldl1 (+) $ V.zipWith (*) v1 v2
+
+-- Comentario: La definición anterior se puede simplificar usando V.sum.
+
+-- manpende
+prodEscalar3 :: Num a => V.Vector a -> V.Vector a -> a
+prodEscalar3 v1 v2 = 
+         foldl (+) 0 [ v1 V.! i * v2 V.! i | i <- [0..length v1-1]]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -208,8 +264,15 @@ prodEscalar v1 v2 = undefined
 --    ( 34 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende blaruiher
 prodMatrices:: Num a => Matrix a -> Matrix a -> Matrix a
-prodMatrices p q = undefined
+prodMatrices p q = p*q
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam
+prodMatrices2 :: Num a => Matrix a -> Matrix a -> Matrix a
+prodMatrices2 = (*)
 
 -- ---------------------------------------------------------------------
 -- Traspuestas y simétricas                                           --
@@ -226,8 +289,16 @@ prodMatrices p q = undefined
 --    ( 0 6 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam blaruiher
 traspuesta :: Num a => Matrix a -> Matrix a
-traspuesta = undefined
+traspuesta = transpose
+
+-- manpende
+traspuesta2 :: Num a => Matrix a -> Matrix a
+traspuesta2 p = listaMatriz (map vectorLista 
+             [columnaMat i p | i <- [1..ncols p]])
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -242,8 +313,15 @@ traspuesta = undefined
 --    True
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor
 esCuadrada :: Num a => Matrix a -> Bool
-esCuadrada p = undefined
+esCuadrada p = numFilas p == numColumnas p
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- fracruzam manpende blaruiher
+esCuadrada2 :: Num a => Matrix a -> Bool
+esCuadrada2 p = nrows p == ncols p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función
@@ -258,8 +336,15 @@ esCuadrada p = undefined
 --    False
 -- ---------------------------------------------------------------------    
 
+-- alvalvdom1 manvermor manpende
 esSimetrica :: (Num a, Eq a) => Matrix a -> Bool
-esSimetrica x = undefined
+esSimetrica x = traspuesta x == x
+
+-- Comentario: La definición anterior se puede mejorar.
+
+-- fracruzam blaruiher
+esSimetrica2 :: (Num a, Eq a) => Matrix a -> Bool
+esSimetrica2 x = x == transpose x
 
 -- ---------------------------------------------------------------------
 -- Diagonales de una matriz                                           --
@@ -275,8 +360,17 @@ esSimetrica x = undefined
 --    fromList [5,2]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam
 diagonalPral :: Num a => Matrix a -> V.Vector a
-diagonalPral = undefined
+diagonalPral = getDiag
+
+
+-- manpende
+diagonalPral2 :: Num a => Matrix a -> V.Vector a
+diagonalPral2 p = listaVector [ p ! (i,i) | i <- [1..m p]]
+    where m p = minimum (ncols p, nrows p)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función
@@ -293,8 +387,15 @@ diagonalPral = undefined
 --    fromList [1,2]
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manpende
 diagonalSec :: Num a => Matrix a -> V.Vector a
-diagonalSec p = undefined
+diagonalSec p = listaVector [p!(i,n-i+1) | i <- [1..n]]
+    where n = min (numFilas p) (numColumnas p)
+
+-- manvermor 
+diagonalSec2 :: Num a => Matrix a -> V.Vector a
+diagonalSec2 p = V.fromList [ p!(i,m-i+1) | i <- [1..m]]
+    where m = min (nrows p) (ncols p)
 
 -- ---------------------------------------------------------------------
 -- Submatrices                                                        --
@@ -311,8 +412,9 @@ diagonalSec p = undefined
 --    ( 4 6 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam manpende blaruiher
 submatriz :: Num a => Int -> Int -> Matrix a -> Matrix a
-submatriz = undefined
+submatriz = minorMatrix
 
 -- ---------------------------------------------------------------------
 -- Transformaciones elementales                                       --
@@ -330,8 +432,18 @@ submatriz = undefined
 --    ( 5 1 0 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam blaruiher
 intercambiaFilas :: Num a => Int -> Int -> Matrix a -> Matrix a
-intercambiaFilas = undefined
+intercambiaFilas = switchRows
+
+-- manpende
+-- Sin utilizar las funciones predefinidas, se puede definir como:
+intercambiaFilas2 :: Num a => Int -> Int -> Matrix a -> Matrix a
+intercambiaFilas2 k l p = listaMatriz $ map vectorLista 
+           [filaMat' i k l p | i <- [1..ncols p]]
+    where filaMat' i k l p |i == k = filaMat l p
+                           |i == l = filaMat k p
+                           | otherwise = filaMat i p 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la función
@@ -345,8 +457,20 @@ intercambiaFilas = undefined
 --    ( 9 6 4 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor fracruzam blaruiher
 intercambiaColumnas :: Num a => Int -> Int -> Matrix a -> Matrix a
-intercambiaColumnas = undefined
+intercambiaColumnas = switchCols
+
+-- manpende
+intercambiaColumnas2 :: Num a => Int -> Int -> Matrix a -> Matrix a
+intercambiaColumnas2 k l p = 
+    traspuesta $ listaMatriz (map vectorLista [columnaMat' i k l p 
+                                               | i <- [1..nrows p]])
+        where columnaMat' i k l p | i == k = columnaMat l p
+                                  | i == l = columnaMat k p
+                                  | otherwise = columnaMat i p
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 22. Definir la función
@@ -360,14 +484,28 @@ intercambiaColumnas = undefined
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor blaruiher
 multFilaPor :: Num a => Int -> a -> Matrix a -> Matrix a
-multFilaPor k x p = undefined
+multFilaPor k x p = scaleRow x k p
+
+-- fracruzam
+multFilaPor2 :: Num a => Int -> a -> Matrix a -> Matrix a
+multFilaPor2 k x = scaleRow x k
+
+-- manpende
+multFilaPor3 :: Num a => Int -> a -> Matrix a -> Matrix a
+multFilaPor3 k x p = 
+    listaMatriz [filaMat' i k x p | i <- [1..ncols p]]
+     where filaMat' i k x p | i == k = map (*x) (vectorLista (filaMat i p))
+                            | otherwise = vectorLista (filaMat i p)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 23. Definir la función
 --    sumaFilaFila :: Num a => Int -> Int -> Matrix a -> Matrix a
 -- tal que (sumaFilaFila k l p) es la matriz obtenida sumando la fila l
--- a la fila k d la matriz p. Por ejemplo,
+-- a la fila k de la matriz p. Por ejemplo,
 --    ghci> let p = listaMatriz [[5,1,0],[3,2,6],[4,6,9]]
 --    ghci> sumaFilaFila 2 3 p
 --    (  5  1  0 )
@@ -375,8 +513,13 @@ multFilaPor k x p = undefined
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende blaruiher
 sumaFilaFila :: Num a => Int -> Int -> Matrix a -> Matrix a
-sumaFilaFila k l p = undefined
+sumaFilaFila k l p = combineRows k 1 l p
+
+-- fracruzam
+sumaFilaFila2 :: Num a => Int -> Int -> Matrix a -> Matrix a
+sumaFilaFila2 k l = combineRows k 1 l
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 24. Definir la función
@@ -390,8 +533,13 @@ sumaFilaFila k l p = undefined
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 manvermor manpende
 sumaFilaPor :: Num a => Int -> Int -> a -> Matrix a -> Matrix a
-sumaFilaPor k l x p = undefined
+sumaFilaPor k l x p = combineRows k x l p
+
+-- fracruzam
+sumaFilaPor2 :: Num a => Int -> Int -> a -> Matrix a -> Matrix a
+sumaFilaPor2 k l x = combineRows k x l
 
 -- ---------------------------------------------------------------------
 -- Triangularización de matrices                                      --
@@ -412,8 +560,20 @@ sumaFilaPor k l x p = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- manvermor
 buscaIndiceDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
-buscaIndiceDesde p j i = undefined
+buscaIndiceDesde p j i = if null xs 
+                         then Nothing 
+                         else Just (head xs)
+    where xs = [ k | k <- [i..n], getElem k j p /= 0]
+          n = ncols p
+
+-- manpende
+buscaIndiceDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
+buscaIndiceDesde2 p j i 
+    | not(null xs) = Just (head xs) 
+    | otherwise     = Nothing 
+    where xs = [k | k <- [i..nrows p], p ! (k,j) /= 0] 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
@@ -429,8 +589,19 @@ buscaIndiceDesde p j i = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- manvermor
 buscaPivoteDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
-buscaPivoteDesde p j i = undefined
+buscaPivoteDesde p j i 
+    | buscaIndiceDesde p j i == Nothing = Nothing
+    | otherwise = Just (getElem (f $ buscaIndiceDesde p j i) j p)
+    where f (Just a) = a
+
+-- manpende
+buscaPivoteDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
+buscaPivoteDesde2 p j i 
+    | buscaIndiceDesde p j i == Nothing = Nothing
+    | otherwise = Just (p ! (k,j))
+    where k = head [l | l <- [i..nrows p], p!(l,j) /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 27. Definir la función
@@ -447,8 +618,15 @@ buscaPivoteDesde p j i = undefined
 --    False
 -- ---------------------------------------------------------------------
 
+-- manvermor
 anuladaColumnaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde p j i = undefined
+anuladaColumnaDesde p j i = 
+    buscaIndiceDesde p j (i+1) == Nothing
+
+-- manpende
+anuladaColumnaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
+anuladaColumnaDesde2 p j i = 
+    all (==Nothing) [buscaIndiceDesde p j l | l <- [i+1..nrows p]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
@@ -462,9 +640,24 @@ anuladaColumnaDesde p j i = undefined
 --    [[2.0,3.0,1.0],[5.0,0.0,5.0],[4.0,0.0,7.0]]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 anulaEltoColumnaDesde :: (Fractional a, Eq a) => 
                          Matrix a -> Int -> Int -> Matrix a
-anulaEltoColumnaDesde p j i = undefined
+anulaEltoColumnaDesde p j i 
+    | anuladaColumnaDesde p j i = p
+    | otherwise = combineRows k x i p
+    where k = f $ buscaIndiceDesde p j (i+1)
+          x = - (f $ buscaPivoteDesde p j (i+1)) / (getElem i j p)
+          f (Just a) = a
+
+-- manpende
+anulaEltoColumnaDesde2 :: (Fractional a, Eq a) =>
+                         Matrix a -> Int -> Int -> Matrix a
+anulaEltoColumnaDesde2 p j i 
+         | anuladaColumnaDesde p j i = p
+         | otherwise = anulaEltoColumnaDesde (combineRows k (-x) i p) j i
+         where k = head [l | l <- [i+1..nrows p], p!(l,j) /= 0]
+               x = (p ! (k,j)) / (p ! (i,j))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 29. Definir la función
@@ -482,9 +675,12 @@ anulaEltoColumnaDesde p j i = undefined
 --    [[4 % 1,5 % 1],[0 % 1,1 % 1],[0 % 1,5 % 2]]
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 anulaColumnaDesde :: (Fractional a, Eq a) => 
                      Matrix a -> Int -> Int -> Matrix a
-anulaColumnaDesde p j i = undefined
+anulaColumnaDesde p j i 
+    | anuladaColumnaDesde p j i = p
+    | otherwise =  anulaColumnaDesde (anulaEltoColumnaDesde p j i)  j i
 
 -- ---------------------------------------------------------------------
 -- Algoritmo de Gauss para triangularizar matrices                    --
@@ -501,8 +697,10 @@ anulaColumnaDesde p j i = undefined
 --    [5]
 -- ---------------------------------------------------------------------
 
+-- manvermor manpende
 elementosNoNulosColDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
-elementosNoNulosColDesde p j i = undefined
+elementosNoNulosColDesde p j i = 
+  [ getElem k j p | k <- [i..nrows p], getElem k j p /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 31. Definir la función
@@ -520,8 +718,15 @@ elementosNoNulosColDesde p j i = undefined
 --    ghci> existeColNoNulaDesde q 2 2
 -- ---------------------------------------------------------------------
   
+-- manvermor
 existeColNoNulaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-existeColNoNulaDesde p j i = undefined
+existeColNoNulaDesde p j i = minorMatrix (i-1) (j-1) p /= zero m n
+    where (m,n) = (nrows p -1, ncols p -1)
+
+-- manpende
+existeColNoNulaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
+existeColNoNulaDesde2 p j i = 
+    any (/= Nothing)  [buscaIndiceDesde p l i | l <- [j..ncols p]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 32. Definir la función
@@ -541,9 +746,22 @@ existeColNoNulaDesde p j i = undefined
 --    Nothing
 -- ---------------------------------------------------------------------
 
+-- manvermor
 menorIndiceColNoNulaDesde :: (Num a, Eq a) => 
                              Matrix a -> Int -> Int -> Maybe Int
-menorIndiceColNoNulaDesde p j i = undefined
+menorIndiceColNoNulaDesde p j i = 
+    if existeColNoNulaDesde p j i 
+    then Just $ head [ l | l <- [j..ncols p], 
+                           elementosNoNulosColDesde p l i /= []] 
+    else Nothing
+
+-- manpende
+menorIndiceColNoNulaDesde2 :: (Num a, Eq a) => 
+                             Matrix a -> Int -> Int -> Maybe Int
+menorIndiceColNoNulaDesde2 p j i 
+     | existeColNoNulaDesde p j i = Just (head xs) 
+     | otherwise = Nothing
+    where xs = [ l | l <- [j..ncols p], buscaIndiceDesde p l i /= Nothing]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 33. Definir la función
@@ -574,8 +792,17 @@ menorIndiceColNoNulaDesde p j i = undefined
 --    ( 2.0 0.0 1.0 )
 -- ---------------------------------------------------------------------
 
+-- manvermor
 gaussAux :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
-gaussAux p i j = undefined
+gaussAux p i j | dimension p == (i,j) = p
+               | not (existeColNoNulaDesde p j i) = p
+               | otherwise = gaussAux p' (i+1) (j+1) 
+                 where j' = g $ menorIndiceColNoNulaDesde p j i
+                       p1 = switchCols j j' p
+                       i' = g $ buscaIndiceDesde p1 j i
+                       p2 = switchRows i i' p1
+                       p' = anulaColumnaDesde p2 j i
+                       g (Just a) = a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 34. Definir la función
@@ -599,8 +826,9 @@ gaussAux p i j = undefined
 --    ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
+-- manvermor
 gauss :: (Fractional a, Eq a) => Matrix a -> Matrix a
-gauss p = undefined
+gauss p = gaussAux p 1 1
 
 -- ---------------------------------------------------------------------
 -- Determinante                                                       --
@@ -636,9 +864,20 @@ gauss p = undefined
 --       ( 0.0 0.0 0.0 ))
 -- ---------------------------------------------------------------------
 
+-- manvermor
 gaussCAux :: (Fractional a, Eq a) => 
              Matrix a -> Int -> Int -> Int -> (Int,Matrix a)
-gaussCAux p i j c = undefined
+gaussCAux p i j c  | dimension p == (i,j) = (c,p)
+                   | not (existeColNoNulaDesde p j i) = (c,p)
+                   | otherwise = gaussCAux (snd par) (i+1) (j+1) (fst par)
+                    where j' = g $ menorIndiceColNoNulaDesde p j i
+                          parA = (c+l, switchCols j j' p)
+                          l = if j == j' then 0 else 1
+                          i' = g $ buscaIndiceDesde (snd parA) j i
+                          parB = (fst parA +x, switchRows i i' (snd parA))
+                          x = if i == i' then 0 else 1
+                          par = (fst parB , anulaColumnaDesde (snd parB) j i)
+                          g (Just a) = a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 36. Definir la función
@@ -653,8 +892,9 @@ gaussCAux p i j c = undefined
 --        ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
+-- manvermor
 gaussC :: (Fractional a, Eq a) => Matrix a -> (Int,Matrix a)
-gaussC p = undefined
+gaussC p = gaussCAux p 1 1 0
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 37. Definir la función
@@ -665,5 +905,12 @@ gaussC p = undefined
 --    2.0
 -- ---------------------------------------------------------------------
 
+-- manvermor
 determinante :: (Fractional a, Eq a) => Matrix a -> a
-determinante p = undefined
+determinante p = diagProd $ gauss p
+
+determinante2 p = diagProd $ snd $ gaussC p
+
+determinante3 p = detLaplace p
+
+determinante4 p = detLU p
