@@ -34,7 +34,7 @@ import Test.QuickCheck
 --    derivada 0.001 cos pi  ==  4.999999583255033e-4
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 derivada :: Double -> (Double -> Double) -> Double -> Double
 derivada a f x = (f (x+a) - f x) / a
 
@@ -56,15 +56,15 @@ derivada a f x = (f (x+a) - f x) / a
 --    derivadaSuper cos pi  ==  5.000444502911705e-7
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 derivadaBurda :: (Double -> Double) -> Double -> Double
 derivadaBurda = derivada 0.01
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 derivadaFina :: (Double -> Double) -> Double -> Double
 derivadaFina = derivada 0.0001
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 derivadaSuper :: (Double -> Double) -> Double -> Double
 derivadaSuper = derivada 0.000001
 
@@ -76,7 +76,7 @@ derivadaSuper = derivada 0.000001
 --    derivadaFinaDelSeno pi  ==  -0.9999999983354436
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 derivadaFinaDelSeno :: Double -> Double
 derivadaFinaDelSeno = derivadaFina sin
 
@@ -103,13 +103,20 @@ derivadaFinaDelSeno = derivadaFina sin
 --    raiz 9  ==  3.000000001396984
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1
 raiz :: Double -> Double
 raiz x = raizA 1
     where raizA y | loEs y = y
                   | otherwise = raizA (mejorar y)
           loEs y =  abs (y^2 -x) < 0.00001
           mejorar y = (y+x/y) / 2
+
+-- javperlag
+raiz1 :: Double -> Double
+raiz1 x = aproxRaiz 1 x 
+
+aproxRaiz n x | abs(n^2-x)< 0.00001 = n 
+              | otherwise           = aproxRaiz ((n + x/n)/2) x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir el operador 
@@ -119,7 +126,7 @@ raiz x = raizA 1
 --    3.00005 ~= 3.00007  == True
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 infix 5 ~=
 (~=) :: Double -> Double -> Bool
 x ~= y = abs (x-y) < 0.001
@@ -130,7 +137,7 @@ x ~= y = abs (x-y) < 0.001
 --    (raiz x)^2 ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 -- La propiedad es
 prop_raiz :: Double -> Bool
 prop_raiz x = (raiz (abs x))^2 ~= abs x
@@ -149,13 +156,13 @@ prop_raiz x = (raiz (abs x))^2 ~= abs x
 -- Nota: until' es equivalente a la predefinida until.
 -- ---------------------------------------------------------------------
 
--- manvermor manpende
+-- manvermor manpende alvalvdom1
 until' :: (a -> Bool) -> (a -> a) -> a -> a
 until' p f x | p x       = x
              | otherwise = until' p f (f x)
 
 -- No es por recursión.
--- blaruiher
+-- blaruiher javperlag
 until'2 :: (a -> Bool) -> (a -> a) -> a -> a
 until'2 p f x = head (dropWhile (not.p) (iterate f x))
 
@@ -167,7 +174,7 @@ until'2 p f x = head (dropWhile (not.p) (iterate f x))
 --    raizI 9  ==  3.000000001396984
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 raizI :: (Fractional a, Ord a) => a -> a
 raizI x = until' loEs mejorar 1
     where loEs y    = abs (y^2 -x) < 0.00001
@@ -179,7 +186,7 @@ raizI x = until' loEs mejorar 1
 --    (raizI x)^2 ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 -- La propiedad es
 prop_raizI :: Double -> Bool
 prop_raizI x = (raizI (abs x))^2 ~= abs x
@@ -209,13 +216,21 @@ prop_raizI x = (raizI (abs x))^2 ~= abs x
 --    puntoCero cos  ==  1.5707963267949576
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1
 puntoCero :: (Double -> Double) -> Double
 puntoCero f = puntoCeroAux f 1
     where puntoCeroAux f x | verifica x = x
                            | otherwise  = puntoCeroAux f (mejorar x)
           verifica b = abs (f b) < 0.00001
-          mejorar b  = b - (f b) / derivadaFina f b
+          mejorar b  = b - (f b) / derivadaFina f b 
+
+-- javperlag
+puntoCero2 :: (Double -> Double) -> Double
+puntoCero2 f = aproxCero f 1
+
+aproxCero f n
+    | abs (f n) < 0.00001 = n
+    | otherwise           = aproxCero f (n -(f n)/(derivadaSuper f n))  
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por iteración con until, la función
@@ -225,7 +240,7 @@ puntoCero f = puntoCeroAux f 1
 --    puntoCeroI cos  ==  1.5707963267949576
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 puntoCeroI :: (Double -> Double) -> Double
 puntoCeroI f = until' verifica mejorar 1
     where verifica b = abs (f b) < 0.00001
@@ -245,12 +260,12 @@ puntoCeroI f = until' verifica mejorar 1
 --    raizCuadrada 9  ==  3.000000002941184
 -- ---------------------------------------------------------------------
 
--- manvermor manpende
+-- manvermor manpende javperlag
 raizCuadrada :: Double -> Double
 raizCuadrada a = puntoCero f 
     where f y = y^2 -a 
 
--- blaruiher
+-- blaruiher alvalvdom1
 raizCuadrada2 :: Double -> Double
 raizCuadrada2 a = puntoCero (\x -> x^2 - a)
 
@@ -261,7 +276,7 @@ raizCuadrada2 a = puntoCero (\x -> x^2 - a)
 --    (raizCuadrada x)^2 ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 -- La propiedad es
 prop_raizCuadrada :: Double -> Bool
 prop_raizCuadrada x = (raizCuadrada (abs x))^2 ~= abs x
@@ -278,12 +293,12 @@ prop_raizCuadrada x = (raizCuadrada (abs x))^2 ~= abs x
 --    raizCubica 27  ==  3.0000000000196048
 -- ---------------------------------------------------------------------
 
--- manvermor manpende
+-- manvermor manpende javperlag
 raizCubica :: Double -> Double
 raizCubica a = puntoCero f 
     where f y = y^3 -a 
 
--- blaruiher
+-- blaruiher alvalvdom1
 raizCubica2 :: Double -> Double
 raizCubica2 a = puntoCero (\x -> x^3 - a)
 
@@ -293,7 +308,7 @@ raizCubica2 a = puntoCero (\x -> x^3 - a)
 --    (raizCubica x)^3 ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 -- La propiedad es
 prop_raizCubica :: Double -> Bool
 prop_raizCubica x = (raizCubica (abs x))^3 ~= abs x
@@ -309,12 +324,12 @@ prop_raizCubica x = (raizCubica (abs x))^3 ~= abs x
 --    arcoseno 1  == 1.5665489428306574
 -- ---------------------------------------------------------------------
 
--- manvermor manpende
+-- manvermor manpende javperlag
 arcoseno :: Double -> Double
 arcoseno a = puntoCero f
     where f y = sin y - a
 
--- blaruiher
+-- blaruiher alvalvdom1
 arcoseno2 :: Double -> Double
 arcoseno2 a = puntoCero (\x -> sin x - a)
 
@@ -324,7 +339,7 @@ arcoseno2 a = puntoCero (\x -> sin x - a)
 --    sin (arcoseno x) ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1
 -- La propiedad es
 prop_arcoseno :: Double -> Bool
 prop_arcoseno x = sin (arcoseno (abs y)) ~= abs y
@@ -341,12 +356,12 @@ prop_arcoseno x = sin (arcoseno (abs y)) ~= abs y
 --    arcocoseno 0  == 1.5707963267949576
 -- ---------------------------------------------------------------------
 
--- manvermor manpende 
+-- manvermor manpende javperlag
 arcocoseno :: Double -> Double
 arcocoseno a = puntoCero f
     where f y = cos y - a
                            
--- blaruiher
+-- blaruiher alvalvdom1
 arcocoseno2 :: Double -> Double
 arcocoseno2 a = puntoCero(\x -> cos x - a)
 
@@ -356,7 +371,7 @@ arcocoseno2 a = puntoCero(\x -> cos x - a)
 --    cos (arcocoseno x) ~= x
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1
 -- La propiedad es
 prop_arcocoseno :: Double -> Bool
 prop_arcocoseno x = cos (arcocoseno (abs y)) ~= abs y
@@ -375,12 +390,12 @@ prop_arcocoseno x = cos (arcocoseno (abs y)) ~= abs y
 --    inversa (^2) 9  ==  3.000000002941184
 -- ---------------------------------------------------------------------
 
--- manvermor manpende
+-- manvermor manpende javperlag
 inversa :: (Double -> Double) -> Double -> Double
 inversa g a = puntoCero f
     where f x = g x - a
 
--- blaruiher
+-- blaruiher alvalvdom1
 inversa2 :: (Double -> Double) -> Double -> Double
 inversa2 g a = puntoCero (\x -> g x - a)
               
@@ -389,7 +404,7 @@ inversa2 g a = puntoCero (\x -> g x - a)
 -- raizCubica, arcoseno y arcocoseno.
 -- ---------------------------------------------------------------------
 
--- manvermor manpende blaruiher
+-- manvermor manpende blaruiher alvalvdom1 javperlag
 raizCuadrada' = inversa (^2)
 raizCubica'   = inversa (^3)
 arcoseno'     = inversa sin
