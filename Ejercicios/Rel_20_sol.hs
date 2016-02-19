@@ -27,6 +27,7 @@
 import qualified Data.Vector as V 
 import Data.Matrix 
 import Data.Ratio
+import Data.Maybe
 
 -- ---------------------------------------------------------------------
 -- Tipos de los vectores y de las matrices                            --
@@ -49,7 +50,7 @@ import Data.Ratio
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 listaVector :: Num a => [a] -> V.Vector a
 listaVector = V.fromList
 
@@ -64,7 +65,7 @@ listaVector = V.fromList
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 listaMatriz :: Num a => [[a]] -> Matrix a
 listaMatriz = fromLists
 
@@ -77,7 +78,7 @@ listaMatriz = fromLists
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 numFilas :: Num a => Matrix a -> Int
 numFilas = nrows
 
@@ -90,7 +91,7 @@ numFilas = nrows
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 numColumnas:: Num a => Matrix a -> Int
 numColumnas = ncols
 
@@ -107,7 +108,8 @@ dimension p = (numFilas p, numColumnas p)
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- blaruiher erisancha ivaruicam abrdelrod
+-- blaruiher erisancha ivaruicam abrdelrod javoliher rubvilval juanarcon 
+-- pabmorgar juamorrom1
 dimension2 :: Num a => Matrix a -> (Int,Int)
 dimension2 p = (nrows p, ncols p)
 
@@ -130,7 +132,8 @@ matrizLista p = [vectorLista (filaMat i p) | i <- [1..numFilas p]]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam blaruiher erisancha ivaruicam abrdelrod
+-- fracruzam blaruiher erisancha ivaruicam abrdelrod javoliher rubvilval
+-- juanarcon pabmorgar juamorrom1
 matrizLista2 :: Num a => Matrix a -> [[a]]
 matrizLista2 = toLists
 
@@ -147,7 +150,7 @@ matrizLista2 = toLists
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 vectorLista :: Num a => V.Vector a -> [a]
 vectorLista = V.toList
 
@@ -167,13 +170,13 @@ vectorLista = V.toList
 --    ( 4 7 8 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende blaruiher
+-- alvalvdom1 manvermor manpende blaruiher javoliher rubvilval pabmorgar
 sumaMatrices:: Num a => Matrix a -> Matrix a -> Matrix a
 sumaMatrices p q = p+q
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam erisancha ivaruicam abrdelrod
+-- fracruzam erisancha ivaruicam abrdelrod juanarcon juamorrom1
 sumaMatrices2 :: Num a => Matrix a -> Matrix a -> Matrix a
 sumaMatrices2 = (+)
 
@@ -190,6 +193,7 @@ sumaMatrices2 = (+)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam blaruiher erisancha ivaruicam abrdelrod
+-- javoliher rubvilval juanarcon pabmorgar juamorrom1
 filaMat :: Num a => Int -> Matrix a -> V.Vector a
 filaMat = getRow
 
@@ -212,6 +216,7 @@ filaMat2 i p = listaVector [ p ! (i,j) | j <- [1..ncols p]]
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam blaruiher erisancha ivaruicam abrdelrod
+-- javoliher rubvilval juanarcon pabmorgar juamorrom1
 columnaMat :: Num a => Int -> Matrix a -> V.Vector a
 columnaMat = getCol
 
@@ -235,7 +240,7 @@ columnaMat2 i p = listaVector [ p ! (j,i) | j <- [1..nrows p]]
 --    110
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor
+-- alvalvdom1 manvermor rubvilval
 prodEscalar :: Num a => V.Vector a -> V.Vector a -> a
 prodEscalar v1 v2 = sum $ zipWith (*) (vectorLista v1) (vectorLista v2)
 
@@ -254,7 +259,7 @@ prodEscalar3 v1 v2 =
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- erisancha ivaruicam abrdelrod
+-- erisancha ivaruicam abrdelrod javoliher juanarcon pabmorgar juamorrom1
 prodEscalar5 :: Num a => V.Vector a -> V.Vector a -> a
 prodEscalar5 v1 v2 = V.sum $ V.zipWith (*) v1 v2
 
@@ -277,15 +282,22 @@ prodEscalar4 v1 v2 = V.sum (V.zipWith (*) v1 v2)
 --    ( 34 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende blaruiher
+-- alvalvdom1 manvermor manpende blaruiher rubvilval pabmorgar
 prodMatrices:: Num a => Matrix a -> Matrix a -> Matrix a
 prodMatrices p q = p*q
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam erisancha ivaruicam abrdelrod
+-- fracruzam erisancha ivaruicam abrdelrod javoliher juanarcon
 prodMatrices2 :: Num a => Matrix a -> Matrix a -> Matrix a
 prodMatrices2 = (*)
+
+-- juamorrom1
+prodMatrices3:: Num a => Matrix a -> Matrix a -> Matrix a
+prodMatrices3 p q = fromList (numFilas p) (numColumnas q) [ sum (zipWith (*) a b) | a <- matrizLista p, b <- listaColumnas q ]
+
+listaColumnas :: Num a => Matrix a -> [[a]]
+listaColumnas p = [ vectorLista (columnaMat j p) | j <- [1..numColumnas p] ]
 
 -- ---------------------------------------------------------------------
 -- Traspuestas y simétricas                                           --
@@ -303,7 +315,7 @@ prodMatrices2 = (*)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 traspuesta :: Num a => Matrix a -> Matrix a
 traspuesta = transpose
 
@@ -327,13 +339,14 @@ traspuesta2 p = listaMatriz (map vectorLista
 --    True
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor 
+-- alvalvdom1 manvermor rubvilval
 esCuadrada :: Num a => Matrix a -> Bool
 esCuadrada p = numFilas p == numColumnas p
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam manpende blaruiher erisancha ivaruicam abrdelrod
+-- fracruzam manpende blaruiher erisancha ivaruicam abrdelrod javoliher 
+-- juanarcon pabmorgar juamorrom1
 esCuadrada2 :: Num a => Matrix a -> Bool
 esCuadrada2 p = nrows p == ncols p
 
@@ -350,13 +363,14 @@ esCuadrada2 p = nrows p == ncols p
 --    False
 -- ---------------------------------------------------------------------    
 
--- alvalvdom1 manvermor manpende
+-- alvalvdom1 manvermor manpende rubvilval pabmorgar
 esSimetrica :: (Num a, Eq a) => Matrix a -> Bool
 esSimetrica x = traspuesta x == x
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam blaruiher erisancha ivaruicam abrdelrod
+-- fracruzam blaruiher erisancha ivaruicam abrdelrod javoliher juanarcon
+-- juamorrom1
 esSimetrica2 :: (Num a, Eq a) => Matrix a -> Bool
 esSimetrica2 x = x == transpose x
 
@@ -374,7 +388,8 @@ esSimetrica2 x = x == transpose x
 --    fromList [5,2]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor fracruzam erisancha ivaruicam abrdelrod
+-- alvalvdom1 manvermor fracruzam erisancha ivaruicam abrdelrod javoliher
+-- rubvilval juanarcon pabmorgar juamorrom1
 diagonalPral :: Num a => Matrix a -> V.Vector a
 diagonalPral = getDiag
 
@@ -401,12 +416,12 @@ diagonalPral2 p = listaVector [ p ! (i,i) | i <- [1..m p]]
 --    fromList [1,2]
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manpende abrdelrod
+-- alvalvdom1 manpende abrdelrod javoliher rubvilval juamorrom1
 diagonalSec :: Num a => Matrix a -> V.Vector a
 diagonalSec p = listaVector [p!(i,n-i+1) | i <- [1..n]]
     where n = min (numFilas p) (numColumnas p)
-
--- manvermor erisancha
+ 
+-- manvermor erisancha fracruzam juanarcon pabmorgar
 diagonalSec2 :: Num a => Matrix a -> V.Vector a
 diagonalSec2 p = V.fromList [ p!(i,m-i+1) | i <- [1..m]]
     where m = min (nrows p) (ncols p)
@@ -427,7 +442,7 @@ diagonalSec2 p = V.fromList [ p!(i,m-i+1) | i <- [1..m]]
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam manpende blaruiher erisancha ivaruicam
--- abrdelrod 
+-- abrdelrod javoliher rubvilval juanarcon pabmorgar juamorrom1
 submatriz :: Num a => Int -> Int -> Matrix a -> Matrix a
 submatriz = minorMatrix
 
@@ -448,6 +463,7 @@ submatriz = minorMatrix
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manvermor fracruzam blaruiher ivaruicam abrdelrod
+-- javoliher rubvilval juanarcon pabmorgar juamorrom1
 intercambiaFilas :: Num a => Int -> Int -> Matrix a -> Matrix a
 intercambiaFilas = switchRows
 
@@ -472,7 +488,8 @@ intercambiaFilas2 k l p = listaMatriz $ map vectorLista
 --    ( 9 6 4 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor fracruzam blaruiher ivaruicam abrdelrod
+-- alvalvdom1 manvermor fracruzam blaruiher ivaruicam abrdelrod javoliher
+-- rubvilval erisancha juanarcon pabmorgar juamorrom1
 intercambiaColumnas :: Num a => Int -> Int -> Matrix a -> Matrix a
 intercambiaColumnas = switchCols
 
@@ -499,11 +516,12 @@ intercambiaColumnas2 k l p =
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor blaruiher
+-- alvalvdom1 manvermor blaruiher rubvilval pabmorgar
 multFilaPor :: Num a => Int -> a -> Matrix a -> Matrix a
 multFilaPor k x p = scaleRow x k p
 
--- fracruzam ivaruicam abrdelrod
+-- fracruzam ivaruicam abrdelrod javoliher erisancha juanarcon
+-- juamorrom1 
 multFilaPor2 :: Num a => Int -> a -> Matrix a -> Matrix a
 multFilaPor2 k x = scaleRow x k
 
@@ -528,11 +546,12 @@ multFilaPor3 k x p =
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende blaruiher
+-- alvalvdom1 manvermor manpende blaruiher rubvilval pabmorgar
 sumaFilaFila :: Num a => Int -> Int -> Matrix a -> Matrix a
 sumaFilaFila k l p = combineRows k 1 l p
 
--- fracruzam ivaruicam abrdelrod
+-- fracruzam ivaruicam abrdelrod javoliher erisancha juanarcon
+-- juamorrom1 
 sumaFilaFila2 :: Num a => Int -> Int -> Matrix a -> Matrix a
 sumaFilaFila2 k l = combineRows k 1 l
 
@@ -548,11 +567,12 @@ sumaFilaFila2 k l = combineRows k 1 l
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manvermor manpende
+-- alvalvdom1 manvermor manpende rubvilval pabmorgar
 sumaFilaPor :: Num a => Int -> Int -> a -> Matrix a -> Matrix a
 sumaFilaPor k l x p = combineRows k x l p
 
--- fracruzam ivaruicam abrdelrod
+-- fracruzam ivaruicam abrdelrod javoliher erisancha juanarcon
+-- juamorrom1 
 sumaFilaPor2 :: Num a => Int -> Int -> a -> Matrix a -> Matrix a
 sumaFilaPor2 k l x = combineRows k x l
 
@@ -575,7 +595,7 @@ sumaFilaPor2 k l x = combineRows k x l
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor rubvilval pabmorgar
 buscaIndiceDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
 buscaIndiceDesde p j i = if null xs 
                          then Nothing 
@@ -590,10 +610,16 @@ buscaIndiceDesde2 p j i
     | otherwise     = Nothing 
     where xs = [k | k <- [i..nrows p], p ! (k,j) /= 0] 
 
--- ivaruicam abrdelrod
+-- ivaruicam abrdelrod erisancha juanarcon juamorrom1
 buscaIndiceDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
 buscaIndiceDesde3 p j i = if null t then Nothing else Just (head t)
     where t = [k | k <- [i..nrows p] , getElem k j p /= 0]
+
+-- fracruzam
+buscaIndiceDesde4 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
+buscaIndiceDesde4 p j i = if null xs then Nothing else Just (head xs)
+    where xs = [k | (v,k) <- drop (i-1) $ zip (V.toList $ getCol j p) [1..], 
+                    v /= 0] 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
@@ -609,7 +635,7 @@ buscaIndiceDesde3 p j i = if null t then Nothing else Just (head t)
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1
+-- manvermor alvalvdom1 rubvilval pabmorgar
 buscaPivoteDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
 buscaPivoteDesde p j i 
     | buscaIndiceDesde p j i == Nothing = Nothing
@@ -623,10 +649,21 @@ buscaPivoteDesde2 p j i
     | otherwise = Just (p ! (k,j))
     where k = head [l | l <- [i..nrows p], p!(l,j) /= 0]
 
--- ivaruicam abrdelrod
+-- ivaruicam abrdelrod erisancha juanarcon juamorrom1
 buscaPivoteDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
 buscaPivoteDesde3 p j i = if null t then Nothing else Just (head t)
     where t = [getElem k j p| k <- [i..nrows p] , getElem k j p /= 0]
+
+-- fracruzam
+buscaPivoteDesde4 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
+buscaPivoteDesde4 p j i = if k == Nothing 
+                          then Nothing 
+                          else Just (p ! (fromJust k, j))
+ where k = buscaIndiceDesde p j i
+
+-- fromJust está definido en la librería 'Data.Maybe'
+-- fromJust :: Maybe a -> a
+-- fromJust (Just a) = a
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 27. Definir la función
@@ -643,15 +680,20 @@ buscaPivoteDesde3 p j i = if null t then Nothing else Just (head t)
 --    False
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 ivaruicam abrdelrod
+-- manvermor alvalvdom1 ivaruicam abrdelrod rubvilval juanarcon
+-- pabmorgar juamorrom1 
 anuladaColumnaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
 anuladaColumnaDesde p j i = 
     buscaIndiceDesde p j (i+1) == Nothing
 
--- manpende
+-- manpende erisancha
 anuladaColumnaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
 anuladaColumnaDesde2 p j i = 
     all (==Nothing) [buscaIndiceDesde p j l | l <- [i+1..nrows p]]
+
+-- fracruzam
+anuladaColumnaDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
+anuladaColumnaDesde3 p j i = all (0==) (drop i $ V.toList $ getCol j p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
@@ -665,7 +707,7 @@ anuladaColumnaDesde2 p j i =
 --    [[2.0,3.0,1.0],[5.0,0.0,5.0],[4.0,0.0,7.0]]
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 abrdelrod
+-- manvermor alvalvdom1 abrdelrod rubvilval juanarcon pabmorgar
 anulaEltoColumnaDesde :: (Fractional a, Eq a) => 
                          Matrix a -> Int -> Int -> Matrix a
 anulaEltoColumnaDesde p j i 
@@ -696,6 +738,16 @@ anulaEltoColumnaDesde3 p j i
 -- En mi interpretación he intentado que elimine un elemento de la
 -- columna, no la columna entera como ocurre en el siguiente.  
 
+-- fracruzam erisancha
+anulaEltoColumnaDesde4 :: (Fractional a, Eq a) => 
+                         Matrix a -> Int -> Int -> Matrix a
+anulaEltoColumnaDesde4 p j i 
+    | anuladaColumnaDesde p j i = p
+    | otherwise = combineRows m (-n/a) i p
+    where Just m = buscaIndiceDesde p j (i+1)
+          Just n = buscaPivoteDesde p j (i+1)
+          a = p ! (i,j)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 29. Definir la función
 --    anulaColumnaDesde :: (Fractional a, Eq a) => 
@@ -712,19 +764,19 @@ anulaEltoColumnaDesde3 p j i
 --    [[4 % 1,5 % 1],[0 % 1,1 % 1],[0 % 1,5 % 2]]
 -- ---------------------------------------------------------------------
 
--- manvermor manpende alvalvdom1 abrdelrod
+-- manvermor manpende alvalvdom1 abrdelrod fracruzam rubvilval pabmorgar 
 anulaColumnaDesde :: (Fractional a, Eq a) => 
                      Matrix a -> Int -> Int -> Matrix a
 anulaColumnaDesde p j i 
     | anuladaColumnaDesde p j i = p
     | otherwise =  anulaColumnaDesde (anulaEltoColumnaDesde p j i)  j i
 
---ivaruicam 
+--ivaruicam  erisancha juanarcon
 anulaColumnaDesde2 :: (Fractional a, Eq a) => 
                      Matrix a -> Int -> Int -> Matrix a
 anulaColumnaDesde2 p j i 
     | anuladaColumnaDesde p j i = p
-    | otherwise = anulaColumnaDesde (anulaEltoColumnaDesde p j i) j i
+    | otherwise = anulaColumnaDesde (anulaEltoColumnaDesde3 p j i) j i
 
 -- ---------------------------------------------------------------------
 -- Algoritmo de Gauss para triangularizar matrices                    --
@@ -741,15 +793,21 @@ anulaColumnaDesde2 p j i
 --    [5]
 -- ---------------------------------------------------------------------
 
--- manvermor manpende alvalvdom1 ivaruicam
+-- manvermor manpende alvalvdom1 ivaruicam erisancha juanarcon pabmorgar
+-- juamorrom1 
 elementosNoNulosColDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
 elementosNoNulosColDesde p j i = 
   [ getElem k j p | k <- [i..nrows p], getElem k j p /= 0]
 
--- abrdelrod
+-- abrdelrod 
 elementosNoNulosColDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
 elementosNoNulosColDesde2 p j i = 
     filter (/=0) [getElem k j p | k <- [i..nrows p]]
+
+-- fracruzam
+elementosNoNulosColDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
+elementosNoNulosColDesde3 p j i = 
+    filter (0/=) $ drop (i-1) $ V.toList $ getCol j p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 31. Definir la función
@@ -767,7 +825,7 @@ elementosNoNulosColDesde2 p j i =
 --    ghci> existeColNoNulaDesde q 2 2
 -- ---------------------------------------------------------------------
   
--- manvermor abrdelrod
+-- manvermor abrdelrod erisancha juanarcon pabmorgar
 existeColNoNulaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
 existeColNoNulaDesde p j i = minorMatrix (i-1) (j-1) p /= zero m n
     where (m,n) = (nrows p -1, ncols p -1)
@@ -777,7 +835,7 @@ existeColNoNulaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
 existeColNoNulaDesde2 p j i = 
     any (/= Nothing)  [buscaIndiceDesde2 p l i | l <- [j..ncols p]]
 
--- alvalvdom1 ivaruicam
+-- alvalvdom1 ivaruicam fracruzam (¿no es mejor utilizar not.null?)
 existeColNoNulaDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
 existeColNoNulaDesde3 p j i = 
     any (/= []) [elementosNoNulosColDesde p x i | x <- [j..ncols p]]
@@ -800,7 +858,7 @@ existeColNoNulaDesde3 p j i =
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1
+-- manvermor alvalvdom1 fracruzam pabmorgar
 menorIndiceColNoNulaDesde :: (Num a, Eq a) => 
                              Matrix a -> Int -> Int -> Maybe Int
 menorIndiceColNoNulaDesde p j i = 
@@ -809,7 +867,7 @@ menorIndiceColNoNulaDesde p j i =
                            elementosNoNulosColDesde p l i /= []] 
     else Nothing
 
--- manpende ivaruicam abrdelrod
+-- manpende ivaruicam abrdelrod erisancha juanarcon
 menorIndiceColNoNulaDesde2 :: (Num a, Eq a) => 
                              Matrix a -> Int -> Int -> Maybe Int
 menorIndiceColNoNulaDesde2 p j i 
@@ -846,7 +904,7 @@ menorIndiceColNoNulaDesde2 p j i
 --    ( 2.0 0.0 1.0 )
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 abrdelrod
+-- manvermor alvalvdom1 abrdelrod  erisancha juanarcon pabmorgar manpende
 gaussAux :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
 gaussAux p i j | dimension p == (i,j) = p
                | not (existeColNoNulaDesde p j i) = p
@@ -857,6 +915,17 @@ gaussAux p i j | dimension p == (i,j) = p
                        p2 = switchRows i i' p1
                        p' = anulaColumnaDesde p2 j i
                        g (Just a) = a
+
+-- fracruzam
+gaussAux2 :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
+gaussAux2 p i j | dimension p == (i,j) = p
+                | not (existeColNoNulaDesde p j i) = p
+                | otherwise = gaussAux p' (i+1) (j+1)
+    where Just j' = menorIndiceColNoNulaDesde p j i 
+          p1 = switchCols j j' p
+          Just i' = menorIndiceColNoNulaDesde p1 j i
+          p2 = switchRows i i' p1
+          p' = anulaColumnaDesde p2 j i
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 34. Definir la función
@@ -880,7 +949,7 @@ gaussAux p i j | dimension p == (i,j) = p
 --    ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 abrdelrod
+-- manvermor alvalvdom1 abrdelrod fracruzam juanarcon pabmorgar manpende
 gauss :: (Fractional a, Eq a) => Matrix a -> Matrix a
 gauss p = gaussAux p 1 1
 
@@ -918,7 +987,7 @@ gauss p = gaussAux p 1 1
 --       ( 0.0 0.0 0.0 ))
 -- ---------------------------------------------------------------------
 
--- manvermor abrdelrod
+-- manvermor abrdelrod 
 gaussCAux :: (Fractional a, Eq a) => 
              Matrix a -> Int -> Int -> Int -> (Int,Matrix a)
 gaussCAux p i j c  | dimension p == (i,j) = (c,p)
@@ -933,7 +1002,7 @@ gaussCAux p i j c  | dimension p == (i,j) = (c,p)
                           par = (fst parB , anulaColumnaDesde (snd parB) j i)
                           g (Just a) = a
 
--- alvalvdom1
+-- alvalvdom1 erisancha juanarcon pabmorgar manpende
 gaussCAux2 :: (Fractional a, Eq a) => 
              Matrix a -> Int -> Int -> Int -> (Int,Matrix a)
 gaussCAux2 p i j c 
@@ -948,6 +1017,19 @@ gaussCAux2 p i j c
           c' = c + signum (abs (j-j')) + signum (abs (i-i'))
           f (Just a) = a
 
+-- fracruzam
+gaussCAux3 :: (Fractional a, Eq a) => 
+             Matrix a -> Int -> Int -> Int -> (Int,Matrix a)
+gaussCAux3 p i j c | dimension p == (i,j) = (c,p)
+                   | not (existeColNoNulaDesde p j i) = (c,p)
+                   | otherwise = gaussCAux p' (i+1) (j+1) c'
+    where Just j' = menorIndiceColNoNulaDesde p j i 
+          p1 = switchCols j j' p
+          Just i' = menorIndiceColNoNulaDesde p1 j i
+          p2 = switchRows i i' p1
+          p' = anulaColumnaDesde p2 j i
+          c' = if j == j' then 0 else 1 + if i == i' then 0 else 1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 36. Definir la función
 --    gaussC :: (Fractional a, Eq a) => Matriz a -> Matriz a
@@ -961,7 +1043,8 @@ gaussCAux2 p i j c
 --        ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 abrdelrod
+-- manvermor alvalvdom1 abrdelrod fracruzam erisancha juanarcon pabmorgar
+-- manpende
 gaussC :: (Fractional a, Eq a) => Matrix a -> (Int,Matrix a)
 gaussC p = gaussCAux p 1 1 0
 
@@ -984,6 +1067,12 @@ determinante3 p = detLaplace p
 
 determinante4 p = detLU p
 
--- alvalvdom1 ivaruicam abrdelrod
+-- alvalvdom1 ivaruicam abrdelrod javoliher erisancha juanarcon pabmorgar
+-- manpende
 determinante5 :: (Fractional a, Eq a) => Matrix a -> a
 determinante5 = detLaplace
+
+-- fracruzam
+determinante6 :: (Fractional a, Eq a) => Matrix a -> a
+determinante6 p = (-1)^n * (foldl1 (*) $ V.toList $ getDiag p')
+    where (n,p') = gaussC p
