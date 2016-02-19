@@ -70,4 +70,7 @@ clase) y las soluciones definitivas.
 + **Relación 21**: Cálculo numérico: Diferenciación y métodos de Herón y de Newton.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21_sol.hs)).
++ **Relación 22**: Enumeraciones de los números racionales. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22_sol.hs)).
 
