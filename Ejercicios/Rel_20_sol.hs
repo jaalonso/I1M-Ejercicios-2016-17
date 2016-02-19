@@ -736,37 +736,3 @@ determinante :: (Fractional a, Eq a) => Matrix a -> a
 determinante p = (-1)^c * V.product (getDiag p')
     where (c,p') = gaussC p
 
-
--- =====================================================================
-
--- Solución de Manuel
--- ==================
-
-gaussM :: (Fractional a, Eq a) => Matrix a -> Matrix a
-gaussM p = gaussAuxM p 1 1
-
-gaussAuxM :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
-gaussAuxM p i j 
-    | j == ncols p = anulaColumnaDesdeM p j i
-    | anuladaColumnaDesdeM p j i = gaussAuxM p i (j+1)
-    | otherwise = gaussAuxM (anulaColumnaDesdeM p j i) (i+1) (j+1)
-
-
-anuladaColumnaDesdeM :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesdeM p j i = 
-    all (==Nothing) [buscaIndiceDesde p j l | l <- [i+1..nrows p]]  
-
-anulaColumnaDesdeM :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
-anulaColumnaDesdeM p j i
-    | anuladaColumnaDesdeM p j i = p
-    | otherwise = anulaColumnaDesdeM (anulaEltoColumnaDesdeM p j i) j i     
-
-anulaEltoColumnaDesdeM :: (Fractional a, Eq a) =>
-                         Matrix a -> Int -> Int -> Matrix a
-anulaEltoColumnaDesdeM p j i
-    | anuladaColumnaDesdeM p j i = p
-    | otherwise = anulaEltoColumnaDesdeM (combineRows k (-x) i p) j i
-    where k = head [l | l <- [i+1..nrows p], p!(l,j) /= 0]
-          x = (p ! (k,j)) / (p ! (i,j))
-
-
