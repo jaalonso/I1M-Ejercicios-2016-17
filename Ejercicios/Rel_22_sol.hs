@@ -40,8 +40,13 @@ import Test.QuickCheck
 --    take 10 potenciasDeDos  ==  [1,2,4,8,16,32,64,128,256,512]
 -- ---------------------------------------------------------------------
 
+-- erisancha juanarcon jespergue javoliher manvermor
 potenciasDeDos :: [Integer]
-potenciasDeDos = undefined
+potenciasDeDos = [2^x | x <- [0..]]
+
+-- blaruiher
+potenciasDeDos2 :: [Integer]
+potenciasDeDos2 = iterate (*2)1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -53,8 +58,21 @@ potenciasDeDos = undefined
 --    empiezaConDos 5 [5,5,5,7]  ==  True
 -- ---------------------------------------------------------------------
 
+-- erisancha juanarcon jespergue javoliher
 empiezaConDos :: Eq a => a -> [a] -> Bool
-empiezaConDos = undefined
+empiezaConDos x (y:z:yss) = x == y && z == x
+
+-- Comentario: La definición anterior está incompleta.
+
+-- blaruiher
+empiezaConDos2 :: Eq a => a -> [a] -> Bool
+empiezaConDos2 x ys = and (head ys == x ,  head (tail ys)== x)
+
+-- Comentario: La definición anterior está incompleta y se puede simplificar.
+
+-- manvermor
+empiezaConDos3 :: Eq a => a -> [a] -> Bool
+empiezaConDos3 x ys = isPrefixOf [x,x] ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -66,8 +84,39 @@ empiezaConDos = undefined
 --    representacionesHB 6  ==  [[1,1,2,2],[1,1,4],[2,4]]
 -- ---------------------------------------------------------------------
 
+-- juanarcon javoliher
 representacionesHB :: Integer -> [[Integer]]
-representacionesHB n = undefined
+representacionesHB n = nub $ suman n
+
+potenciasMenores n = takeWhile (<=n) potenciasDeDos
+
+duplica xs = sort $ xs ++ xs
+
+suman n = [xs | xs <- subsequences (duplica (potenciasMenores n)), 
+                sum xs == n]
+
+-- Comentario: Es conveniente escribir el tipo de todas las funciones.
+
+-- erisancha jespergue blaruiher
+representacionesHB2 :: Integer -> [[Integer]]
+representacionesHB2 n = 
+    nub [xs | xs <- subsequences (concatMap (replicate 2) (potenciasMenores2 n)),
+              sum xs == n]
+
+potenciasMenores2 :: Integer -> [Integer] 
+potenciasMenores2 n = takeWhile (<=n) potenciasDeDos
+
+-- manvermor
+representacionesHB3 :: Integer -> [[Integer]]
+representacionesHB3 0 = [[0]]
+representacionesHB3 n = aux n potenciasDeDos
+    where aux n (x:xs) 
+              | n == 0 = [[]]
+              | n == x = [[x]]
+              | x < n  = [x:ys | ys <- aux (n-x) (x:xs), 
+                                 not (empiezaConDos x ys)] 
+                         ++ aux n xs
+              | otherwise = []   
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -79,8 +128,9 @@ representacionesHB n = undefined
 --    [1,1,2,1,3,2,3,1,4,3,5,2,5,3,4,1,5,4,7,3,8]
 -- ---------------------------------------------------------------------
 
+-- erisancha juanarcon jespergue javoliher blaruiher manvermor
 nRepresentacionesHB :: Integer -> Integer
-nRepresentacionesHB = undefined
+nRepresentacionesHB =  genericLength . representacionesHB 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -91,9 +141,19 @@ nRepresentacionesHB = undefined
 --    termino 4  ==  (3,2)
 -- ---------------------------------------------------------------------
 
+-- erisancha juanarcon jespergue manvermor
 termino :: Integer -> (Integer,Integer)
-termino n = undefined
+termino n = (nRepresentacionesHB n, nRepresentacionesHB (n + 1))
 
+-- javoliher
+termino2 :: Integer -> (Integer,Integer)
+termino2 n = (genericLength (representacionesHB n) ,
+                          genericLength (representacionesHB (n+1)))
+
+-- blaruiher
+termino3 :: Integer -> (Integer,Integer)
+termino3 n = ( x n, x(n+1))
+            where x = nRepresentacionesHB 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
 --    sucesionHB :: [(Integer,Integer)]
@@ -104,8 +164,13 @@ termino n = undefined
 --    [(1,1),(1,2),(2,1),(1,3),(3,2),(2,3),(3,1),(1,4),(4,3),(3,5)]
 -- ---------------------------------------------------------------------
 
+-- erisancha juanarcon jespergue javoliher manvermor
 sucesionHB :: [(Integer,Integer)]
-sucesionHB = undefined
+sucesionHB = [termino x | x <- [0..]]
+
+-- blaruiher 
+sucesionHB2 :: [(Integer,Integer)]
+sucesionHB2 = map (termino)[0..]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que, para todo n,
@@ -113,8 +178,9 @@ sucesionHB = undefined
 -- entre sí. 
 -- ---------------------------------------------------------------------
 
+-- juanarcon jespergue  javoliher blaruiher manvermor
 prop_irreducibles :: Integer -> Property
-prop_irreducibles n = undefined
+prop_irreducibles n = 
     n >= 0 ==> 
     gcd (nRepresentacionesHB n) (nRepresentacionesHB (n+1)) == 1
 
@@ -125,10 +191,16 @@ prop_irreducibles n = undefined
 -- sucesionHB son distintos.
 -- ---------------------------------------------------------------------
 
-prop_distintos :: Integer -> Integer -> Bool
-prop_distintos n m = undefined
+-- erisancha juanarcon jespergue
+prop_distintos :: Positive Integer -> Positive Integer -> Bool
+prop_distintos (Positive n) (Positive m) = 
+    termino x /= termino y
+    where x = n
+          y = n + m
 
 -- La comprobación es
+--    *Main> quickCheck prop_distintos
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -139,8 +211,27 @@ prop_distintos n m = undefined
 --    contenidos 5  ==  True
 -- ---------------------------------------------------------------------
 
+-- erisancha blaruiher manvermor juanarcon jespergue
 contenido :: Integer -> Bool
-contenido n = undefined
+contenido n = 
+    and [elem (fReducida (x,y)) sucesionHB | x <- [1..n], y <- [1..n]]
+    where fReducida (x,y) = (x `div` m, y `div` m)
+              where m = gcd x y
+
+-- javoliher
+-- Falta un criterio matemático para limitar la búsqueda en sucesionHB.
+-- aleatoriamente, he escogido n^3
+
+contenido2 :: Integer -> Bool
+contenido2 n = and [ x `elem` ys | x <- fraccionesRed n]
+    where ys = take' (n^3) sucesionHB
+
+take' :: Integer -> [a] -> [a]
+take' 0 xs     = []
+take' n (x:xs) = x:take' (n-1) xs
+
+fraccionesRed :: Integer -> [(Integer,Integer)]
+fraccionesRed n = [(a,b) | a <- [1..n] , b <- [1..n], gcd a b == 1]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -150,8 +241,22 @@ contenido n = undefined
 --    indice (3,2)  ==  4
 -- ---------------------------------------------------------------------
 
+-- erisancha
 indice :: (Integer,Integer) -> Integer
-indice (a,b) = undefined
+indice (a,b) = 
+    head [i | (i,(x,y)) <- zip [0..] sucesionHB , (a,b) == (x,y)]
+
+-- juanarcon javoliher blaruiher jespergue
+indice2 x = genericLength $ takeWhile (/= x) sucesionHB
+
+-- manvermor
+indice3 :: (Integer,Integer) -> Integer
+indice3 (a,b) = aux (a,b) sucesionHB
+    where aux (a,b) [] = 0
+          aux (a,b) (x:xs) | x == (a,b) = 0
+                           | otherwise  = 1 + aux (a,b) xs
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Numeraciones mediante árboles de Calkin-Wilf                       --
@@ -184,8 +289,9 @@ indice (a,b) = undefined
 --    sucesores (3,2)  ==  [(3,5),(5,2)]
 -- ---------------------------------------------------------------------
 
+-- juanarcon erisancha javoliher blaruiher manvermor 
 sucesores :: (Integer,Integer) -> [(Integer,Integer)]
-sucesores (x,y) = undefined
+sucesores (x,y) = [(x,x+y),(x+y,y)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -196,8 +302,20 @@ sucesores (x,y) = undefined
 --    [(1,4),(4,3),(3,5),(5,2),(2,5),(5,3),(3,4),(4,1)]
 -- ---------------------------------------------------------------------
 
+-- juanarcon javoliher blaruiher 
 siguiente :: [(Integer,Integer)] -> [(Integer,Integer)]
-siguiente xs = undefined
+siguiente xs = concat [sucesores x| x <- xs]
+
+-- erisancha 
+siguiente2 :: [(Integer,Integer)] -> [(Integer,Integer)]
+siguiente2 = concatMap (sucesores)  
+
+-- manvermor jespergue
+-- Es la misma que la de erisancha pero sin paréntesis
+
+siguiente3 :: [(Integer,Integer)] -> [(Integer,Integer)]
+siguiente3 = concatMap sucesores 
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la constante
@@ -211,8 +329,16 @@ siguiente xs = undefined
 --     [(1,4),(4,3),(3,5),(5,2),(2,5),(5,3),(3,4),(4,1)]]
 -- ---------------------------------------------------------------------
 
+-- juanarcon erisancha blaruiher manvermor jespergue
 nivelesCalkinWilf:: [[(Integer,Integer)]]
-nivelesCalkinWilf = undefined
+nivelesCalkinWilf = iterate (siguiente) [(1,1)]
+
+-- javoliher
+nivelesCalkinWilf2 :: [[(Integer,Integer)]]
+nivelesCalkinWilf2 = [(1,1)]: aux  [(1,1)]
+
+aux :: [(Integer,Integer)] -> [[(Integer,Integer)]]
+aux xs = (siguiente xs): aux (siguiente xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la constante 
@@ -223,8 +349,21 @@ nivelesCalkinWilf = undefined
 --    [(1,1),(1,2),(2,1),(1,3),(3,2),(2,3),(3,1),(1,4),(4,3),(3,5)]
 -- ---------------------------------------------------------------------
 
+-- juanarcon erisancha blaruiher jespergue
 sucesionCalkinWilf :: [(Integer,Integer)]
-sucesionCalkinWilf = undefined
+sucesionCalkinWilf = concat nivelesCalkinWilf
+
+--javoliher
+sucesionCalkinWilf2 :: [(Integer,Integer)]
+sucesionCalkinWilf2 = (1,1) : aux' [(1,1)]
+
+aux' :: [(Integer,Integer)] -> [(Integer,Integer)]
+aux' xs = (siguiente xs) ++ aux' (siguiente xs)
+
+-- manvermor
+sucesionCalkinWilf3 :: [(Integer,Integer)]
+sucesionCalkinWilf3 = aux nivelesCalkinWilf
+                       where aux (x:xs) = x ++ aux xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -235,8 +374,17 @@ sucesionCalkinWilf = undefined
 --    igual_sucesion_HB_CalkinWilf 20  ==  True
 -- ---------------------------------------------------------------------
 
+-- juanarcon
 igual_sucesion_HB_CalkinWilf :: Int -> Bool
-igual_sucesion_HB_CalkinWilf n = undefined
+igual_sucesion_HB_CalkinWilf n = and [x == y | (x,y) <- xs]
+    where xs = take n (zip sucesionHB sucesionCalkinWilf)
+
+-- erisancha javoliher blaruiher manvermor
+igual_sucesion_HB_CalkinWilf2 :: Int -> Bool
+igual_sucesion_HB_CalkinWilf2 n = 
+    take n (sucesionHB) == take n (sucesionCalkinWilf)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Número de representaciones hiperbinarias mediante la función fusc
@@ -253,8 +401,24 @@ igual_sucesion_HB_CalkinWilf n = undefined
 --    fusc 4  ==  3
 -- ---------------------------------------------------------------------
 
+-- erisancha blaruiher juanarcon 
 fusc :: Integer -> Integer
-fusc = undefined
+fusc 0 = 1
+fusc n | odd n      = fusc ((n-1) `div` 2)
+       | otherwise  = fusc ((n-2) `div` 2) + fusc (((n-2) `div` 2) + 1)
+
+-- javoliher
+fusc2 :: Integer -> Integer
+fusc2 0 = 1
+fusc2 x | odd x     = fusc2 y
+        | otherwise = (fusc2 y) + fusc2 (y -1)
+        where y = x `div` 2
+
+-- manvermor
+fusc3 :: Integer -> Integer
+fusc3 0 = 1
+fusc3 n | odd n     = fusc3 (div (n-1) 2)
+        | otherwise = fusc3 (n+1) + fusc3 (div (n-2) 2)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Comprobar con QuickCheck que, para todo n, (fusc n) es
@@ -264,8 +428,10 @@ fusc = undefined
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
-prop_fusc :: Integer -> Bool
-prop_fusc n = undefined
+-- erisancha blaruiher manvermor juanarcon 
+prop_fusc :: Positive Integer -> Bool
+prop_fusc (Positive n) = fusc n == nRepresentacionesHB n
 
 -- La comprobación es
-
+-- *Main> quickCheck prop_fusc
+-- +++ OK, passed 100 tests.
