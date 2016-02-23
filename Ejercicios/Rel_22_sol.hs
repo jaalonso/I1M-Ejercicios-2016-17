@@ -47,7 +47,11 @@ potenciasDeDos = [2^x | x <- [0..]]
 
 -- blaruiher manpende rubvilval
 potenciasDeDos2 :: [Integer]
-potenciasDeDos2 = iterate (*2)1
+potenciasDeDos2 = iterate (*2) 1
+
+-- fracruzam
+potenciasDeDos3 :: [Integer]
+potenciasDeDos3 = map (2^) [0..]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -75,9 +79,19 @@ empiezaConDos2 x ys = and (head ys == x ,  head (tail ys)== x)
 empiezaConDos3 :: Eq a => a -> [a] -> Bool
 empiezaConDos3 x ys = isPrefixOf [x,x] ys
 
--- manpende
+-- manpende josllagam
 empiezaConDos4 :: Eq a => a -> [a] -> Bool
 empiezaConDos4 x ys = takeWhile (==x) ys == take 2 ys
+
+-- alvalvdom1
+empiezaConDos5 :: Eq a => a -> [a] -> Bool
+empiezaConDos5 x ys | length ys < 2 = False
+                    | otherwise     = all (==x) (take 2 ys)
+
+-- fracruzam
+empiezaConDos6 :: Eq a => a -> [a] -> Bool
+empiezaConDos6 n (x:y:_) = n == x && n == y
+empiezaConDos6 _  xs     = False
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -124,6 +138,15 @@ representacionesHB3 n = aux n potenciasDeDos
                          ++ aux n xs
               | otherwise = []   
 
+-- fracruzam
+-- En mi opinión, es mejor quitar las repeticiones antes de comprobar si la suma
+-- es correcta
+representacionesHB4 :: Integer -> [[Integer]]
+representacionesHB4 n = [ns | ns <- ws, sum ns == n]
+    where xs = takeWhile (<=n) potenciasDeDos
+          ys = concatMap (replicate 2) xs
+          ws = nub $ subsequences ys
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
 --    nRepresentacionesHB :: Integer -> Integer
@@ -135,7 +158,7 @@ representacionesHB3 n = aux n potenciasDeDos
 -- ---------------------------------------------------------------------
 
 -- erisancha juanarcon jespergue javoliher blaruiher manvermor manpende
--- carruirui3 pabmorgar rubvilval josllagam alvalvdom1
+-- carruirui3 pabmorgar rubvilval josllagam alvalvdom1 fracruzam
 nRepresentacionesHB :: Integer -> Integer
 nRepresentacionesHB =  genericLength . representacionesHB 
 
@@ -149,7 +172,7 @@ nRepresentacionesHB =  genericLength . representacionesHB
 -- ---------------------------------------------------------------------
 
 -- erisancha juanarcon jespergue manvermor manpende carruirui3 pabmorgar
--- josllagam rubvilval alvalvdom1
+-- josllagam rubvilval alvalvdom1 fracruzam
 termino :: Integer -> (Integer,Integer)
 termino n = (nRepresentacionesHB n, nRepresentacionesHB (n + 1))
 
@@ -177,9 +200,14 @@ termino3 n = ( x n, x(n+1))
 sucesionHB :: [(Integer,Integer)]
 sucesionHB = [termino x | x <- [0..]]
 
--- blaruiher manpende carruirui3 rubvilval
+-- blaruiher manpende carruirui3 rubvilval 
 sucesionHB2 :: [(Integer,Integer)]
 sucesionHB2 = map (termino)[0..]
+
+-- fracruzam
+-- No es necesario el paréntesis
+sucesionHB3 :: [(Integer,Integer)]
+sucesionHB3 = map termino [0..]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Comprobar con QuickCheck que, para todo n,
@@ -198,6 +226,11 @@ prop_irreducibles n =
 --    *Main> quickCheck prop_irreducibles
 --    +++ OK, passed 100 tests.
 
+-- fracruzam
+prop_irreducibles2 :: Positive Integer -> Bool
+prop_irreducibles2 (Positive n) = 
+    gcd (nRepresentacionesHB n) (nRepresentacionesHB (n+1)) == 1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck que todos los elementos de la
 -- sucesionHB son distintos.
@@ -215,6 +248,10 @@ prop_distintos (Positive n) (Positive m) =
 --    *Main> quickCheck prop_distintos
 --    +++ OK, passed 100 tests.
 
+-- fracruzam
+prop_distintos2 :: NonNegative Integer ->  Positive Integer -> Bool
+prop_distintos2 (NonNegative n) (Positive m) = termino n /= termino (n+m) 
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
 --    contenido :: Integer -> Integer -> Bool
@@ -225,7 +262,7 @@ prop_distintos (Positive n) (Positive m) =
 -- ---------------------------------------------------------------------
 
 -- erisancha blaruiher manvermor juanarcon jespergue manpende pabmorgar
--- rubvilval
+-- rubvilval alvalvdom1
 contenido :: Integer -> Bool
 contenido n = 
     and [elem (fReducida (x,y)) sucesionHB | x <- [1..n], y <- [1..n]]
@@ -258,6 +295,15 @@ subconjunto xs ys = and [elem x ys | x <- xs]
 sucesionMenoresHB :: Integer -> [(Integer,Integer)]
 sucesionMenoresHB n = [termino x | x <- [1..n]]   
 
+-- fracruzam
+contenido4 :: Integer -> Bool
+contenido4 n = 
+    all (`elem` sucesionHB) [reduc x y | x <- [1..n], y <- [1..n]]
+    where reduc :: Integer -> Integer -> (Integer,Integer)
+          reduc  x y | mcd == 1     = (x,y)
+                     | otherwise    = reduc (div x mcd) (div y mcd)
+              where mcd = gcd x y
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
 --    indice :: (Integer,Integer) -> Integer
@@ -282,6 +328,10 @@ indice3 (a,b) = aux (a,b) sucesionHB
                            | otherwise  = 1 + aux (a,b) xs
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- fracruzam
+indice4 :: (Integer,Integer) -> Integer
+indice4 p = genericLength $ takeWhile (/=p) sucesionHB
 
 -- ---------------------------------------------------------------------
 -- Numeraciones mediante árboles de Calkin-Wilf                       --
@@ -315,7 +365,7 @@ indice3 (a,b) = aux (a,b) sucesionHB
 -- ---------------------------------------------------------------------
 
 -- juanarcon erisancha javoliher blaruiher manvermor jespergue manpende
--- pabmorgar rubvilval alvalvdom1
+-- pabmorgar rubvilval alvalvdom1 fracruzam
 
 sucesores :: (Integer,Integer) -> [(Integer,Integer)]
 sucesores (x,y) = [(x,x+y),(x+y,y)]
@@ -337,7 +387,7 @@ siguiente xs = concat [sucesores x| x <- xs]
 siguiente2 :: [(Integer,Integer)] -> [(Integer,Integer)]
 siguiente2 = concatMap (sucesores)  
 
--- manvermor jespergue manpende pabmorgar rubvilval alvalvdom1
+-- manvermor jespergue manpende pabmorgar rubvilval alvalvdom1 fracruzam
 -- Es la misma que la de erisancha pero sin paréntesis
 
 siguiente3 :: [(Integer,Integer)] -> [(Integer,Integer)]
@@ -357,7 +407,7 @@ siguiente3 = concatMap sucesores
 -- ---------------------------------------------------------------------
 
 -- juanarcon erisancha blaruiher manvermor jespergue pabmorgar
--- rubvilval
+-- rubvilval fracruzam (no se necesitan los paréntesis)
 nivelesCalkinWilf:: [[(Integer,Integer)]]
 nivelesCalkinWilf = iterate (siguiente) [(1,1)]
 
@@ -378,7 +428,7 @@ aux xs = (siguiente xs): aux (siguiente xs)
 -- ---------------------------------------------------------------------
 
 -- juanarcon erisancha blaruiher jespergue manpende pabmorgar rubvilval
--- alvalvdom1
+-- alvalvdom1 fracruzam
 sucesionCalkinWilf :: [(Integer,Integer)]
 sucesionCalkinWilf = concat nivelesCalkinWilf
 
@@ -409,7 +459,7 @@ igual_sucesion_HB_CalkinWilf n = and [x == y | (x,y) <- xs]
     where xs = take n (zip sucesionHB sucesionCalkinWilf)
 
 -- erisancha javoliher blaruiher manvermor manpende pabmorgar rubvilval
--- alvalvdom1
+-- alvalvdom1 fracruzam (no se necesitan los paréntesis)
 igual_sucesion_HB_CalkinWilf2 :: Int -> Bool
 igual_sucesion_HB_CalkinWilf2 n = 
     take n (sucesionHB) == take n (sucesionCalkinWilf)
@@ -444,7 +494,7 @@ fusc2 x | odd x     = fusc2 y
         | otherwise = (fusc2 y) + fusc2 (y -1)
         where y = x `div` 2
 
--- manvermor jespergue
+-- manvermor jespergue fracruzam
 fusc3 :: Integer -> Integer
 fusc3 0 = 1
 fusc3 n | odd n     = fusc3 (div (n-1) 2)
@@ -459,7 +509,7 @@ fusc3 n | odd n     = fusc3 (div (n-1) 2)
 -- ---------------------------------------------------------------------
 
 -- erisancha blaruiher manvermor juanarcon jespergue manpende pabmorgar
--- rubvilval alvalvdom1
+-- rubvilval alvalvdom1 fracruzam
 prop_fusc :: Positive Integer -> Bool
 prop_fusc (Positive n) = fusc n == nRepresentacionesHB n
 
