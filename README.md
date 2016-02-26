@@ -73,4 +73,10 @@ clase) y las soluciones definitivas.
 + **Relación 22**: Enumeraciones de los números racionales. 
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22_sol.hs)).
++ **Relación 23**: El TAD de las pilas. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_23.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_23_sol.hs)).
++ **Relación 24**: El TAD de las colas.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24_sol.hs)).
 
