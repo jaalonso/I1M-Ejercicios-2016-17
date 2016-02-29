@@ -20,14 +20,24 @@
 -- + Descomprimirlo (y se crea el directorio I1M-master.zip).
 -- + Cambiar al directorio I1M-master.
 -- + Ejecutar cabal install I1M.cabal
+-- 
+-- Otra forma es descargar las implementaciones de las implementaciones
+-- de las colas:
+-- + ColaConListas.hs    que está en http://bit.ly/21z3wQL
+-- + ColaConDosListas.hs que está en http://bit.ly/21z3AQp
 
 -- ---------------------------------------------------------------------
 -- Importación de librerías                                           --
 -- ---------------------------------------------------------------------
 
 import Data.List
+import Data.Maybe
 import Test.QuickCheck
-import I1M.Cola
+
+-- Hay que elegir una implementación del TAD colas:
+import ColaConListas
+-- import ColaConDosListas
+-- import I1M.Cola
     
 -- ---------------------------------------------------------------------
 -- Nota. A lo largo de la relación de ejercicios usaremos los siguientes
@@ -50,8 +60,14 @@ c6 = foldr inserta vacia (reverse [1..20])
 --    ultimoCola c5 == 15
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
+-- juamorrom1
 ultimoCola :: Cola a -> a
-ultimoCola c = undefined
+ultimoCola c 
+    | esVacia c  = error "Cola Vacia"
+    | esVacia rc = primero c
+    | otherwise  = ultimoCola rc
+    where rc = resto c
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2: Definir la función
@@ -61,8 +77,19 @@ ultimoCola c = undefined
 --     longitudCola c2 == 6
 -- ---------------------------------------------------------------------
 
+-- manvermor
 longitudCola :: Cola a -> Int
-longitudCola c = undefined
+longitudCola c | esVacia c  = 0
+               | esVacia rc = 1
+               | otherwise  = 1 + longitudCola rc
+    where rc = resto c
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- alvalvdom1 josllagam jespergue abrdelrod fracruzam juamorrom1
+longitudCola2 :: Cola a -> Int
+longitudCola2 c | esVacia c = 0
+                | otherwise = 1 + longitudCola (resto c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3: Definir la función 
@@ -73,8 +100,12 @@ longitudCola c = undefined
 --    todosVerifican (>0) c4 == False
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
+-- juamorrom1
 todosVerifican :: (a -> Bool) -> Cola a -> Bool
-todosVerifican p c = undefined
+todosVerifican p c 
+    | esVacia c = True
+    | otherwise = p (primero c) && todosVerifican p (resto c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4: Definir la función
@@ -85,8 +116,12 @@ todosVerifican p c = undefined
 --   algunoVerifica (<0) c4 == True
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
+-- juamorrom1
 algunoVerifica :: (a -> Bool) -> Cola a -> Bool
-algunoVerifica p c = undefined
+algunoVerifica p c 
+    | esVacia c = False
+    | otherwise = p (primero c) || algunoVerifica p (resto c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5: Definir la función
@@ -96,8 +131,14 @@ algunoVerifica p c = undefined
 --    ponAlaCola c2 c3 == C [17,14,11,8,5,2,10,9,8,7,6,5,4,3]
 -- ---------------------------------------------------------------------
 
+-- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
+-- juamorrom1
 ponAlaCola :: Cola a -> Cola a -> Cola a
-ponAlaCola c1 c2 = undefined
+ponAlaCola c1 c2 
+    | esVacia c2 = c1
+    | otherwise = ponAlaCola (inserta pc2 c1) rc2
+    where pc2 = primero c2
+          rc2 = resto c2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6: Definir la función
@@ -108,8 +149,38 @@ ponAlaCola c1 c2 = undefined
 --    mezclaColas c2 c4 == C [17,4,14,3,11,3,8,0,5,10,2,8,3,7,-1,4]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue juamorrom1
 mezclaColas :: Cola a -> Cola a -> Cola a
-mezclaColas c1 c2 = undefined
+mezclaColas c1 c2 = mezclaAux c1 c2 vacia
+   where mezclaAux c1 c2 c 
+             | esVacia c1 = ponAlaCola c c2
+             | esVacia c2 = ponAlaCola c c1
+             | otherwise  = mezclaAux rc1 rc2 (inserta pc2(inserta pc1 c))
+             where pc1 = primero c1
+                   pc2 = primero c2
+                   rc1 = resto c1
+                   rc2 = resto c2
+
+-- abrdelrod
+mezclaColas2 :: Cola a -> Cola a -> Cola a
+mezclaColas2 c1 c2 
+    | esVacia c1 = c2
+    | esVacia c2 = c1
+    | otherwise = ponAlaCola c' c''
+    where c'  = foldr inserta vacia [primero c2,primero c1] 
+          c'' = mezclaColas2 (resto c1) (resto c2)
+
+-- fracruzam
+-- fracruzam : Mejor invertir el orden de los datos.
+mezclaColas3 :: Cola a -> Cola a -> Cola a
+mezclaColas3 = mezclaAcu vacia
+    where mezclaAcu c d e
+              | esVacia e = ponAlaCola c d
+              | esVacia d = ponAlaCola c e
+              | otherwise = mezclaAcu (inserta pe $ inserta pd c)
+                                      (resto d) (resto e)
+              where pe = primero e
+                    pd = primero d
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7: Definir la función
@@ -121,8 +192,19 @@ mezclaColas c1 c2 = undefined
 --    C [10,4,10,3,9,3,9,0,8,10,8,8,7,3,7,7,6,-1,6,4,5,5,4,4,3,3]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue juamorrom1
 agrupaColas :: [Cola a] -> Cola a
-agrupaColas = undefined
+agrupaColas []         = vacia
+agrupaColas [c]        = c
+agrupaColas (c1:c2:cn) = agrupaColas $ mezclaColas c1 c2 : cn
+
+-- abrdelrod
+agrupaColas2 :: [Cola a] -> Cola a
+agrupaColas2 = foldl mezclaColas vacia
+
+-- fracruzam
+agrupaColas3 :: [Cola a] -> Cola a
+agrupaColas3 = foldl1 mezclaColas
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8: Definir la función
@@ -133,8 +215,12 @@ agrupaColas = undefined
 --    perteneceCola 70 c1 == False
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue abrdelrod fracruzam juamorrom1
 perteneceCola :: Eq a => a -> Cola a -> Bool
-perteneceCola y c = undefined
+perteneceCola y c 
+    | esVacia c = False
+    | otherwise = primero c == y || perteneceCola y (resto c)
+                                
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9: Definir la función
@@ -145,8 +231,21 @@ perteneceCola y c = undefined
 --    contenidaCola c1 c2 == False
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam
 contenidaCola :: Eq a => Cola a -> Cola a -> Bool
-contenidaCola c1 c2 = undefined
+contenidaCola c1 c2 
+    | esVacia c1 = True
+    | esVacia c2 = esVacia c1
+    | otherwise  = perteneceCola pc1 c2 && contenidaCola rc1 c2
+    where pc1 = primero c1
+          rc1 = resto c1
+
+-- abrdelrod fracruzam juamorrom1
+contenidaCola2 :: Eq a => Cola a -> Cola a -> Bool
+contenidaCola2 c1 c2 
+    | esVacia c1 = True
+    | otherwise = perteneceCola (primero c1) c2 &&
+                  contenidaCola2 (resto c1) c2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10: Definir la función
@@ -157,8 +256,16 @@ contenidaCola c1 c2 = undefined
 --    prefijoCola c5 c1 == True
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam abrdelrod fracruzam juamorrom1
 prefijoCola :: Eq a => Cola a -> Cola a -> Bool
-prefijoCola c1 c2 = undefined
+prefijoCola c1 c2 
+    | esVacia c1 = True
+    | esVacia c2 = False
+    | otherwise = pc1 == pc2 && prefijoCola rc1 rc2
+    where pc1 = primero c1
+          pc2 = primero c2
+          rc1 = resto c1
+          rc2 = resto c2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11: Definir la función
@@ -169,8 +276,34 @@ prefijoCola c1 c2 = undefined
 --    subCola c3 c1 == True
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam abrdelrod juamorrom1
 subCola :: Eq a => Cola a -> Cola a -> Bool
-subCola c1 c2 = undefined
+subCola c1 c2 | esVacia c1 = True
+              | esVacia c2 = False
+              | pc1 == pc2 = prefijoCola rc1 rc2 || subCola c1 rc2
+              | otherwise = subCola c1 rc2
+   where pc1 = primero c1
+         pc2 = primero c2
+         rc1 = resto c1
+         rc2 = resto c2
+
+-- ¿Qué debe dar subCola vacia vacia?
+--    λ> subCola vacia vacia
+--    True
+
+-- fracruzam
+-- fracruzam : fromJust e isNothing están definidos en Data.Maybe
+subCola2 :: Eq a => Cola a -> Cola a -> Bool
+subCola2 c d | esVacia c     = True
+             | isNothing loc = False
+             | otherwise     = prefijoCola c floc ||
+                               subCola c (resto floc)
+             where loc  = localiza (primero c) d
+                   floc = fromJust loc
+                   localiza :: Eq a => a -> Cola a -> Maybe (Cola a)
+                   localiza x c | esVacia c        = Nothing
+                                | x == primero c   = Just c
+                                | otherwise        = localiza x (resto c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12: Definir la función
@@ -181,8 +314,21 @@ subCola c1 c2 = undefined
 --    ordenadaCola c4 == False
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam fracruzam juamorrom1
 ordenadaCola :: Ord a => Cola a -> Bool
-ordenadaCola c = undefined
+ordenadaCola c | esVacia c  = True
+               | esVacia rc = True
+               | otherwise = pc <= prc && ordenadaCola rc
+     where pc = primero c
+           prc = primero rc
+           rc = resto c
+
+-- abrdelrod
+ordenadaCola2 :: Ord a => Cola a -> Bool
+ordenadaCola2 c 
+    | any esVacia [c,rc] = True
+    | otherwise = primero c <= primero rc && ordenadaCola2 rc
+    where rc = resto c
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.1: Definir una función
@@ -192,8 +338,21 @@ ordenadaCola c = undefined
 --    lista2Cola [1..6] == C [1,2,3,4,5,6]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 lista2Cola :: [a] -> Cola a
-lista2Cola xs = undefined
+lista2Cola xs = foldr inserta vacia (reverse xs)
+
+-- abrdelrod josllagam juamorrom1
+lista2Cola2 :: [a] -> Cola a
+lista2Cola2 [] = vacia
+lista2Cola2 xs = inserta (last xs) (lista2Cola2 (init xs))
+
+-- fracruzam
+lista2Cola3 :: [a] -> Cola a
+lista2Cola3 = lista2ColaAcu vacia
+  where lista2ColaAcu :: Cola a -> [a] -> Cola a
+        lista2ColaAcu c [] = c
+        lista2ColaAcu c (x:xs) = lista2ColaAcu (inserta x c) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.2: Definir una función
@@ -203,22 +362,34 @@ lista2Cola xs = undefined
 --    cola2Lista c2 == [17,14,11,8,5,2]
 -- ---------------------------------------------------------------------
 
+-- manvermor abrdelrod fracruzam josllagam juamorrom1
 cola2Lista :: Cola a -> [a]
-cola2Lista c = undefined
+cola2Lista c | esVacia c = []
+             | otherwise = primero c : cola2Lista (resto c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13.3. Comprobar con QuickCheck que la función cola2Lista es
 -- la inversa de  lista2Cola, y recíprocamente.
 -- ---------------------------------------------------------------------
 
+-- manvermor
 prop_cola2Lista :: Cola Int -> Bool
-prop_cola2Lista c = undefined
+prop_cola2Lista c = lista2Cola (cola2Lista c) == c
+
+-- abrdelrod fracruzam josllagam juamorrom1
+prop_cola2Lista2 :: Cola Int -> Bool
+prop_cola2Lista2 c = (lista2Cola . cola2Lista) c == c
 
 -- ghci> quickCheck prop_cola2Lista
 -- +++ OK, passed 100 tests.
 
+-- manvermor
 prop_lista2Cola :: [Int] -> Bool
-prop_lista2Cola xs = undefined
+prop_lista2Cola xs = cola2Lista (lista2Cola xs) == xs
+
+-- abrdelrod fracruzam josllagam juamorrom1
+prop_lista2Cola2 :: [Int] -> Bool
+prop_lista2Cola2 xs = (cola2Lista . lista2Cola) xs == xs
 
 -- ghci> quickCheck prop_lista2Cola
 -- +++ OK, passed 100 tests.
@@ -231,8 +402,26 @@ prop_lista2Cola xs = undefined
 --    maxCola c4 == 10
 -- ---------------------------------------------------------------------
 
+-- manvermor 
 maxCola :: Ord a => Cola a -> a
-maxCola p = undefined
+maxCola c = maximum (cola2Lista c)
+
+-- abrdelrod josllagam juamorrom1
+maxCola2 :: Ord a => Cola a -> a
+maxCola2 c | esVacia c = error "cola vacia"
+           | otherwise = (maximum.cola2Lista) c
+
+-- fracruzam
+maxCola3 :: Ord a => Cola a -> a
+maxCola3 p | esVacia p = error "Cola Vacía"
+          | otherwise =  maximo (primero p) (resto p)
+  where maximo :: Ord a => a -> Cola a -> a
+        maximo x c | esVacia c = x
+                   | pc > x    = maximo pc rc
+                   | otherwise = maximo x rc
+          where pc = primero c
+                rc = resto c
+
 
 -- ---------------------------------------------------------------------
 -- Generador de colas                                          --
@@ -261,4 +450,3 @@ genCola = frequency [(1, return vacia),
 -- El tipo cola es una instancia del arbitrario.
 instance (Arbitrary a, Num a) => Arbitrary (Cola a) where
     arbitrary = genCola
-

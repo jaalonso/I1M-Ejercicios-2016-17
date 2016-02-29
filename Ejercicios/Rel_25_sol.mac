@@ -1,0 +1,222 @@
+/* I1M 2015-16: Relación 25 (26 de febrero de 2016)
+   Cálculo numérico en Maxima: Diferenciación y métodos de Herón y de Newton.
+   Departamento de Ciencias de la Computación e I.A.
+   Universidad de Sevilla
+   ================================================================== */
+
+/* ---------------------------------------------------------------------
+   Introducción                                                       
+   ---------------------------------------------------------------------
+   
+   En esta relación se definen en Maxima funciones para resolver los
+   siguientes problemas de cálculo numérico:
+   + diferenciación numérica,
+   + cálculo de la raíz cuadrada mediante el método de Herón,
+   + cálculo de los ceros de una función por el método de Newton y
+   + cálculo de funciones inversas.
+
+   Las definiciones son traducciones de las funciones correspondientes
+   en Haskell de la relación 21.                                      */
+
+
+/* ---------------------------------------------------------------------
+   Diferenciación numérica                                            
+   ------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------
+   Ejercicio 1.1. Definir la función derivada tal que derivada(a,f,x) es
+   el valor de la derivada de la función f en el punto x con
+   aproximación a. Por ejemplo,  
+      (%i2) derivada (0.001,sin,%pi);
+      (%o2) - 0.99999983333334
+      (%i3) derivada (0.001,cos,%pi);
+      (%o3) 4.999999583255033E-4
+   ------------------------------------------------------------------- */
+
+/* pedjaecar fracruzam manvermor manpende */
+derivada (a,f,x) := (f(x+a)-f(x))/a$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 1.2. Definir las funciones derivadaBurda, derivadaFina y
+   derivadaSuper tales que 
+      + derivadaBurda (f,x) es el valor de la derivada de la función f 
+        en el punto x con aproximación 0.01,
+      + derivadaFina (f,x) es el valor de la derivada de la función f 
+        en el punto x con aproximación 0.0001.
+      + derivadaSuper (f,x) es el valor de la derivada de la función f 
+        en el punto x con aproximación 0.000001.
+   Por ejemplo,
+      (%i4) derivadaBurda (cos,%pi);
+      (%o4) 0.0049999583334736
+      (%i5) derivadaFina (cos,%pi);
+      (%o5) 4.999999969612645E-5
+      (%i6) derivadaSuper (cos,%pi);
+      (%o6) 5.000444502911705E-7
+   ------------------------------------------------------------------- */
+
+/* pedjaecar fracruzam manvermor manpende */
+derivadaBurda (f,x) := derivada (0.01,f,x)$
+
+/* pedjaecar fracruzam manvermor manpende */
+derivadaFina  (f,x) := derivada (0.0001,f,x)$
+
+/* pedjaecar fracruzam manvermor manpende */
+derivadaSuper (f,x) := derivada (0.000001,f,x)$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 1.3. Definir la función derivadaFinaDelSeno tal que
+   (derivadaFinaDelSeno x) es el valor de la derivada fina del seno en
+   x. Por ejemplo,
+      (%i7) derivadaFinaDelSeno (%pi);
+      (%o7) - 0.99999999833333
+   ------------------------------------------------------------------- */
+
+/* pedjaecar fracruzam manvermor manpende */
+derivadaFinaDelSeno (x) := derivadaFina  (sin,x)$
+
+/* ---------------------------------------------------------------------
+   Cálculo de la raíz cuadrada                                        
+   ------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------
+   Ejercicio 2. El método de Herón para calcular la raíz cuadrada de
+   un número se basa en las siguientes propiedades:
+   + Si y es una aproximación de la raíz cuadrada de x, entonces 
+     (y+x/y)/2 es una aproximación mejor. 
+   + El límite de la sucesión definida por 
+         x(0)   = 1 
+         x(n+1) = (x(n)+x/x(n))/2
+     es la raíz cuadrada de x.
+   
+   Definir, por iteración con unless, la función raiz tal que raiz(x) es
+   la raíz cuadrada de x calculada usando la  propiedad anterior. Por
+   ejemplo,  
+      (%i8) raiz (9);
+      (%o8) 3.000000001396984
+   ------------------------------------------------------------------- */
+
+/* fracruzam manvermor manpende */
+raiz (x) := block ([r:1],
+  unless abs(r^2 - x) < 0.00000001 do
+    (r : (r + x/r)/2),
+  float(r))$
+
+/* ---------------------------------------------------------------------
+   Ceros de una función                                               
+   ------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------
+   Ejercicio 3. Los ceros de una función pueden calcularse mediante el
+   método de Newton basándose en las siguientes propiedades:
+   + Si b es una aproximación para el punto cero de f, entonces 
+     b-f(b)/f'(b) es una mejor aproximación.
+   + el límite de la sucesión x(n) definida por
+        x(0)   = 1 
+        x(n+1) = x(n)-f(x(n))/f'(x(n))
+     es un cero de f.
+
+   Definir, por iteración con unless, la función puntoCero tal que
+   puntoCeroI(f) es un cero de la función f calculado usando el 
+   método anterior. Por ejemplo, 
+      (%i9) puntoCero (cos);
+      (%o9) 1.570796326794957
+   ------------------------------------------------------------------- */
+
+/* fracruzam manvermor manpende */
+puntoCero (f) := block ([c:1],
+  unless abs(f(c)) < 0.00001 do
+    (c : c - f(c)/derivadaFina(f,c)),
+  float (c))$
+
+/* ---------------------------------------------------------------------
+   Funciones inversas                                                 
+   ------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.1. En este ejercicio se usará la función puntoCero para
+   definir la inversa de distintas funciones.
+
+   Definir, usando puntoCero, la función raizCuadrada tal que
+   raizCuadrada(x) es la raíz cuadrada de x. Por ejemplo,
+      (%i10) raizCuadrada (9);
+      (%o10) 3.000000002941184
+   ------------------------------------------------------------------ */
+
+raizCuadrada (a) := block (
+    local (f),               /* se declara como una función local */
+    f (x) := x^2-a,  
+    puntoCero (f))$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.2. Definir, usando puntoCero, la función raizCubica tal
+   que raizCubica (x) es la raíz cúbica de x. Por ejemplo, 
+      (%i11) raizCubica (27);
+      (%o11) 3.000000000019604
+   ------------------------------------------------------------------ */
+
+/* fracruzam manvermor manpende */
+raizCubica (a) := block(
+  local (f),
+  f (x) := x^3-a,
+  puntoCero (f))$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.3. Definir, usando puntoCero, la función arcoseno tal que
+   arcoseno(x) es el arcoseno de x. Por ejemplo, 
+      (%i12) arcoseno (1);
+      (%o12) 1.566548942830657
+   ------------------------------------------------------------------ */
+
+/* fracruzam manvermor manpende */
+arcoseno (a) := block(
+  local(f),
+  f (x) := sin (x) - a,
+  puntoCero (f))$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.4. Definir, usando puntoCero, la función arcocoseno tal
+   que arcocoseno(x) es el arcoseno de x. Por ejemplo, 
+      (%i13) arcocoseno (0);
+      (%o13) 1.570796326794957
+   ------------------------------------------------------------------ */
+
+/* fracruzam manvermor manpende */
+arcocoseno (a) := block(
+  local(f),
+  f (x) := cos (x) - a,
+  puntoCero (f))$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.5. Definir, usando puntoCero, la función inversa tal que
+   inversa(g,a) es el valor de la inversa de g en a Por ejemplo, 
+      (%i14) cuadrado (x) := x^2$
+      (%i15) inversa (cuadrado,9);
+      (%o15) 3.000000002941184
+      (%i16) inversa (lambda ([x], x^2), 9);
+      (%o16) 3.000000002941184
+   ------------------------------------------------------------------ */
+
+/* fracruzam manvermor manpende */
+inversa (g,a) := block(
+  local (f),
+  f (x) := g (x) - a,
+  puntoCero (f))$
+
+/* ---------------------------------------------------------------------
+   Ejercicio 4.6. Redefinir, usando inversa, las funciones raizCuadrada,
+   raizCubica, arcoseno y arcocoseno. Por ejemplo,
+      (%i17) raizCuadradaI (9);
+      (%o17) 3.000000002941184
+      (%i18) raizCubicaI (9);
+      (%o18) 2.080083824207376
+      (%i19) arcosenoI (1);
+      (%o19) 1.566548942830657
+      (%i20) arcocosenoI (0);
+      (%o20) 1.570796326794957
+   ------------------------------------------------------------------ */
+
+/* fracruzam manvermor manpende */
+raizCuadradaI (a) := inversa (lambda ([x],x^2),a)$
+raizCubicaI   (a) := inversa (lambda ([x],x^3),a)$
+arcosenoI     (a) := inversa (sin,a)$  
+arcocosenoI   (a) := inversa (cos,a)$
