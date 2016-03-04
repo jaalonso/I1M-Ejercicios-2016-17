@@ -33,7 +33,8 @@
       (%o3) 4.999999583255033E-4
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende */
+/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval
+   jespergue abrdelrod blaruiher erisancha marvilmor juanarcon */
 derivada (a,f,x) := (f(x+a)-f(x))/a$
 
 /* ---------------------------------------------------------------------
@@ -54,13 +55,16 @@ derivada (a,f,x) := (f(x+a)-f(x))/a$
       (%o6) 5.000444502911705E-7
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende */
+/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval
+   jespergue abrdelrod blaruiher erisancha marvilmor juanarcon */
 derivadaBurda (f,x) := derivada (0.01,f,x)$
 
-/* pedjaecar fracruzam manvermor manpende */
+/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue
+   abrdelrod blaruiher erisancha marvilmor juanarcon */
 derivadaFina  (f,x) := derivada (0.0001,f,x)$
 
-/* pedjaecar fracruzam manvermor manpende */
+/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue
+   abrdelrod blaruiher erisancha marvilmor juanarcon */
 derivadaSuper (f,x) := derivada (0.000001,f,x)$
 
 /* ---------------------------------------------------------------------
@@ -71,7 +75,8 @@ derivadaSuper (f,x) := derivada (0.000001,f,x)$
       (%o7) - 0.99999999833333
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende */
+/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue 
+   abrdelrod blaruiher erisancha marvilmor juanarcon */
 derivadaFinaDelSeno (x) := derivadaFina  (sin,x)$
 
 /* ---------------------------------------------------------------------
@@ -95,7 +100,8 @@ derivadaFinaDelSeno (x) := derivadaFina  (sin,x)$
       (%o8) 3.000000001396984
    ------------------------------------------------------------------- */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
+   blaruiher erisancha marvilmor juanarcon */
 raiz (x) := block ([r:1],
   unless abs(r^2 - x) < 0.00000001 do
     (r : (r + x/r)/2),
@@ -122,7 +128,8 @@ raiz (x) := block ([r:1],
       (%o9) 1.570796326794957
    ------------------------------------------------------------------- */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
+   blaruiher erisancha marvilmor juanarcon */
 puntoCero (f) := block ([c:1],
   unless abs(f(c)) < 0.00001 do
     (c : c - f(c)/derivadaFina(f,c)),
@@ -154,7 +161,8 @@ raizCuadrada (a) := block (
       (%o11) 3.000000000019604
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
+   blaruiher erisancha marvilmor juanarcon */
 raizCubica (a) := block(
   local (f),
   f (x) := x^3-a,
@@ -167,7 +175,8 @@ raizCubica (a) := block(
       (%o12) 1.566548942830657
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
+   erisancha marvilmor juanarcon */
 arcoseno (a) := block(
   local(f),
   f (x) := sin (x) - a,
@@ -180,7 +189,8 @@ arcoseno (a) := block(
       (%o13) 1.570796326794957
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
+   blaruiher erisancha marvilmor juanarcon */
 arcocoseno (a) := block(
   local(f),
   f (x) := cos (x) - a,
@@ -196,7 +206,8 @@ arcocoseno (a) := block(
       (%o16) 3.000000002941184
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
+   blaruiher erisancha marvilmor juanarcon */
 inversa (g,a) := block(
   local (f),
   f (x) := g (x) - a,
@@ -215,7 +226,8 @@ inversa (g,a) := block(
       (%o20) 1.570796326794957
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende */
+/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
+   blaruiher erisancha marvilmor juanarcon */
 raizCuadradaI (a) := inversa (lambda ([x],x^2),a)$
 raizCubicaI   (a) := inversa (lambda ([x],x^3),a)$
 arcosenoI     (a) := inversa (sin,a)$  
