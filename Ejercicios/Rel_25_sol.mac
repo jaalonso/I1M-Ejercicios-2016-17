@@ -2,22 +2,18 @@
    Cálculo numérico en Maxima: Diferenciación y métodos de Herón y de Newton.
    Departamento de Ciencias de la Computación e I.A.
    Universidad de Sevilla
-   ================================================================== */
+   =================================================================== */
 
 /* ---------------------------------------------------------------------
    Introducción                                                       
    ---------------------------------------------------------------------
    
-   En esta relación se definen en Maxima funciones para resolver los
+   En esta relación se programan en Maxima funciones para resolver los
    siguientes problemas de cálculo numérico:
    + diferenciación numérica,
    + cálculo de la raíz cuadrada mediante el método de Herón,
    + cálculo de los ceros de una función por el método de Newton y
-   + cálculo de funciones inversas.
-
-   Las definiciones son traducciones de las funciones correspondientes
-   en Haskell de la relación 21.                                      */
-
+   + cálculo de funciones inversas.                                    */
 
 /* ---------------------------------------------------------------------
    Diferenciación numérica                                            
@@ -33,9 +29,7 @@
       (%o3) 4.999999583255033E-4
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval
-   jespergue abrdelrod blaruiher erisancha marvilmor juanarcon */
-derivada (a,f,x) := (f(x+a)-f(x))/a$
+derivada (a,f,x) := (f(x+a)-f(x))/a$  
 
 /* ---------------------------------------------------------------------
    Ejercicio 1.2. Definir las funciones derivadaBurda, derivadaFina y
@@ -55,17 +49,9 @@ derivada (a,f,x) := (f(x+a)-f(x))/a$
       (%o6) 5.000444502911705E-7
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval
-   jespergue abrdelrod blaruiher erisancha marvilmor juanarcon */
-derivadaBurda (f,x) := derivada (0.01,f,x)$
-
-/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue
-   abrdelrod blaruiher erisancha marvilmor juanarcon */
-derivadaFina  (f,x) := derivada (0.0001,f,x)$
-
-/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue
-   abrdelrod blaruiher erisancha marvilmor juanarcon */
-derivadaSuper (f,x) := derivada (0.000001,f,x)$
+derivadaBurda (f,x) := derivada (0.01,    f,x)$  
+derivadaFina  (f,x) := derivada (0.0001,  f,x)$  
+derivadaSuper (f,x) := derivada (0.000001,f,x)$  
 
 /* ---------------------------------------------------------------------
    Ejercicio 1.3. Definir la función derivadaFinaDelSeno tal que
@@ -75,9 +61,7 @@ derivadaSuper (f,x) := derivada (0.000001,f,x)$
       (%o7) - 0.99999999833333
    ------------------------------------------------------------------- */
 
-/* pedjaecar fracruzam manvermor manpende alvalvdom1 rubvilval jespergue 
-   abrdelrod blaruiher erisancha marvilmor juanarcon */
-derivadaFinaDelSeno (x) := derivadaFina  (sin,x)$
+derivadaFinaDelSeno (x) := derivadaFina (sin,x)$
 
 /* ---------------------------------------------------------------------
    Cálculo de la raíz cuadrada                                        
@@ -100,12 +84,10 @@ derivadaFinaDelSeno (x) := derivadaFina  (sin,x)$
       (%o8) 3.000000001396984
    ------------------------------------------------------------------- */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
-   blaruiher erisancha marvilmor juanarcon */
-raiz (x) := block ([r:1],
-  unless abs(r^2 - x) < 0.00000001 do
-    (r : (r + x/r)/2),
-  float(r))$
+raiz (x) := block ([y:1],
+  unless abs (y*y-x) < 0.00001 do
+    y : 0.5*(y+x/y),
+  y)$  
 
 /* ---------------------------------------------------------------------
    Ceros de una función                                               
@@ -122,18 +104,16 @@ raiz (x) := block ([r:1],
      es un cero de f.
 
    Definir, por iteración con unless, la función puntoCero tal que
-   puntoCeroI(f) es un cero de la función f calculado usando el 
+   puntoCero(f) es un cero de la función f calculado usando el 
    método anterior. Por ejemplo, 
       (%i9) puntoCero (cos);
       (%o9) 1.570796326794957
    ------------------------------------------------------------------- */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
-   blaruiher erisancha marvilmor juanarcon */
-puntoCero (f) := block ([c:1],
-  unless abs(f(c)) < 0.00001 do
-    (c : c - f(c)/derivadaFina(f,c)),
-  float (c))$
+puntoCero (f) := block ([b:1],
+  unless abs (f(b)) < 0.00001 do
+     b : b - f(b) / derivadaFina (f,b),
+  float (b))$
 
 /* ---------------------------------------------------------------------
    Funciones inversas                                                 
@@ -144,13 +124,13 @@ puntoCero (f) := block ([c:1],
    definir la inversa de distintas funciones.
 
    Definir, usando puntoCero, la función raizCuadrada tal que
-   raizCuadrada(x) es la raíz cuadrada de x. Por ejemplo,
+   raizCuadrada x es la raíz cuadrada de x. Por ejemplo,
       (%i10) raizCuadrada (9);
       (%o10) 3.000000002941184
    ------------------------------------------------------------------ */
 
 raizCuadrada (a) := block (
-    local (f),               /* se declara como una función local */
+    local (f),
     f (x) := x^2-a,  
     puntoCero (f))$
 
@@ -159,13 +139,11 @@ raizCuadrada (a) := block (
    que raizCubica (x) es la raíz cúbica de x. Por ejemplo, 
       (%i11) raizCubica (27);
       (%o11) 3.000000000019604
-   ------------------------------------------------------------------ */
+   ------------------------------------------------------------------- */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
-   blaruiher erisancha marvilmor juanarcon */
-raizCubica (a) := block(
+raizCubica (a) := block (
   local (f),
-  f (x) := x^3-a,
+  f (x) := x^3-a,  
   puntoCero (f))$
 
 /* ---------------------------------------------------------------------
@@ -175,11 +153,9 @@ raizCubica (a) := block(
       (%o12) 1.566548942830657
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
-   erisancha marvilmor juanarcon */
-arcoseno (a) := block(
-  local(f),
-  f (x) := sin (x) - a,
+arcoseno (a) := block (
+  local (f),
+  f (x) := sin (x) - a,  
   puntoCero (f))$
 
 /* ---------------------------------------------------------------------
@@ -189,11 +165,9 @@ arcoseno (a) := block(
       (%o13) 1.570796326794957
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
-   blaruiher erisancha marvilmor juanarcon */
-arcocoseno (a) := block(
-  local(f),
-  f (x) := cos (x) - a,
+arcocoseno (a) := block (
+  local (f),
+  f (x) := cos (x) - a,  
   puntoCero (f))$
 
 /* ---------------------------------------------------------------------
@@ -206,11 +180,9 @@ arcocoseno (a) := block(
       (%o16) 3.000000002941184
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod 
-   blaruiher erisancha marvilmor juanarcon */
-inversa (g,a) := block(
+inversa (g,a) := block (
   local (f),
-  f (x) := g (x) - a,
+  f (x) := g (x) - a,  
   puntoCero (f))$
 
 /* ---------------------------------------------------------------------
@@ -226,9 +198,8 @@ inversa (g,a) := block(
       (%o20) 1.570796326794957
    ------------------------------------------------------------------ */
 
-/* fracruzam manvermor manpende alvalvdom1 rubvilval jespergue abrdelrod
-   blaruiher erisancha marvilmor juanarcon */
-raizCuadradaI (a) := inversa (lambda ([x],x^2),a)$
-raizCubicaI   (a) := inversa (lambda ([x],x^3),a)$
-arcosenoI     (a) := inversa (sin,a)$  
-arcocosenoI   (a) := inversa (cos,a)$
+raizCuadradaI (a) := inversa (lambda ([x], x^2), a)$
+raizCubicaI   (a) := inversa (lambda ([x], x^3), a)$
+arcosenoI     (a) := inversa (sin, a)$  
+arcocosenoI   (a) := inversa (cos, a)$
+
