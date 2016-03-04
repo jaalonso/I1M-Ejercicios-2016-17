@@ -79,4 +79,10 @@ clase) y las soluciones definitivas.
 + **Relación 24**: El TAD de las colas.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24_sol.hs)).
++ **Relación 25** Cálculo numérico en Maxima: Diferenciación y métodos de Herón y de Newton.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_25.mac) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_25_sol.mac)).
++ **Relación 26**: Combinatoria.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26_sol.hs)).
 
