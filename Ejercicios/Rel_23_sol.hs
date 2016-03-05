@@ -62,7 +62,7 @@ p5 = foldr apila vacia [1..5]
 --    2|4|6|8|10|12|14|16|18|20|-
 -- ---------------------------------------------------------------------
 
--- carmengar erisancha marvilmor juanarcon
+-- carmengar erisancha marvilmor juanarcon silgongal isrbelnun
 filtraPila :: (a -> Bool) -> Pila a -> Pila a
 filtraPila p q
     | esVacia q = vacia
@@ -82,7 +82,7 @@ filtraPila p q
 
 -- manvermor jespergue josllagam fracruzam alvalvdom1 juamorrom1 abrdelrod
 -- manpende rubvilval pabmorgar carmengar erisancha marvilmor blaruiher
--- juanarcon
+-- juanarcon ivaruicam silgongal isrbelnun
 mapPila :: (a -> a) -> Pila a -> Pila a
 mapPila f p | esVacia p = vacia
             | otherwise = apila (f cp) (mapPila f dp)
@@ -99,8 +99,8 @@ mapPila f p | esVacia p = vacia
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue josllagam fracruzam alvalvdom1 juamorrom1 abrdelrod
--- manpende rubvilval pabmorgar carmengar erisancha marvilmor blruiher
--- juanarcon
+-- manpende rubvilval pabmorgar carmengar erisancha marvilmor blaruiher
+-- juanarcon ivaruicam silgongal isrbelnun
 pertenecePila :: (Eq a) => a -> Pila a -> Bool
 pertenecePila y p 
     | esVacia p = False
@@ -115,7 +115,7 @@ pertenecePila y p
 --    contenidaPila p1 p2 == False
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue josllagam pabmorgar carmengar erisancha
+-- manvermor jespergue josllagam pabmorgar carmengar erisancha blaruiher
 contenidaPila :: (Eq a) => Pila a -> Pila a -> Bool
 contenidaPila p1 p2 = all (`elem` ys) xs
     where xs = pila2Lista p1
@@ -140,14 +140,21 @@ contenidaPila2 p1 p2
 contenidaPila3 :: (Eq a) => Pila a -> Pila a -> Bool
 contenidaPila3 p1 p2 = isSubsequenceOf (pila2Lista p1) (pila2Lista p2)
 
--- abrdelrod alvalvdom1 rubvilval erisancha marvilmor juanarcon
+-- abrdelrod alvalvdom1 rubvilval erisancha marvilmor juanarcon silgongal
 contenidaPila4 :: (Eq a) => Pila a -> Pila a -> Bool
 contenidaPila4 p1 p2 
     | esVacia p1 = True
     | otherwise  = pertenecePila (cima p1) p2 && contenidaPila4 (desapila p1) p2
 
+-- ivaruicam isrbelnun
+contenidaPila5 :: (Eq a) => Pila a -> Pila a -> Bool
+contenidaPila5 p q  | esVacia p = True
+                    | esVacia q = False
+                    | otherwise = pertenecePila (cima p) q &&
+                                  contenidaPila5 (desapila p) q
+
 -- ---------------------------------------------------------------------
--- Ejercicio 4: Defiir la función
+-- Ejercicio 4: Definir la función
 --    prefijoPila :: Eq a => Pila a -> Pila a -> Bool
 -- tal que (prefijoPila p1 p2) se verifica si la pila p1 es justamente
 -- un prefijo de la pila p2. Por ejemplo,
@@ -161,7 +168,7 @@ prefijoPila :: Eq a => Pila a -> Pila a -> Bool
 prefijoPila p1 p2 = isPrefixOf (pila2Lista p1) (pila2Lista p2)
 
 -- manvermor fracruzam abrdelrod manpende alvalvdom1 rubvilval erisancha
--- juanarcon
+-- juanarcon ivaruicam blaruiher silgongal isrbelnun
 prefijoPila2 :: Eq a => Pila a -> Pila a -> Bool
 prefijoPila2 p1 p2 
     | esVacia p1 = True
@@ -190,7 +197,7 @@ subPila p q = elem (pila2Lista p) (subsequences (pila2Lista q))
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- manvermor manpende
+-- manvermor manpende blaruiher
 subPila2 :: (Eq a) => Pila a -> Pila a -> Bool
 subPila2 p1 p2 | esVacia p1 = True
                | esVacia p2 = False
@@ -224,6 +231,12 @@ subPila4 p1 p2 | esVacia p1 = True
 subPila5 :: (Eq a) => Pila a -> Pila a -> Bool
 subPila5 p1 p2 = isInfixOf (pila2Lista p1) (pila2Lista p2)
 
+-- ivaruicam silgongal isrbelnun
+subPila6 :: (Eq a) => Pila a -> Pila a -> Bool
+subPila6 p q | esVacia p = True
+             | esVacia q = False
+             | otherwise = prefijoPila p q || subPila p (desapila q)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6: Definir la función
 --    ordenadaPila :: (Ord a) => Pila a -> Bool
@@ -239,7 +252,7 @@ ordenadaPila p | esVacia p = True
                | otherwise = p == lista2Pila (sort $ pila2Lista p)
 
 -- manvermor fracruzam alvalvdom1 juamorrom1 manpende rubvilval erisancha
--- juanarcon
+-- juanarcon blaruiher silgongal ivaruicam
 ordenadaPila2 :: (Ord a) => Pila a -> Bool
 ordenadaPila2 p | esVacia p  = True
                 | esVacia dp = True
@@ -255,6 +268,19 @@ ordenadaPila3 p
     | otherwise          = cima p <= cima dp && ordenadaPila3 dp
     where dp = desapila p
 
+-- isrbelnun
+ordenadaPila4 :: (Ord a) => Pila a -> Bool
+ordenadaPila4 p | esVacia p         = True
+                | lengthPila p == 1 = True
+                | otherwise         = c <= cd && ordenadaPila4 d
+    where c  = cima p
+          d  = desapila p
+          cd = cima d
+
+lengthPila p | esVacia p = 0
+             | otherwise = 1 + lengthPila d
+    where d = desapila p
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 7.1: Definir una función
 --    lista2Pila :: [a] -> Pila a
@@ -264,11 +290,12 @@ ordenadaPila3 p
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue alvalvdom1 manpende rubvilval carmengar erisancha
+-- blaruiher silgongal
 lista2Pila :: [a] -> Pila a
 lista2Pila xs = foldr apila vacia xs
 
 -- fracruzam josllagam juamorrom1 abrdelrod pabmorgar erisancha marvilmor
--- juanarcon
+-- juanarcon isrbelnun
 lista2Pila2 :: [a] -> Pila a
 lista2Pila2 (x:xs) = apila x $ lista2Pila2 xs
 lista2Pila2 []     = vacia
@@ -283,7 +310,7 @@ lista2Pila2 []     = vacia
 
 -- manvermor jespergue fracruzam alvalvdom1 josllagam juamorrom1
 -- abrdelrod manpende rubvilval pabmorgar carmengar erisancha
--- marvilmor juanarcon
+-- marvilmor juanarcon blaruiher silgongal ivaruicam isrbelnun
 pila2Lista :: Pila a -> [a]
 pila2Lista p | esVacia p = [] 
              | otherwise = (cima p): pila2Lista (desapila p)
@@ -296,14 +323,16 @@ pila2Lista p | esVacia p = []
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue fracruzam alvalvdom1 josllagam juamorrom1
--- abrdelrod manpende rubvilval pabmorgar erisancha juanarcon
+-- abrdelrod manpende rubvilval pabmorgar erisancha juanarcon blaruiher 
+-- silgongal ivaruicam isrbelnun
 prop_pila2Lista p = lista2Pila (pila2Lista p) == p
 
 -- ghci> quickCheck prop_pila2Lista
 -- +++ OK, passed 100 tests.
 
 -- manvermor fracruzam alvalvdom1 josllagam juamorrom1 abrdelrod manpende
--- rubvilval pabmorgar carmengar erisancha marvilmor juanarcon
+-- rubvilval pabmorgar carmengar erisancha marvilmor juanarcon blaruiher
+-- silgongal ivaruicam isrbelnun
 prop_lista2Pila xs = pila2Lista (lista2Pila xs) == xs
 
 -- ghci> quickCheck prop_lista2Pila
@@ -318,7 +347,7 @@ prop_lista2Pila xs = pila2Lista (lista2Pila xs) == xs
 --    -1|0|3|3|3|4|4|7|8|10|-
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue juamorrom1 pabmorgar
+-- manvermor jespergue juamorrom1 pabmorgar blaruiher
 ordenaInserPila :: (Ord a) => Pila a -> Pila a
 ordenaInserPila p = lista2Pila $ sort (pila2Lista p)
 
@@ -342,7 +371,7 @@ ordenaInserPila3 p
                      | x == cima p' = desapila p'
                      | otherwise = apila (cima p') (quita x (desapila p'))
 
--- fracruzam erisancha
+-- fracruzam erisancha isrbelnun
 ordenaInserPila4 :: Ord a => Pila a -> Pila a
 ordenaInserPila4 p = ordenaAcu (apila (cima p) vacia) (desapila p)
   where ordenaAcu :: Ord a => Pila a -> Pila a -> Pila a
@@ -361,7 +390,8 @@ ordenaInserPila4 p = ordenaAcu (apila (cima p) vacia) (desapila p)
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue fracruzam josllagam juamorrom1 abrdelrod manpende
--- alvalvdom1 rubvilval pabmorgar erisancha marvilmor juanarcon
+-- alvalvdom1 rubvilval pabmorgar erisancha marvilmor juanarcon blaruiher
+-- ivaruicam isrbelnun
 prop_ordenaInserPila p = ordenadaPila (ordenaInserPila p)
 
 -- ghci> quickCheck prop_ordenaInserPila
@@ -387,7 +417,7 @@ nubPila p = lista2Pila $ nub $ pila2Lista p
 nubPila2 :: (Eq a) => Pila a -> Pila a
 nubPila2 = lista2Pila . nub . pila2Lista
 
--- alvalvdom1 erisancha juanarcon
+-- alvalvdom1 erisancha juanarcon blaruiher ivaruicam isrbelnun
 nubPila3 :: (Eq a) => Pila a -> Pila a
 nubPila3 p | esVacia p = vacia
            | pertenecePila cp dp = ndp
@@ -395,6 +425,10 @@ nubPila3 p | esVacia p = vacia
     where cp  = cima p
           dp  = desapila p
           ndp = nubPila dp
+
+-- silgongal
+nubPila4 :: (Eq a) => Pila a -> Pila a
+nubPila4 = lista2Pila . reverse . nub . reverse . pila2Lista 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10.2: Definir la propiedad siguiente: "las composición de
@@ -405,7 +439,7 @@ nubPila3 p | esVacia p = vacia
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam juamorrom1 abrdelrod manpende rubvilval pabmorgar
--- erisancha marvilmor juanarcon
+-- erisancha marvilmor juanarcon silgongal ivaruicam
 -- La propiedad es
 prop_nubPila p = (nub . pila2Lista) p == (pila2Lista . nubPila) p
 
@@ -413,7 +447,7 @@ prop_nubPila p = (nub . pila2Lista) p == (pila2Lista . nubPila) p
 --    λ> quickCheck prop_nubPila
 --    +++ OK, passed 100 tests.
 
--- alvalvdom1
+-- alvalvdom1 isrbelnun
 --    *** Failed! Falsifiable (after 10 tests): 9|-5|-4|4|-5|-
 -- Para redefinir la función, basta tomar cualquiera de las otras definiciones
 -- de nubPila, por ejemplo: nubPila2.
@@ -429,11 +463,11 @@ prop_nubPila p = (nub . pila2Lista) p == (pila2Lista . nubPila) p
 --    10
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue josllagam juamorrom1 pabmorgar carmengar
+-- manvermor jespergue josllagam juamorrom1 pabmorgar carmengar silgongal
 maxPila :: Ord a => Pila a -> a
 maxPila p = maximum (pila2Lista p)
 
--- fracruzam erisancha
+-- fracruzam erisancha blaruiher ivaruicam
 maxPila2 :: Ord a => Pila a -> a
 maxPila2 p = auxMax (cima p) (desapila p)
   where auxMax :: Ord a => a -> Pila a -> a
@@ -446,6 +480,17 @@ maxPila2 p = auxMax (cima p) (desapila p)
 -- abrdelrod manpende alvalvdom1 rubvilval erisancha marvilmor juanarcon 
 maxPila3 :: (Ord a) => Pila a -> a
 maxPila3 = maximum . pila2Lista
+
+-- isrbelnun
+maxPila4 :: (Ord a) => Pila a -> a
+maxPila4 p | esVacia p         = error "lista vacia"
+           | lengthPila p == 1 = c
+           | c > cd            = maxPila (apila c d')
+           | otherwise         = maxPila d
+    where c  = cima p
+          d  = desapila p
+          cd = cima d
+          d' = desapila d
 
 -- ---------------------------------------------------------------------
 -- Generador de pilas                                                 --

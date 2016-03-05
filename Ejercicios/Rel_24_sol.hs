@@ -62,7 +62,7 @@ c6 = foldr inserta vacia (reverse [1..20])
 
 -- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
 -- juamorrom1 pabmorgar carruirui3 marvilmor erisancha juanarcon
--- rubvilval
+-- rubvilval manpende blaruiher silgongal isrbelnun
 ultimoCola :: Cola a -> a
 ultimoCola c 
     | esVacia c  = error "Cola Vacia"
@@ -78,7 +78,7 @@ ultimoCola c
 --     longitudCola c2 == 6
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor blaruiher
 longitudCola :: Cola a -> Int
 longitudCola c | esVacia c  = 0
                | esVacia rc = 1
@@ -89,6 +89,7 @@ longitudCola c | esVacia c  = 0
 
 -- alvalvdom1 josllagam jespergue abrdelrod fracruzam juamorrom1 
 -- pabmorgar carruirui3 marvilmor erisancha juanarcon rubvilval
+-- manpende silgongal isrbelnun
 longitudCola2 :: Cola a -> Int
 longitudCola2 c | esVacia c = 0
                 | otherwise = 1 + longitudCola (resto c)
@@ -104,7 +105,7 @@ longitudCola2 c | esVacia c = 0
 
 -- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
 -- juamorrom1 pabmorgar carruirui3 marvilmor erisancha juanarcon
--- rubvilval
+-- rubvilval manpende blaruiher silgongal isrbelnun
 todosVerifican :: (a -> Bool) -> Cola a -> Bool
 todosVerifican p c 
     | esVacia c = True
@@ -121,7 +122,7 @@ todosVerifican p c
 
 -- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
 -- juamorrom1 pabmorgar carruirui3 marvilmor erisancha juanarcon
--- rubvilval
+-- rubvilval manpende blaruiher silgongal isrbelnun
 algunoVerifica :: (a -> Bool) -> Cola a -> Bool
 algunoVerifica p c 
     | esVacia c = False
@@ -137,7 +138,7 @@ algunoVerifica p c
 
 -- manvermor alvalvdom1 josllagam jespergue abrdelrod fracruzam
 -- juamorrom1 pabmorgar carruirui3 marvilmor erisancha juanarcon
--- rubvilval
+-- rubvilval manpende blaruiher silgongal isrbelnun
 ponAlaCola :: Cola a -> Cola a -> Cola a 
 ponAlaCola c1 c2 
     | esVacia c2 = c1
@@ -166,7 +167,7 @@ mezclaColas c1 c2 = mezclaAux c1 c2 vacia
                    rc1 = resto c1
                    rc2 = resto c2
 
--- abrdelrod pabmorgar rubvilval
+-- abrdelrod pabmorgar rubvilval manpende blaruiher isrbelnun
 mezclaColas2 :: Cola a -> Cola a -> Cola a
 mezclaColas2 c1 c2 
     | esVacia c1 = c2
@@ -198,19 +199,23 @@ mezclaColas3 = mezclaAcu vacia
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue juamorrom1 alvalvdom1 pabmorgar juanarcon
--- rubvilval
+-- rubvilval 
 agrupaColas :: [Cola a] -> Cola a
 agrupaColas []         = vacia
 agrupaColas [c]        = c
 agrupaColas (c1:c2:cn) = agrupaColas $ mezclaColas c1 c2 : cn
 
--- abrdelrod
+-- abrdelrod manpende
 agrupaColas2 :: [Cola a] -> Cola a
 agrupaColas2 = foldl mezclaColas vacia
 
 -- fracruzam carruirui3 marvilmor erisancha
 agrupaColas3 :: [Cola a] -> Cola a
 agrupaColas3 = foldl1 mezclaColas
+
+-- isrbelnun
+agrupaColas4 [vacia]  = vacia
+agrupaColas4 (x:y:xs) = agrupaColas ((mezclaColas x y):xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8: Definir la función
@@ -222,7 +227,7 @@ agrupaColas3 = foldl1 mezclaColas
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue abrdelrod fracruzam juamorrom1
--- alvalvdom1 pabmorgar
+-- alvalvdom1 pabmorgar manpende blaruiher silgongal isrbelnun
 perteneceCola :: Eq a => a -> Cola a -> Bool
 perteneceCola y c 
     | esVacia c = False
@@ -242,7 +247,8 @@ perteneceCola2 x = algunoVerifica (==x)
 --    contenidaCola c1 c2 == False
 -- ---------------------------------------------------------------------
 
--- manvermor josllagam jespergue pabmorgar juanarcon rubvilval
+-- manvermor josllagam jespergue pabmorgar juanarcon rubvilval blaruiher
+-- isrbelnun
 contenidaCola :: Eq a => Cola a -> Cola a -> Bool
 contenidaCola c1 c2 
     | esVacia c1 = True
@@ -258,7 +264,7 @@ contenidaCola2 c1 c2
     | otherwise = perteneceCola (primero c1) c2 &&
                   contenidaCola2 (resto c1) c2
 
--- carruirui3 marvilmor erisancha
+-- carruirui3 marvilmor erisancha manpende
 contenidaCola3 :: Eq a => Cola a -> Cola a -> Bool
 contenidaCola3 c1 c2 = todosVerifican (flip perteneceCola c2) c1 
 
@@ -273,6 +279,7 @@ contenidaCola3 c1 c2 = todosVerifican (flip perteneceCola c2) c1
 
 -- manvermor josllagam abrdelrod fracruzam juamorrom1 jespergue
 -- alvalvdom1 carruirui3 marvilmor erisancha juanarcon rubvilval
+-- manpende blaruiher isrbelnun
 prefijoCola :: Eq a => Cola a -> Cola a -> Bool
 prefijoCola c1 c2 
     | esVacia c1 = True
@@ -292,7 +299,8 @@ prefijoCola c1 c2
 --    subCola c3 c1 == True
 -- ---------------------------------------------------------------------
 
--- manvermor josllagam abrdelrod juamorrom1 jespergue alvalvdom1
+-- manvermor josllagam abrdelrod juamorrom1 jespergue alvalvdom1 
+-- manpende isrbelnun
 subCola :: Eq a => Cola a -> Cola a -> Bool
 subCola c1 c2 | esVacia c1 = True
               | esVacia c2 = False
@@ -337,7 +345,7 @@ subCola3 c1 c2 | esVacia c1 = True
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam fracruzam juamorrom1 jespergue alvalvdom1
--- carruirui3 juanarcon rubvilval
+-- carruirui3 juanarcon rubvilval manpende isrbelnun
 ordenadaCola :: Ord a => Cola a -> Bool
 ordenadaCola c | esVacia c  = True
                | esVacia rc = True
@@ -361,7 +369,7 @@ ordenadaCola2 c
 --    lista2Cola [1..6] == C [1,2,3,4,5,6]
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue alvalvdom1 rubvilval
+-- manvermor jespergue alvalvdom1 rubvilval manpende isrbelnun
 lista2Cola :: [a] -> Cola a
 lista2Cola xs = foldr inserta vacia (reverse xs)
 
@@ -391,7 +399,7 @@ lista2Cola4 xs = foldl (flip inserta) vacia xs
 
 -- manvermor abrdelrod fracruzam josllagam juamorrom1 jespergue
 -- alvalvdom1 pabmorgar carruirui3 marvilmor erisancha juanarcon
--- rubvilval
+-- rubvilval manpende isrbelnun
 cola2Lista :: Cola a -> [a]
 cola2Lista c | esVacia c = []
              | otherwise = primero c : cola2Lista (resto c)
@@ -402,6 +410,7 @@ cola2Lista c | esVacia c = []
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue alvalvdom1 pabmorgar carruirui3 erisancha
+-- manpende isrbelnun
 prop_cola2Lista :: Cola Int -> Bool
 prop_cola2Lista c = lista2Cola (cola2Lista c) == c
 
@@ -413,7 +422,7 @@ prop_cola2Lista2 c = (lista2Cola . cola2Lista) c == c
 -- ghci> quickCheck prop_cola2Lista
 -- +++ OK, passed 100 tests.
 
--- manvermor alvalvdom1 carruirui3 marvilmor erisancha
+-- manvermor alvalvdom1 carruirui3 marvilmor erisancha manpende isrbelnun
 prop_lista2Cola :: [Int] -> Bool
 prop_lista2Cola xs = cola2Lista (lista2Cola xs) == xs
 
@@ -432,7 +441,7 @@ prop_lista2Cola2 xs = (cola2Lista . lista2Cola) xs == xs
 --    maxCola c4 == 10
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 pabmorgar
+-- manvermor alvalvdom1 pabmorgar manpende
 maxCola :: Ord a => Cola a -> a
 maxCola c = maximum (cola2Lista c)
 
@@ -456,6 +465,16 @@ maxCola3 p | esVacia p = error "Cola Vacía"
 maxCola4 :: Ord a => Cola a -> a
 maxCola4 p | todosVerifican (<= primero p) p = primero p
            | otherwise = maxCola (resto p)
+
+-- isrbelnun
+maxCola5 :: Ord a => Cola a -> a
+maxCola5 c | esVacia c           = error "lista vacia"
+           | longitudCola c == 1 = p
+           | p >= pr             = maxCola (inserta p (resto r))
+           | otherwise           = maxCola r
+    where p  = primero c
+          r  = resto c
+          pr = primero r
 
 -- ---------------------------------------------------------------------
 -- Generador de colas                                          --
