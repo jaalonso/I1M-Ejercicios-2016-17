@@ -39,7 +39,7 @@ import Data.List
 
 -- carmengar juamorrom1 josllagam blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 subconjunto :: Eq a => [a] -> [a] -> Bool
 subconjunto [] _      = True
 subconjunto (x:xs) ys = elem x ys && subconjunto xs ys
@@ -55,7 +55,7 @@ subconjunto (x:xs) ys = elem x ys && subconjunto xs ys
  
 -- carmengar juamorrom1 josllagam blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 subconjunto' :: Eq a => [a] -> [a] -> Bool
 subconjunto' xs ys = all (`elem` ys) xs
  
@@ -79,7 +79,7 @@ prop_equivalencia xs ys = s xs ys == s' xs ys
 -- +++ OK, passed 100 tests.
 
 -- alvalvdom1 manvermor javperlag abrdelrod erisancha anaagusil
--- fracruzam javoliher isrbelnun manpende
+-- fracruzam javoliher isrbelnun manpende silgongal
 prop_equivalencia2 :: [Int] -> [Int] -> Bool
 prop_equivalencia2 xs ys = subconjunto xs ys == subconjunto' xs ys
 
@@ -94,7 +94,7 @@ prop_equivalencia2 xs ys = subconjunto xs ys == subconjunto' xs ys
  
 -- carmengar juamorrom1 josllagam blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 igualConjunto :: Eq a => [a] -> [a] -> Bool
 igualConjunto xs ys = subconjunto xs ys && subconjunto ys xs
  
@@ -124,7 +124,7 @@ subconjuntos2 :: [a] -> [[a]]
 subconjuntos2 = subsequences
 
 -- josllagam juanarcon jespergue alvalvdom1 manvermor fracruzam
--- javoliher manpende
+-- javoliher manpende silgongal
 subconjuntos3 :: [a] -> [[a]]
 subconjuntos3 [] = [[]]
 subconjuntos3 (x:xs) = [x : ys | ys <- t] ++ t
@@ -169,7 +169,7 @@ intercala2 x ys = [ (take n ys) ++ x : (drop n ys) | n <- [0..length ys] ]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- abrdelrod erisancha isrbelnun
+-- abrdelrod erisancha isrbelnun silgongal
 intercala3 :: a -> [a] -> [[a]]
 intercala3 x [] = [[x]]
 intercala3 x (y:ys) = (x:y:ys) : map (y:) (intercala3 x ys)
@@ -192,7 +192,8 @@ intercala4 x xs = aux x xs 0 (length xs + 1)
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam blaruiher juanarcon jespergue alvalvdom1 manvermor
--- javperlag abrdelrod anaagusil fracruzam javoliher isrbelnun manpende
+-- javperlag abrdelrod anaagusil fracruzam javoliher isrbelnun manpende 
+-- silgongal
 
 permutaciones [] = [[]]
 permutaciones (x:xs) = concatMap (intercala x) (permutaciones xs) 
@@ -214,7 +215,7 @@ permutaciones2 = permutations
 
 -- carmengar josllagam juamorrom1 blaruiher juanarcon jespergue marvilmor 
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha 
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 permutacionesN :: Integer -> [[Integer]]
 permutacionesN n = permutaciones [1..n]
 
@@ -229,7 +230,7 @@ permutacionesN n = permutaciones [1..n]
 
 -- carmengar josllagam juamorrom1 blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha 
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 numeroPermutacionesN :: Integer -> Integer
 numeroPermutacionesN = genericLength . permutacionesN
 
@@ -250,7 +251,7 @@ fact2 n = foldr (*) 1 [1..n]
 
 -- juamorrom1 blaruiher juanarcon jespergue rubvilval manvermor
 -- javperlag abrdelrod  erisancha paocabper anaagusil fracruzam javoliher
--- isrbelnun
+-- isrbelnun silgongal
 fact3 :: Integer -> Integer
 fact3 n = product [1..n]
 
@@ -265,7 +266,7 @@ fact3 n = product [1..n]
 
 -- carmengar josllagam juamorrom1 blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor javperlag abrdelrod erisancha
--- paocabper anaagusil fracruzam javoliher isrbelnun manpende
+-- paocabper anaagusil fracruzam javoliher isrbelnun manpende silgongal
 numeroPermutacionesN' :: Integer -> Integer
 numeroPermutacionesN' = fact
 
@@ -278,9 +279,9 @@ numeroPermutacionesN' = fact
 --    prop_numeroPermutacionesN 5  ==  True
 -- ---------------------------------------------------------------------
 
--- carmengar josllagam juamorrom1 blaruiher juancon jespergue marvilmor
+-- carmengar josllagam juamorrom1 blaruiher juanarcon jespergue marvilmor
 -- rubvilval alvalvdom1 manvermor abrdelrod erisancha paocabper anaagusil
--- fracruzam javoliher isrbelnun manpende
+-- fracruzam javoliher isrbelnun manpende silgongal
 
 prop_numeroPermutacionesN :: Integer -> Bool
 prop_numeroPermutacionesN n = map f [1..n] == map f' [1..n]
@@ -443,7 +444,7 @@ prop_numeroCombinaciones3 n =
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam jespergue marvilmor rubvilval manvermor javperlag
--- abrdelrod paocabper anaagusil manpende
+-- abrdelrod paocabper anaagusil manpende juanarcon 
 combinacionesR :: Integer -> [a] -> [[a]]
 combinacionesR 0 _  = [[]]
 combinacionesR _ [] = []
@@ -479,8 +480,8 @@ combinacionesR3 k (x:xs) = [x:ys | ys <- combinacionesR3 (k-1) (x:xs)] ++
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam jespergue marvilmor rubvilval manvermor javperlag
--- abrdelrod  erisancha juamorrom1 paocabper anaagusil fracruzam
--- alvalvdom1 javoliher isrbelnun manpende
+-- abrdelrod  erisancha juamorrom1 paocabper anaagusil fracruzam 
+-- alvalvdom1 javoliher isrbelnun manpende juanarcon 
 combinacionesRN :: Integer -> Integer -> [[Integer]]    
 combinacionesRN n k = combinacionesR k [1..n]
 
@@ -494,8 +495,8 @@ combinacionesRN n k = combinacionesR k [1..n]
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam jespergue marvilmor rubvilval manvermor javperlag
--- abrdelrod erisancha juamorrom1 paocabper anaagusil alvalvdom1
--- javoliher isrbelnun manpende
+-- abrdelrod erisancha juamorrom1 paocabper anaagusil alvalvdom1 
+-- javoliher isrbelnun manpende juanarcon 
 numeroCombinacionesR :: Integer -> Integer -> Integer
 numeroCombinacionesR n k = genericLength $ combinacionesRN n k
 
@@ -513,8 +514,8 @@ numeroCombinacionesR2 n = genericLength . combinacionesRN n
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam jespergue marvilmor rubvilval manvermor javperlag
--- abrdelrod  erisancha juamorrom1 paocabper anaagusil fracruzam
--- alvalvdom1 javoliher isrbelnun manpende
+-- abrdelrod  erisancha juamorrom1 paocabper anaagusil fracruzam 
+-- alvalvdom1 javoliher isrbelnun manpende juanarcon 
 numeroCombinacionesR' :: Integer -> Integer -> Integer
 numeroCombinacionesR' n k = comb (n+k-1) k
 
@@ -529,7 +530,7 @@ numeroCombinacionesR' n k = comb (n+k-1) k
 
 -- carmengar josllagam jespergue marvilmor rubvilval manvermor abrdelrod
 -- erisancha juamorrom1 paocabper anaagusil alvalvdom1 javoliher 
--- manpende
+-- manpende fracruzam juanarcon 
 prop_numeroCombinacionesR :: Integer -> Bool
 prop_numeroCombinacionesR n = map nc [1..n] == map nc' [1..n]
     where nc  = numeroCombinacionesR n
@@ -555,7 +556,7 @@ prop_numeroCombinacionesR2 n =
  
 -- carmengar josllagam marvilmor manvermor javperlag abrdelrod erisancha
 -- juamorrom1 paocabper anaagusil alvalvdom1 javoliher isrbelnun 
--- manpende
+-- manpende juanarcon 
 variaciones :: Integer -> [a] -> [[a]]
 variaciones k xs = concatMap permutaciones (combinaciones k xs)
 
@@ -569,7 +570,7 @@ variaciones k xs = concatMap permutaciones (combinaciones k xs)
 
 -- carmengar josllagam marvilmor rubvilval manvermor javperlag abrdelrod
 -- erisancha juamorrom1 paocabper anaagusil alvalvdom1 javoliher
--- isrbelnun manpende
+-- isrbelnun manpende fracruzam juanarcon 
 variacionesN :: Integer -> Integer -> [[Integer]]
 variacionesN n k = variaciones k [1..n]
 
@@ -584,7 +585,7 @@ variacionesN n k = variaciones k [1..n]
 
 -- carmengar josllagam marvilmor rubvilval manvermor javperlag abrdelrod
 -- erisancha juamorrom1 paocabper anaagusil alvalvdom1 javoliher
--- isrbelnun manpende
+-- isrbelnun manpende fracruzam juanarcon 
 numeroVariaciones :: Integer -> Integer -> Integer
 numeroVariaciones n k = genericLength $ variacionesN n k
 
@@ -604,7 +605,7 @@ numeroVariaciones' n k = product [1..n] `div` product [1..n-k]
 -- Comentario: La definición anterior se puede mejorar.
 
 -- manvermor abrdelrod erisancha juamorrom1 alvalvdom1 javoliher
--- isrbelnun manpende
+-- isrbelnun manpende fracruzam juanarcon 
 numeroVariaciones2' :: Integer -> Integer -> Integer
 numeroVariaciones2' n k = product [n-k+1..n]
 
@@ -618,7 +619,8 @@ numeroVariaciones2' n k = product [n-k+1..n]
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam marvilmor rubvilval manvermor abrdelrod erisancha
--- juamorrom1 paocabper anaagusil alvalvdom1 javoliher manpende
+-- juamorrom1 paocabper anaagusil alvalvdom1 javoliher manpende fracruzam
+-- juanarcon 
 prop_numeroVariaciones :: Integer -> Bool
 prop_numeroVariaciones n = map nv [1..n] == map nv' [1..n]
     where nv = numeroVariaciones n
@@ -648,7 +650,7 @@ prop_numeroVariaciones2 n =
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam marvilmor manvermor javperlag juamorrom1
--- paocabper anaagusil javoliher isrbelnun manpende
+-- paocabper anaagusil javoliher isrbelnun manpende fracruzam juanarcon 
 variacionesR :: Integer -> [a] -> [[a]]
 variacionesR _ [] = []
 variacionesR 0 _  = [[]]
@@ -672,7 +674,7 @@ variacionesR2 k xs = concat [map (y:) (variacionesR2 (k-1) xs) | y <- xs]
  
 -- carmengar josllagam marvilmor rubvilval manvermor javperlag abrdelrod
 -- erisancha juamorrom1 paocabper anaagusil alvalvdom1 javoliher
--- isrbelnun manpende
+-- isrbelnun manpende fracruzam juanarcon 
 variacionesRN :: Integer -> Integer -> [[Integer]]    
 variacionesRN n k = variacionesR k [1..n]
 
@@ -687,9 +689,13 @@ variacionesRN n k = variacionesR k [1..n]
 
 -- carmengar josllagam marvilmor rubvilval manvermor javperlag abrdelrod
 -- erisancha juamorrom1 paocabper anaagusil alvalvdom1 javoliher
--- isrbelnun manpende
+-- isrbelnun manpende juanarcon 
 numeroVariacionesR :: Integer -> Integer -> Integer
 numeroVariacionesR n k =  genericLength $ variacionesRN n k
+
+-- fracruzam
+numeroVariacionesR2 :: Integer -> Integer -> Integer
+numeroVariacionesR2 n =  genericLength . variacionesRN n
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 32. Definir, usando (^), la función
@@ -707,11 +713,11 @@ numeroVariacionesR1' n k = k^n
 -- Comentario: La definición anterior es incorrecta.
 
 -- manvermor javperlag juamorrom1 paocabper anaagusil alvalvdom1
--- javoliher isrbelnun
+-- javoliher isrbelnun juanarcon 
 numeroVariacionesR' :: Integer -> Integer -> Integer
 numeroVariacionesR' n k = n^k
 
--- abrdelrod erisancha
+-- abrdelrod erisancha fracruzam
 numeroVariacionesR3' :: Integer -> Integer -> Integer
 numeroVariacionesR3' = (^)
 
@@ -725,7 +731,8 @@ numeroVariacionesR3' = (^)
 -- ---------------------------------------------------------------------
 
 -- carmengar josllagam marvilmor rubvilval manvermor abrdelrod erisancha
--- juamorrom1 paocabper anaagusil alvalvdom1 javoliher manpende
+-- juamorrom1 paocabper anaagusil alvalvdom1 javoliher manpende fracruzam
+-- juanarcon 
 prop_numeroVariacionesR :: Integer -> Bool
 prop_numeroVariacionesR n = map nvr [1..n] == map nvr' [1..n]
     where nvr  = numeroVariacionesR n
