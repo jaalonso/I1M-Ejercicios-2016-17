@@ -85,4 +85,7 @@ clase) y las soluciones definitivas.
 + **Relación 26**: Combinatoria.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26_sol.hs)).
++ **Relación 27**: Relaciones binarias homogéneas con la librería Data.Set.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_27.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_27_sol.hs)).
 
