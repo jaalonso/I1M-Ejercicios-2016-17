@@ -59,7 +59,9 @@ r3 = (fromList [1..9],fromList [(1,3), (2,6), (8,9), (3,6)])
 --    universo r1  ==  fromList [1,2,3,4,5,6,7,8,9]
 -- ---------------------------------------------------------------------
 
--- blaruiher fracruzam josllagam manvermor
+-- blaruiher fracruzam josllagam manvermor javperlag manpende
+-- alvalvdom1 silgongal paocabper abrdelrod juamorrom1 rubvilval
+-- juanarcon
 universo :: Ord a => Rel a -> Set a
 universo = fst
 
@@ -70,7 +72,9 @@ universo = fst
 --    grafo r1  ==  fromList [(1,3),(2,6),(2,7),(8,9)]
 -- ---------------------------------------------------------------------
 
--- blaruiher fracruzam josllagam manvermor
+-- blaruiher fracruzam josllagam manvermor javperlag manpende
+-- alvalvdom1 silgongal paocabper abrdelrod juamorrom1 rubvilval
+-- juanarcon
 grafo :: Ord a => Rel a -> Set (a,a)
 grafo = snd
 
@@ -87,10 +91,7 @@ grafo = snd
 
 -- fracruzam
 reflexiva :: Ord a => Rel a -> Bool
-reflexiva (u,g) = all (\n -> elem (n,n) (elems g)) (elems u)
-
--- Comentario: La definición anterior se puede simplificar eliminando
--- paréntesis.
+reflexiva (u,g) = all (\n ->  (n,n) `elem` elems g) (elems u)
 
 -- josllagam
 reflexiva1 :: Ord a => Rel a -> Bool
@@ -98,7 +99,8 @@ reflexiva1 r =
     length (elems (universo r)) == 
     length [(x,y)| (x,y) <- elems (grafo r), x == y]
 
--- manvermor
+-- manvermor javperlag manpende alvalvdom1 silgongal paocabper abrdelrod
+-- juanarcon
 reflexiva2 :: Ord a => Rel a -> Bool
 reflexiva2 (u,g) = and [ member (x,x) g | x <- elems u]
 
@@ -107,6 +109,20 @@ reflexiva3 :: Ord a => Rel a -> Bool
 reflexiva3 (u,g) = and [elem x ys | x <- [(z,y) | (z,y) <- zip xs xs]]
     where xs = toList u
           ys = toList g
+
+-- juamorrom1
+reflexiva4 :: Ord a => Rel a -> Bool
+reflexiva4 (u,g) = ur == Prelude.filter (`elem` g) ur
+    where ur = [(x,x) | x <- (elems u)]
+          gs = elems g
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- rubvilval
+reflexiva5 :: Ord a => Rel a -> Bool
+reflexiva5 r = isSubsetOf (fromList $ zip a a) (grafo r)
+    where a = elems $ universo r
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -121,9 +137,20 @@ reflexiva3 (u,g) = and [elem x ys | x <- [(z,y) | (z,y) <- zip xs xs]]
 --    True
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor javperlag manpende josllagam alvalvdom1  silgongal
+-- paocabper abrderod juanarcon
 simetrica :: Ord a => Rel a -> Bool
 simetrica (u,g) = and [member (x,y) g | (y,x) <- elems g]
+
+-- fracruzam
+simetrica2 :: Ord a => Rel a -> Bool
+simetrica2 (_,g) = and [(j,i) `elem` xs | (i,j) <- xs]
+  where xs = elems g
+
+-- juamorrom1 rubvilval
+simetrica3 :: Ord a => Rel a -> Bool
+simetrica3 (u,g) = all (\(x,y) -> elem (y,x) gs) gs
+    where gs = elems g
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -134,7 +161,8 @@ simetrica (u,g) = and [member (x,y) g | (y,x) <- elems g]
 --    subconjunto (fromList [3,1,5]) (fromList [1,3])  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam javperlag manpende josllagam alvalvdom1 silgongal
+-- paocabper abrdelrod rubvilval juamorrom1 juanarcon
 subconjunto :: Ord a => Set a -> Set a -> Bool
 subconjunto = isSubsetOf
 
@@ -152,12 +180,14 @@ subconjunto = isSubsetOf
 --    (fromList [1,2,3,4,5,6,7,8,9],fromList [])
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam javperlag josllagam alvavldom1 silgongal
+-- paocabper abrdelrod rubvilval juamorrom1 juanarcon
 composicion :: Ord a => Rel a -> Rel a -> Rel a
 composicion (u,ga) (_,gb) = 
     (u,fromList [(x,y) | (x,za) <- elems ga, 
                          (zb,y) <- elems gb, 
                          za == zb])
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
 --    transitiva :: Ord a => Rel a -> Bool
@@ -169,9 +199,33 @@ composicion (u,ga) (_,gb) =
 --    False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor manpende alvalvdom1 paocabper abrdelrod juanarcon
 transitiva :: Ord a => Rel a -> Bool
 transitiva r@(_,g) = subconjunto (grafo (composicion r r)) g
+
+-- fracruzam josllagam
+transitiva2 :: Ord a => Rel a -> Bool
+transitiva2 (_,g) =
+    and [(x,z) `elem` xs | (x,y) <- xs, (w,z) <- xs, y == w]
+    where xs = elems g
+
+-- silgongal
+transitiva3 :: Ord a => Rel a -> Bool
+transitiva3 (_,g) = 
+    and [member (x,y) g | (x,z) <- elems g, (z',y) <- elems g, z == z']
+
+-- juamorrom1
+transitiva4 :: Ord a => Rel a -> Bool
+transitiva4 (u,g) = 
+    all (`elem` gs) [(a,d) | (a,b) <- gs, (c,d) <- gs, b == c ]
+    where gs = elems g
+
+-- rubvilval
+transitiva5 :: Ord a => Rel a -> Bool
+transitiva5 (r1,r2) = 
+    subconjunto
+    (fromList [(a,d) | (a,b) <- elems r2, (c,d) <- elems r2, b == c])
+    r2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -189,7 +243,8 @@ transitiva r@(_,g) = subconjunto (grafo (composicion r r)) g
 --    False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam javperlag manpende josllagam alvalvdom1 silgongal
+-- paocabper abrdelrod rubvilval juamorrom1 juanarcon
 esEquivalencia :: Ord a => Rel a -> Bool
 esEquivalencia r = reflexiva r && simetrica r && transitiva r
 
@@ -205,9 +260,27 @@ esEquivalencia r = reflexiva r && simetrica r && transitiva r
 --    False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor javperlag manpende josllagam alvalvdom1 silgongal paocabper
+-- abrdelrod juanarcon
 irreflexiva :: Ord a => Rel a -> Bool
-irreflexiva (u,g) = and [ notMember (x,x) g | x <- elems u]
+irreflexiva (u,g) = and [notMember (x,x) g | x <- elems u]
+
+-- fracruzam
+irreflexiva2 :: Ord a => Rel a -> Bool
+irreflexiva2 (_,g) = all (\(x,y) -> x /= y) (elems g)
+
+-- juamorrom1
+irreflexiva3 :: Ord a => Rel a -> Bool
+irreflexiva3 (u,g) = Prelude.filter (`elem` gs) [(x,x) | x <- us ] == []
+    where us = elems u
+          gs = elems g
+
+-- Comentario: La definición anterior se puede simplificar usando null.
+
+-- rubvilval
+irreflexiva4 :: Ord a => Rel a -> Bool
+irreflexiva4 (r1,r2) = all (`notElem` (elems r2)) (zip a a)
+                        where a = elems r1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -220,10 +293,34 @@ irreflexiva (u,g) = and [ notMember (x,x) g | x <- elems u]
 --    antisimetrica (fromList [1,2],fromList [(1,1),(2,1)])  ==  True
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor paocabper juanarcon
 antisimetrica :: Ord a => Rel a -> Bool
 antisimetrica (_,g) = 
     [] == [ (x,y) | (x,y) <- elems g, x /= y, member (y,x) g]
+
+-- fracruzam manpende alvalvdom1 silgongal
+antisimetrica2 :: Ord a => Rel a -> Bool
+antisimetrica2 (_,g) =
+  and [ x == y | (x,y) <- xs, (w,z) <- xs, y == w, x == z]
+  where xs = elems g
+
+-- javperlag josllagam abrdelrod
+antisimetrica3 :: Ord a => Rel a -> Bool
+antisimetrica3 r = and [notMember (b,a) g | (a,b) <- elems g, b /= a]
+    where g = grafo r
+
+-- juamorrom1
+antisimetrica4 :: Ord a => Rel a -> Bool
+antisimetrica4 (u,g) = antisimetricos == simetricos  
+    where simetricos     = [ (x,y) | (x,y) <- gs, elem (y,x) gs]
+          antisimetricos = [ (x,y) | (x,y) <- gs, elem (y,x) gs, x == y]
+          gs = elems g
+
+-- rubvilval
+antisimetrica5 :: Ord a => Rel a -> Bool
+antisimetrica5 (r1,r2) = 
+    and [a == b | (a,b) <- er2 , elem (b,a) er2]
+    where er2 = elems r2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -236,17 +333,30 @@ antisimetrica (_,g) =
 --    total (fromList [1,3],fromList [(1,1),(3,3)])        ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor javperlag manpende josllagam alvalvdom1 silgongal juanarcon
 total :: Ord a => Rel a -> Bool
 total (u,g) = 
     and [ member (x,y) g || member (y,x) g | x <- elems u, y <- elems u]
+
+-- fracruzam paocabper juamorrom1 rubvilval
+total2 :: Ord a => Rel a -> Bool
+total2 (u,g) =
+    and [(x,y) `elem` ys || (y,x) `elem` ys | x <- xs, y <- xs]
+    where xs = elems u
+          ys = elems g
+
+-- abrdelrod
+total3 :: Ord a => Rel a -> Bool
+total3 (u,g) = 
+    and [any (`member` g) [(x,y),(y,x)] | x <- elems u, y <- elems u]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Comprobar con QuickCheck que las relaciones totales son
 -- reflexivas. 
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam manpende josllagam alvalvdom1 silgongal paocabper
+-- abrdelrod rubvilval juamorrom1 juanarcon
 prop_total_reflexiva :: Rel Int -> Property
 prop_total_reflexiva r = total r ==> reflexiva r
 
@@ -267,19 +377,44 @@ prop_total_reflexiva r = total r ==> reflexiva r
 --    (fromList [1,3],fromList [(1,1),(3,1),(3,3)])
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor javperlag manpende josllagam alvalvdom1 silgongal paocabper
+-- juanarcon
 clausuraReflexiva :: Ord a => Rel a -> Rel a  
 clausuraReflexiva (u,g) = (u, union (fromList [ (x,x) | x <- elems u]) g)
 
 -- Comentario: La definición anterior se puede simplificar eliminando
 -- paréntesis. 
 
+-- fracruzam abrdelrod
+clausuraReflexiva2 :: Ord a => Rel a -> Rel a  
+clausuraReflexiva2 (u,g) = (u, fromList $ clausura ys ++ xs)
+  where xs = elems g
+        ys = elems u
+        clausura :: [a] -> [(a,a)]
+        clausura xs = [(x,x) | x <- xs]
+
+-- juamorrom1
+clausuraReflexiva3 :: Ord a => Rel a -> Rel a  
+clausuraReflexiva3 (u,g) = (u,fromList (aux [(x,x) | x <- us] gs))
+    where aux [] ys = ys
+          aux (x:xs) ys | elem x ys = aux xs ys
+                        | otherwise = x:aux xs ys
+          us = elems u
+          gs = elems g
+
+-- rubvilval
+clausuraReflexiva4 :: Ord a => Rel a -> Rel a  
+clausuraReflexiva4 (r1,r2) = 
+    (r1, union r2 (fromList $ zip er1 er1))
+    where er1 = elems r1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Comprobar con QuickCheck que clausuraReflexiva es
 -- reflexiva. 
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam javperlag manpende josllagam alvalvdom1 silgongal
+-- paocabper abrdelrod rubvilval juamorrom1 juanarcon
 prop_ClausuraReflexiva :: Rel Int -> Bool
 prop_ClausuraReflexiva r = reflexiva (clausuraReflexiva r)
 
@@ -296,7 +431,8 @@ prop_ClausuraReflexiva r = reflexiva (clausuraReflexiva r)
 --    (fromList [1,3,5],fromList [(1,1),(1,3),(1,5),(3,1),(5,1)])
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor javperlag manpende josllagam alvalvdom1 silgongal paocabper
+-- juanarcon rubvilval
 clausuraSimetrica :: Ord a => Rel a -> Rel a  
 clausuraSimetrica (u,g) = 
     (u,union g (fromList [(y,x) | (x,y) <- elems g]))
@@ -304,12 +440,20 @@ clausuraSimetrica (u,g) =
 -- Comentario: La definición anterior se puede simplificar eliminando
 -- paréntesis.
 
+-- fracruzam abrdelrod juamorrom1
+clausuraSimetrica2 :: Ord a => Rel a -> Rel a  
+clausuraSimetrica2 (u,g) = (u, fromList $ clausura xs ++ xs)
+    where xs = elems g
+          clausura :: Eq a => [(a,a)] -> [(a,a)]
+          clausura xs = [(y,x) | (x,y) <- xs, x /= y]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Comprobar con QuickCheck que clausuraSimetrica es
 -- simétrica. 
 -- ---------------------------------------------------------------------
 
---- manvermor
+-- manvermor fracruzam javperlag manpende josllagam alvalvdom1 silgongal
+-- paocabper abrdelrod rubvilval juamorrom1 juanarcon
 prop_ClausuraSimetrica :: Rel Int -> Bool
 prop_ClausuraSimetrica r = simetrica (clausuraSimetrica r)
 
@@ -327,7 +471,7 @@ prop_ClausuraSimetrica r = simetrica (clausuraSimetrica r)
 -- ---------------------------------------------------------------------
 
 -- Por recursion acumulando pares 
--- manvermor
+-- manvermor silgongal
 clausuraTransitiva :: Ord a => Rel a -> Rel a  
 clausuraTransitiva (u,g) = (u, claTransAux g)
     where claTransAux r | subconjunto (asoc r r) r = r
@@ -338,13 +482,25 @@ clausuraTransitiva (u,g) = (u, claTransAux g)
                                          
 -- Comentario: La definición anterior se puede simplificar eliminando
 -- paréntesis.
-          
+
+-- fracruzam manpende josllagam paocabper abrdelrod juamorrom1 juanarcon
+-- rubvilval
+clausuraTransitiva2 :: Ord a => Rel a -> Rel a  
+clausuraTransitiva2 (u,g)
+    | transitiva (u,g) = (u,g)
+    | otherwise = clausuraTransitiva2 (u, fromList $ clausura xs ++ xs)
+  where xs = elems g
+        clausura :: Eq a => [(a,a)] -> [(a,a)]
+        clausura xs =
+            [(x,z) | (x,y) <- xs, x /= y, (w,z) <- xs, y == w]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 19. Comprobar con QuickCheck que clausuraTransitiva es
 -- transitiva. 
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor fracruzam manpende josllagam alvalvdom1 silgongal paocabper
+-- abrdelrod rubvilval juamorrom1 juanarcon
 prop_ClausuraTransitiva :: Rel Int -> Bool
 prop_ClausuraTransitiva r = transitiva (clausuraTransitiva r)
 
