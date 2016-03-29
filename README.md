@@ -88,4 +88,10 @@ clase) y las soluciones definitivas.
 + **Relación 27**: Relaciones binarias homogéneas con la librería Data.Set.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_27.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_27_sol.hs)).
++ **Relación 28**: Ecuaciones con factoriales.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_28.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_28_sol.hs)).
++ **Relación 29**: Números de Lychrel.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_29.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_29_sol.hs)).
 
