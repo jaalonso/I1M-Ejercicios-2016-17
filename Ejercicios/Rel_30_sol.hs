@@ -50,8 +50,9 @@ type MultiConj a = M.Map a Int
 --    vacio  ==  fromList []
 -- ---------------------------------------------------------------------
 
+-- manvermor
 vacio :: MultiConj a
-vacio = undefined
+vacio = M.empty
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -61,8 +62,9 @@ vacio = undefined
 --    unitario 'a'  ==  fromList [('a',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 unitario :: a -> MultiConj a
-unitario x = undefined
+unitario x = M.singleton x 1
 
 -- ---------------------------------------------------------------------
 -- Añadir y quitar elementos                                          --
@@ -83,8 +85,12 @@ unitario x = undefined
 --    fromList [('a',3),('b',2)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 inserta :: Ord a => a -> MultiConj a -> MultiConj a
-inserta x = undefined
+inserta x m | M.member x m = M.adjust (+1) x m
+            | otherwise    = M.insert x 1 m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función 
@@ -94,8 +100,12 @@ inserta x = undefined
 --    listaAmc "ababc"  ==  fromList [('a',2),('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 listaAmc :: Ord a => [a] -> MultiConj a
-listaAmc xs = undefined
+listaAmc []     = vacio
+listaAmc (x:xs) = inserta x (listaAmc xs)
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -110,8 +120,12 @@ listaAmc xs = undefined
 --    fromList [('a',5),('b',2)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 insertaVarios :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-insertaVarios x n = undefined
+insertaVarios x n m | M.member x m = M.adjust (+n) x m
+                    | otherwise    = M.insert x n m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -126,8 +140,13 @@ insertaVarios x n = undefined
 --    fromList [('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 borra :: Ord a => a -> MultiConj a -> MultiConj a
-borra x = undefined
+borra x m | M.notMember x m = m
+          | m M.! x <= 1    = M.delete x m
+          | otherwise       = M.adjust (+(-1)) x m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -142,8 +161,13 @@ borra x = undefined
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 borraVarias :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-borraVarias x n = undefined
+borraVarias x n m | M.notMember x m = m
+                  | m M.! x <= n    = M.delete x m
+                  | otherwise       = M.adjust (+(-n)) x m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -154,8 +178,9 @@ borraVarias x n = undefined
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
-borraTodas x = undefined
+borraTodas = M.delete
 
 -- ---------------------------------------------------------------------
 -- Consultas                                                          --
@@ -170,8 +195,9 @@ borraTodas x = undefined
 --    esVacio (inserta 'a' vacio)  ==  False
 -- ---------------------------------------------------------------------
 
+-- manvermor
 esVacio :: MultiConj a -> Bool
-esVacio = undefined
+esVacio = M.null 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -181,8 +207,9 @@ esVacio = undefined
 --    cardinal (listaAmc "ababcad")  ==  7
 -- ---------------------------------------------------------------------
 
+-- manvermor
 cardinal :: MultiConj a -> Int
-cardinal = undefined
+cardinal m = sum (M.elems m)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -192,8 +219,9 @@ cardinal = undefined
 --    cardDistintos (listaAmc "ababcad")  ==  4
 -- ---------------------------------------------------------------------
 
+-- manvermor
 cardDistintos :: MultiConj a -> Int
-cardDistintos = undefined
+cardDistintos = M.size
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -204,8 +232,9 @@ cardDistintos = undefined
 --    pertenece 'r' (listaAmc "ababcad")  ==  False
 -- ---------------------------------------------------------------------
 
+-- manvermor
 pertenece :: Ord a => a -> MultiConj a -> Bool
-pertenece x = undefined
+pertenece = M.member 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -216,8 +245,9 @@ pertenece x = undefined
 --    noPertenece 'r' (listaAmc "ababcad")  ==  True
 -- ---------------------------------------------------------------------
 
+-- manvermor
 noPertenece :: Ord a => a -> MultiConj a -> Bool
-noPertenece x = undefined
+noPertenece = M.notMember
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
@@ -228,8 +258,12 @@ noPertenece x = undefined
 --    ocurrencias 'r' (listaAmc "ababcad")  ==  0
 -- ---------------------------------------------------------------------
 
+-- manvermor
 ocurrencias :: Ord a => a -> MultiConj a -> Int
-ocurrencias x = undefined
+ocurrencias x m | M.notMember x m = 0
+                | otherwise       = m M.! x
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15: Definir la función 
@@ -239,8 +273,9 @@ ocurrencias x = undefined
 --    elementos (listaAmc "ababcad")  ==  "abcd"
 -- ---------------------------------------------------------------------
 
+-- manvermor
 elementos :: Ord a => MultiConj a -> [a]
-elementos = undefined
+elementos = M.keys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16.Definir la función
@@ -449,4 +484,3 @@ particion p = undefined
 
 mapMC :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
 mapMC f = undefined
-
