@@ -94,4 +94,7 @@ clase) y las soluciones definitivas.
 + **Relación 29**: Números de Lychrel.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_29.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_29_sol.hs)).
++ **Relación 30**: El TAD de los multiconjuntos mediante diccionarios.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_30.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_30_sol.hs)).
 
