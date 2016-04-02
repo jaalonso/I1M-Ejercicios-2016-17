@@ -45,7 +45,7 @@ factorial2 n = product $ [1..n]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- alvalvdom1 ivaruicam
+-- alvalvdom1 ivaruicam carmengar
 factorial3 :: Integer -> Integer
 factorial3 n = product [1..n]
 
@@ -70,7 +70,7 @@ factoriales2 = map factorial [0..]
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- fracruzam
+-- fracruzam carmengar
 factoriales3 :: [Integer]
 factoriales3 = scanl1 (*) (1:[1..])
 
@@ -83,7 +83,8 @@ factoriales3 = scanl1 (*) (1:[1..])
 --    esFactorial  20  ==  False
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue fracruzam alvalvdom1 erisancha juanarcon lucgamgal
+-- silgongal jespergue fracruzam alvalvdom1 erisancha juanarcon lucgamgal 
+-- carmengar
 esFactorial :: Integer -> Bool
 esFactorial n = head (dropWhile (< n) factoriales) == n
 
@@ -122,8 +123,8 @@ posicionesFactoriales = [(x,y) | (x,y) <- zip [0..] factoriales]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- isrbelnun rubvilval fracruzam juamorrom1 manpende josllagam erisancha
--- ivaruicam juanarcon lucgamgal
+-- isrbelnun rubvilval fracruzam juamorrom1 manpende josllagam erisancha 
+-- ivaruicam juanarcon lucgamgal carmengar
 posicionesFactoriales2 :: [(Integer,Integer)]
 posicionesFactoriales2 = zip [0..] factoriales
 
@@ -146,7 +147,7 @@ posicionesFactoriales4 = aux 0 factoriales
 --    invFactorial 20   == Nothing
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue lucgamgal
+-- isrbelnun jespergue lucgamgal carmengar
 invFactorial :: Integer -> Maybe Integer
 invFactorial x
   | esFactorial x = Just (posicion x factoriales)
@@ -218,7 +219,7 @@ pares = pares' [0..]
 -- Comentario: La definición anterior se puede simplificar.
 
 -- isrbelnun jespergue rubvilval manvermor fracruzam juamorrom1 manpende
--- erisancha ivaruicam juanarcon
+-- erisancha ivaruicam juanarcon carmengar
 pares2 :: [(Integer,Integer)]
 pares2 = [(x,y) | y <- [0..], x <- [0..y]]
 
@@ -241,7 +242,7 @@ pares4 = [(x-n,x) | x <- [0..], n <- [x,x-1..0]]
 -- Calcular el valor de solucionFactoriales.
 -- ---------------------------------------------------------------------
 
--- abrdelrod ivaruicam isrbelnun juanarcon josllagam
+-- abrdelrod ivaruicam isrbelnun juanarcon josllagam silgongal
 solucionFactoriales :: (Integer,Integer,Integer)
 solucionFactoriales =
   head [(a,b,f z)
@@ -250,7 +251,7 @@ solucionFactoriales =
          z /= Nothing]
    where f (Just a) = a
 
--- fracruzam erisancha (fromJust está definido en la librería Data.Maybe)
+-- fracruzam erisancha carmengar (fromJust está definido en la librería Data.Maybe)
 solucionFactoriales2 :: (Integer,Integer,Integer)
 solucionFactoriales2 =
   head [(a,b,fromJust c)
@@ -272,7 +273,7 @@ solucionFactoriales2 =
 -- con a, b y c números naturales
 -- ---------------------------------------------------------------------
 
--- abrdelrod ivaruicam isrbelnun juanarcon josllagam
+-- abrdelrod ivaruicam isrbelnun juanarcon josllagam carmengar silgongal
 prop_solucionFactoriales :: Integer -> Integer -> Integer -> Property
 prop_solucionFactoriales a b c = (a,b,c) /= (3,3,4) ==> x*y /= x+y+z
     where (x,y,z) = (factorial a, factorial b, factorial c)

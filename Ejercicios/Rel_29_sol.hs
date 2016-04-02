@@ -36,7 +36,7 @@ import Data.List
 -- ---------------------------------------------------------------------
 
 -- isrbelnun jespergue silgongal rubvilval manvermor juamorrom1 erisancha
--- juanarcon manpende
+-- juanarcon manpende carmengar josllagam
 esCapicua :: Integer -> Bool
 esCapicua x = show x == reverse (show x)
 
@@ -58,7 +58,7 @@ esCapicua3 x = sx == reverse sx
 -- ---------------------------------------------------------------------
 
 -- isrbelnun jespergue silgongal abrdelrod rubvilval fracruzam manvermor
--- juamorrom1 alvalvdom1 erisancha juanarcon manpende
+-- juamorrom1 alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 inverso :: Integer -> Integer
 inverso = read . reverse . show
 
@@ -71,7 +71,7 @@ inverso = read . reverse . show
 -- ---------------------------------------------------------------------
 
 -- isrbelnun jespergue silgongal abrdelrod rubvilval fracruzam manvermor
--- juamorrom1 alvalvdom1 erisancha juanarcon manpende
+-- juamorrom1 alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 siguiente :: Integer -> Integer
 siguiente x = x + inverso x
 
@@ -84,7 +84,7 @@ siguiente x = x + inverso x
 --    busquedaDeCapicua 253  ==  [253,605,1111]
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal juanarcon
+-- isrbelnun jespergue silgongal juanarcon josllagam
 busquedaDeCapicua :: Integer -> [Integer]
 busquedaDeCapicua x = takeUntil esCapicua (iterate siguiente x)
 
@@ -123,6 +123,14 @@ busquedaDeCapicua6 :: Integer -> [Integer]
 busquedaDeCapicua6 x | esCapicua x = [x]
                      | otherwise   = x:(busquedaDeCapicua6 (siguiente x))
 
+-- carmengar
+busquedaDeCapicua7 :: Integer -> [Integer]
+busquedaDeCapicua7 = takeUntil esCapicua . iterate siguiente   
+    where takeUntil :: (a -> Bool) -> [a] -> [a]
+          takeUntil _ []     = []
+          takeUntil p (x:xs) | p x = [x]
+                             | otherwise = x : takeUntil p xs
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
 --    capicuaFinal :: Integer -> Integer
@@ -132,7 +140,7 @@ busquedaDeCapicua6 x | esCapicua x = [x]
 -- ---------------------------------------------------------------------
 
 -- isrbelnun jespergue silgongal rubvilval manvermor juamorrom1 
--- alvalvdom1 erisancha juanarcon manpende
+-- alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 capicuaFinal :: Integer -> Integer
 capicuaFinal = last . busquedaDeCapicua
 
@@ -160,7 +168,7 @@ orden = nIteraciones . busquedaDeCapicua
         nIteraciones (x:xs) = 1 + nIteraciones xs
 
 -- silgongal jespergue juamorrom1 alvalvdom1 erisancha juanarcon
--- manpende
+-- manpende carmengar josllagam
 orden2 :: Integer -> Integer
 orden2 x  = genericLength (busquedaDeCapicua x) - 1
 
@@ -188,7 +196,7 @@ orden4 x = aux' [x] 0
 -- ---------------------------------------------------------------------
 
 -- abrdelrod rubvilval fracruzam jespergue juamorrom1 alvalvdom1
--- erisancha silgongal isrbelnun juanarcon manpende
+-- erisancha silgongal isrbelnun juanarcon manpende carmengar fracruzam
 ordenMayor :: Integer -> Integer -> Bool
 ordenMayor x 0 = True
 ordenMayor x n = not (esCapicua x) && ordenMayor (siguiente x) (n-1)
@@ -220,6 +228,7 @@ ordenEntre2 m n = filter (\a -> ordenMayor a m && ordenMenor a n) [1..]
           any esCapicua (take (fromIntegral c) (iterate siguiente y))
 
 -- manvermor juamorrom1 alvalvdom1 erisancha silgongal isrbelnun juanarcon
+-- carmengar fracruzam
 ordenEntre3 :: Integer -> Integer -> [Integer]
 ordenEntre3 m n = [x | x <- [1..], ordenMayor2 x m, not (ordenMayor2 x n)]
 
@@ -233,7 +242,7 @@ ordenEntre3 m n = [x | x <- [1..], ordenMayor2 x m, not (ordenMayor2 x n)]
 -- ---------------------------------------------------------------------
 
 -- abrdelrod jespergue manvermor alvalvdom1 silgongal juanarcon
--- manpende
+-- manpende carmengar fracruzam
 menorDeOrdenMayor :: Integer -> Integer
 menorDeOrdenMayor n = head [x | x <- [1..], ordenMayor x n]
 
@@ -256,13 +265,21 @@ menorDeOrdenMayor3 n = aux [1..] n
 --    menoresdDeOrdenMayor 5  ==  [(1,10),(2,19),(3,59),(4,69),(5,79)]
 -- ---------------------------------------------------------------------
 
--- abrdelrod erisancha isrbelnun manpende
+-- abrdelrod erisancha isrbelnun manpende carmengar
 menoresdDeOrdenMayor :: Integer -> [(Integer,Integer)]
 menoresdDeOrdenMayor m = zip [1..m] (map menorDeOrdenMayor [1..m])
 
 -- rubvilval jespergue manvermor juamorrom1 alvalvdom1 silgongal juanarcon
 menoresdDeOrdenMayor2 :: Integer -> [(Integer,Integer)]
 menoresdDeOrdenMayor2 m = [(n,menorDeOrdenMayor n) | n <- [1..m]] 
+
+-- fracruzam
+menoresDeOrdenMayor3 :: Integer -> [(Integer,Integer)]
+menoresDeOrdenMayor3 m = busca [1..m] [1..]
+  where busca :: [Integer]-> [Integer] -> [(Integer,Integer)]
+        busca []     _  = []
+        busca (n:ns) xs =  (n, head zs) : busca ns zs
+          where zs = dropWhile (\x -> not $ ordenMayor x n) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. A la vista de los resultados de (menoresdDeOrdenMayor 5)
@@ -278,7 +295,7 @@ menoresdDeOrdenMayor2 m = [(n,menorDeOrdenMayor n) | n <- [1..m]]
 -- ---------------------------------------------------------------------
 
 -- abrdelrod jespergue manvermor alvalvdom1 erisancha silgongal isrbelnun
--- juanarcon manpende
+-- juanarcon manpende fracruzam
 
 -- La conjetura es
 prop_menorDeOrdenMayor :: Integer -> Property
@@ -290,7 +307,16 @@ prop_menorDeOrdenMayor n =
 --    *** Failed! Falsifiable (after 28 tests and 2 shrinks): 
 --    25
 
--- ---------------------------------------------------------------------
+prop_menorDeOrdenMayor2 :: Integer -> Property
+prop_menorDeOrdenMayor2 n =
+  n > 1 ==> mod (menorDeOrdenMayor n) 10 == 9
+
+-- La comprobación es
+--    λ> quickCheck prop_menorDeOrdenMayor
+--    *** Failed! Falsifiable (after 29 tests): 
+--    25
+ 
+---------------------------------------------------------------------
 -- Ejercicio 13. Calcular (menoresdDeOrdenMayor 50)
 -- ---------------------------------------------------------------------
 
@@ -317,7 +343,7 @@ prop_menorDeOrdenMayor n =
 -- ---------------------------------------------------------------------
 
 -- abrdelrod jespergue manvermor alvalvdom1 erisancha silgongal isrbelnun
--- juanarcon manpende
+-- juanarcon manpende carmengar fracruzam
 
 -- La propiedad es
 prop_ordenDe196 :: Integer -> Property
