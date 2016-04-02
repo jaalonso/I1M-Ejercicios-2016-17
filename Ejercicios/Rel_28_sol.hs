@@ -17,14 +17,6 @@
 -- ---------------------------------------------------------------------
 
 import Test.QuickCheck 
-import Data.Maybe
-
--- ---------------------------------------------------------------------
--- Introducción: El objetivo de esta relación de ejercicios es resolver
--- la ecuación
---    a! * b! = a! + b! + c!
--- donde a, b y c son números naturales.
--- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -33,21 +25,8 @@ import Data.Maybe
 --    factorial 5  ==  120
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue abrdelrod rubvilval fracruzam juamorrom1 manpende
--- josllagam erisancha juanarcon lucgamgal
 factorial :: Integer -> Integer
-factorial 0 = 1
-factorial n = n * factorial (n-1)
-
--- isrbelnun manvermor 
-factorial2 :: Integer -> Integer
-factorial2 n = product $ [1..n]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1 ivaruicam carmengar
-factorial3 :: Integer -> Integer
-factorial3 n = product [1..n]
+factorial n = product [1..n]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la constante
@@ -57,22 +36,24 @@ factorial3 n = product [1..n]
 --    take 7 factoriales  ==  [1,1,2,6,24,120,720]
 -- ---------------------------------------------------------------------
 
--- silgongal isrbelnun jespergue manvermor lucgamgal josllagam
-factoriales :: [Integer]
-factoriales = [factorial n | n <- [0..]]
+-- 1ª definición
+factoriales1 :: [Integer]
+factoriales1 = [factorial n | n <- [0..]]
 
--- Comentario: La definición anterior se puede mejorar.
-
--- abrdelrod rubvilval juamorrom1 alvalvdom1 manpende erisancha ivaruicam
--- juanarcon
 factoriales2 :: [Integer]
-factoriales2 = map factorial [0..]
+factoriales2 = 1 : scanl1 (*) [1..]
 
--- Comentario: La definición anterior se puede mejorar.
+-- Comparación de eficiencia
+--    λ> length (show (factoriales1 !! 50000))
+--    213237
+--    (2.66 secs, 2,623,591,360 bytes)
+--    λ> length (show (factoriales2 !! 50000))
+--    213237
+--    (1.23 secs, 2,610,366,712 bytes)
 
--- fracruzam carmengar
-factoriales3 :: [Integer]
-factoriales3 = scanl1 (*) (1:[1..])
+-- Usaremos la 2ª definición
+factoriales :: [Integer]
+factoriales = factoriales2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir, usando factoriales, la función
@@ -83,30 +64,8 @@ factoriales3 = scanl1 (*) (1:[1..])
 --    esFactorial  20  ==  False
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue fracruzam alvalvdom1 erisancha juanarcon lucgamgal 
--- carmengar
 esFactorial :: Integer -> Bool
-esFactorial n = head (dropWhile (< n) factoriales) == n
-
--- isrbelnun abrdelrod rubvilval manvermor juamorrom1 manpende josllagam 
-esFactorial2 :: Integer -> Bool
-esFactorial2 n = elem n (takeWhile (<=n) factoriales)
-
--- Comentario: La definición anterior se puede mejorar.
-
--- ivaruicam
-esFactorial3 :: Integer -> Bool
-esFactorial3 n = aux 2 n
-  where aux v n | v > n            = False
-                | q == 1 && r == 0 = True 
-                | r == 0           = aux (v+1) q
-                | otherwise        = False
-          where (q,r) = divMod n v 
-
--- Comentario: La definición anterior es casi correcta. Un contraejemplo
--- es
---    λ> esFactorial3 1
---    False
+esFactorial n = n == head (dropWhile (<n) factoriales)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la constante
@@ -117,88 +76,22 @@ esFactorial3 n = aux 2 n
 --    [(0,1),(1,1),(2,2),(3,6),(4,24),(5,120),(6,720)]
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue manvermor
 posicionesFactoriales :: [(Integer,Integer)]
-posicionesFactoriales = [(x,y) | (x,y) <- zip [0..] factoriales]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- isrbelnun rubvilval fracruzam juamorrom1 manpende josllagam erisancha 
--- ivaruicam juanarcon lucgamgal carmengar
-posicionesFactoriales2 :: [(Integer,Integer)]
-posicionesFactoriales2 = zip [0..] factoriales
-
--- abrdelrod
-posicionesFactoriales3 :: [(Integer,Integer)]
-posicionesFactoriales3 =
-  (0,1) : iterate (\(x,y) -> (x+1,y*(x+1))) (1,1)
-
--- alvalvdom1
-posicionesFactoriales4 :: [(Integer,Integer)]
-posicionesFactoriales4 = aux 0 factoriales
-  where aux a (x:xs) = (a,x) : aux (a+1) xs
+posicionesFactoriales = zip [0..] factoriales 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
 --    invFactorial :: Integer -> Maybe Integer
--- tal que (invFactorial x)  es (Just n) si el factorial de n es x y es
+-- tal que (invFactorial x) es (Just n) si el factorial de n es x y es
 -- Nothing, en caso contrario. Por ejemplo,
 --    invFactorial 120  == Just 5
 --    invFactorial 20   == Nothing
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue lucgamgal carmengar
 invFactorial :: Integer -> Maybe Integer
-invFactorial x
-  | esFactorial x = Just (posicion x factoriales)
-  | otherwise     = Nothing
-  where posicion n (x:xs) | n == x    = 0
-                          | otherwise = 1 + posicion n xs
-
--- abrdelrod manvermor alvalvdom1 manpende josllagam erisancha silgongal
--- juanarcon
-invFactorial2 :: Integer -> Maybe Integer
-invFactorial2 x
-  | esFactorial x = Just $ head [y | (y,z) <- posicionesFactoriales, z == x]
-  | otherwise = Nothing
-
--- rubvilval
-invFactorial3 :: Integer -> Maybe Integer
-invFactorial3 x
-  | esFactorial x =
-      Just $ fst $ head (filter (\(a,b) -> x == b) posicionesFactoriales)
-  | otherwise     = Nothing
-
--- fracruzam 
-invFactorial4 :: Integer -> Maybe Integer
-invFactorial4 x | n == x    = Just m
-                | otherwise = Nothing
-  where (m,n) = head $ dropWhile (\(_,y) -> y < x) posicionesFactoriales
-
--- juamorrom1
-invFactorial5 :: Integer -> Maybe Integer
-invFactorial5 x = aux x posicionesFactoriales
-  where aux :: Ord a1 => a1 -> [(a, a1)] -> Maybe a
-        aux x [] = Nothing
-        aux x ((y1,y2):ys) | x == y2   = Just y1
-                           | y2 > x    = Nothing
-                           | otherwise = aux x ys
-
--- ivaruicam
-invFactorial6 :: Integer -> Maybe Integer
-invFactorial6 x =  aux 2 x
-  where aux v x | v > x            = Nothing
-                | q == 1 && r == 0 = Just v
-                | r == 0           = aux (v+1) q
-                | otherwise        = Nothing
-          where (q,r) = divMod x v 
-
--- Esta definición es igual a la de esFactorial3, pero en lugar de
--- devolver True devuelve el valor
-
--- Comentario: La definición anterior es casi correcta. Contraejemplo,
---    λ> invFactorial6 1
---    Nothing
+invFactorial x 
+    | esFactorial x = Just (head [n | (n,y) <- posicionesFactoriales, y==x])
+    | otherwise     = Nothing
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la constante
@@ -209,29 +102,8 @@ invFactorial6 x =  aux 2 x
 --    [(0,0),(0,1),(1,1),(0,2),(1,2),(2,2),(0,3),(1,3),(2,3),(3,3),(0,4)]
 -- ---------------------------------------------------------------------
 
--- silgongal
 pares :: [(Integer,Integer)]
-pares = pares' [0..]
-    where pares' xs = [(a,b) | n <- [1..],
-                               ns <- [take n xs], 
-                               (a,b) <- zip ns (repeat (last ns))]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- isrbelnun jespergue rubvilval manvermor fracruzam juamorrom1 manpende
--- erisancha ivaruicam juanarcon carmengar
-pares2 :: [(Integer,Integer)]
-pares2 = [(x,y) | y <- [0..], x <- [0..y]]
-
--- abrdelrod josllagam
-pares3 :: [(Integer,Integer)]
-pares3 = iterate f (0,0)
-   where f (x,y) | x == y    = (0,x+1)
-                 | otherwise = (x+1,y)
-
--- alvalvdom1 lucgamgal
-pares4 :: [(Integer,Integer)]
-pares4 = [(x-n,x) | x <- [0..], n <- [x,x-1..0]]
+pares = [(x,y) | y <- [0..], x <- [0..y]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la constante
@@ -242,25 +114,12 @@ pares4 = [(x-n,x) | x <- [0..], n <- [x,x-1..0]]
 -- Calcular el valor de solucionFactoriales.
 -- ---------------------------------------------------------------------
 
--- abrdelrod ivaruicam isrbelnun juanarcon josllagam silgongal
 solucionFactoriales :: (Integer,Integer,Integer)
-solucionFactoriales =
-  head [(a,b,f z)
-       | (a,b) <- pares,
-         let (x,y,z) = (factorial a, factorial b, invFactorial (x*y-x-y)),
-         z /= Nothing]
-   where f (Just a) = a
-
--- fracruzam erisancha carmengar (fromJust está definido en la librería Data.Maybe)
-solucionFactoriales2 :: (Integer,Integer,Integer)
-solucionFactoriales2 =
-  head [(a,b,fromJust c)
-       | (a,b) <- pares,
-         let fa = factorial a,
-         let fb = factorial b,
-         let fc = fa * fb - fa - fb,
-         esFactorial fc,
-         let c = invFactorial fc]
+solucionFactoriales = (a,b,c)
+    where (a,b)  = head [(x,y) | (x,y) <- pares,
+                                 esFactorial (f x * f y - f x - f y)]
+          f      = factorial 
+          Just c = invFactorial (f a * f b - f a - f b)
 
 -- El cálculo es
 --    ghci> solucionFactoriales
@@ -273,22 +132,31 @@ solucionFactoriales2 =
 -- con a, b y c números naturales
 -- ---------------------------------------------------------------------
 
--- abrdelrod ivaruicam isrbelnun juanarcon josllagam carmengar silgongal
 prop_solucionFactoriales :: Integer -> Integer -> Integer -> Property
-prop_solucionFactoriales a b c = (a,b,c) /= (3,3,4) ==> x*y /= x+y+z
-    where (x,y,z) = (factorial a, factorial b, factorial c)
+prop_solucionFactoriales x y z =
+    x >= 0 && y >= 0 && z >= 0 && (x,y,z) /= solucionFactoriales
+    ==> not (f x * f y == f x + f y + f z)
+    where f = factorial
 
--- fracruzam erisancha
-prop_solucionFactoriales2 :: (Positive Integer) -> (Positive Integer) ->
-                            (Positive Integer) -> Bool
-prop_solucionFactoriales2 (Positive x) (Positive y) (Positive z) =
-    (fx * fy == fx + fy + fz) == ((x,y,x) == (3,3,4))
-  where fx = factorial x
-        fy = factorial y
-        fz = factorial z
+-- La comprobación es
+--    ghci> quickCheck prop_solucionFactoriales
+--    *** Gave up! Passed only 86 tests.
+
+-- También se puede expresar como
+prop_solucionFactoriales' :: Integer -> Integer -> Integer -> Property
+prop_solucionFactoriales' x y z =
+    x >= 0 && y >= 0 && z >= 0 && 
+    f x * f y == f x + f y + f z
+    ==> (x,y,z) == solucionFactoriales 
+    where f = factorial
+
+-- La comprobación es
+--    ghci> quickCheck prop_solucionFactoriales
+--    *** Gave up! Passed only 0 tests.
 
 -- ---------------------------------------------------------------------
 -- Nota: El ejercicio se basa en el artículo "Ecuación con factoriales"
 -- del blog Gaussianos publicado en
 --    http://gaussianos.com/ecuacion-con-factoriales
 -- ---------------------------------------------------------------------
+

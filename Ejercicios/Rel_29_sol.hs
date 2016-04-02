@@ -1,4 +1,4 @@
--- I1M 2015-16: Relación 29 (29 de marzo de 2016)
+-- I1M 2015-16: Relación 29 (20 de marzo de 2016)
 -- Números de Lychrel.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
@@ -8,10 +8,10 @@
 -- Introducción                                                       --
 -- ---------------------------------------------------------------------
 
--- Un número de Lychrel es un número natural para el que nunca se
--- obtiene un capicúa mediante el proceso de invertir las cifras y sumar
--- los dos números. Por ejemplo, los siguientes números no son números
--- de Lychrel: 
+-- Según la Wikipedia, un número de Lychrel es un número natural para
+-- el que nunca se obtiene un capicúa mediante el proceso de invertir
+-- las cifras y sumar los dos números. Por ejemplo, los siguientes
+-- números no son números de Lychrel:
 --    * 56, ya que en un paso se obtiene un capicúa: 56+65=121.
 --    * 57, ya que en dos pasos se obtiene un capicúa: 57+75=132,
 --      132+231=363
@@ -25,7 +25,6 @@
 -- ---------------------------------------------------------------------
 
 import Test.QuickCheck
-import Data.List
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -35,19 +34,9 @@ import Data.List
 --    esCapicua 253  ==  False
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal rubvilval manvermor juamorrom1 erisancha
--- juanarcon manpende carmengar josllagam
 esCapicua :: Integer -> Bool
-esCapicua x = show x == reverse (show x)
-
--- abrdelrod 
-esCapicua2 :: Integer -> Bool
-esCapicua2 x = x == (read.reverse.show) x
-
--- fracruzam alvalvdom1
-esCapicua3 :: Integer -> Bool
-esCapicua3 x = sx == reverse sx
-  where sx = show x
+esCapicua x = x' == reverse x'
+    where x' = show x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -57,8 +46,6 @@ esCapicua3 x = sx == reverse sx
 --    inverso 253  ==  352
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal abrdelrod rubvilval fracruzam manvermor
--- juamorrom1 alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 inverso :: Integer -> Integer
 inverso = read . reverse . show
 
@@ -70,8 +57,6 @@ inverso = read . reverse . show
 --    siguiente 253  ==  605
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal abrdelrod rubvilval fracruzam manvermor
--- juamorrom1 alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 siguiente :: Integer -> Integer
 siguiente x = x + inverso x
 
@@ -84,52 +69,9 @@ siguiente x = x + inverso x
 --    busquedaDeCapicua 253  ==  [253,605,1111]
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal juanarcon josllagam
 busquedaDeCapicua :: Integer -> [Integer]
-busquedaDeCapicua x = takeUntil esCapicua (iterate siguiente x)
-
-takeUntil p []     = []
-takeUntil p (x:xs) | p x       = [x]
-                   | otherwise = x : takeUntil p xs
-
--- abrdelrod 
-busquedaDeCapicua2 :: Integer -> [Integer]
-busquedaDeCapicua2 0 = [0]
-busquedaDeCapicua2 n = (takeWhile (/= 0).iterate f) n
-   where f x | esCapicua x = 0
-             | otherwise   = siguiente x
-
--- rubvilval erisancha
-busquedaDeCapicua3 :: Integer -> [Integer]
-busquedaDeCapicua3 x = aux [x]
-  where aux xs | esCapicua $ last xs = xs
-               | otherwise           = aux (xs ++ [siguiente $ last xs])
-
--- fracruzam
-busquedaDeCapicua4 :: Integer -> [Integer]
-busquedaDeCapicua4 = takeWhileCapicua' . iterate siguiente
-  where takeWhileCapicua' :: [Integer] -> [Integer]
-        takeWhileCapicua' (x:xs) | esCapicua x = [x]
-                                 | otherwise   = x: takeWhileCapicua' xs
-
--- manvermor
-busquedaDeCapicua5 :: Integer -> [Integer]
-busquedaDeCapicua5 x = takeWhile p xs ++ [head (dropWhile p xs)]
-       where p = not . esCapicua
-             xs = iterate (siguiente) x
-
--- juamorrom1 alvalvdom1 manpende
-busquedaDeCapicua6 :: Integer -> [Integer]
-busquedaDeCapicua6 x | esCapicua x = [x]
-                     | otherwise   = x:(busquedaDeCapicua6 (siguiente x))
-
--- carmengar
-busquedaDeCapicua7 :: Integer -> [Integer]
-busquedaDeCapicua7 = takeUntil esCapicua . iterate siguiente   
-    where takeUntil :: (a -> Bool) -> [a] -> [a]
-          takeUntil _ []     = []
-          takeUntil p (x:xs) | p x = [x]
-                             | otherwise = x : takeUntil p xs
+busquedaDeCapicua x | esCapicua x = [x]
+                    | otherwise   = x : busquedaDeCapicua (siguiente x)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -139,18 +81,8 @@ busquedaDeCapicua7 = takeUntil esCapicua . iterate siguiente
 --    capicuaFinal 253  ==  1111
 -- ---------------------------------------------------------------------
 
--- isrbelnun jespergue silgongal rubvilval manvermor juamorrom1 
--- alvalvdom1 erisancha juanarcon manpende carmengar josllagam
 capicuaFinal :: Integer -> Integer
-capicuaFinal = last . busquedaDeCapicua
-
--- abrdelrod
-capicuaFinal2 :: Integer -> Integer
-capicuaFinal2 = until esCapicua siguiente
-
--- fracruzam
-capicuaFinal3 :: Integer -> Integer
-capicuaFinal3 = head . dropWhile (not.esCapicua) . iterate siguiente
+capicuaFinal x = last (busquedaDeCapicua x)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -161,27 +93,9 @@ capicuaFinal3 = head . dropWhile (not.esCapicua) . iterate siguiente
 --    orden 253  ==  2
 -- ---------------------------------------------------------------------
 
--- isrbelnun 
 orden :: Integer -> Integer
-orden = nIteraciones . busquedaDeCapicua
-  where nIteraciones []     = -1
-        nIteraciones (x:xs) = 1 + nIteraciones xs
-
--- silgongal jespergue juamorrom1 alvalvdom1 erisancha juanarcon
--- manpende carmengar josllagam
-orden2 :: Integer -> Integer
-orden2 x  = genericLength (busquedaDeCapicua x) - 1
-
--- abrdelrod fracruzam manvermor
-orden3 :: Integer -> Integer
-orden3 x | esCapicua x = 0
-         | otherwise   = 1 + orden3 (siguiente x)
-
---rubvilval
-orden4 :: Integer -> Integer
-orden4 x = aux' [x] 0
-  where aux' xs n | esCapicua $ last xs = n
-                  | otherwise = aux' (xs ++ [siguiente $ last xs]) (n+1)
+orden x | esCapicua x = 0
+        | otherwise   = 1 + orden (siguiente x)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -195,17 +109,10 @@ orden4 x = aux' [x] 0
 --    261
 -- ---------------------------------------------------------------------
 
--- abrdelrod rubvilval fracruzam jespergue juamorrom1 alvalvdom1
--- erisancha silgongal isrbelnun juanarcon manpende carmengar fracruzam
 ordenMayor :: Integer -> Integer -> Bool
-ordenMayor x 0 = True
-ordenMayor x n = not (esCapicua x) && ordenMayor (siguiente x) (n-1)
-
--- manvermor
-ordenMayor2 :: Integer -> Integer -> Bool
-ordenMayor2 x n | n <= 0 = True
-                | esCapicua x = n == 0
-                | otherwise = ordenMayor2 (siguiente x) (n-1)
+ordenMayor x n | esCapicua x = n == 0
+               | n <= 0      = True
+               | otherwise   = ordenMayor (siguiente x) (n-1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -215,22 +122,8 @@ ordenMayor2 x n | n <= 0 = True
 --    take 5 (ordenEntre 10 11)  ==  [829,928,9059,9149,9239]
 -- ---------------------------------------------------------------------
 
--- abrdelrod manpende
 ordenEntre :: Integer -> Integer -> [Integer]
-ordenEntre m n = [x | x <- [1..], ordenMayor x m, ordenMenor x n]
-      where ordenMenor x 0 = False
-            ordenMenor x n = esCapicua x || ordenMenor (siguiente x) (n-1)
-
--- rubvilval
-ordenEntre2 :: Integer -> Integer -> [Integer]
-ordenEntre2 m n = filter (\a -> ordenMayor a m && ordenMenor a n) [1..]
-  where ordenMenor y c =
-          any esCapicua (take (fromIntegral c) (iterate siguiente y))
-
--- manvermor juamorrom1 alvalvdom1 erisancha silgongal isrbelnun juanarcon
--- carmengar fracruzam
-ordenEntre3 :: Integer -> Integer -> [Integer]
-ordenEntre3 m n = [x | x <- [1..], ordenMayor2 x m, not (ordenMayor2 x n)]
+ordenEntre m n = [x | x <- [1..], ordenMayor x m, not (ordenMayor x n)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -241,20 +134,8 @@ ordenEntre3 m n = [x | x <- [1..], ordenMayor2 x m, not (ordenMayor2 x n)]
 --    menorDeOrdenMayor 20  ==  89
 -- ---------------------------------------------------------------------
 
--- abrdelrod jespergue manvermor alvalvdom1 silgongal juanarcon
--- manpende carmengar fracruzam
 menorDeOrdenMayor :: Integer -> Integer
 menorDeOrdenMayor n = head [x | x <- [1..], ordenMayor x n]
-
--- rubvilval fracruzam juamorrom1 erisancha
-menorDeOrdenMayor2 :: Integer -> Integer
-menorDeOrdenMayor2 n = head $ filter (\a -> ordenMayor a n) [1..]
-
--- isrbelnun
-menorDeOrdenMayor3 :: Integer -> Integer
-menorDeOrdenMayor3 n = aux [1..] n
-  where aux (x:xs) n | ordenMayor x n == True = x
-                     | otherwise              = aux xs n
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función 
@@ -265,63 +146,41 @@ menorDeOrdenMayor3 n = aux [1..] n
 --    menoresdDeOrdenMayor 5  ==  [(1,10),(2,19),(3,59),(4,69),(5,79)]
 -- ---------------------------------------------------------------------
 
--- abrdelrod erisancha isrbelnun manpende carmengar
 menoresdDeOrdenMayor :: Integer -> [(Integer,Integer)]
-menoresdDeOrdenMayor m = zip [1..m] (map menorDeOrdenMayor [1..m])
-
--- rubvilval jespergue manvermor juamorrom1 alvalvdom1 silgongal juanarcon
-menoresdDeOrdenMayor2 :: Integer -> [(Integer,Integer)]
-menoresdDeOrdenMayor2 m = [(n,menorDeOrdenMayor n) | n <- [1..m]] 
-
--- fracruzam
-menoresDeOrdenMayor3 :: Integer -> [(Integer,Integer)]
-menoresDeOrdenMayor3 m = busca [1..m] [1..]
-  where busca :: [Integer]-> [Integer] -> [(Integer,Integer)]
-        busca []     _  = []
-        busca (n:ns) xs =  (n, head zs) : busca ns zs
-          where zs = dropWhile (\x -> not $ ordenMayor x n) xs
+menoresdDeOrdenMayor m = [(n,menorDeOrdenMayor n) | n <- [1..m]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. A la vista de los resultados de (menoresdDeOrdenMayor 5)
 -- conjeturar sobre la última cifra de menorDeOrdenMayor.
 -- ---------------------------------------------------------------------
 
--- A primera vista, parece que para todo n mayor que 1, la última cifra
--- del menor número de orden mayor que n es 9
-
+-- Solución: La conjetura es que para n mayor que 1, la última cifra de
+-- (menorDeOrdenMayor n) es 9. 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Decidir con QuickCheck la conjetura.
 -- ---------------------------------------------------------------------
 
--- abrdelrod jespergue manvermor alvalvdom1 erisancha silgongal isrbelnun
--- juanarcon manpende fracruzam
-
 -- La conjetura es
 prop_menorDeOrdenMayor :: Integer -> Property
 prop_menorDeOrdenMayor n =
-  n > 1 ==> (last.show) (menorDeOrdenMayor n) == '9'
+    n > 1 ==> menorDeOrdenMayor n `mod` 10 == 9
 
 -- La comprobación es
---    *Main> quickCheck prop_menorDeOrdenMayor
---    *** Failed! Falsifiable (after 28 tests and 2 shrinks): 
+--    ghci> quickCheck prop_menorDeOrdenMayor
+--    *** Failed! Falsifiable (after 22 tests and 2 shrinks):  
 --    25
 
-prop_menorDeOrdenMayor2 :: Integer -> Property
-prop_menorDeOrdenMayor2 n =
-  n > 1 ==> mod (menorDeOrdenMayor n) 10 == 9
+-- Se puede comprobar que 25 es un contraejemplo,
+--    ghci> menorDeOrdenMayor 25
+--    196
 
--- La comprobación es
---    λ> quickCheck prop_menorDeOrdenMayor
---    *** Failed! Falsifiable (after 29 tests): 
---    25
- 
----------------------------------------------------------------------
+-- ---------------------------------------------------------------------
 -- Ejercicio 13. Calcular (menoresdDeOrdenMayor 50)
 -- ---------------------------------------------------------------------
 
--- Solución: El cálculo es 
---    *Main> menoresdDeOrdenMayor 50
+-- Solución: El cálculo es
+--    ghci> menoresdDeOrdenMayor 50
 --    [(1,10),(2,19),(3,59),(4,69),(5,79),(6,79),(7,89),(8,89),(9,89),
 --     (10,89),(11,89),(12,89),(13,89),(14,89),(15,89),(16,89),(17,89),
 --     (18,89),(19,89),(20,89),(21,89),(22,89),(23,89),(24,89),(25,196),
@@ -335,22 +194,20 @@ prop_menorDeOrdenMayor2 n =
 -- orden de 196. 
 -- ---------------------------------------------------------------------
 
--- Parece que 196 es el primer número de Lychrel
+-- Solución: El orden de 196 es infinito y, por tanto, 196 es un número
+-- del Lychrel.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Comprobar con QuickCheck la conjetura sobre el orden de
 -- 196. 
 -- ---------------------------------------------------------------------
 
--- abrdelrod jespergue manvermor alvalvdom1 erisancha silgongal isrbelnun
--- juanarcon manpende carmengar fracruzam
-
 -- La propiedad es
-prop_ordenDe196 :: Integer -> Property
-prop_ordenDe196 n = n >= 0 ==> ordenMayor 196 n
+prop_ordenDe196 n =
+    ordenMayor 196 n
 
 -- La comprobación es
---    *Main> quickCheck prop_ordenDe196
+--    ghci> quickCheck prop_ordenDe196
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
