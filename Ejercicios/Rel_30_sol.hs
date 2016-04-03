@@ -50,7 +50,7 @@ type MultiConj a = M.Map a Int
 --    vacio  ==  fromList []
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 vacio :: MultiConj a
 vacio = M.empty
 
@@ -62,7 +62,7 @@ vacio = M.empty
 --    unitario 'a'  ==  fromList [('a',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 unitario :: a -> MultiConj a
 unitario x = M.singleton x 1
 
@@ -92,6 +92,10 @@ inserta x m | M.member x m = M.adjust (+1) x m
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- silgongal alvalvdom1 erisancha
+inserta2 :: Ord a => a -> MultiConj a -> MultiConj a
+inserta2 x = M.insertWith (+) x 1
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función 
 --    listaAmc :: Ord a => [a] -> MultiConj a
@@ -106,6 +110,10 @@ listaAmc []     = vacio
 listaAmc (x:xs) = inserta x (listaAmc xs)
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- silgongal alvalvdom1 erisancha
+listaAmc2 :: Ord a => [a] -> MultiConj a
+listaAmc2 xs = M.fromListWith (+) [(x,1) | x <- xs ]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -127,6 +135,10 @@ insertaVarios x n m | M.member x m = M.adjust (+n) x m
 
 -- Comentario: La definición anterior se puede simplificar.
 
+--silgongal alvalvdom1 erisancha
+insertaVarios2 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
+insertaVarios2  = M.insertWith (+) 
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
 --    borra :: Ord a => a -> MultiConj a -> MultiConj a
@@ -140,13 +152,21 @@ insertaVarios x n m | M.member x m = M.adjust (+n) x m
 --    fromList [('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal
 borra :: Ord a => a -> MultiConj a -> MultiConj a
 borra x m | M.notMember x m = m
           | m M.! x <= 1    = M.delete x m
           | otherwise       = M.adjust (+(-1)) x m
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- erisancha
+borra2 :: Ord a => a -> MultiConj a -> MultiConj a
+borra2 = M.update f
+    where f x = if x > 1 then Just (x-1) else Nothing
+
+-- Comentario: La definición anterior se puede simplificar usando
+-- guardas en lugar de condicionales.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -161,11 +181,18 @@ borra x m | M.notMember x m = m
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal
 borraVarias :: Ord a => a -> Int -> MultiConj a -> MultiConj a
 borraVarias x n m | M.notMember x m = m
                   | m M.! x <= n    = M.delete x m
                   | otherwise       = M.adjust (+(-n)) x m
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- erisancha
+borraVarias2 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
+borraVarias2 x n m | m M.! x <= n    = M.delete x m
+                   | otherwise       = M.adjust (+(-n)) x m
 
 -- Comentario: La definición anterior se puede simplificar.
 
@@ -178,7 +205,7 @@ borraVarias x n m | M.notMember x m = m
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal erisancha
 borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
 borraTodas = M.delete
 
@@ -195,7 +222,7 @@ borraTodas = M.delete
 --    esVacio (inserta 'a' vacio)  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 esVacio :: MultiConj a -> Bool
 esVacio = M.null 
 
@@ -207,9 +234,13 @@ esVacio = M.null
 --    cardinal (listaAmc "ababcad")  ==  7
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal
 cardinal :: MultiConj a -> Int
 cardinal m = sum (M.elems m)
+
+-- alvalvdom1 erisancha
+cardinal2 :: MultiConj a -> Int
+cardinal2 = sum . M.elems
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -219,7 +250,7 @@ cardinal m = sum (M.elems m)
 --    cardDistintos (listaAmc "ababcad")  ==  4
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 cardDistintos :: MultiConj a -> Int
 cardDistintos = M.size
 
@@ -232,7 +263,7 @@ cardDistintos = M.size
 --    pertenece 'r' (listaAmc "ababcad")  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 pertenece :: Ord a => a -> MultiConj a -> Bool
 pertenece = M.member 
 
@@ -245,7 +276,7 @@ pertenece = M.member
 --    noPertenece 'r' (listaAmc "ababcad")  ==  True
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor silgongal alvalvdom1 erisancha
 noPertenece :: Ord a => a -> MultiConj a -> Bool
 noPertenece = M.notMember
 
@@ -265,6 +296,10 @@ ocurrencias x m | M.notMember x m = 0
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- alvalvdom1 erisancha silgongal
+ocurrencias2 :: Ord a => a -> MultiConj a -> Int
+ocurrencias2 = M.findWithDefault 0
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 15: Definir la función 
 --    elementos :: Ord a => MultiConj a -> [a]
@@ -273,7 +308,7 @@ ocurrencias x m | M.notMember x m = 0
 --    elementos (listaAmc "ababcad")  ==  "abcd"
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor alvalvdom1 erisancha silgongal
 elementos :: Ord a => MultiConj a -> [a]
 elementos = M.keys
 
@@ -295,8 +330,9 @@ elementos = M.keys
 --    False
 -- ---------------------------------------------------------------------
 
+-- erisancha silgongal
 esSubmultiConj :: Ord a => MultiConj a -> MultiConj a -> Bool
-esSubmultiConj m1 m2 = undefined
+esSubmultiConj = M.isSubmapOfBy (<=)
 
 -- ---------------------------------------------------------------------
 -- Elemento minimo y máximo de un multiconjunto                       --
@@ -310,8 +346,9 @@ esSubmultiConj m1 m2 = undefined
 --    minimo (listaAmc "cdacbab")  ==  'a'
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 erisancha silgongal
 minimo :: MultiConj a -> a
-minimo = undefined
+minimo = fst . M.findMin
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función
@@ -321,8 +358,9 @@ minimo = undefined
 --    maximo (listaAmc "cdacbab")  ==  'd'
 -- ---------------------------------------------------------------------
 
+-- alvalvdom1 erisancha silgongal
 maximo :: MultiConj a -> a
-maximo = undefined
+maximo = fst . M.findMax
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 19. Definir la función   
@@ -335,8 +373,20 @@ maximo = undefined
 --    fromList [('b',2),('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
+-- erisancha
 borraMin :: Ord a => MultiConj a -> MultiConj a
-borraMin m = undefined
+borraMin = M.updateMin f 
+  where f x = if x > 1 then Just (x-1) else Nothing
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- silgongal
+borraMin2 :: Ord a => MultiConj a -> MultiConj a
+borraMin2 m | m M.! i == 1 = M.delete i m 
+            | otherwise    = M.insert i ((m M.! i)-1) m
+    where i = minimo m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función   
@@ -349,8 +399,20 @@ borraMin m = undefined
 --    fromList [('a',2),('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
+-- erisancha
 borraMax :: Ord a => MultiConj a -> MultiConj a
-borraMax m = undefined
+borraMax = M.updateMax f 
+  where f x = if x > 1 then Just (x-1) else Nothing
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- silgongal
+borraMax2 :: Ord a => MultiConj a -> MultiConj a
+borraMax2 m | m M.! i == 1 = M.delete i m 
+            | otherwise    = M.insert i ((m M.! i)-1) m
+    where i = maximo m
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la función   
@@ -363,8 +425,9 @@ borraMax m = undefined
 --    fromList [('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
+-- erisancha silgongal
 borraMinTodo :: Ord a => MultiConj a -> MultiConj a
-borraMinTodo m = undefined
+borraMinTodo = M.deleteMin
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 22. Definir la función   
@@ -377,8 +440,9 @@ borraMinTodo m = undefined
 --    fromList [('a',2),('b',2)]
 -- ---------------------------------------------------------------------
 
+-- erisancha silgongal
 borraMaxTodo :: Ord a => MultiConj a -> MultiConj a
-borraMaxTodo m = undefined
+borraMaxTodo = M.deleteMax
 
 -- ---------------------------------------------------------------------
 -- Operaciones: unión, intersección y diferencia de multiconjuntos    --
@@ -392,15 +456,16 @@ borraMaxTodo m = undefined
 --    ghci> let m1 = listaAmc "cdacba"
 --    ghci> let m2 = listaAmc "acec"
 --    ghci> m1
---    fromList [('a',2),('b',2),('c',2),('d',1)]
+--    fromList [('a',2),('b',1),('c',2),('d',1)]
 --    ghci> m2
 --    fromList [('a',1),('c',2),('e',1)]
 --    ghci> union m1 m2
---    fromList [('a',3),('b',2),('c',4),('d',1),('e',1)]
+--    fromList [('a',3),('b',1),('c',4),('d',1),('e',1)]
 -- ---------------------------------------------------------------------
 
+-- erisancha silgongal
 union :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-union m1 m2 = undefined
+union = M.unionWith (+)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 24. Definir la función
@@ -411,8 +476,9 @@ union m1 m2 = undefined
 --    fromList [('a',3),('b',3),('c',1),('d',2)]
 -- ---------------------------------------------------------------------
 
+-- erisancha silgongal
 unionG :: Ord a => [MultiConj a] -> MultiConj a
-unionG ms = undefined
+unionG  = M.unionsWith (+)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 25. Definir la función
@@ -423,20 +489,30 @@ unionG ms = undefined
 --    fromList [('a',2),('c',1)]
 -- ---------------------------------------------------------------------
 
+-- erisancha
+-- Esta es la función predefinida para diferencia de multiconjuntos,
+-- pero no se corresponde con el ejemplo, no sé si se debe a un error
+-- en este, o en la definición.
 diferencia :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-diferencia m1 m2 = undefined
+diferencia = M.difference
+
+-- Comentario: El error está en la definición.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
 --    interseccion :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 -- tal que (interseccion m1 m2) es la intersección de los multiconjuntos
 -- m1 y m2. Por ejemplo,
---    ghci> interseccion (listaAmc "abacc") (listaAmc "dcbc")
+--    ghci> interseccion (listaAmc "abcacc") (listaAmc "bdcbc")
 --    fromList [('b',1),('c',2)]
 -- ---------------------------------------------------------------------
 
+-- erisancha
+-- Aquí pasa lo mismo
 interseccion :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-interseccion m1 m2 = undefined
+interseccion = M.intersection
+
+-- Comentario: El error está en la definición.
 
 -- ---------------------------------------------------------------------
 -- Filtrado y partición                                               --

@@ -357,11 +357,11 @@ borraMaxTodo m = undefined
 --    ghci> let m1 = listaAmc "cdacba"
 --    ghci> let m2 = listaAmc "acec"
 --    ghci> m1
---    fromList [('a',2),('b',2),('c',2),('d',1)]
+--    fromList [('a',2),('b',1),('c',2),('d',1)]
 --    ghci> m2
 --    fromList [('a',1),('c',2),('e',1)]
 --    ghci> union m1 m2
---    fromList [('a',3),('b',2),('c',4),('d',1),('e',1)]
+--    fromList [('a',3),('b',1),('c',4),('d',1),('e',1)]
 -- ---------------------------------------------------------------------
 
 union :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
@@ -396,7 +396,7 @@ diferencia m1 m2 = undefined
 --    interseccion :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 -- tal que (interseccion m1 m2) es la intersección de los multiconjuntos
 -- m1 y m2. Por ejemplo,
---    ghci> interseccion (listaAmc "abacc") (listaAmc "dcbc")
+--    ghci> interseccion (listaAmc "abcacc") (listaAmc "bdcbc")
 --    fromList [('b',1),('c',2)]
 -- ---------------------------------------------------------------------
 
