@@ -8,7 +8,7 @@
 -- Introducción                                                       --
 -- ---------------------------------------------------------------------
 
--- Un multiconjunto es una coleeción de elementos en los que no importa
+-- Un multiconjunto es una colección de elementos en los que no importa
 -- el orden de los elementos, pero sí el número de veces en que
 -- aparecen. Por ejemplo, la factorización prima de un número se puede
 -- representar como un multiconjunto de números primos. 
@@ -160,7 +160,7 @@ borra x m | M.notMember x m = m
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- erisancha
+-- erisancha alvalvdom1
 borra2 :: Ord a => a -> MultiConj a -> MultiConj a
 borra2 = M.update f
     where f x = if x > 1 then Just (x-1) else Nothing
@@ -196,6 +196,12 @@ borraVarias2 x n m | m M.! x <= n    = M.delete x m
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- alvalvdom1
+borraVarias3 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
+borraVarias3 x n = M.update f x
+    where f x | x > n    = Just (x-n)
+              | otherwise = Nothing
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
 --    borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
@@ -205,7 +211,7 @@ borraVarias2 x n m | m M.! x <= n    = M.delete x m
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal erisancha
+-- manvermor silgongal erisancha alvalvdom1
 borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
 borraTodas = M.delete
 
@@ -330,7 +336,7 @@ elementos = M.keys
 --    False
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal
+-- erisancha silgongal alvalvdom1 manvermor
 esSubmultiConj :: Ord a => MultiConj a -> MultiConj a -> Bool
 esSubmultiConj = M.isSubmapOfBy (<=)
 
@@ -346,7 +352,7 @@ esSubmultiConj = M.isSubmapOfBy (<=)
 --    minimo (listaAmc "cdacbab")  ==  'a'
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 erisancha silgongal
+-- alvalvdom1 erisancha silgongal manvermor
 minimo :: MultiConj a -> a
 minimo = fst . M.findMin
 
@@ -358,7 +364,7 @@ minimo = fst . M.findMin
 --    maximo (listaAmc "cdacbab")  ==  'd'
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 erisancha silgongal
+-- alvalvdom1 erisancha silgongal manvermor
 maximo :: MultiConj a -> a
 maximo = fst . M.findMax
 
@@ -373,7 +379,7 @@ maximo = fst . M.findMax
 --    fromList [('b',2),('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha alvalvdom1
 borraMin :: Ord a => MultiConj a -> MultiConj a
 borraMin = M.updateMin f 
   where f x = if x > 1 then Just (x-1) else Nothing
@@ -388,6 +394,10 @@ borraMin2 m | m M.! i == 1 = M.delete i m
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- manvermor
+borraMin3 :: Ord a => MultiConj a -> MultiConj a
+borraMin3 m = borra (minimo m) m
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función   
 --    borraMax :: Ord a => MultiConj a -> MultiConj a
@@ -399,7 +409,7 @@ borraMin2 m | m M.! i == 1 = M.delete i m
 --    fromList [('a',2),('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha
+-- erisancha alvalvdom1
 borraMax :: Ord a => MultiConj a -> MultiConj a
 borraMax = M.updateMax f 
   where f x = if x > 1 then Just (x-1) else Nothing
@@ -414,6 +424,10 @@ borraMax2 m | m M.! i == 1 = M.delete i m
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- manvermor
+borraMax3 :: Ord a => MultiConj a -> MultiConj a
+borraMax3 m = borra (maximo m) m
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la función   
 --    borraMinTodo :: Ord a => MultiConj a -> MultiConj a
@@ -425,7 +439,7 @@ borraMax2 m | m M.! i == 1 = M.delete i m
 --    fromList [('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal
+-- erisancha silgongal alvalvdom1 manvermor
 borraMinTodo :: Ord a => MultiConj a -> MultiConj a
 borraMinTodo = M.deleteMin
 
@@ -440,7 +454,7 @@ borraMinTodo = M.deleteMin
 --    fromList [('a',2),('b',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal
+-- erisancha silgongal alvalvdom1 manvermor
 borraMaxTodo :: Ord a => MultiConj a -> MultiConj a
 borraMaxTodo = M.deleteMax
 
@@ -463,7 +477,7 @@ borraMaxTodo = M.deleteMax
 --    fromList [('a',3),('b',1),('c',4),('d',1),('e',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal
+-- erisancha silgongal alvalvdom1 manvermor
 union :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 union = M.unionWith (+)
 
@@ -476,7 +490,7 @@ union = M.unionWith (+)
 --    fromList [('a',3),('b',3),('c',1),('d',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal
+-- erisancha silgongal alvalvdom1 manvermor
 unionG :: Ord a => [MultiConj a] -> MultiConj a
 unionG  = M.unionsWith (+)
 
@@ -498,6 +512,12 @@ diferencia = M.difference
 
 -- Comentario: El error está en la definición.
 
+-- alvalvdom1 manvermor
+diferencia2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
+diferencia2 = M.differenceWith f
+    where f x y | x > y     = Just (x-y)
+                | otherwise = Nothing
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
 --    interseccion :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
@@ -514,6 +534,11 @@ interseccion = M.intersection
 
 -- Comentario: El error está en la definición.
 
+-- alvalvdom1 manvermor
+interseccion2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
+interseccion2 = M.intersectionWith f
+    where f x y = min x y
+
 -- ---------------------------------------------------------------------
 -- Filtrado y partición                                               --
 -- ---------------------------------------------------------------------
@@ -527,9 +552,13 @@ interseccion = M.intersection
 --    fromList [('c',2),('d',2),('e',1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 filtra :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
-filtra p = undefined
+filtra p m = M.fromList (cumple p (M.toList m))
+    where cumple p xs = [(x,y) | (x,y) <- xs, p x]
 
+-- Comentario: La definición anterior se puede simplificar.
+                        
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
 --    particion :: Ord a => 
@@ -541,10 +570,13 @@ filtra p = undefined
 --    (fromList [('c',2),('d',2),('e',1)],fromList [('a',3),('b',1)])
 -- ---------------------------------------------------------------------
 
+-- manvermor
 particion :: Ord a => 
              (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
-particion p = undefined
+particion p m = (filtra p m, filtra (not.p) m)
 
+-- Comentario: La definición anterior se puede simplificar.
+                
 -- ---------------------------------------------------------------------
 -- Función aplicativa                                                 --
 -- ---------------------------------------------------------------------
@@ -558,5 +590,9 @@ particion p = undefined
 --    fromList [("aN",3),("bN",1),("cN",2),("dN",2),("eN",1)]
 -- ---------------------------------------------------------------------
 
+-- manvermor
 mapMC :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
-mapMC f = undefined
+mapMC f m = M.fromList (map (\(x,y) -> (f x,y)) (M.toList m))
+
+-- Comentario: La definición anterior se puede simplificar.
+            
