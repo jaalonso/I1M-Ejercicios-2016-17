@@ -51,7 +51,7 @@ type MultiConj a = M.Map a Int
 -- ---------------------------------------------------------------------
 
 -- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende
+-- javperlag isrbelnun abrdelrod manpende carmengar
 vacio :: MultiConj a
 vacio = M.empty
 
@@ -64,7 +64,7 @@ vacio = M.empty
 -- ---------------------------------------------------------------------
 
 -- manvermor silgongal alvalvdom1 erisancha jespergue rubvilval javperlag
--- isrbelnun manpende
+-- isrbelnun manpende carmengar
 unitario :: a -> MultiConj a
 unitario x = M.singleton x 1
 
@@ -99,7 +99,7 @@ inserta x m | M.member x m = M.adjust (+1) x m
 -- Comentario: La definición anterior se puede simplificar.
 
 -- silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar
 inserta2 :: Ord a => a -> MultiConj a -> MultiConj a
 inserta2 x = M.insertWith (+) x 1
 
@@ -122,7 +122,7 @@ listaAmc (x:xs) = inserta x (listaAmc xs)
 listaAmc2 :: Ord a => [a] -> MultiConj a
 listaAmc2 xs = M.fromListWith (+) [(x,1) | x <- xs ]
 
--- fracruzam javperlag abrdelrod manpende
+-- fracruzam javperlag abrdelrod manpende carmengar
 listaAmc3 :: Ord a => [a] -> MultiConj a
 listaAmc3 = foldr inserta vacio
 
@@ -150,6 +150,11 @@ insertaVarios x n m | M.member x m = M.adjust (+n) x m
 -- isrbelnun abrdelrod manpende
 insertaVarios2 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
 insertaVarios2  = M.insertWith (+) 
+
+-- carmengar
+insertaVarios3 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
+insertaVarios3 x 0 = id 
+insertaVarios3 x n = inserta x . insertaVarios x (n-1) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -180,7 +185,7 @@ borra2 = M.update f
 -- Comentario: La definición anterior se puede simplificar usando
 -- guardas en lugar de condicionales.
 
--- fracruzam abrdelrod manpende
+-- fracruzam abrdelrod manpende carmengar
 borra3 :: Ord a => a -> MultiConj a -> MultiConj a
 borra3 = M.update f
  where f :: Int -> Maybe Int
@@ -221,7 +226,7 @@ borraVarias3 x n = M.update f x
     where f x | x > n    = Just (x-n)
               | otherwise = Nothing
 
--- isrbelnun manpende
+-- isrbelnun manpende carmengar
 borraVarias4 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
 borraVarias4 x 1 m = borra x m
 borraVarias4 x n m = borraVarias4 x (n-1) (borra x m)
@@ -236,7 +241,7 @@ borraVarias4 x n m = borraVarias4 x (n-1) (borra x m)
 -- ---------------------------------------------------------------------
 
 -- manvermor silgongal erisancha alvalvdom1 jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar
 borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
 borraTodas = M.delete
 
@@ -259,7 +264,7 @@ borraTodas3 = M.update (\x -> Nothing)
 
 -- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
 -- javperlag isrbelnun abrdelrod (no sé por qué, pero la M no es necesaria en esta función)
--- manpende
+-- manpende carmengar
 
 esVacio :: MultiConj a -> Bool
 esVacio = M.null 
@@ -284,6 +289,10 @@ cardinal2 = sum . M.elems
 cardinal3 :: MultiConj a -> Int
 cardinal3 = M.foldr (+) 0
 
+-- carmengar
+cardinal4 :: MultiConj a -> Int
+cardinal4 = sum . map snd . M.toList
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
 --    cardDistintos :: MultiConj a -> Int
@@ -300,6 +309,11 @@ cardDistintos = M.size
 -- fracruzam
 cardDistintos2 :: MultiConj a -> Int
 cardDistintos2 = M.foldrWithKey (\_ _ s -> s + 1) 0
+
+-- carmengar
+cardDistintos3 :: MultiConj a -> Int
+cardDistintos3 = length . M.toList 
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -346,7 +360,7 @@ ocurrencias x m | M.notMember x m = 0
 -- Comentario: La definición anterior se puede simplificar.
 
 -- alvalvdom1 erisancha silgongal fracruzam jespergue rubvilval abrdelrod
--- manpende
+-- manpende carmengar
 ocurrencias2 :: Ord a => a -> MultiConj a -> Int
 ocurrencias2 = M.findWithDefault 0
 
@@ -365,7 +379,7 @@ ocurrencias3 x m | pertenece x m = b
 -- ---------------------------------------------------------------------
 
 -- manvermor alvalvdom1 erisancha silgongal jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar
 elementos :: Ord a => MultiConj a -> [a]
 elementos = M.keys
 
@@ -392,7 +406,7 @@ elementos2 = M.foldrWithKey (\x _ r -> x : r) []
 -- ---------------------------------------------------------------------
 
 -- erisancha silgongal alvalvdom1 manvermor fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende
+-- javperlag isrbelnun abrdelrod manpende carmengar
 esSubmultiConj :: Ord a => MultiConj a -> MultiConj a -> Bool
 esSubmultiConj = M.isSubmapOfBy (<=)
 
@@ -409,7 +423,7 @@ esSubmultiConj = M.isSubmapOfBy (<=)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 erisancha silgongal manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar jespergue
 minimo :: MultiConj a -> a
 minimo = fst . M.findMin
 
@@ -422,7 +436,7 @@ minimo = fst . M.findMin
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 erisancha silgongal manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar jespergue
 maximo :: MultiConj a -> a
 maximo = fst . M.findMax
 
@@ -453,6 +467,7 @@ borraMin2 m | m M.! i == 1 = M.delete i m
 -- Comentario: La definición anterior se puede simplificar.
 
 -- manvermor fracruzam rubvilval javperlag isrbelnun abrdelrod manpende
+-- carmengar jespergue
 borraMin3 :: Ord a => MultiConj a -> MultiConj a
 borraMin3 m = borra (minimo m) m
 
@@ -483,7 +498,7 @@ borraMax2 m | m M.! i == 1 = M.delete i m
 -- Comentario: La definición anterior se puede simplificar.
 
 -- manvermor fracruzam rubvilval javperlag isrbelnun abrdelrod
--- manpende
+-- manpende carmengar jespergue
 borraMax3 :: Ord a => MultiConj a -> MultiConj a
 borraMax3 m = borra (maximo m) m
 
@@ -498,11 +513,11 @@ borraMax3 m = borra (maximo m) m
 --    fromList [('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag
+-- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag jespergue
 borraMinTodo :: Ord a => MultiConj a -> MultiConj a
 borraMinTodo = M.deleteMin
 
--- fracruzam abrdelrod manpende
+-- fracruzam abrdelrod manpende carmengar
 borraMinTodo2:: Ord a => MultiConj a -> MultiConj a
 borraMinTodo2 s = borraTodas (minimo s) s
 
@@ -521,11 +536,11 @@ borraMinTodo3 m = M.delete (minimo m) m
 --    fromList [('a',2),('b',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag
+-- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag jespergue
 borraMaxTodo :: Ord a => MultiConj a -> MultiConj a
 borraMaxTodo = M.deleteMax
 
--- fracruzam abrdelrod manpende
+-- fracruzam abrdelrod manpende carmengar
 borraMaxTodo2 :: Ord a => MultiConj a -> MultiConj a
 borraMaxTodo2 s = borraTodas (maximo s) s
 
@@ -553,7 +568,7 @@ borraMaxTodo3 m = M.delete (maximo m) m
 -- ---------------------------------------------------------------------
 
 -- erisancha silgongal alvalvdom1 manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende carmengar jespergue
 union :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 union = M.unionWith (+)
 
@@ -567,9 +582,13 @@ union = M.unionWith (+)
 -- ---------------------------------------------------------------------
 
 -- erisancha silgongal alvalvdom1 manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- isrbelnun abrdelrod manpende jespergue
 unionG :: Ord a => [MultiConj a] -> MultiConj a
 unionG  = M.unionsWith (+)
+
+-- carmengar
+unionG2 :: Ord a => [MultiConj a] -> MultiConj a
+unionG2 = foldr union vacio  
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 25. Definir la función
@@ -590,7 +609,7 @@ diferencia = M.difference
 -- Comentario: El error está en la definición.
 
 -- alvalvdom1 manvermor fracruzam silgongal rubvilval isrbelnun abrdelrod
--- manpende
+-- manpende carmengar jespergue
 diferencia2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 diferencia2 = M.differenceWith f
     where f x y | x > y     = Just (x-y)
@@ -612,12 +631,12 @@ interseccion = M.intersection
 
 -- Comentario: El error está en la definición.
 
--- alvalvdom1 manvermor silgongal rubvilval
+-- alvalvdom1 manvermor silgongal rubvilval jespergue
 interseccion2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 interseccion2 = M.intersectionWith f
     where f x y = min x y
 
--- fracruzam javperlag isrbelnun abrdelrod manpende
+-- fracruzam javperlag isrbelnun abrdelrod manpende carmengar
 interseccion3 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 interseccion3 = M.intersectionWith min
 
@@ -634,20 +653,24 @@ interseccion3 = M.intersectionWith min
 --    fromList [('c',2),('d',2),('e',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha silgongal isrbelnun
+-- manvermor erisancha silgongal isrbelnun jespergue
 filtra :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
 filtra p m = M.fromList (cumple p (M.toList m))
     where cumple p xs = [(x,y) | (x,y) <- xs, p x]
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam rubvilval javperlag abrdelrod
+-- fracruzam rubvilval javperlag abrdelrod carmengar
 filtra2 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
 filtra2 p = M.filterWithKey (\ x _ -> p x)
                         
 -- manpende
 filtra3 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
 filtra3 p m = M.fromList $ filter (p.fst) (M.toList m) 
+
+-- carmengar
+filtra4 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
+filtra4 p = M.fromList . filter (p.fst) . M.toList 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
@@ -660,14 +683,14 @@ filtra3 p m = M.fromList $ filter (p.fst) (M.toList m)
 --    (fromList [('c',2),('d',2),('e',1)],fromList [('a',3),('b',1)])
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha silgongal isrbelnun
+-- manvermor erisancha silgongal isrbelnun jespergue
 particion :: Ord a => 
              (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
 particion p m = (filtra p m, filtra (not.p) m)
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam rubvilval javperlag abrdelrod
+-- fracruzam rubvilval javperlag abrdelrod carmengar
 particion2 :: Ord a => 
              (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
 particion2 p = M.partitionWithKey (\ x _ -> p x)
@@ -691,13 +714,13 @@ particion3 p m = (fpm, diferencia m fpm)
 --    fromList [("aN",3),("bN",1),("cN",2),("dN",2),("eN",1)]
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha
+-- manvermor erisancha jespergue
 mapMC :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
 mapMC f m = M.fromList (map (\(x,y) -> (f x,y)) (M.toList m))
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- fracruzam alvalvdom1 silgongal rubvilval javperlag isrbelnun abrdelrod
+-- fracruzam alvalvdom1 silgongal rubvilval javperlag isrbelnun
+-- abrdelrod carmengar
 mapMC2 :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
 mapMC2 = M.mapKeys
-         
