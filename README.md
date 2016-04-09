@@ -97,4 +97,10 @@ clase) y las soluciones definitivas.
 + **Relación 30**: El TAD de los multiconjuntos mediante diccionarios.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_30.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_30_sol.hs)).
++ **Relación 31**: Funciones con el TAD de los montículos.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_31.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_31_sol.hs)).
++ **Relación 32**: Algoritmos de ordenación y complejidad.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_32.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_32_sol.hs)).
 
