@@ -24,6 +24,7 @@
 -- Librerías auxiliares                                               --
 -- ---------------------------------------------------------------------
 
+import Test.QuickCheck
 import qualified Data.Map as M
 
 -- ---------------------------------------------------------------------
@@ -50,8 +51,6 @@ type MultiConj a = M.Map a Int
 --    vacio  ==  fromList []
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende carmengar
 vacio :: MultiConj a
 vacio = M.empty
 
@@ -63,14 +62,8 @@ vacio = M.empty
 --    unitario 'a'  ==  fromList [('a',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha jespergue rubvilval javperlag
--- isrbelnun manpende carmengar
 unitario :: a -> MultiConj a
 unitario x = M.singleton x 1
-
--- fracruzam abrdelrod
-unitario2 :: a -> MultiConj a
-unitario2 = flip M.singleton 1
 
 -- ---------------------------------------------------------------------
 -- Añadir y quitar elementos                                          --
@@ -91,17 +84,8 @@ unitario2 = flip M.singleton 1
 --    fromList [('a',3),('b',2)]
 -- ---------------------------------------------------------------------
 
--- manvermor
 inserta :: Ord a => a -> MultiConj a -> MultiConj a
-inserta x m | M.member x m = M.adjust (+1) x m
-            | otherwise    = M.insert x 1 m
-
--- Comentario: La definición anterior se puede simplificar.
-
--- silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar
-inserta2 :: Ord a => a -> MultiConj a -> MultiConj a
-inserta2 x = M.insertWith (+) x 1
+inserta x = M.insertWith (+) x 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función 
@@ -111,20 +95,27 @@ inserta2 x = M.insertWith (+) x 1
 --    listaAmc "ababc"  ==  fromList [('a',2),('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor rubvilval isrbelnun
+-- 1ª solución
 listaAmc :: Ord a => [a] -> MultiConj a
-listaAmc []     = vacio
-listaAmc (x:xs) = inserta x (listaAmc xs)
+listaAmc xs = M.fromListWith (+) (zip xs (repeat 1))
 
--- Comentario: La definición anterior se puede simplificar.
-
--- silgongal alvalvdom1 erisancha jespergue
+-- 2ª solución
 listaAmc2 :: Ord a => [a] -> MultiConj a
-listaAmc2 xs = M.fromListWith (+) [(x,1) | x <- xs ]
+listaAmc2 = foldr inserta vacio
 
--- fracruzam javperlag abrdelrod manpende carmengar
-listaAmc3 :: Ord a => [a] -> MultiConj a
-listaAmc3 = foldr inserta vacio
+-- Comparación de eficiencia
+--    λ> listaAmc (replicate 5000000 1)
+--    fromList [(1,5000000)]
+--    (1.52 secs, 1,368,870,760 bytes)
+--    λ> listaAmc2 (replicate 5000000 1)
+--    fromList [(1,5000000)]
+--    (4.20 secs, 2,385,729,056 bytes)
+--    
+--    λ> listaAmc (replicate 10000000 1)
+--    fromList [(1,10000000)]
+--    (2.97 secs, 2,732,899,360 bytes)
+--    λ> listaAmc2 (replicate 10000000 1)
+--    fromList *** Exception: stack overflow
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -139,22 +130,27 @@ listaAmc3 = foldr inserta vacio
 --    fromList [('a',5),('b',2)]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- 1ª solución
 insertaVarios :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-insertaVarios x n m | M.member x m = M.adjust (+n) x m
-                    | otherwise    = M.insert x n m
+insertaVarios = M.insertWith (+) 
 
--- Comentario: La definición anterior se puede simplificar.
-
---silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- 2ª solución
 insertaVarios2 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-insertaVarios2  = M.insertWith (+) 
+insertaVarios2 x n m = foldr inserta m (replicate n x)
 
--- carmengar
-insertaVarios3 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-insertaVarios3 x 0 = id 
-insertaVarios3 x n = inserta x . insertaVarios x (n-1) 
+-- Comparación de eficiencia
+--    λ> insertaVarios 1 5000000 vacio
+--    fromList [(1,5000000)]
+--    (0.00 secs, 0 bytes)
+--    λ> insertaVarios2 1 5000000 vacio
+--    fromList [(1,5000000)]
+--    (4.24 secs, 2,226,242,792 bytes)
+--    
+--    λ> insertaVarios 1 10000000 vacio
+--    fromList [(1,10000000)]
+--    (0.00 secs, 0 bytes)
+--    λ> insertaVarios2 1 10000000 vacio
+--    fromList *** Exception: stack overflow
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -169,28 +165,10 @@ insertaVarios3 x n = inserta x . insertaVarios x (n-1)
 --    fromList [('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal jespergue javperlag isrbelnun
 borra :: Ord a => a -> MultiConj a -> MultiConj a
-borra x m | M.notMember x m = m
-          | m M.! x <= 1    = M.delete x m
-          | otherwise       = M.adjust (+(-1)) x m
-
--- Comentario: La definición anterior se puede simplificar.
-
--- erisancha alvalvdom1 rubvilval
-borra2 :: Ord a => a -> MultiConj a -> MultiConj a
-borra2 = M.update f
-    where f x = if x > 1 then Just (x-1) else Nothing
-
--- Comentario: La definición anterior se puede simplificar usando
--- guardas en lugar de condicionales.
-
--- fracruzam abrdelrod manpende carmengar
-borra3 :: Ord a => a -> MultiConj a -> MultiConj a
-borra3 = M.update f
- where f :: Int -> Maybe Int
-       f x | x == 1    = Nothing
-           | otherwise = Just (x-1)
+borra = M.update f
+    where f m | m <= 1    = Nothing
+              | otherwise = Just (m - 1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -205,31 +183,29 @@ borra3 = M.update f
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal javperlag
+-- 1ª definición
 borraVarias :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-borraVarias x n m | M.notMember x m = m
-                  | m M.! x <= n    = M.delete x m
-                  | otherwise       = M.adjust (+(-n)) x m
+borraVarias x n = M.update (f n) x
+    where f n m | m <= n    = Nothing
+                | otherwise = Just (m - n)
 
--- Comentario: La definición anterior se puede simplificar.
-
--- erisancha
+-- 2ª definición
 borraVarias2 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-borraVarias2 x n m | m M.! x <= n    = M.delete x m
-                   | otherwise       = M.adjust (+(-n)) x m
+borraVarias2 x n m = foldr borra m (replicate n x)
 
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1 fracruzam jespergue rubvilval abrdelrod
-borraVarias3 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-borraVarias3 x n = M.update f x
-    where f x | x > n    = Just (x-n)
-              | otherwise = Nothing
-
--- isrbelnun manpende carmengar
-borraVarias4 :: Ord a => a -> Int -> MultiConj a -> MultiConj a
-borraVarias4 x 1 m = borra x m
-borraVarias4 x n m = borraVarias4 x (n-1) (borra x m)
+-- Comparación de eficiencia
+--    λ> borraVarias 1 5000000 (listaAmc (replicate 6000000 1))
+--    fromList [(1,1000000)]
+--    (1.74 secs, 1,594,100,344 bytes)
+--    λ> borraVarias2 1 5000000 (listaAmc (replicate 6000000 1))
+--    fromList [(1,1000000)]
+--    (6.79 secs, 4,424,846,104 bytes)
+--    
+--    λ> borraVarias 1 5000000 (listaAmc (replicate 10000000 1))
+--    fromList [(1,5000000)]
+--    (3.02 secs, 2,768,894,680 bytes)
+--    λ> borraVarias2 1 5000000 (listaAmc (replicate 10000000 1))
+--    fromList *** Exception: stack overflow
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -240,14 +216,8 @@ borraVarias4 x n m = borraVarias4 x (n-1) (borra x m)
 --    fromList [('b',2),('c',1),('d',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal erisancha alvalvdom1 jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar
 borraTodas :: Ord a => a -> MultiConj a -> MultiConj a
 borraTodas = M.delete
-
--- fracruzam
-borraTodas3 :: Ord a => a -> MultiConj a -> MultiConj a
-borraTodas3 = M.update (\x -> Nothing)
 
 -- ---------------------------------------------------------------------
 -- Consultas                                                          --
@@ -262,12 +232,8 @@ borraTodas3 = M.update (\x -> Nothing)
 --    esVacio (inserta 'a' vacio)  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod (no sé por qué, pero la M no es necesaria en esta función)
--- manpende carmengar
-
 esVacio :: MultiConj a -> Bool
-esVacio = M.null 
+esVacio = M.null
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -277,21 +243,20 @@ esVacio = M.null
 --    cardinal (listaAmc "ababcad")  ==  7
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal jespergue
 cardinal :: MultiConj a -> Int
-cardinal m = sum (M.elems m)
+cardinal = sum . M.elems
 
--- alvalvdom1 erisancha javperlag isrbelnun abrdelrod manpende
+-- 2ª definición
 cardinal2 :: MultiConj a -> Int
-cardinal2 = sum . M.elems
+cardinal2 m = sum [v | (k,v) <- M.assocs m]
 
--- fracruzam rubvilval
-cardinal3 :: MultiConj a -> Int
-cardinal3 = M.foldr (+) 0
-
--- carmengar
-cardinal4 :: MultiConj a -> Int
-cardinal4 = sum . map snd . M.toList
+-- Comparación de eficiencia
+--    λ> cardinal (listaAmc [1..5000000])
+--    5000000
+--    (5.92 secs, 9,071,879,144 bytes)
+--    λ> cardinal2 (listaAmc [1..5000000])
+--    5000000
+--    (7.06 secs, 9,591,013,280 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -301,19 +266,21 @@ cardinal4 = sum . map snd . M.toList
 --    cardDistintos (listaAmc "ababcad")  ==  4
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende
+-- 1ª definición
 cardDistintos :: MultiConj a -> Int
 cardDistintos = M.size
 
--- fracruzam
+-- 2ª definición
 cardDistintos2 :: MultiConj a -> Int
-cardDistintos2 = M.foldrWithKey (\_ _ s -> s + 1) 0
+cardDistintos2 = length . M.keys
 
--- carmengar
-cardDistintos3 :: MultiConj a -> Int
-cardDistintos3 = length . M.toList 
-
+-- Comparación de eficiencia
+--    λ> cardDistintos (listaAmc [1..10000000])
+--    10000000
+--    (9.86 secs, 17,538,021,680 bytes)
+--    λ> cardDistintos2 (listaAmc [1..10000000])
+--    10000000
+--    (10.14 secs, 18,092,597,184 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función
@@ -324,10 +291,8 @@ cardDistintos3 = length . M.toList
 --    pertenece 'r' (listaAmc "ababcad")  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende
 pertenece :: Ord a => a -> MultiConj a -> Bool
-pertenece = M.member 
+pertenece = M.member
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -338,10 +303,8 @@ pertenece = M.member
 --    noPertenece 'r' (listaAmc "ababcad")  ==  True
 -- ---------------------------------------------------------------------
 
--- manvermor silgongal alvalvdom1 erisancha fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende
 noPertenece :: Ord a => a -> MultiConj a -> Bool
-noPertenece = M.notMember
+noPertenece  = M.notMember
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
@@ -352,24 +315,9 @@ noPertenece = M.notMember
 --    ocurrencias 'r' (listaAmc "ababcad")  ==  0
 -- ---------------------------------------------------------------------
 
--- manvermor javperlag
 ocurrencias :: Ord a => a -> MultiConj a -> Int
-ocurrencias x m | M.notMember x m = 0
-                | otherwise       = m M.! x
+ocurrencias = M.findWithDefault 0
 
--- Comentario: La definición anterior se puede simplificar.
-
--- alvalvdom1 erisancha silgongal fracruzam jespergue rubvilval abrdelrod
--- manpende carmengar
-ocurrencias2 :: Ord a => a -> MultiConj a -> Int
-ocurrencias2 = M.findWithDefault 0
-
--- isrbelnun
-ocurrencias3 :: Ord a => a -> MultiConj a -> Int
-ocurrencias3 x m | pertenece x m = b
-                 | otherwise     = 0
-    where Just b = M.lookup x m
-        
 -- ---------------------------------------------------------------------
 -- Ejercicio 15: Definir la función 
 --    elementos :: Ord a => MultiConj a -> [a]
@@ -378,14 +326,8 @@ ocurrencias3 x m | pertenece x m = b
 --    elementos (listaAmc "ababcad")  ==  "abcd"
 -- ---------------------------------------------------------------------
 
--- manvermor alvalvdom1 erisancha silgongal jespergue rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar
 elementos :: Ord a => MultiConj a -> [a]
 elementos = M.keys
-
--- fracruzam
-elementos2 :: Ord a => MultiConj a -> [a]
-elementos2 = M.foldrWithKey (\x _ r -> x : r) []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16.Definir la función
@@ -405,10 +347,30 @@ elementos2 = M.foldrWithKey (\x _ r -> x : r) []
 --    False
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor fracruzam jespergue rubvilval
--- javperlag isrbelnun abrdelrod manpende carmengar
+-- 1ª definición
 esSubmultiConj :: Ord a => MultiConj a -> MultiConj a -> Bool
-esSubmultiConj = M.isSubmapOfBy (<=)
+esSubmultiConj m1 m2 =
+    all (\x -> ocurrencias x m1 <= ocurrencias x m2)
+        (elementos m1)
+
+-- 2ª definición
+esSubmultiConj2 :: Ord a => MultiConj a -> MultiConj a -> Bool
+esSubmultiConj2 = M.isSubmapOfBy (<=)
+
+-- Comparación de eficiencia
+--    λ> esSubmultiConj (listaAmc [1..1000000]) (listaAmc [1..1000000])
+--    True
+--    (3.06 secs, 3,440,710,816 bytes)
+--    λ> esSubmultiConj2 (listaAmc [1..1000000]) (listaAmc [1..1000000])
+--    True
+--    (1.71 secs, 3,058,187,728 bytes)
+--
+--    λ> let m = listaAmc (replicate 10000000 1) in esSubmultiConj m m
+--    True
+--    (5.71 secs, 5,539,250,712 bytes)
+--    λ> let m = listaAmc (replicate 10000000 1) in esSubmultiConj2 m m
+--    True
+--    (5.87 secs, 5,468,766,496 bytes)
 
 -- ---------------------------------------------------------------------
 -- Elemento minimo y máximo de un multiconjunto                       --
@@ -422,8 +384,6 @@ esSubmultiConj = M.isSubmapOfBy (<=)
 --    minimo (listaAmc "cdacbab")  ==  'a'
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 erisancha silgongal manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar jespergue
 minimo :: MultiConj a -> a
 minimo = fst . M.findMin
 
@@ -435,8 +395,6 @@ minimo = fst . M.findMin
 --    maximo (listaAmc "cdacbab")  ==  'd'
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 erisancha silgongal manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar jespergue
 maximo :: MultiConj a -> a
 maximo = fst . M.findMax
 
@@ -451,25 +409,8 @@ maximo = fst . M.findMax
 --    fromList [('b',2),('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1
 borraMin :: Ord a => MultiConj a -> MultiConj a
-borraMin = M.updateMin f 
-  where f x = if x > 1 then Just (x-1) else Nothing
-
--- Comentario: La definición anterior se puede simplificar.
-
--- silgongal
-borraMin2 :: Ord a => MultiConj a -> MultiConj a
-borraMin2 m | m M.! i == 1 = M.delete i m 
-            | otherwise    = M.insert i ((m M.! i)-1) m
-    where i = minimo m
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manvermor fracruzam rubvilval javperlag isrbelnun abrdelrod manpende
--- carmengar jespergue
-borraMin3 :: Ord a => MultiConj a -> MultiConj a
-borraMin3 m = borra (minimo m) m
+borraMin m = borra (minimo m) m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función   
@@ -482,25 +423,8 @@ borraMin3 m = borra (minimo m) m
 --    fromList [('a',2),('b',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1
 borraMax :: Ord a => MultiConj a -> MultiConj a
-borraMax = M.updateMax f 
-  where f x = if x > 1 then Just (x-1) else Nothing
-
--- Comentario: La definición anterior se puede simplificar.
-
--- silgongal
-borraMax2 :: Ord a => MultiConj a -> MultiConj a
-borraMax2 m | m M.! i == 1 = M.delete i m 
-            | otherwise    = M.insert i ((m M.! i)-1) m
-    where i = maximo m
-
--- Comentario: La definición anterior se puede simplificar.
-
--- manvermor fracruzam rubvilval javperlag isrbelnun abrdelrod
--- manpende carmengar jespergue
-borraMax3 :: Ord a => MultiConj a -> MultiConj a
-borraMax3 m = borra (maximo m) m
+borraMax m = borra (maximo m) m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la función   
@@ -513,17 +437,8 @@ borraMax3 m = borra (maximo m) m
 --    fromList [('c',2),('d',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag jespergue
 borraMinTodo :: Ord a => MultiConj a -> MultiConj a
 borraMinTodo = M.deleteMin
-
--- fracruzam abrdelrod manpende carmengar
-borraMinTodo2:: Ord a => MultiConj a -> MultiConj a
-borraMinTodo2 s = borraTodas (minimo s) s
-
--- isrbelnun
-borraMinTodo3 :: Ord a => MultiConj a -> MultiConj a
-borraMinTodo3 m = M.delete (minimo m) m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 22. Definir la función   
@@ -536,17 +451,8 @@ borraMinTodo3 m = M.delete (minimo m) m
 --    fromList [('a',2),('b',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor rubvilval javperlag jespergue
 borraMaxTodo :: Ord a => MultiConj a -> MultiConj a
 borraMaxTodo = M.deleteMax
-
--- fracruzam abrdelrod manpende carmengar
-borraMaxTodo2 :: Ord a => MultiConj a -> MultiConj a
-borraMaxTodo2 s = borraTodas (maximo s) s
-
--- isrbelnun
-borraMaxTodo3 :: Ord a => MultiConj a -> MultiConj a
-borraMaxTodo3 m = M.delete (maximo m) m
 
 -- ---------------------------------------------------------------------
 -- Operaciones: unión, intersección y diferencia de multiconjuntos    --
@@ -567,8 +473,6 @@ borraMaxTodo3 m = M.delete (maximo m) m
 --    fromList [('a',3),('b',1),('c',4),('d',1),('e',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende carmengar jespergue
 union :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
 union = M.unionWith (+)
 
@@ -581,14 +485,21 @@ union = M.unionWith (+)
 --    fromList [('a',3),('b',3),('c',1),('d',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha silgongal alvalvdom1 manvermor fracruzam rubvilval javperlag
--- isrbelnun abrdelrod manpende jespergue
+-- 1ª definición
 unionG :: Ord a => [MultiConj a] -> MultiConj a
-unionG  = M.unionsWith (+)
+unionG = M.unionsWith (+)
 
--- carmengar
+-- 2ª definición
 unionG2 :: Ord a => [MultiConj a] -> MultiConj a
-unionG2 = foldr union vacio  
+unionG2 = foldr union vacio
+
+-- Comparación de eficiencia
+--    λ> unionG (replicate 1000000 (listaAmc "abc"))
+--    fromList [('a',1000000),('b',1000000),('c',1000000)]
+--    (1.04 secs, 693,213,488 bytes)
+--    λ> unionG2 (replicate 1000000 (listaAmc "abc"))
+--    fromList [('a',1000000),('b',1000000),('c',1000000)]
+--    (1.40 secs, 832,739,480 bytes)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 25. Definir la función
@@ -599,21 +510,10 @@ unionG2 = foldr union vacio
 --    fromList [('a',2),('c',1)]
 -- ---------------------------------------------------------------------
 
--- erisancha
--- Esta es la función predefinida para diferencia de multiconjuntos,
--- pero no se corresponde con el ejemplo, no sé si se debe a un error
--- en este, o en la definición.
 diferencia :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-diferencia = M.difference
-
--- Comentario: El error está en la definición.
-
--- alvalvdom1 manvermor fracruzam silgongal rubvilval isrbelnun abrdelrod
--- manpende carmengar jespergue
-diferencia2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-diferencia2 = M.differenceWith f
-    where f x y | x > y     = Just (x-y)
-                | otherwise = Nothing
+diferencia = M.differenceWith f 
+    where f x y | x <= y    = Nothing
+                | otherwise = Just (x - y)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
@@ -624,21 +524,8 @@ diferencia2 = M.differenceWith f
 --    fromList [('b',1),('c',2)]
 -- ---------------------------------------------------------------------
 
--- erisancha
--- Aquí pasa lo mismo
 interseccion :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-interseccion = M.intersection
-
--- Comentario: El error está en la definición.
-
--- alvalvdom1 manvermor silgongal rubvilval jespergue
-interseccion2 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-interseccion2 = M.intersectionWith f
-    where f x y = min x y
-
--- fracruzam javperlag isrbelnun abrdelrod manpende carmengar
-interseccion3 :: Ord a => MultiConj a -> MultiConj a -> MultiConj a
-interseccion3 = M.intersectionWith min
+interseccion = M.intersectionWith min 
 
 -- ---------------------------------------------------------------------
 -- Filtrado y partición                                               --
@@ -653,24 +540,8 @@ interseccion3 = M.intersectionWith min
 --    fromList [('c',2),('d',2),('e',1)]
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha silgongal isrbelnun jespergue
 filtra :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
-filtra p m = M.fromList (cumple p (M.toList m))
-    where cumple p xs = [(x,y) | (x,y) <- xs, p x]
-
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam rubvilval javperlag abrdelrod carmengar
-filtra2 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
-filtra2 p = M.filterWithKey (\ x _ -> p x)
-                        
--- manpende
-filtra3 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
-filtra3 p m = M.fromList $ filter (p.fst) (M.toList m) 
-
--- carmengar
-filtra4 :: Ord a => (a -> Bool) -> MultiConj a -> MultiConj a
-filtra4 p = M.fromList . filter (p.fst) . M.toList 
+filtra p = M.filterWithKey (\k _ -> p k) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
@@ -683,24 +554,10 @@ filtra4 p = M.fromList . filter (p.fst) . M.toList
 --    (fromList [('c',2),('d',2),('e',1)],fromList [('a',3),('b',1)])
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha silgongal isrbelnun jespergue
 particion :: Ord a => 
              (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
-particion p m = (filtra p m, filtra (not.p) m)
+particion p = M.partitionWithKey (\k _ -> p k) 
 
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam rubvilval javperlag abrdelrod carmengar
-particion2 :: Ord a => 
-             (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
-particion2 p = M.partitionWithKey (\ x _ -> p x)
-
--- manpende
-particion3 :: Ord a => 
-             (a -> Bool) -> MultiConj a -> (MultiConj a,MultiConj a)
-particion3 p m = (fpm, diferencia m fpm)
-    where fpm = filtra p m
-                
 -- ---------------------------------------------------------------------
 -- Función aplicativa                                                 --
 -- ---------------------------------------------------------------------
@@ -714,13 +571,6 @@ particion3 p m = (fpm, diferencia m fpm)
 --    fromList [("aN",3),("bN",1),("cN",2),("dN",2),("eN",1)]
 -- ---------------------------------------------------------------------
 
--- manvermor erisancha jespergue
 mapMC :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
-mapMC f m = M.fromList (map (\(x,y) -> (f x,y)) (M.toList m))
+mapMC = M.mapKeys
 
--- Comentario: La definición anterior se puede simplificar.
-
--- fracruzam alvalvdom1 silgongal rubvilval javperlag isrbelnun
--- abrdelrod carmengar
-mapMC2 :: Ord b => (a -> b) -> MultiConj a -> MultiConj b
-mapMC2 = M.mapKeys
