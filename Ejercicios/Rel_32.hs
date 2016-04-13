@@ -10,13 +10,30 @@
 
 -- El objetivo de esta relación es presentar una recopilación de los
 -- algoritmos de ordenación y el estudio de su complejidad.
+-- 
+-- Para realizar los ejercicios hay que tener instalada la librería I1M
+-- que contiene la implementación de TAD de las colas de prioridad. Los
+-- pasos para instalarla son los siguientes:
+-- + Descargar el paquete I1M desde http://bit.ly/1pbnDqm
+-- + Descomprimirlo (y se crea el directorio I1M-master.zip).
+-- + Cambiar al directorio I1M-master.
+-- + Ejecutar cabal install I1M.cabal
+-- 
+-- Otra forma es descargar la implementación del TAD de las colas de
+-- prioridad: 
+-- + ColaDePrioridadConListas.hs     que está en http://bit.ly/1TJRgv8
+-- + ColaDePrioridadConMonticulos.hs que está en http://bit.ly/1TJReDn
 
 -- ---------------------------------------------------------------------
 -- § Librerías auxiliares                                             --
 -- ---------------------------------------------------------------------
 
 import Data.List
-import qualified I1M.ColaDePrioridad as CP
+
+-- Hay que elegir una implementación del TAD de las colas de prioridad:
+-- import qualified ColaDePrioridadConListas as CP
+import qualified ColaDePrioridadConMonticulos as CP
+-- import qualified I1M.ColaDePrioridad as CP
 
 -- ---------------------------------------------------------------------
 -- § Ordenación por selección                                         --

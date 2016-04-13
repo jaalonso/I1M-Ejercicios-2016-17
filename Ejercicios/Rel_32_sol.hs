@@ -10,12 +10,29 @@
 
 -- El objetivo de esta relación es presentar una recopilación de los
 -- algoritmos de ordenación y el estudio de su complejidad.
+-- 
+-- Para realizar los ejercicios hay que tener instalada la librería I1M
+-- que contiene la implementación de TAD de las colas de prioridad. Los
+-- pasos para instalarla son los siguientes:
+-- + Descargar el paquete I1M desde http://bit.ly/1pbnDqm
+-- + Descomprimirlo (y se crea el directorio I1M-master.zip).
+-- + Cambiar al directorio I1M-master.
+-- + Ejecutar cabal install I1M.cabal
+-- 
+-- Otra forma es descargar la implementación del TAD de las colas de
+-- prioridad: 
+-- + ColaDePrioridadConListas.hs     que está en http://bit.ly/1TJRgv8
+-- + ColaDePrioridadConMonticulos.hs que está en http://bit.ly/1TJReDn
 
 -- ---------------------------------------------------------------------
 -- § Librerías auxiliares                                             --
 -- ---------------------------------------------------------------------
 
 import Data.List
+
+-- Hay que elegir una implementación del TAD de las colas de prioridad:
+-- import qualified ColaDePrioridadConListas as CP
+-- import qualified ColaDePrioridadConMonticulos as CP
 import qualified I1M.ColaDePrioridad as CP
 
 -- ---------------------------------------------------------------------
@@ -45,8 +62,11 @@ import qualified I1M.ColaDePrioridad as CP
 --    ordenaPorSeleccion [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor fracruzam jespergue josllagam rubvilval manpende
 ordenaPorSeleccion :: Ord a => [a] -> [a]
-ordenaPorSeleccion = undefined
+ordenaPorSeleccion [] = []
+ordenaPorSeleccion xs = min : ordenaPorSeleccion (delete min xs)
+    where min = minimum xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Calcular los tiempos necesarios para calcular 
@@ -56,6 +76,15 @@ ordenaPorSeleccion = undefined
 -- ¿Cuál es el orden de complejidad de ordenaPorSeleccion?
 -- ---------------------------------------------------------------------
 
+-- manvermor jespergue josllagam
+orden :: Int -> Int
+orden n = length (ordenaPorSeleccion [n,n-1..1])
+
+-- El tiempo es arbitrario y depende de la función.
+
+-- Comentario: Lo interesante no son los tiempos absolutos, sino su
+-- crecimiento. 
+
 -- El resumen de los tiempos es
 --    k    | segs.
 --    -----+-----
@@ -63,6 +92,8 @@ ordenaPorSeleccion = undefined
 --    2000 | 
 --    3000 | 
 --    4000 | 
+
+-- El orden es O(n^2)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Definir la función
@@ -72,14 +103,23 @@ ordenaPorSeleccion = undefined
 --    ordenaPorSeleccion2 [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor fracruzam jespergue josllagam rubvilval manpende
 ordenaPorSeleccion2 :: Ord a => [a] -> [a] 
-ordenaPorSeleccion2 = undefined
+ordenaPorSeleccion2 [] = []
+ordenaPorSeleccion2 (x:xs) = aux x xs []
+    where aux y [] rs = y : ordenaPorSeleccion2 rs
+          aux y (x:xs) rs | x < y = aux x xs (y:rs)
+                          | otherwise = aux y xs (x:rs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.4. Calcular los tiempos necesarios para calcular 
 --    let n = k in length (ordenaPorSeleccion2 [n,n-1..1])
 -- para k en [1000, 2000, 3000, 4000]
 -- ---------------------------------------------------------------------
+
+-- manvermor jespergue josllagam
+orden2 :: Int -> Int
+orden2 n = length (ordenaPorSeleccion2 [n,n-1..1])
 
 -- El resumen de los tiempos es
 --    k    | segs.
@@ -122,9 +162,29 @@ ordenaPorSeleccion2 = undefined
 --    ordenaRapida [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor jespergue josllagam rubvilval
 ordenaRapida :: Ord a => [a] -> [a]
-ordenaRapida = undefined
-     
+ordenaRapida [] = [] 
+ordenaRapida (x:xs) =
+    ordenaRapida minimos ++ [x] ++ ordenaRapida maximos
+    where minimos = [ y | y <- xs, y <= x]
+          maximos = [ y | y <- xs, y > x ]
+
+-- fracruzam
+-- Mejor añadir x con el operador (:) a la segunda lista
+ordenaRapidaB :: Ord a => [a] -> [a]
+ordenaRapidaB (x:xs) =
+    ordenaRapidaB [n | n <- xs, n <= x] ++ x: ordenaRapidaB [n | n <- xs, n > x]
+ordenaRapidaB _      = []
+
+-- manpende
+ordenaRapidaC :: Ord a => [a] -> [a]
+ordenaRapidaC [] = []
+ordenaRapidaC (x:xs) = ordenaRapidaC menores ++ x:ordenaRapidaC mayores
+    where menores = filter (<x) xs
+          mayores = filter (>=x) xs
+
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Calcular los tiempos necesarios para calcular 
 --     let n = k in length (ordenaRapida [n,n-1..1])
@@ -132,6 +192,10 @@ ordenaRapida = undefined
 -- 
 -- ¿Cuál es el orden de complejidad de ordenaRapida?
 -- ---------------------------------------------------------------------
+
+-- manvermor jespergue josllagam
+ordenR :: Int -> Int
+ordenR n = length (ordenaRapida [n,n-1..1])
 
 -- El resumen de los tiempos es
 --    k    | segs.
@@ -141,6 +205,8 @@ ordenaRapida = undefined
 --    3000 |
 --    4000 | 
 
+-- El orden es O(log n)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Definir, usando un acumulador, la función
 --    ordenaRapida2 :: Ord a => [a] -> [a]
@@ -149,14 +215,33 @@ ordenaRapida = undefined
 --    ordenaRapida2 [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor jespergue josllagam rubvilval
 ordenaRapida2 :: Ord a => [a] -> [a]
-ordenaRapida2 xs = undefined
+ordenaRapida2 xs = aux xs []
+    where aux [] rs = rs
+          aux (x:xs) rs = aux minimos (x: aux maximos rs)
+                 where minimos = [ y | y <- xs, y <= x]
+                       maximos = [ y | y <- xs, y > x ]
+
+-- fracruzam manpende
+ordenaRapida2b :: Ord a => [a] -> [a]
+ordenaRapida2b [] = []
+ordenaRapida2b (x:xs) = divide x xs [] []
+  where divide :: Ord a => a -> [a] -> [a] -> [a] -> [a]
+        divide n (x:xs) ys zs | x <= n = divide n xs (x:ys) zs
+                              | otherwise = divide n xs ys (x:zs)
+        divide n  _     ys zs = ordenaRapida2b ys ++
+                                n : ordenaRapida2b zs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.4. Calcular los tiempos necesarios para calcular 
 --     let n = k in length (ordenaRapida2 [n,n-1..1])
 -- para k en [1000, 2000, 3000, 4000]
 -- ---------------------------------------------------------------------
+
+-- manvermor jesprgue josllagam
+ordenR2 :: Int -> Int
+ordenR2 n =  length (ordenaRapida2 [n,n-1..1])
 
 -- El resumen de los tiempos es
 --    k    | segs.
@@ -199,8 +284,35 @@ ordenaRapida2 xs = undefined
 --    ordenaPorInsercion [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue rubvilval
 ordenaPorInsercion :: Ord a => [a] -> [a]
-ordenaPorInsercion = undefined
+ordenaPorInsercion [] = []
+ordenaPorInsercion (x:xs) = insertar x (ordenaPorInsercion xs)
+
+insertar :: Ord a => a -> [a] -> [a]
+insertar n xs = takeWhile (<=n) xs ++ [n] ++ dropWhile (<=n) xs
+
+-- fracruzam
+ordenaPorInsercionb :: Ord a => [a] -> [a]
+ordenaPorInsercionb [] = []
+ordenaPorInsercionb (x:xs) = inserta x (ordenaPorInsercionb xs)
+  where inserta :: Ord a => a -> [a] -> [a]
+        inserta x xs = ys ++ x:zs
+          where (ys,zs) = divide x xs []
+        divide :: Ord a => a -> [a] -> [a] -> ([a],[a])
+        divide n [] ys     = (reverse ys,[])
+        divide n (x:xs) ys | x < n     = divide n xs (x:ys)
+                           | otherwise = (reverse ys,x:xs)
+
+-- manpende
+ordenaPorInsercionC :: Ord a => [a] -> [a]
+ordenaPorInsercionC [] = []
+ordenaPorInsercionC (x:xs) = coloca x $ ordenaPorInsercion xs
+
+coloca :: Ord a => a -> [a] -> [a]
+coloca z [] = [z]
+coloca z (y:ys) | z <= y = z : y : ys
+                | otherwise = y : coloca z ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Calcular los tiempos necesarios para calcular 
@@ -210,6 +322,10 @@ ordenaPorInsercion = undefined
 -- ¿Cuál es la complejidad de ordenaPorInsercion?
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue
+ordenI :: Int -> Int
+ordenI n = length (ordenaPorInsercion [n,n-1..1])
+
 -- El resumen de los tiempos es
 --    k    | segs.
 --    -----+-----
@@ -218,6 +334,7 @@ ordenaPorInsercion = undefined
 --    3000 | 
 --    4000 | 
 
+-- El orden es O(n^2)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Definir, por plegados, la función
@@ -227,14 +344,36 @@ ordenaPorInsercion = undefined
 --    ordenaPorInsercion2 [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue rubvilval
 ordenaPorInsercion2 :: Ord a => [a] -> [a]
-ordenaPorInsercion2 xs = undefined
+ordenaPorInsercion2 = foldr insertar []
 
+-- fracruzam
+ordenaPorInsercion2b :: Ord a => [a] -> [a]
+ordenaPorInsercion2b = foldr inserta []
+  where inserta :: Ord a => a -> [a] -> [a]
+        inserta x xs = ys ++ x:zs
+          where (ys,zs) = divide x xs []
+        divide :: Ord a => a -> [a] -> [a] -> ([a],[a])
+        divide n [] ys     = (reverse ys,[])
+        divide n (x:xs) ys | x < n     = divide n xs (x:ys)
+                           | otherwise = (reverse ys,x:xs)
+
+-- manpende
+ordenaPorInsercion2C :: Ord a => [a] -> [a]
+ordenaPorInsercion2C xs = foldr coloca [] xs
+
+-- Comentario: La definición anterior se puede simplificar.
+                          
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Calcular los tiempos necesarios para calcular 
 --     let n = k in length (ordenaPorInsercion2 [n,n-1..1])
 -- para k en [1000, 2000, 3000, 4000]
 -- ---------------------------------------------------------------------
+
+-- manvermor josllagam jespergue
+ordenI2 :: Int -> Int
+ordenI2 n = length (ordenaPorInsercion2 [n,n-1..1])
 
 -- El resumen de los tiempos es
 --    k    | segs.
@@ -272,8 +411,34 @@ ordenaPorInsercion2 xs = undefined
 --    ordenaPorMezcla [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue rubvilval manpende
 ordenaPorMezcla :: Ord a => [a] -> [a]
-ordenaPorMezcla = undefined
+ordenaPorMezcla [] = []
+ordenaPorMezcla [x] = [x]
+ordenaPorMezcla xs = 
+    mezcla (ordenaPorMezcla (take n xs)) (ordenaPorMezcla (drop n xs))
+    where n = div (length xs) 2
+
+mezcla :: Ord a => [a] -> [a] -> [a]
+mezcla [] ys = ys
+mezcla xs [] = xs
+mezcla (x:xs) (y:ys) | x <= y = x: mezcla xs (y:ys)
+                     | otherwise = y: mezcla (x:xs) ys
+
+-- fracruzam
+ordenaPorMezclab :: Ord a => [a] -> [a]
+ordenaPorMezclab [] = []
+ordenaPorMezclab [x] = [x]
+ordenaPorMezclab xs = mezcla (ordenaPorMezclab zs) (ordenaPorMezclab ys)
+    where (zs,ys) = splitAt (length xs `div` 2) xs
+          mezcla :: Ord a => [a] -> [a] -> [a]
+          mezcla    []     []  = []
+          mezcla    xs     []  = xs
+          mezcla    []     ys  = ys
+          mezcla (x:xs) (y:ys) | x < y     = x : mezcla xs (y:ys)
+                               | otherwise = y : mezcla (x:xs) ys
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Calcular los tiempos necesarios para calcular 
@@ -283,6 +448,10 @@ ordenaPorMezcla = undefined
 -- ¿Cuál es la complejidad de ordenaPorMezcla?
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue
+ordenM :: Int -> Int
+ordenM n = length (ordenaPorMezcla [n,n-1..1])
+
 -- El resumen de los tiempos es
 --    k    | segs.
 --    -----+-----
@@ -290,6 +459,8 @@ ordenaPorMezcla = undefined
 --    2000 | 0.03
 --    3000 | 0.05
 --    4000 | 0.06
+
+-- El orden es O(log n)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.3. Otra forma de ordenar una lista xs mediante el
@@ -306,18 +477,54 @@ ordenaPorMezcla = undefined
 -- Definir la función 
 --    ordenaPorMezcla2 :: Ord a => [a] -> [a]
 -- tal que (ordenaPorMezcla2 xs) es la lista obtenida ordenando por
--- selección la lista xs. Por ejemplo,
+-- mezcla la lista xs. Por ejemplo,
 --    ordenaPorMezcla2 [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue rubvilval
 ordenaPorMezcla2 :: Ord a => [a] -> [a]
-ordenaPorMezcla2 xs = undefined
+ordenaPorMezcla2 xs = aux (unitarios xs)
+          where aux [x] = x
+                aux zs = aux $ mezclaPares zs
+
+unitarios :: [t] -> [[t]]
+unitarios xs = [[x] | x <- xs]
+
+mezclaPares :: Ord a => [[a]] -> [[a]]
+mezclaPares [] = []
+mezclaPares [x] = [x]
+mezclaPares (xs:ys:xss) = mezcla xs ys : mezclaPares xss
+
+-- fracruzam
+ordenaPorMezcla2b :: Ord a => [a] -> [a]
+ordenaPorMezcla2b xs = foldr1 mezcla [[x] | x <- xs]
+  where mezcla :: Ord a => [a] -> [a] -> [a]
+        mezcla    []     []  = []
+        mezcla    xs     []  = xs
+        mezcla    []     ys  = ys
+        mezcla (x:xs) (y:ys) | x < y     = x : mezcla xs (y:ys)
+                             | otherwise = y : mezcla (x:xs) ys
+
+-- Comentario: La definición anterior se puede simplificar.
+                                           
+-- manpende
+ordenaPorMezcla2C :: Ord a => [a] -> [a]
+ordenaPorMezcla2C = concat . mezclaPares2 . group 
+
+mezclaPares2 :: Ord a => [[a]] -> [[a]]
+mezclaPares2 []       = []
+mezclaPares2 [x]      = [x]
+mezclaPares2 (x:y:xs) = mezclaPares2 $ mezcla x y : mezclaPares2 xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.4. Calcular los tiempos necesarios para calcular 
 --     let n = k in length (ordenaPorMezcla2 [n,n-1..1])
 -- para k en [1000, 2000, 3000, 4000]
 -- ---------------------------------------------------------------------
+
+-- manvermor josllagam jespergue
+ordenM2 :: Int -> Int
+ordenM2 n = length (ordenaPorMezcla2 [n,n-1..1])
 
 -- El resumen de los tiempos es
 --    k    | segs.
@@ -347,8 +554,20 @@ ordenaPorMezcla2 xs = undefined
 --    ordenaPorMonticulos [3,1,4,1,5,9,2]  ==  [1,1,2,3,4,5,9]
 -- ---------------------------------------------------------------------
 
+-- manvermor fracruzam josllagam jespergue rubvilval manpende
 ordenaPorMonticulos :: Ord a => [a] -> [a]
-ordenaPorMonticulos xs = undefined
+ordenaPorMonticulos = cP2Lista . lista2CP
+
+lista2CP :: (Ord a, Foldable t) => t a -> CP.CPrioridad a
+lista2CP xs = foldr CP.inserta CP.vacia xs
+
+-- Comentario: La definición anterior se puede simplificar.
+              
+cP2Lista :: Ord t => CP.CPrioridad t -> [t]
+cP2Lista p | CP.esVacia p = []
+           | otherwise    = pm : cP2Lista rp
+      where pm = CP.primero p
+            rp = CP.resto p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Calcular los tiempos necesarios para calcular 
@@ -358,6 +577,10 @@ ordenaPorMonticulos xs = undefined
 -- ¿Cuál es la complejidad de ordenaPorMonticulos?
 -- ---------------------------------------------------------------------
 
+-- manvermor josllagam jespergue
+ordenMont :: Int -> Int
+ordenMont n = length (ordenaPorMonticulos [n,n-1..1])
+
 -- El resumen de los tiempos es
 --    k    | segs.
 --    -----+-----
@@ -365,3 +588,5 @@ ordenaPorMonticulos xs = undefined
 --    2000 | 
 --    3000 | 
 --    4000 | 
+
+-- El orden es O(log n)

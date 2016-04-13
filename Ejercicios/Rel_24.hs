@@ -19,7 +19,12 @@
 -- + Descargar el paquete I1M desde http://bit.ly/1pbnDqm
 -- + Descomprimirlo (y se crea el directorio I1M-master.zip).
 -- + Cambiar al directorio I1M-master.
--- + Ejecutar cabal install I1M.cabal
+-- + Ejecutar cabal install I1M.caba
+-- 
+-- Otra forma es descargar las implementaciones de las implementaciones
+-- de las colas:
+-- + ColaConListas.hs    que está en http://bit.ly/1oNxWQq
+-- + ColaConDosListas.hs que está en http://bit.ly/1oNxZMe
 
 -- ---------------------------------------------------------------------
 -- Importación de librerías                                           --
@@ -27,7 +32,11 @@
 
 import Data.List
 import Test.QuickCheck
-import I1M.Cola
+
+-- Hay que elegir una implementación del TAD colas:
+import ColaConListas
+-- import ColaConDosListas
+-- import I1M.Cola
     
 -- ---------------------------------------------------------------------
 -- Nota. A lo largo de la relación de ejercicios usaremos los siguientes

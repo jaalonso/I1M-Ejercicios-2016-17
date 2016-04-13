@@ -20,6 +20,9 @@
 -- + Descomprimirlo (y se crea el directorio I1M-master.zip).
 -- + Cambiar al directorio I1M-master.
 -- + Ejecutar cabal install I1M.cabal
+-- 
+-- Otra forma es descargar la implementación del TAD de montículos:
+-- + Monticulo.hs que está en http://bit.ly/1oNy2HT
 
 -- ---------------------------------------------------------------------
 -- Importación de librerías                                           --
@@ -27,8 +30,11 @@
 
 {-# LANGUAGE FlexibleInstances #-}
 
-import I1M.Monticulo     
 import Test.QuickCheck
+
+-- Hay que elegir una implementación del TAD montículos:
+import Monticulo
+-- import I1M.Monticulo 
 
 -- ---------------------------------------------------------------------
 -- Ejemplos                                                           --

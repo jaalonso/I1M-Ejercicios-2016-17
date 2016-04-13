@@ -23,8 +23,8 @@
 -- 
 -- Otra forma es descargar las implementaciones de las implementaciones
 -- de las colas:
--- + ColaConListas.hs    que está en http://bit.ly/21z3wQL
--- + ColaConDosListas.hs que está en http://bit.ly/21z3AQp
+-- + ColaConListas.hs    que está en http://bit.ly/1oNxWQq
+-- + ColaConDosListas.hs que está en http://bit.ly/1oNxZMe
 
 -- ---------------------------------------------------------------------
 -- Importación de librerías                                           --
