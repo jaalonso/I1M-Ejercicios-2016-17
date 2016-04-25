@@ -103,4 +103,10 @@ clase) y las soluciones definitivas.
 + **Relación 32**: Algoritmos de ordenación y complejidad.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_32.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_32_sol.hs)).
++ **Relación 33**: Operaciones con el TAD de polinomios.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_33.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_33_sol.hs)).
++ **Relación 34**: División y factorización de polinomios mediante la regla de Ruffini. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_34.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_34_sol.hs)).
 
