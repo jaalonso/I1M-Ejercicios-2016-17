@@ -30,7 +30,6 @@
 
 {-# LANGUAGE FlexibleInstances #-}
 
-import Data.List
 import Test.QuickCheck
 
 -- Hay que elegir una implementación del TAD montículos:
@@ -55,12 +54,10 @@ m3 = foldr inserta vacio [6,1,4,8,7,5]
 --    numeroDeNodos m1  ==  4
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal
--- javoliher abrdelrod juamorrom1 marvilmor
 numeroDeNodos :: Ord a => Monticulo a -> Int
-numeroDeNodos m | esVacio m = 0
-                | otherwise = 1 + numeroDeNodos (resto m)
+numeroDeNodos m
+    | esVacio m = 0
+    | otherwise = 1 + numeroDeNodos (resto m)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -75,14 +72,13 @@ numeroDeNodos m | esVacio m = 0
 --    M 1 1 Vacio Vacio
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal
--- javoliher abrdelrod juamorrom1 marvilmor
 filtra :: Ord a => (a -> Bool) -> Monticulo a -> Monticulo a
-filtra p m | esVacio m = vacio
-           | p x       = inserta x (filtra p (resto m))
-           | otherwise =            filtra p (resto m)
-    where x = menor m
+filtra p m
+    | esVacio m = vacio
+    | p mm      = inserta mm (filtra p rm)
+    | otherwise = filtra p rm
+    where mm = menor m
+          rm = resto m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -97,25 +93,10 @@ filtra p m | esVacio m = vacio
 --    [1,4,6,8]
 -- ---------------------------------------------------------------------
 
--- manvermor
 menores :: Ord a => Int -> Monticulo a -> [a]
+menores 0 m  = []
 menores n m | esVacio m = []
-            | otherwise = take n (minM : menores n rm)
-    where minM = menor m
-          rm   = resto m
-
--- alvalvdom1 manpende fracruzam ivaruicam erisancha isrbelnun silgongal
--- juanarcon lucgamgal javoliher abrdelrod marvilmor
-menores3 :: Ord a => Int -> Monticulo a -> [a]
-menores3 0 m = []
-menores3 n m | esVacio m = []
-             | otherwise = menor m : menores3 (n-1) (resto m)
-
--- juamorrom1
-menores4 :: Ord a => Int -> Monticulo a -> [a]
-menores4 n m = take n (aux m)
-    where aux m | esVacio m  = []
-                | otherwise  = (menor m) : aux (resto m)
+            | otherwise = menor m : menores (n-1) (resto m)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -132,18 +113,10 @@ menores4 n m = take n (aux m)
 --    Vacio
 -- ---------------------------------------------------------------------
 
--- alvalvdom1 manpende manvermor fracruzam ivaruicam erisancha isrbelnun
--- silgongal juanarcon lucgamgal abrdelrod juamorrom1 marvilmor
 restantes :: Ord a => Int -> Monticulo a -> Monticulo a
-restantes 0 m = m
+restantes 0 m  = m
 restantes n m | esVacio m = vacio
               | otherwise = restantes (n-1) (resto m)
-
--- javoliher
-restantes2 :: Ord a => Int -> Monticulo a -> Monticulo a
-restantes2 n m = last (take (n+1) (iterate resto m))
-
--- Comentario: La definición anterior falla en el último ejemplo.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -154,9 +127,6 @@ restantes2 n m = last (take (n+1) (iterate resto m))
 --    M 2 1 (M 3 2 (M 7 1 Vacio Vacio) (M 5 1 Vacio Vacio)) Vacio
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha isrbelnun silgongal juanarcon javoliher
--- abrdelrod juamorrom1 marvilmor
 lista2Monticulo :: Ord a => [a] -> Monticulo a
 lista2Monticulo = foldr inserta vacio
 
@@ -171,16 +141,10 @@ lista2Monticulo = foldr inserta vacio
 --    [1,4,6,8]
 -- ---------------------------------------------------------------------
 
--- fracruzam manvermor jespergue javperlag josllagam alvalvdom1 manpende
--- isrbelnun javoliher abrdelrod juamorrom1 marvilmor
 monticulo2Lista :: Ord a => Monticulo a -> [a]
 monticulo2Lista m
     | esVacio m = []
     | otherwise = menor m : monticulo2Lista (resto m)
-
--- rubvilval ivaruicam erisancha silgongal juanarcon lucgamgal
-monticulo2Lista2 :: Ord a => Monticulo a -> [a]
-monticulo2Lista2 m = menores (numeroDeNodos m) m
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -192,36 +156,19 @@ monticulo2Lista2 m = menores (numeroDeNodos m) m
 --    ordenada [7,5,4]  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor: (Falta poner <= para que se verifique la propiedad posterior)
-
--- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha silgongal juanarcon lucgamgal javoliher abrdelrod
--- juamorrom1 marvilmor
 ordenada :: Ord a => [a] -> Bool
-ordenada (x:y:xs) = x <= y && ordenada (y:xs)
+ordenada (x:y:zs) = x <= y && ordenada (y:zs)
 ordenada _        = True
-
--- isrbelnun
-ordenada2 :: Ord a => [a] -> Bool
-ordenada2 [] = True
-ordenada2 (x:xs) | all (>=x) xs  = ordenada2 xs
-                 | otherwise    = False
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Comprobar con QuickCheck que para todo montículo m,
 -- (monticulo2Lista m) es una lista ordenada creciente.
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue fracruzam josllagam rubvilval alvalvdom1 manpende
--- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod marvilmor
 -- La propiedad es
 prop_monticulo2Lista_ordenada :: Monticulo Int -> Bool
-prop_monticulo2Lista_ordenada m = ordenada (monticulo2Lista m)
-
--- juamorrom1
-prop_monticulo2Lista_ordenada2 :: Monticulo Int -> Bool
-prop_monticulo2Lista_ordenada2 = ordenada . monticulo2Lista
+prop_monticulo2Lista_ordenada m =
+    ordenada (monticulo2Lista m)
 
 -- La comprobación es
 --    ghci> quickCheck prop_monticulo2Lista_ordenada
@@ -236,33 +183,18 @@ prop_monticulo2Lista_ordenada2 = ordenada . monticulo2Lista
 --    ordena [7,5,3,6,5]  ==  [3,5,5,6,7]
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha juanarcon
 ordena :: Ord a => [a] -> [a]
-ordena xs = monticulo2Lista $ lista2Monticulo xs
+ordena  = monticulo2Lista . lista2Monticulo
 
--- Comentario: La definición anterior se puede simplificar.
-
--- isrbelnun silgongal lucgamgal javoliher abrdelrod juamorrom1
--- marvilmor 
-ordena2 :: Ord a => [a] -> [a]
-ordena2 = monticulo2Lista . lista2Monticulo
-            
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Comprobar con QuickCheck que para toda lista xs,
 -- (ordena xs) es una lista ordenada creciente.
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
--- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod marvilmor
--- La propiedad es 
+-- La propiedad es
 prop_ordena_ordenada :: [Int] -> Bool
-prop_ordena_ordenada xs = ordenada (ordena xs)
-
--- juamorrom1
-prop_ordena_ordenada2 :: [Int] -> Bool
-prop_ordena_ordenada2 = ordenada . ordena
+prop_ordena_ordenada xs =
+    ordenada (ordena xs)
 
 -- La comprobación es
 --    ghci> quickCheck prop_ordena_ordenada
@@ -277,17 +209,10 @@ prop_ordena_ordenada2 = ordenada . ordena
 --    borra 3 [1,2,1]  ==  [1,2,1]
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
--- manpende  erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod juamorrom1 marvilmor
 borra :: Eq a => a -> [a] -> [a]
-borra _ []                 = []
-borra x (y:xs) | x == y    = xs
-               | otherwise = y : borra x xs
-
--- ivaruicam 
-borra2 :: Eq a => a -> [a] -> [a]
-borra2 = delete 
+borra x []                 = []
+borra x (y:ys) | x == y    = ys
+               | otherwise = y : borra x ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función esPermutación tal que 
@@ -297,31 +222,20 @@ borra2 = delete
 --    esPermutación [1,2,1] [1,2,2]  ==  False
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue javperlag josllagam rubvilval alvalvdom1 fracruzam
--- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod marvilmor
 esPermutacion :: Eq a => [a] -> [a] -> Bool
-esPermutacion [] [] = True
-esPermutacion [] ys = False
-esPermutacion (x:xs) ys = elem x ys && esPermutacion xs (borra x ys)
-
--- juamorrom1
-esPermutacion2:: Eq a => [a] -> [a] -> Bool
-esPermutacion2 xs ys = elem xs (permutations ys)
-
--- Comentario: La definición anterior se puede mejorar.
+esPermutacion []     []     = True
+esPermutacion []     (y:ys) = False
+esPermutacion (x:xs) ys     = elem x ys && esPermutacion xs (borra x ys)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Comprobar con QuickCheck que para toda lista xs,
 -- (ordena xs) es una permutación de xs.
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
--- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal 
--- javoliher abrdelrod juamorrom1 marvilmor
 -- La propiedad es
 prop_ordena_permutacion :: [Int] -> Bool
-prop_ordena_permutacion xs = esPermutacion xs (ordena xs)
+prop_ordena_permutacion xs =
+    esPermutacion (ordena xs) xs
 
 -- La comprobación es
 --    ghci> quickCheck prop_ordena_permutacion
