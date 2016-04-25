@@ -57,7 +57,7 @@ m3 = foldr inserta vacio [6,1,4,8,7,5]
 
 -- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
 -- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal
--- javoliher abrdelrod juamorrom1
+-- javoliher abrdelrod juamorrom1 marvilmor
 numeroDeNodos :: Ord a => Monticulo a -> Int
 numeroDeNodos m | esVacio m = 0
                 | otherwise = 1 + numeroDeNodos (resto m)
@@ -77,7 +77,7 @@ numeroDeNodos m | esVacio m = 0
 
 -- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
 -- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal
--- javoliher abrdelrod juamorrom1
+-- javoliher abrdelrod juamorrom1 marvilmor
 filtra :: Ord a => (a -> Bool) -> Monticulo a -> Monticulo a
 filtra p m | esVacio m = vacio
            | p x       = inserta x (filtra p (resto m))
@@ -105,7 +105,7 @@ menores n m | esVacio m = []
           rm   = resto m
 
 -- alvalvdom1 manpende fracruzam ivaruicam erisancha isrbelnun silgongal
--- juanarcon lucgamgal javoliher abrdelrod
+-- juanarcon lucgamgal javoliher abrdelrod marvilmor
 menores3 :: Ord a => Int -> Monticulo a -> [a]
 menores3 0 m = []
 menores3 n m | esVacio m = []
@@ -133,7 +133,7 @@ menores4 n m = take n (aux m)
 -- ---------------------------------------------------------------------
 
 -- alvalvdom1 manpende manvermor fracruzam ivaruicam erisancha isrbelnun
--- silgongal juanarcon lucgamgal abrdelrod juamorrom1
+-- silgongal juanarcon lucgamgal abrdelrod juamorrom1 marvilmor
 restantes :: Ord a => Int -> Monticulo a -> Monticulo a
 restantes 0 m = m
 restantes n m | esVacio m = vacio
@@ -156,7 +156,7 @@ restantes2 n m = last (take (n+1) (iterate resto m))
 
 -- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
 -- manpende ivaruicam erisancha isrbelnun silgongal juanarcon javoliher
--- abrdelrod juamorrom1
+-- abrdelrod juamorrom1 marvilmor
 lista2Monticulo :: Ord a => [a] -> Monticulo a
 lista2Monticulo = foldr inserta vacio
 
@@ -172,7 +172,7 @@ lista2Monticulo = foldr inserta vacio
 -- ---------------------------------------------------------------------
 
 -- fracruzam manvermor jespergue javperlag josllagam alvalvdom1 manpende
--- isrbelnun javoliher abrdelrod juamorrom1
+-- isrbelnun javoliher abrdelrod juamorrom1 marvilmor
 monticulo2Lista :: Ord a => Monticulo a -> [a]
 monticulo2Lista m
     | esVacio m = []
@@ -196,7 +196,7 @@ monticulo2Lista2 m = menores (numeroDeNodos m) m
 
 -- fracruzam manvermor jespergue javperlag josllagam rubvilval alvalvdom1
 -- manpende ivaruicam erisancha silgongal juanarcon lucgamgal javoliher abrdelrod
--- juamorrom1
+-- juamorrom1 marvilmor
 ordenada :: Ord a => [a] -> Bool
 ordenada (x:y:xs) = x <= y && ordenada (y:xs)
 ordenada _        = True
@@ -214,7 +214,7 @@ ordenada2 (x:xs) | all (>=x) xs  = ordenada2 xs
 
 -- manvermor jespergue fracruzam josllagam rubvilval alvalvdom1 manpende
 -- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod 
+-- abrdelrod marvilmor
 -- La propiedad es
 prop_monticulo2Lista_ordenada :: Monticulo Int -> Bool
 prop_monticulo2Lista_ordenada m = ordenada (monticulo2Lista m)
@@ -244,6 +244,7 @@ ordena xs = monticulo2Lista $ lista2Monticulo xs
 -- Comentario: La definición anterior se puede simplificar.
 
 -- isrbelnun silgongal lucgamgal javoliher abrdelrod juamorrom1
+-- marvilmor 
 ordena2 :: Ord a => [a] -> [a]
 ordena2 = monticulo2Lista . lista2Monticulo
             
@@ -254,7 +255,7 @@ ordena2 = monticulo2Lista . lista2Monticulo
 
 -- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
 -- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod 
+-- abrdelrod marvilmor
 -- La propiedad es 
 prop_ordena_ordenada :: [Int] -> Bool
 prop_ordena_ordenada xs = ordenada (ordena xs)
@@ -278,13 +279,13 @@ prop_ordena_ordenada2 = ordenada . ordena
 
 -- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
 -- manpende  erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod juamorrom1
+-- abrdelrod juamorrom1 marvilmor
 borra :: Eq a => a -> [a] -> [a]
 borra _ []                 = []
 borra x (y:xs) | x == y    = xs
                | otherwise = y : borra x xs
 
--- ivaruicam
+-- ivaruicam 
 borra2 :: Eq a => a -> [a] -> [a]
 borra2 = delete 
 
@@ -298,7 +299,7 @@ borra2 = delete
 
 -- manvermor jespergue javperlag josllagam rubvilval alvalvdom1 fracruzam
 -- ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal javoliher
--- abrdelrod 
+-- abrdelrod marvilmor
 esPermutacion :: Eq a => [a] -> [a] -> Bool
 esPermutacion [] [] = True
 esPermutacion [] ys = False
@@ -317,7 +318,7 @@ esPermutacion2 xs ys = elem xs (permutations ys)
 
 -- manvermor jespergue fracruzam javperlag josllagam rubvilval alvalvdom1
 -- manpende ivaruicam erisancha isrbelnun silgongal juanarcon lucgamgal 
--- javoliher abrdelrod juamorrom1
+-- javoliher abrdelrod juamorrom1 marvilmor
 -- La propiedad es
 prop_ordena_permutacion :: [Int] -> Bool
 prop_ordena_permutacion xs = esPermutacion xs (ordena xs)

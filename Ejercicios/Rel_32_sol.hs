@@ -64,7 +64,7 @@ import qualified I1M.ColaDePrioridad as CP
 
 -- manvermor fracruzam jespergue josllagam rubvilval manpende
 -- alvalvdom1 erisancha isrbelnun silgongal lucgamgal abrdelrod
--- juamorrom1 juanarcon ivaruicam
+-- juamorrom1 juanarcon ivaruicam marvilmor
 ordenaPorSeleccion :: Ord a => [a] -> [a]
 ordenaPorSeleccion [] = []
 ordenaPorSeleccion xs = min : ordenaPorSeleccion (delete min xs)
@@ -79,7 +79,7 @@ ordenaPorSeleccion xs = min : ordenaPorSeleccion (delete min xs)
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue josllagam alvalvdom1 erisancha isrbelnun
--- silgongal abrdelrod juamorrom1 juanarcon ivaruicam
+-- silgongal abrdelrod juamorrom1 juanarcon ivaruicam marvilmor
 orden :: Int -> Int
 orden n = length (ordenaPorSeleccion [n,n-1..1])
 
@@ -108,7 +108,7 @@ orden n = length (ordenaPorSeleccion [n,n-1..1])
 
 -- manvermor fracruzam jespergue josllagam rubvilval manpende
 -- alvalvdom1 erisancha isrbelnun silgongal abrdelrod juamorrom1
--- juanarcon ivaruicam
+-- juanarcon ivaruicam marvilmor
 ordenaPorSeleccion2 :: Ord a => [a] -> [a] 
 ordenaPorSeleccion2 [] = []
 ordenaPorSeleccion2 (x:xs) = aux x xs []
@@ -123,7 +123,7 @@ ordenaPorSeleccion2 (x:xs) = aux x xs []
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue josllagam alvalvdom1 erisancha isrbelnun silgongal
--- lucgamgal abrdelrod juamorrom1 juanarcon ivaruicam
+-- lucgamgal abrdelrod juamorrom1 juanarcon ivaruicam marvilmor
 orden2 :: Int -> Int
 orden2 n = length (ordenaPorSeleccion2 [n,n-1..1])
 
@@ -169,6 +169,7 @@ orden2 n = length (ordenaPorSeleccion2 [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue josllagam rubvilval isrbelnun lucgamgal juanarcon
+-- marvilmor
 ordenaRapida :: Ord a => [a] -> [a]
 ordenaRapida [] = [] 
 ordenaRapida (x:xs) =
@@ -205,6 +206,7 @@ ordenaRapidaD (x:xs) = ordenaRapidaD a ++ x:ordenaRapidaD b
 
 -- manvermor jespergue josllagam alvalvdom1 erisancha isrbelnun
 -- silgongal lucgamgal abrdelrod juamorrom1 juanarcon ivaruicam
+-- marvilmor
 ordenR :: Int -> Int
 ordenR n = length (ordenaRapida [n,n-1..1])
 
@@ -227,7 +229,7 @@ ordenR n = length (ordenaRapida [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor jespergue josllagam rubvilval isrbelnun silgongal abrdelrod
--- juamorrom1 juanarcon
+-- juamorrom1 juanarcon marvilmor
 ordenaRapida2 :: Ord a => [a] -> [a]
 ordenaRapida2 xs = aux xs []
     where aux [] rs = rs
@@ -252,7 +254,7 @@ ordenaRapida2b (x:xs) = divide x xs [] []
 -- ---------------------------------------------------------------------
 
 -- manvermor jesprgue josllagam alvalvdom1 erisancha isrbelnun silgongal
--- abrdelrod juamorrom1 juanarcon ivaruicam
+-- abrdelrod juamorrom1 juanarcon ivaruicam marvilmor
 ordenR2 :: Int -> Int
 ordenR2 n =  length (ordenaRapida2 [n,n-1..1])
 
@@ -298,7 +300,7 @@ ordenR2 n =  length (ordenaRapida2 [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue rubvilval erisancha isrbelnun juamorrom1
--- silgongal lucgamgal abrdelrod juanarcon
+-- silgongal lucgamgal abrdelrod juanarcon marvilmor
 ordenaPorInsercion :: Ord a => [a] -> [a]
 ordenaPorInsercion [] = []
 ordenaPorInsercion (x:xs) = insertar x (ordenaPorInsercion xs)
@@ -337,6 +339,7 @@ coloca z (y:ys) | z <= y = z : y : ys
 
 -- manvermor josllagam jespergue alvalvdom1 erisancha isrbelnun
 -- silgongal lucgamgal abrdelrod juamorrom1 juanarcon ivaruicam
+-- marvilmor
 ordenI :: Int -> Int
 ordenI n = length (ordenaPorInsercion [n,n-1..1])
 
@@ -359,7 +362,7 @@ ordenI n = length (ordenaPorInsercion [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue rubvilval alvalvdom1 erisancha isrbelnun
--- juamorrom1 juanarcon silgongal abrdelrod
+-- juamorrom1 juanarcon silgongal abrdelrod marvilmor
 ordenaPorInsercion2 :: Ord a => [a] -> [a]
 ordenaPorInsercion2 = foldr insertar []
 
@@ -385,7 +388,7 @@ ordenaPorInsercion2C = foldr coloca []
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue alvalvdom1 isrbelnun silgongal abrdelrod
--- juamorrom1 juanarcon ivaruicam
+-- juamorrom1 juanarcon ivaruicam marvilmor
 ordenI2 :: Int -> Int
 ordenI2 n = length (ordenaPorInsercion2 [n,n-1..1])
 
@@ -426,7 +429,7 @@ ordenI2 n = length (ordenaPorInsercion2 [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue rubvilval manpende erisancha isrbelnun
--- silgongal abrdelrod juamorrom1 juanarcon
+-- silgongal abrdelrod juamorrom1 juanarcon marvilmor
 ordenaPorMezcla :: Ord a => [a] -> [a]
 ordenaPorMezcla [] = []
 ordenaPorMezcla [x] = [x]
@@ -467,7 +470,7 @@ ordenaPorMezclab xs = mezcla (ordenaPorMezclab zs) (ordenaPorMezclab ys)
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue alvalvdom1 erisancha isrbelnun
--- silgongal abrdelrod juamorrom1 juanarcon ivaruicam
+-- silgongal abrdelrod juamorrom1 juanarcon ivaruicam marvilmor
 ordenM :: Int -> Int
 ordenM n = length (ordenaPorMezcla [n,n-1..1]) 
 
@@ -501,7 +504,7 @@ ordenM n = length (ordenaPorMezcla [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue rubvilval alvalvdom1 isrbelnun
--- silgongal juamorrom1 juanarcon
+-- silgongal juamorrom1 juanarcon marvilmor
 ordenaPorMezcla2 :: Ord a => [a] -> [a]
 ordenaPorMezcla2 xs = aux (unitarios xs)
           where aux [x] = x
@@ -543,7 +546,7 @@ mezclaPares2 (x:y:xs) = mezclaPares2 $ mezcla x y : mezclaPares2 xs
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue alvalvdom1 erisancha isrbelnun
--- silgongal abrdelrod juamorrom1 juanarcon
+-- silgongal abrdelrod juamorrom1 juanarcon marvilmor
 ordenM2 :: Int -> Int
 ordenM2 n = length (ordenaPorMezcla2 [n,n-1..1])
 
@@ -576,7 +579,8 @@ ordenM2 n = length (ordenaPorMezcla2 [n,n-1..1])
 -- ---------------------------------------------------------------------
 
 -- manvermor fracruzam josllagam jespergue rubvilval manpende isrbelnun
--- alvalvdom1 silgongal lucgamgal abrdelrod juamorrom1 juanarcon
+-- alvalvdom1 silgongal lucgamgal abrdelrod juamorrom1 juanarcon 
+-- marvilmor
 ordenaPorMonticulos :: Ord a => [a] -> [a]
 ordenaPorMonticulos = cP2Lista . lista2CP
 
@@ -601,7 +605,7 @@ cP2Lista p | CP.esVacia p = []
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam jespergue alvalvdom1 erisancha isrbelnun
--- silgongal lucgamgal abrdelrod juamorrom1 juanarcon
+-- silgongal lucgamgal abrdelrod juamorrom1 juanarcon marvilmor
 ordenMont :: Int -> Int
 ordenMont n = length (ordenaPorMonticulos [n,n-1..1])
 
