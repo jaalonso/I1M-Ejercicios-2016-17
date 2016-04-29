@@ -61,7 +61,8 @@ ejPol4 = consPol 3 1
 
 -- manvermor: Faltaba el absoluto de n
 
--- silgongal manvermor josllagam lucgamgal
+-- silgongal manvermor josllagam lucgamgal jespergue alvalvdom1
+-- rubvilval javperlag manpende
 divisores :: Int -> [Int]
 divisores n = divisores' n ++ map (*(-1)) (divisores' n)
 
@@ -75,10 +76,16 @@ divisores2 n = [x  | x <- [1..abs n], rem n x == 0] ++
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- abrderod
+-- abrderod fracruzam
 divisores3 :: Int -> [Int]
 divisores3 n = xs ++ map (0-) xs
      where xs = filter (\x -> rem n x == 0) [1..abs n]
+
+-- carruirui3
+divisores4 :: Int -> [Int]
+divisores4 0 = []
+divisores4 n = xs ++ n : map (0-) xs ++ [-n]
+    where xs = filter (\x -> n `mod` x == 0) [1..(abs n) `div` 2]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -91,14 +98,15 @@ divisores3 n = xs ++ map (0-) xs
 --     coeficiente 5 ejPol1 == 0
 -- ---------------------------------------------------------------------
 
--- silgongal manvermor josllagam abrdelrod lucgamgal
+-- silgongal manvermor josllagam abrdelrod lucgamgal jespergue
+-- alvalvdom1 rubvilval manpende
 coeficiente :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente k p 
     | esPolCero p  = 0
     | grado p == k = coefLider p
     | otherwise    = coeficiente k (restoPol p)
 
--- isrbelnun
+-- isrbelnun fracruzam carruirui3 javperlag
 coeficiente2 :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente2 k p 
     | k >  grado p = 0
@@ -115,9 +123,16 @@ coeficiente2 k p
 --    terminoIndep ejPol4 == -2
 -- ---------------------------------------------------------------------
 
--- silgongal manvermor isrbelnun josllagam abrdelrod lucgamgal
+-- silgongal manvermor isrbelnun josllagam abrdelrod lucgamgal fracruzam
+-- jespergue carruirui3 alvalvdom1 rubvilval manpende
 terminoIndep :: (Num a, Eq a) => Polinomio  a -> a
 terminoIndep = coeficiente 0 
+
+-- javperlag
+terminoIndep2 :: (Num a, Eq a) => Polinomio  a -> a
+terminoIndep2 p | r == polCero = coefLider p
+                | otherwise    = terminoIndep2 r
+    where r = restoPol p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función 
@@ -129,26 +144,54 @@ terminoIndep = coeficiente 0
 --     coeficientes ejPol2 == [1,0,0,5,4,0]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor jespergue
 coeficientes :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes p = [coeficiente k p | k <- (reverse [0..(grado p)])]
 
 -- Comentario: La definición anterior se puede simplificar eliminando
 -- paréntesis. 
 
--- isrbelnun josllagam
+-- isrbelnun josllagam rubvilval manpende
 coeficientes3 :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes3 p = map (`coeficiente` p) [(grado p),(grado p)-1..0]
 
 -- Comentario: La definición anterior se puede mejorar reduciendo el
 -- cálculo del grado.
 
--- abrdelrod
+-- abrdelrod alvalvdom1
 coeficientes4 :: (Num a, Eq a) => Polinomio a -> [a]
-coeficientes4 p = map (flip coeficiente p) [grado p, grado p-1..0]
+coeficientes4 p = map (`coeficiente` p) [g, g-1..0]
+    where g = grado p
 
--- Comentario: La definición anterior se puede mejorar reduciendo el
--- cálculo del grado y simplificar eliminando flip.
+-- fracruzam
+coeficientes5 :: (Num a, Eq a) => Polinomio a -> [a]
+coeficientes5 p = rastreaCoef [n,n-1..0] p
+  where n = grado p
+        rastreaCoef :: (Num a, Eq a) => [Int] -> Polinomio a -> [a]
+        rastreaCoef (n:ns) p | esPolCero p = []
+                             | otherwise   = coeficiente n p: 
+                                             rastreaCoef ns p
+        rastreaCoef [] _ = []
+
+-- carruirui3
+coeficientes6 :: (Num a, Eq a) => Polinomio a -> [a]
+coeficientes6 p | esPolCero p = []
+                | otherwise   = aux (grado p) p
+  where aux 0 q = [coefLider q]
+        aux n q | grado q == n = coefLider q : aux (n-1) (restoPol q)
+                | otherwise    = 0 : aux (n-1) q
+
+-- javperlag (dispersa es la función descrita en la relación anterior)
+coeficientes7 :: (Num a, Eq a) => Polinomio a -> [a]
+coeficientes7 = dispersa
+
+dispersa p | esPolCero p = []
+           | esPolCero r = c :(replicate g 0)
+           | otherwise   = (coefLider p): (replicate tal 0)++(dispersa r)
+    where g   = grado p
+          c   = coefLider p
+          r   = restoPol p
+          tal = g - (grado r) - 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función 
@@ -159,7 +202,7 @@ coeficientes4 p = map (flip coeficiente p) [grado p, grado p-1..0]
 --     creaPol [1,2,0,3,0]   == x^4 + 2*x^3 + 3*x
 -- ---------------------------------------------------------------------
 
--- silgongal josllagam lucgamgal
+-- silgongal josllagam lucgamgal jespergue rubvilval 
 creaPol :: (Num a, Eq a) => [a] -> Polinomio a
 creaPol []                 = polCero
 creaPol (x:cs) | x /= 0    = consPol (length cs) x (creaPol cs)
@@ -171,27 +214,51 @@ creaPol2 cs = aux 0 (reverse cs)
     where aux n []     = polCero
           aux n (c:cs) = consPol n c (aux (n+1) cs)
 
--- isrbelnun
+-- isrbelnun alvalvdom1 manpende
 creaPol3 :: (Num a, Eq a) => [a] -> Polinomio a
 creaPol3 []     = polCero
 creaPol3 (x:xs) = consPol (length xs) x (creaPol xs)
 
--- abrdelrod
+-- abrdelrod carruirui3
 creaPol4 :: (Num a, Eq a) => [a] -> Polinomio a
 creaPol4 xs = 
-    foldr (\(x,y) -> consPol x y) 
+    foldr (uncurry consPol) 
           polCero 
-          (zip [length xs - 1, length xs - 2..0] xs)
+          (zip [l-1, l-2..0] xs)
+    where l = length xs
 
--- Comentario: La definición anterior se puede mejorar reduciendo el
--- cálculo de longitud y usando uncurry.
+-- fracruzam
+creaPol5 :: (Num a, Eq a) => [a] -> Polinomio a
+creaPol5 [] = polCero
+creaPol5 xs = construye (length xs - 1) xs
+    where construye :: (Num a, Eq a) => Int -> [a] -> Polinomio a
+          construye k (x:xs) = consPol k x (construye (k-1) xs)
+          construye _  _     = polCero
 
+-- javperlag
+creaPol6 :: (Num a, Eq a) => [a] -> Polinomio a
+creaPol6 = creaPolDispersa 
+
+creaPolDispersa :: (Num a, Eq a) => [a] -> Polinomio a
+creaPolDispersa xs|null xs     = polCero
+                  |h== 0       = creaPolDispersa t
+                  |otherwise   = consPol (length t) h (creaPolDispersa t)
+                  where h= head xs
+                        t= tail xs
+
+-- Equivalencia
 prop_creaPol :: [Int] -> Bool
 prop_creaPol xs =
     creaPol2 xs == p &&
     creaPol3 xs == p &&
-    creaPol4 xs == p 
+    creaPol4 xs == p &&
+    creaPol5 xs == p &&
+    creaPol6 xs == p 
     where p = creaPol xs
+
+-- Comprobación
+--    λ> quickCheck prop_creaPol
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Comprobar con QuickCheck que, dado un polinomio p, el
@@ -199,7 +266,8 @@ prop_creaPol xs =
 -- coeficientes de p coincide con p.
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam abrdelrod lucgamgal
+-- manvermor isrbelnun josllagam abrdelrod lucgamgal fracruzam jespergue
+-- alvalvdom1 rubvilval javperlag manpende
 -- La propiedad es
 prop_coef :: Polinomio Int -> Bool
 prop_coef p = creaPol (coeficientes p) == p
@@ -223,11 +291,11 @@ prop_coef p = creaPol (coeficientes p) == p
 --      | 1  4   7  12           | 1  3   2   0
 -- ---------------------------------------------------------------------
 
--- manvermor abrdelrod
+-- manvermor abrdelrod fracruzam carruirui3 alvalvdom1 manpende
 pRuffini :: Int -> [Int] -> [Int]
 pRuffini r cs = scanl1 (\x y -> r*x+y) cs
 
--- isrbelnun josllagam
+-- isrbelnun josllagam jespergue rubvilval javperlag
 pRuffini2 :: Int -> [Int] -> [Int]
 pRuffini2 _ [] = []
 pRuffini2 r (c:cs) = c : aux c r cs
@@ -250,11 +318,11 @@ prop_pRuffini r cs =
 --     cocienteRuffini 3 ejPol4    == x^2 + 5*x + 14
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam
+-- manvermor isrbelnun josllagam alvalvdom1 rubvilval 
 cocienteRuffini:: Int -> Polinomio Int -> Polinomio Int
 cocienteRuffini r p = creaPol $ init $ pRuffini r $ coeficientes p
 
--- abrdelrod
+-- abrdelrod fracruzam jespergue carruirui3 javperlag
 cocienteRuffini2 :: Int -> Polinomio Int -> Polinomio Int
 cocienteRuffini2 r = creaPol . pRuffini r . init . coeficientes
 
@@ -273,18 +341,28 @@ prop_cocienteRuffini r p =
 --     restoRuffini 3 ejPol4    == 40
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam
+-- manvermor isrbelnun josllagam alvalvdom1
 restoRuffini:: Int -> Polinomio Int -> Int
 restoRuffini r p = last $ pRuffini r (coeficientes p)
 
--- abrdelrod
+-- abrdelrod fracruzam jespergue carruirui3 rubvilval 
 restoRuffini2 :: Int -> Polinomio Int -> Int
 restoRuffini2 r = last . pRuffini r . coeficientes
+
+-- javperlag 
+restoRuffini3:: Int -> Polinomio Int -> Int
+restoRuffini3 r p = valor p r
 
 -- Equivalencia
 prop_restoRuffini :: Int -> Polinomio Int -> Bool
 prop_restoRuffini r p = 
-    restoRuffini r p == restoRuffini2 r p
+    restoRuffini2 r p == x &&
+    restoRuffini3 r p == x 
+    where x = restoRuffini r p 
+
+-- Comprobación
+--    λ> quickCheck prop_restoRuffini
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Comprobar con QuickCheck que, dado un polinomio p y un
@@ -292,7 +370,8 @@ prop_restoRuffini r p =
 -- la división euclídea.
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam abrdelrod
+-- manvermor isrbelnun josllagam abrdelrod fracruzam jespergue carruirui3
+-- alvalvdom1 rubvilval  javperlag
 -- La propiedad es
 prop_diviEuclidea:: Int -> Polinomio Int -> Bool
 prop_diviEuclidea r p = p == sumaPol (multPol d q) s
@@ -313,7 +392,8 @@ prop_diviEuclidea r p = p == sumaPol (multPol d q) s
 --     esRaizRuffini 1 ejPol3 == False
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam abrdelrod
+-- manvermor isrbelnun josllagam abrdelrod fracruzam jespergue carruirui3
+-- alvalvdom1 rubvilval javperlag
 esRaizRuffini :: Int -> Polinomio Int -> Bool 
 esRaizRuffini r p = restoRuffini r p == 0
 
@@ -329,7 +409,7 @@ esRaizRuffini r p = restoRuffini r p == 0
 --     raicesRuffini (creaPol [1,-2,1])  == [1,1]
 -- ---------------------------------------------------------------------
 
--- manvermor
+-- manvermor rubvilval 
 raicesRuffini :: Polinomio Int -> [Int]
 raicesRuffini p = 
     if esPolCero p 
@@ -343,6 +423,27 @@ raicesRuffini p =
 
 -- Comentario: La definición anterior se puede simplificar usando guardas.
 
+-- fracruzam carruirui3 javperlag alvalvdom1
+raicesRuffini2 :: Polinomio Int -> [Int]
+raicesRuffini2 p = filter (flip esRaizRuffini p)
+                          (divisores $ terminoIndep p)
+
+-- Equivalencia:
+prop_raicesRuffini :: Polinomio Int -> Bool
+prop_raicesRuffini p =
+    raicesRuffini p == raicesRuffini2 p
+
+-- Comprobación
+--    λ> quickCheck prop_raicesRuffini
+--    *** Failed! Falsifiable (after 2 tests): 
+--    1*x
+
+-- Comentario: Las definiciones no son equivalentes. Por ejemplo,
+--    λ> raicesRuffini (consPol 1 1 polCero)
+--    [0]
+--    λ> raicesRuffini2 (consPol 1 1 polCero)
+--    []
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
 --    factorizacion :: Polinomio Int -> [Polinomio Int]
@@ -353,7 +454,7 @@ raicesRuffini p =
 --    [x^2 + 1,1*x + 1,1*x + -1]
 -- ---------------------------------------------------------------------
 
--- manvermor josllagam abrdelrod
+-- manvermor josllagam abrdelrod jespergue rubvilval alvalvdom1
 factorizacion :: Polinomio Int -> [Polinomio Int]
 factorizacion p = 
     if esPolCero p 
@@ -367,6 +468,26 @@ factorizacion2 :: Polinomio Int -> [Polinomio Int]
 factorizacion2 p = reverse (aux p (raicesRuffini p))
     where aux p []     = [p]
           aux p (x:xs) = creaPol [1,-x] : aux (cocienteRuffini x p) xs
+
+-- fracruzam
+factorizacion3 :: Polinomio Int -> [Polinomio Int]
+factorizacion3 p | esPolCero p = [polCero]
+                 | otherwise   = descompon p (raicesRuffini p)
+    where descompon :: Polinomio Int -> [Int] -> [Polinomio Int]
+          descompon p []     = [p]
+          descompon p (a:as) = q : descompon r as
+              where q = consPol 1 1 $ consPol 0 (-a) polCero
+                    r = cocienteRuffini a p
+
+--javperlag
+{-
+factorizacion4 :: Polinomio Int -> [Polinomio Int]
+factorizacion4 p = aux p [] (raicesRuffini p)
+aux p xs []= p:xs
+aux p xs (y:ys)=aux (cocienteRuffini y p)((poli y):xs)ys
+-}
+
+-- Comentario: No está definida la función poli. 
 
 -- ---------------------------------------------------------------------
 -- Generador de polinomios                                            --
@@ -394,4 +515,3 @@ genPol n = do n <- choose (0,10)
 
 instance (Arbitrary a, Num a, Eq a) => Arbitrary (Polinomio a) where
     arbitrary = sized genPol
-
