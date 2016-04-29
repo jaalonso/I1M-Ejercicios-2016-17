@@ -53,7 +53,8 @@ import I1M.PolOperaciones
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam fatvilpiz silgongal jespergue manvermor marvilmor
--- isrbelnun josllagam alvalvdom1 lucgamgal javperlag
+-- isrbelnun josllagam alvalvdom1 lucgamgal javperlag carruirui3
+-- manpende rubvilval 
 creaPolDispersa :: (Num a, Eq a) => [a] -> Polinomio a
 creaPolDispersa []     = polCero
 creaPolDispersa (x:xs) = consPol (length xs) x (creaPolDispersa xs)
@@ -61,10 +62,14 @@ creaPolDispersa (x:xs) = consPol (length xs) x (creaPolDispersa xs)
 -- abrdelrod
 creaPolDispersa2 :: (Num a, Eq a) => [a] -> Polinomio a
 creaPolDispersa2 xs = 
-    foldr (\(x,y) -> consPol x y) polCero (zip [m-1,m-2..] xs)
+    foldr (uncurry consPol) polCero (zip [m-1,m-2..] xs)
     where m = length xs
 
--- Comentario: La definición anterior se puede mejorar usando uncurry.
+-- fracruzam
+creaPolDispersa3 :: (Num a, Eq a) => [a] -> Polinomio a
+creaPolDispersa3 xs = creaPolDensa (zip ys xs)
+    where ys = [n-1,n-2..0]
+          n  = length xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -75,7 +80,7 @@ creaPolDispersa2 xs =
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam fatvilpiz silgongal jespergue marvilmor
--- isrbelnun josllagam javperlag
+-- isrbelnun josllagam javperlag rubvilval 
 creaPolDensa :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
 creaPolDensa []     = polCero 
 creaPolDensa (x:xs) = consPol (fst x) (snd x) (creaPolDensa xs)
@@ -83,16 +88,14 @@ creaPolDensa (x:xs) = consPol (fst x) (snd x) (creaPolDensa xs)
 -- Comentario: La definición anterior se puede simplificar sin usar fst
 -- ni snd.
 
--- abrdelrod
-creaPolDensa2 :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
-creaPolDensa2 = foldr (\(x,y) -> consPol x y) polCero
-
--- Comentario: La definición anterior se puede mejorar usando uncurry.
-
--- manvermor alvalvdom1
+-- manvermor alvalvdom1 manpende
 creaPolDensa3 :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
 creaPolDensa3 []         = polCero
 creaPolDensa3 ((x,y):xs) = consPol x y (creaPolDensa3 xs)
+
+-- fracruzam abrdelrod carruirui3
+creaPolDensa4 :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
+creaPolDensa4 = foldr (uncurry consPol) polCero
 
 -- ---------------------------------------------------------------------
 -- Nota. En el resto de la relación se usará en los ejemplos los
@@ -119,7 +122,7 @@ pol6 = creaPolDensa [(2,8),(1,14),(0,3)]
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam silgongal jespergue marvilmor isrbelnun josllagam
--- lucgamgal
+-- lucgamgal rubvilval 
 densa :: (Num a, Eq a) => Polinomio a -> [(Int,a)]
 densa p | p == polCero = []
         | otherwise =  [(grado p,coefLider p)] ++ densa (restoPol p)
@@ -136,7 +139,8 @@ coef p | esPolCero p = []
 grados p | esPolCero p = []
          | otherwise   = grado p : grados (restoPol p)
 
--- abrdelrod manvermor alvalvdom1 javperlag
+-- abrdelrod manvermor alvalvdom1 javperlag fracruzam carruirui3
+-- manpende
 densa3 :: (Num a, Eq a) => Polinomio a -> [(Int,a)]
 densa3 p | esPolCero p = []
          | otherwise   = (grado p,coefLider p) : densa3 (restoPol p)
@@ -158,6 +162,7 @@ densaAdispersa ys@((n,b):xs) = aux n ys
                               | otherwise = 0 :aux (v-1) ys
  
 -- silgongal jespergue abrdelrod marvilmor josllagam lucgamgal javperlag  
+-- carruirui3 manpende rubvilval 
 densaAdispersa2 :: (Num a, Eq a) => [(Int,a)] -> [a]
 densaAdispersa2 = dispersa . creaPolDensa
 
@@ -185,6 +190,21 @@ add :: (Eq a, Num a) => a -> t -> [t]
 add 0 _ = []
 add n x = x : add (n-1) x
 
+-- fracruzam
+densaAdispersa5 :: (Num a, Eq a) => [(Int,a)] -> [a]
+densaAdispersa5 ((a,b):ys@((c,d):xs)) = 
+    b: replicate n 0 ++ densaAdispersa ys
+    where n = a - c - 1
+densaAdispersa5 [(a,b)] = b: replicate a 0
+densaAdispersa5 _       = [0]
+
+-- alvalvdom1
+densaAdispersa6 :: (Num a, Eq a) => [(Int,a)] -> [a]
+densaAdispersa6 ((x,y):xs) = y : aux x xs
+    where aux a [] = replicate a 0
+          aux a ((c,d):ys) | c == a-1  = d : aux c ys
+                           | otherwise = 0 : aux (a-1) ((c,d):ys)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
 --    dispersa :: (Num a, Eq a) => Polinomio a -> [a]
@@ -202,7 +222,7 @@ dispersa p = aux (grado p) p
                   | v == grado p = coefLider p :aux  (v-1) (restoPol p)
                   | otherwise = 0 :aux (v-1) p
 
--- silgongal jespergue josllagam
+-- silgongal jespergue josllagam manpende rubvilval 
 dispersa2 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa2 p = coefLider p : aux p
     where aux p | esPolCero p = []
@@ -224,6 +244,27 @@ dispersa3 p = aux (grado p) p
 dispersa4 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa4 p = densaAdispersa (densa p)
 
+-- fracruzam
+dispersa5 :: (Num a, Eq a) => Polinomio a -> [a]
+dispersa5 = densaAdispersa . densa
+
+-- carruirui3
+-- simplificada: se tiene garantía de que grado q <= n
+dispersa6 :: (Num a, Eq a) => Polinomio a -> [a]
+dispersa6 p | esPolCero p = []
+            | otherwise = aux (grado p) p
+  where aux 0 q = [coefLider q]
+        aux n q | grado q == n = coefLider q : aux (n-1) (restoPol q)
+                | otherwise = 0 : aux (n-1) q
+
+-- alvalvdom1
+dispersa7 :: (Num a, Eq a) => Polinomio a -> [a]
+dispersa7 p = (coefLider p):aux (grado p) (restoPol p)
+           where aux a q | esPolCero q = replicate a 0
+                         | grado q == a-1 = coefLider q:aux (grado q) (restoPol q)
+                         | otherwise = 0:aux (a-1) q
+
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
 --    coeficiente :: (Num a, Eq a) => Int -> Polinomio a -> a
@@ -235,7 +276,7 @@ dispersa4 p = densaAdispersa (densa p)
 -- ---------------------------------------------------------------------
 
 -- ivaruicam silgongal jespergue abrdelrod josllagam alvalvdom1
--- lucgamgal 
+-- lucgamgal manpende rubvilval 
 coeficiente :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente k p | esPolCero p = 0
                 | k == n      = coefLider p
@@ -256,7 +297,7 @@ coeficiente3 k p
     | otherwise  = 0
     where l = length (dispersa p)
 
--- javperlag 
+-- javperlag fracruzam carruirui3
 coeficiente4 :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente4 k p 
     | g > k     = coeficiente4 k (restoPol p)
@@ -274,16 +315,14 @@ coeficiente4 k p
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam silgongal jespergue manvermor marvilmor isrbelnun 
--- josllagam lucgamgal javperlag
+-- josllagam lucgamgal javperlag fracruzam carruirui3 manpende rubvilval 
 coeficientes :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes = dispersa 
 
 -- abrdelrod (usando la función coeficiente:)
 coeficientes2 :: (Num a, Eq a) => Polinomio a -> [a]
-coeficientes2 p = map (flip coeficiente p) [grado p, grado p - 1..0]
-
--- Comentario: La definición anterior se puede mejorar reduciendo el
--- cálculo del grado y eliminando flip usando (`coeficiente` p)
+coeficientes2 p = map (`coeficiente` p) [g, g-1..0]
+    where g = grado p
 
 -- alvalvdom1
 coeficientes3 :: (Num a, Eq a) => Polinomio a -> [a]
@@ -301,9 +340,21 @@ coeficientes3 p = [coeficiente k p | k <- [g,g-1..0]]
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam alvalvdom1 lucgamgal
+-- manpende rubvilval 
 potencia :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potencia p 1 = p
 potencia p n = multPol p (potencia p (n-1))
+-- Para tener en cuenta el caso n == 0 manteniendo esta definición, 
+-- basta añadir: potencia p 0 = polUnidad
+
+-- fracruzam
+potencia2 :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
+potencia2 p n = foldr1 multPol (replicate n p)
+
+-- carruirui3
+-- para tener en cuenta el caso n=0
+potencia3 :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
+potencia3 p n = foldr multPol polUnidad (replicate n p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Mejorar la definición de potencia definiendo la función
@@ -319,7 +370,7 @@ potencia p n = multPol p (potencia p (n-1))
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam alvalvdom1
--- lucgamgal 
+-- lucgamgal fracruzam javperlag carruirui3 manpende rubvilval 
 potenciaM :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potenciaM p 1 = p
 potenciaM p n 
@@ -340,6 +391,7 @@ potenciaM p n
 -- ---------------------------------------------------------------------
 
 -- silgongal jespergue manvermor marvilmor isrbelnun josllagam alvalvdom1
+-- javperlag
 integral :: (Fractional a, Eq a) => Polinomio a -> Polinomio a
 integral p 
     | esPolCero p = polCero
@@ -348,10 +400,22 @@ integral p
                             (integral (restoPol p))
     where g = grado p + 1
 
--- abrdelrod
+-- abrdelrod fracruzam carruirui3 rubvilval 
 integral2 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a
 integral2 = 
     creaPolDensa . map (\(x,y) -> (x+1, y/fromIntegral (x+1))) . densa
+
+-- manpende
+-- Teniendo en cuenta que, en principio, tenemos la posibilidad de 
+-- considerar exponentes negativos, podemos añadir el siguiente caso 
+-- a la primera definición:
+integral3 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a
+integral3 p | esPolCero p   = polCero
+            | grado p == -1 = error "integral de x^(-1)"
+            | otherwise     = consPol y x (integral r)
+    where x = coefLider p / fromIntegral y
+          y = grado p + 1
+          r = restoPol p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -364,7 +428,7 @@ integral2 =
 --    35 % 12
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue marvilmor
+-- silgongal jespergue marvilmor manpende rubvilval 
 integralDef :: (Fractional t, Eq t) => Polinomio t -> t -> t -> t          
 integralDef p a b = sustituye i b - sustituye i a
     where i = integral p
@@ -372,7 +436,8 @@ integralDef p a b = sustituye i b - sustituye i a
 sustituye :: (Eq a, Num a) => Polinomio a -> a -> a
 sustituye p a = sum [y*a^x | (x,y) <- densa p]
 
--- abrdelrod manvermor isrbelnun josllagam alvalvdom1
+-- abrdelrod manvermor isrbelnun josllagam alvalvdom1 fracruzam
+-- javperlag carruirui3 
 integralDef2 :: (Fractional t, Eq t) => Polinomio t -> t -> t -> t          
 integralDef2 p a b = valor p' b - valor p' a
    where p' = integral p
@@ -393,18 +458,23 @@ multEscalar c p = creaPolDensa [(x,y*c) | (x,y) <- densa p]
 
 -- abrdelrod josllagam
 multEscalar2 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
-multEscalar2 c p = multPorTerm (creaTermino 0 c) p
+multEscalar2 = multPorTerm . creaTermino 0
 
--- Comentario: La definición anterior se puede simplificar eliminando un
--- argumento. 
-
--- isrbelnun alvalvdom1
+-- isrbelnun alvalvdom1 fracruzam javperlag
 multEscalar3 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar3 c p 
     | esPolCero p = polCero
     | otherwise   = consPol (grado p) 
                             (c*coefLider p) 
                             (multEscalar3 c (restoPol p))
+
+-- carruirui3 rubvilval 
+multEscalar4 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
+multEscalar4 c = creaPolDensa . map (\(x,y) -> (x,c*y)) . densa
+
+-- manpende
+multEscalar5 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
+multEscalar5 c p = creaPolDispersa $ map (*c) (dispersa p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -417,11 +487,12 @@ multEscalar3 c p
 --    cociente pol4 pol5  ==  1 % 2*x^2 + (-1) % 6*x + 8 % 9
 -- ---------------------------------------------------------------------
 
--- manvermor josllagam abrdelrod
-cociente:: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
-cociente p q | n == 0    = multEscalar (1/x) p
-             | m < n     = polCero
-             | otherwise = consPol s z (cociente r q)
+-- manvermor josllagam abrdelrod fracruzam javperlag manpende alvalvdom1
+-- rubvilval  
+cociente1 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
+cociente1 p q | n == 0    = multEscalar (1/x) p
+              | m < n     = polCero
+              | otherwise = consPol s z (cociente1 r q)
     where x = coefLider p
           m = grado p
           y = coefLider q
@@ -443,6 +514,19 @@ cociente2 p q
                 (coefLider p/coefLider q)
                 (cociente (restaPol p (multPol (miniCociente p q) q)) q)
 
+-- carruirui3
+-- La primera definición fallaba cuando se daba lo siguiente:
+-- grado q == 0 && coefLider p /= coefLider q
+cociente :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
+cociente p q | gp < gq   = polCero
+             | gq == 0   = multEscalar (1/coefLider q) p
+             | otherwise = consPol gr cl (cociente r q)
+  where gp = grado p
+        gq = grado q
+        gr = gp - gq
+        cl = coefLider p / coefLider q
+        r  = restaPol p (multPorTerm (creaTermino gr cl) q)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función
 --    resto :: (Fractional a, Eq a) => 
@@ -454,9 +538,23 @@ cociente2 p q
 --    resto pol4 pol5  ==  (-16) % 9*x + 3 % 1
 -- ---------------------------------------------------------------------
 
--- manvermor abrdelrod isrbelnun josllagam lucgamgal jespergue
+-- manvermor abrdelrod isrbelnun josllagam lucgamgal jespergue fracruzam
+-- carruirui3 manpende alvalvdom1 rubvilval 
 resto :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
 resto p q = restaPol p (multPol q (cociente p q))
+
+-- javperlag 
+resto2 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
+resto2 p q 
+    | gp < gq  = p 
+    | otherwise = resto (sumaPol p (multPol q (consPol (gp - gq)
+                                                       (-cp/cq)
+                                                       polCero)))
+                        q 
+    where gp = grado p
+          gq = grado q
+          cp = coefLider p
+          cq = coefLider q
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -472,8 +570,13 @@ resto p q = restaPol p (multPol q (cociente p q))
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam lucgamgal jespergue
+-- fracruzam javperlag alvalvdom1 rubvilval 
 divisiblePol :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Bool
 divisiblePol p q = resto p q == polCero
+
+-- carruirui3 manpende
+divisiblePol2 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Bool
+divisiblePol2 p q = esPolCero $ resto p q
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. El método de Horner para calcular el valor de un
@@ -494,21 +597,27 @@ divisiblePol p q = resto p q == polCero
 --    horner pol1 (3%2) ==  795 % 32
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue marvilmor isrbelnun
+-- silgongal jespergue marvilmor isrbelnun rubvilval manpende
 horner:: (Num a, Eq a) => Polinomio a -> a -> a
 horner p x = sum [y*x^z | (z,y) <- densa p]
 
--- abrdelrod
+-- abrdelrod manvermor fracruzam carruirui3 
 horner2 :: (Num a, Eq a) => Polinomio a -> a -> a
 horner2 p x = foldl1 (\a b -> a*x+b) (dispersa p)
 
 -- alvalvdom1
 horner4 :: (Num a, Eq a) => Polinomio a -> a -> a
-horner4 p x = aux (dispersa p) x
+horner4 p = aux (dispersa p)
     where aux [] _       = 0
           aux [a] x      = a
           aux (a:b:ys) x = aux ((a*x+b):ys) x
 
--- Comentario: La definición anterior se puede simplificar eliminando un
--- argumento. 
+-- javperlag 
+horner5:: (Num a, Eq a) => Polinomio a -> a -> a
+horner5 p x = hornea 0 (dispersa p) x
+    where hornea n xs y 
+              | null xs   = n
+              | otherwise = hornea (n*y + (head xs)) (tail xs)y 
 
+-- Comentario: La definición anterior se puede simplificar eliminando un
+-- argumento y quitando paréntesis. 
