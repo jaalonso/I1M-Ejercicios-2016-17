@@ -109,4 +109,10 @@ clase) y las soluciones definitivas.
 + **Relación 34**: División y factorización de polinomios mediante la regla de Ruffini. 
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_34.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_34_sol.hs)).
++ **Relación 35**: Implementación del TAD de los grafos mediante listas.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_35.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_35_sol.hs)).
++ **Relación 36**: Problemas básicos con el TAD de los grafos. 
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_36.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_36_sol.hs)).
 
