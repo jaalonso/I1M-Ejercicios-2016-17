@@ -54,7 +54,7 @@ import I1M.PolOperaciones
 
 -- pabmorgar ivaruicam fatvilpiz silgongal jespergue manvermor marvilmor
 -- isrbelnun josllagam alvalvdom1 lucgamgal javperlag carruirui3
--- manpende rubvilval 
+-- manpende rubvilval carmengar erisancha juanarcon
 creaPolDispersa :: (Num a, Eq a) => [a] -> Polinomio a
 creaPolDispersa []     = polCero
 creaPolDispersa (x:xs) = consPol (length xs) x (creaPolDispersa xs)
@@ -80,7 +80,7 @@ creaPolDispersa3 xs = creaPolDensa (zip ys xs)
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam fatvilpiz silgongal jespergue marvilmor
--- isrbelnun josllagam javperlag rubvilval 
+-- isrbelnun josllagam javperlag rubvilval  juanarcon
 creaPolDensa :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
 creaPolDensa []     = polCero 
 creaPolDensa (x:xs) = consPol (fst x) (snd x) (creaPolDensa xs)
@@ -88,12 +88,12 @@ creaPolDensa (x:xs) = consPol (fst x) (snd x) (creaPolDensa xs)
 -- Comentario: La definición anterior se puede simplificar sin usar fst
 -- ni snd.
 
--- manvermor alvalvdom1 manpende
+-- manvermor alvalvdom1 manpende carmengar
 creaPolDensa3 :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
 creaPolDensa3 []         = polCero
 creaPolDensa3 ((x,y):xs) = consPol x y (creaPolDensa3 xs)
 
--- fracruzam abrdelrod carruirui3
+-- fracruzam abrdelrod carruirui3 erisancha
 creaPolDensa4 :: (Num a, Eq a) => [(Int,a)] -> Polinomio a
 creaPolDensa4 = foldr (uncurry consPol) polCero
 
@@ -122,7 +122,7 @@ pol6 = creaPolDensa [(2,8),(1,14),(0,3)]
 -- ---------------------------------------------------------------------
 
 -- pabmorgar ivaruicam silgongal jespergue marvilmor isrbelnun josllagam
--- lucgamgal rubvilval 
+-- lucgamgal rubvilval  
 densa :: (Num a, Eq a) => Polinomio a -> [(Int,a)]
 densa p | p == polCero = []
         | otherwise =  [(grado p,coefLider p)] ++ densa (restoPol p)
@@ -139,8 +139,8 @@ coef p | esPolCero p = []
 grados p | esPolCero p = []
          | otherwise   = grado p : grados (restoPol p)
 
--- abrdelrod manvermor alvalvdom1 javperlag fracruzam carruirui3
--- manpende
+-- abrdelrod manvermor alvalvdom1 javperlag fracruzam carruirui3 juanarcon
+-- manpende carmengar erisancha
 densa3 :: (Num a, Eq a) => Polinomio a -> [(Int,a)]
 densa3 p | esPolCero p = []
          | otherwise   = (grado p,coefLider p) : densa3 (restoPol p)
@@ -162,7 +162,7 @@ densaAdispersa ys@((n,b):xs) = aux n ys
                               | otherwise = 0 :aux (v-1) ys
  
 -- silgongal jespergue abrdelrod marvilmor josllagam lucgamgal javperlag  
--- carruirui3 manpende rubvilval 
+-- carruirui3 manpende rubvilval carmengar erisancha juanarcon
 densaAdispersa2 :: (Num a, Eq a) => [(Int,a)] -> [a]
 densaAdispersa2 = dispersa . creaPolDensa
 
@@ -222,7 +222,7 @@ dispersa p = aux (grado p) p
                   | v == grado p = coefLider p :aux  (v-1) (restoPol p)
                   | otherwise = 0 :aux (v-1) p
 
--- silgongal jespergue josllagam manpende rubvilval 
+-- silgongal jespergue josllagam manpende rubvilval juanarcon
 dispersa2 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa2 p = coefLider p : aux p
     where aux p | esPolCero p = []
@@ -231,7 +231,7 @@ dispersa2 p = coefLider p : aux p
                               dispersa r
           r = restoPol p   
 
--- abrdelrod
+-- abrdelrod erisancha
 dispersa3 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa3 p = aux (grado p) p
     where aux 0 p | grado p == 0 = [coefLider p]
@@ -240,11 +240,11 @@ dispersa3 p = aux (grado p) p
                   | grado (restoPol p) == n = aux n (restoPol p)
                   | otherwise = 0: aux (n-1) p
 
--- manvermor marvilmor isrbelnun
+-- manvermor marvilmor isrbelnun 
 dispersa4 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa4 p = densaAdispersa (densa p)
 
--- fracruzam
+-- fracruzam carmengar
 dispersa5 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa5 = densaAdispersa . densa
 
@@ -257,7 +257,7 @@ dispersa6 p | esPolCero p = []
         aux n q | grado q == n = coefLider q : aux (n-1) (restoPol q)
                 | otherwise = 0 : aux (n-1) q
 
--- alvalvdom1
+-- alvalvdom1 fatvilpiz
 dispersa7 :: (Num a, Eq a) => Polinomio a -> [a]
 dispersa7 p = (coefLider p):aux (grado p) (restoPol p)
            where aux a q | esPolCero q = replicate a 0
@@ -275,7 +275,7 @@ dispersa7 p = (coefLider p):aux (grado p) (restoPol p)
 --    coeficiente 3 pol1  ==  0
 -- ---------------------------------------------------------------------
 
--- ivaruicam silgongal jespergue abrdelrod josllagam alvalvdom1
+-- ivaruicam silgongal jespergue abrdelrod josllagam alvalvdom1 juanarcon
 -- lucgamgal manpende rubvilval 
 coeficiente :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente k p | esPolCero p = 0
@@ -284,7 +284,7 @@ coeficiente k p | esPolCero p = 0
     where r = restoPol p
           n = grado p
 
--- manvermor marvilmor
+-- manvermor marvilmor erisancha
 coeficiente2 :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente2 k p =
     head [ x | (x,y) <- zip (dispersa p) (reverse [0..d]), k == y]
@@ -297,13 +297,17 @@ coeficiente3 k p
     | otherwise  = 0
     where l = length (dispersa p)
 
--- javperlag fracruzam carruirui3
+-- javperlag fracruzam carruirui3 carmengar
 coeficiente4 :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente4 k p 
     | g > k     = coeficiente4 k (restoPol p)
     | g < k     = 0
     | otherwise = coefLider p
     where g = grado p
+
+-- fatvilpiz
+coeficiente5 :: (Num a, Eq a) => Int -> Polinomio a -> a
+coeficiente5 k p = reverse (dispersa p) !! k
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -316,6 +320,7 @@ coeficiente4 k p
 
 -- pabmorgar ivaruicam silgongal jespergue manvermor marvilmor isrbelnun 
 -- josllagam lucgamgal javperlag fracruzam carruirui3 manpende rubvilval 
+-- carmengar fatvilpiz erisancha juanarcon
 coeficientes :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes = dispersa 
 
@@ -340,7 +345,7 @@ coeficientes3 p = [coeficiente k p | k <- [g,g-1..0]]
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam alvalvdom1 lucgamgal
--- manpende rubvilval 
+-- manpende rubvilval silgongal erisancha juanarcon
 potencia :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potencia p 1 = p
 potencia p n = multPol p (potencia p (n-1))
@@ -351,7 +356,7 @@ potencia p n = multPol p (potencia p (n-1))
 potencia2 :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potencia2 p n = foldr1 multPol (replicate n p)
 
--- carruirui3
+-- carruirui3 carmengar
 -- para tener en cuenta el caso n=0
 potencia3 :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potencia3 p n = foldr multPol polUnidad (replicate n p)
@@ -370,7 +375,8 @@ potencia3 p n = foldr multPol polUnidad (replicate n p)
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam alvalvdom1
--- lucgamgal fracruzam javperlag carruirui3 manpende rubvilval 
+-- lucgamgal fracruzam javperlag carruirui3 manpende rubvilval silgongal
+-- carmengar erisancha juanarcon
 potenciaM :: (Num a, Eq a) => Polinomio a -> Int -> Polinomio a
 potenciaM p 1 = p
 potenciaM p n 
@@ -391,7 +397,7 @@ potenciaM p n
 -- ---------------------------------------------------------------------
 
 -- silgongal jespergue manvermor marvilmor isrbelnun josllagam alvalvdom1
--- javperlag
+-- javperlag carmengar fatvilpiz juanarcon
 integral :: (Fractional a, Eq a) => Polinomio a -> Polinomio a
 integral p 
     | esPolCero p = polCero
@@ -400,7 +406,7 @@ integral p
                             (integral (restoPol p))
     where g = grado p + 1
 
--- abrdelrod fracruzam carruirui3 rubvilval 
+-- abrdelrod fracruzam carruirui3 rubvilval erisancha
 integral2 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a
 integral2 = 
     creaPolDensa . map (\(x,y) -> (x+1, y/fromIntegral (x+1))) . densa
@@ -428,7 +434,7 @@ integral3 p | esPolCero p   = polCero
 --    35 % 12
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue marvilmor manpende rubvilval 
+-- silgongal jespergue marvilmor manpende rubvilval juanarcon
 integralDef :: (Fractional t, Eq t) => Polinomio t -> t -> t -> t          
 integralDef p a b = sustituye i b - sustituye i a
     where i = integral p
@@ -437,7 +443,7 @@ sustituye :: (Eq a, Num a) => Polinomio a -> a -> a
 sustituye p a = sum [y*a^x | (x,y) <- densa p]
 
 -- abrdelrod manvermor isrbelnun josllagam alvalvdom1 fracruzam
--- javperlag carruirui3 
+-- javperlag carruirui3 carmengar fatvilpiz erisancha
 integralDef2 :: (Fractional t, Eq t) => Polinomio t -> t -> t -> t          
 integralDef2 p a b = valor p' b - valor p' a
    where p' = integral p
@@ -452,7 +458,7 @@ integralDef2 p a b = valor p' b - valor p' a
 --    multEscalar (1%4) pol2  ==  1 % 2*x + 3 % 4
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue manvermor marvilmor
+-- silgongal jespergue manvermor marvilmor 
 multEscalar :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar c p = creaPolDensa [(x,y*c) | (x,y) <- densa p]
 
@@ -460,7 +466,7 @@ multEscalar c p = creaPolDensa [(x,y*c) | (x,y) <- densa p]
 multEscalar2 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar2 = multPorTerm . creaTermino 0
 
--- isrbelnun alvalvdom1 fracruzam javperlag
+-- isrbelnun alvalvdom1 fracruzam javperlag carmengar juanarcon
 multEscalar3 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar3 c p 
     | esPolCero p = polCero
@@ -468,11 +474,11 @@ multEscalar3 c p
                             (c*coefLider p) 
                             (multEscalar3 c (restoPol p))
 
--- carruirui3 rubvilval 
+-- carruirui3 rubvilval erisancha
 multEscalar4 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar4 c = creaPolDensa . map (\(x,y) -> (x,c*y)) . densa
 
--- manpende
+-- manpende fatvilpiz
 multEscalar5 :: (Num a, Eq a) => a -> Polinomio a -> Polinomio a
 multEscalar5 c p = creaPolDispersa $ map (*c) (dispersa p)
 
@@ -488,7 +494,7 @@ multEscalar5 c p = creaPolDispersa $ map (*c) (dispersa p)
 -- ---------------------------------------------------------------------
 
 -- manvermor josllagam abrdelrod fracruzam javperlag manpende alvalvdom1
--- rubvilval  
+-- rubvilval silgongal carmengar erisancha juanarcon
 cociente1 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
 cociente1 p q | n == 0    = multEscalar (1/x) p
               | m < n     = polCero
@@ -539,7 +545,8 @@ cociente p q | gp < gq   = polCero
 -- ---------------------------------------------------------------------
 
 -- manvermor abrdelrod isrbelnun josllagam lucgamgal jespergue fracruzam
--- carruirui3 manpende alvalvdom1 rubvilval 
+-- carruirui3 manpende alvalvdom1 rubvilval  silgongal carmengar erisancha
+-- juanarcon
 resto :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Polinomio a
 resto p q = restaPol p (multPol q (cociente p q))
 
@@ -570,11 +577,11 @@ resto2 p q
 -- ---------------------------------------------------------------------
 
 -- abrdelrod manvermor marvilmor isrbelnun josllagam lucgamgal jespergue
--- fracruzam javperlag alvalvdom1 rubvilval 
+-- fracruzam javperlag alvalvdom1 rubvilval silgongal erisancha juanarcon
 divisiblePol :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Bool
 divisiblePol p q = resto p q == polCero
 
--- carruirui3 manpende
+-- carruirui3 manpende carmengar
 divisiblePol2 :: (Fractional a, Eq a) => Polinomio a -> Polinomio a -> Bool
 divisiblePol2 p q = esPolCero $ resto p q
 
@@ -597,11 +604,11 @@ divisiblePol2 p q = esPolCero $ resto p q
 --    horner pol1 (3%2) ==  795 % 32
 -- ---------------------------------------------------------------------
 
--- silgongal jespergue marvilmor isrbelnun rubvilval manpende
+-- silgongal jespergue marvilmor isrbelnun rubvilval manpende juanarcon
 horner:: (Num a, Eq a) => Polinomio a -> a -> a
 horner p x = sum [y*x^z | (z,y) <- densa p]
 
--- abrdelrod manvermor fracruzam carruirui3 
+-- abrdelrod manvermor fracruzam carruirui3 carmengar erisancha
 horner2 :: (Num a, Eq a) => Polinomio a -> a -> a
 horner2 p x = foldl1 (\a b -> a*x+b) (dispersa p)
 
