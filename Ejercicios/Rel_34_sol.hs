@@ -62,7 +62,7 @@ ejPol4 = consPol 3 1
 -- manvermor: Faltaba el absoluto de n
 
 -- silgongal manvermor josllagam lucgamgal jespergue alvalvdom1
--- rubvilval javperlag manpende
+-- rubvilval javperlag manpende 
 divisores :: Int -> [Int]
 divisores n = divisores' n ++ map (*(-1)) (divisores' n)
 
@@ -76,7 +76,7 @@ divisores2 n = [x  | x <- [1..abs n], rem n x == 0] ++
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- abrderod fracruzam
+-- abrderod fracruzam erisancha juanarcon
 divisores3 :: Int -> [Int]
 divisores3 n = xs ++ map (0-) xs
      where xs = filter (\x -> rem n x == 0) [1..abs n]
@@ -99,14 +99,14 @@ divisores4 n = xs ++ n : map (0-) xs ++ [-n]
 -- ---------------------------------------------------------------------
 
 -- silgongal manvermor josllagam abrdelrod lucgamgal jespergue
--- alvalvdom1 rubvilval manpende
+-- alvalvdom1 rubvilval manpende juanarcon
 coeficiente :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente k p 
     | esPolCero p  = 0
     | grado p == k = coefLider p
     | otherwise    = coeficiente k (restoPol p)
 
--- isrbelnun fracruzam carruirui3 javperlag
+-- isrbelnun fracruzam carruirui3 javperlag erisancha
 coeficiente2 :: (Num a, Eq a) => Int -> Polinomio a -> a
 coeficiente2 k p 
     | k >  grado p = 0
@@ -124,7 +124,7 @@ coeficiente2 k p
 -- ---------------------------------------------------------------------
 
 -- silgongal manvermor isrbelnun josllagam abrdelrod lucgamgal fracruzam
--- jespergue carruirui3 alvalvdom1 rubvilval manpende
+-- jespergue carruirui3 alvalvdom1 rubvilval manpende erisancha juanarcon
 terminoIndep :: (Num a, Eq a) => Polinomio  a -> a
 terminoIndep = coeficiente 0 
 
@@ -144,7 +144,7 @@ terminoIndep2 p | r == polCero = coefLider p
 --     coeficientes ejPol2 == [1,0,0,5,4,0]
 -- ---------------------------------------------------------------------
 
--- manvermor jespergue
+-- manvermor jespergue silgongal juanarcon
 coeficientes :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes p = [coeficiente k p | k <- (reverse [0..(grado p)])]
 
@@ -158,7 +158,7 @@ coeficientes3 p = map (`coeficiente` p) [(grado p),(grado p)-1..0]
 -- Comentario: La definición anterior se puede mejorar reduciendo el
 -- cálculo del grado.
 
--- abrdelrod alvalvdom1
+-- abrdelrod alvalvdom1 erisancha
 coeficientes4 :: (Num a, Eq a) => Polinomio a -> [a]
 coeficientes4 p = map (`coeficiente` p) [g, g-1..0]
     where g = grado p
@@ -208,13 +208,13 @@ creaPol []                 = polCero
 creaPol (x:cs) | x /= 0    = consPol (length cs) x (creaPol cs)
                | otherwise = creaPol cs 
 
--- manvermor
+-- manvermor erisancha
 creaPol2 :: (Num a, Eq a) => [a] -> Polinomio a
 creaPol2 cs = aux 0 (reverse cs)
     where aux n []     = polCero
           aux n (c:cs) = consPol n c (aux (n+1) cs)
 
--- isrbelnun alvalvdom1 manpende
+-- isrbelnun alvalvdom1 manpende juanarcon
 creaPol3 :: (Num a, Eq a) => [a] -> Polinomio a
 creaPol3 []     = polCero
 creaPol3 (x:xs) = consPol (length xs) x (creaPol xs)
@@ -267,7 +267,7 @@ prop_creaPol xs =
 -- ---------------------------------------------------------------------
 
 -- manvermor isrbelnun josllagam abrdelrod lucgamgal fracruzam jespergue
--- alvalvdom1 rubvilval javperlag manpende
+-- alvalvdom1 rubvilval javperlag manpende silgongal erisancha juanarcon
 -- La propiedad es
 prop_coef :: Polinomio Int -> Bool
 prop_coef p = creaPol (coeficientes p) == p
@@ -292,10 +292,11 @@ prop_coef p = creaPol (coeficientes p) == p
 -- ---------------------------------------------------------------------
 
 -- manvermor abrdelrod fracruzam carruirui3 alvalvdom1 manpende
+-- silgongal erisancha
 pRuffini :: Int -> [Int] -> [Int]
 pRuffini r cs = scanl1 (\x y -> r*x+y) cs
 
--- isrbelnun josllagam jespergue rubvilval javperlag
+-- isrbelnun josllagam jespergue rubvilval javperlag juanarcon
 pRuffini2 :: Int -> [Int] -> [Int]
 pRuffini2 _ [] = []
 pRuffini2 r (c:cs) = c : aux c r cs
@@ -318,11 +319,11 @@ prop_pRuffini r cs =
 --     cocienteRuffini 3 ejPol4    == x^2 + 5*x + 14
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam alvalvdom1 rubvilval 
+-- manvermor isrbelnun josllagam alvalvdom1 rubvilval juanarcon manpende
 cocienteRuffini:: Int -> Polinomio Int -> Polinomio Int
 cocienteRuffini r p = creaPol $ init $ pRuffini r $ coeficientes p
 
--- abrdelrod fracruzam jespergue carruirui3 javperlag
+-- abrdelrod fracruzam jespergue carruirui3 javperlag silgongal erisancha
 cocienteRuffini2 :: Int -> Polinomio Int -> Polinomio Int
 cocienteRuffini2 r = creaPol . pRuffini r . init . coeficientes
 
@@ -341,15 +342,15 @@ prop_cocienteRuffini r p =
 --     restoRuffini 3 ejPol4    == 40
 -- ---------------------------------------------------------------------
 
--- manvermor isrbelnun josllagam alvalvdom1
+-- manvermor isrbelnun josllagam alvalvdom1 juanarcon manpende
 restoRuffini:: Int -> Polinomio Int -> Int
 restoRuffini r p = last $ pRuffini r (coeficientes p)
 
--- abrdelrod fracruzam jespergue carruirui3 rubvilval 
+-- abrdelrod fracruzam jespergue carruirui3 rubvilval silgongal
 restoRuffini2 :: Int -> Polinomio Int -> Int
 restoRuffini2 r = last . pRuffini r . coeficientes
 
--- javperlag 
+-- javperlag  erisancha
 restoRuffini3:: Int -> Polinomio Int -> Int
 restoRuffini3 r p = valor p r
 
@@ -371,7 +372,7 @@ prop_restoRuffini r p =
 -- ---------------------------------------------------------------------
 
 -- manvermor isrbelnun josllagam abrdelrod fracruzam jespergue carruirui3
--- alvalvdom1 rubvilval  javperlag
+-- alvalvdom1 rubvilval  javperlag silgongal erisancha juanarcon manpende
 -- La propiedad es
 prop_diviEuclidea:: Int -> Polinomio Int -> Bool
 prop_diviEuclidea r p = p == sumaPol (multPol d q) s
@@ -393,7 +394,7 @@ prop_diviEuclidea r p = p == sumaPol (multPol d q) s
 -- ---------------------------------------------------------------------
 
 -- manvermor isrbelnun josllagam abrdelrod fracruzam jespergue carruirui3
--- alvalvdom1 rubvilval javperlag
+-- alvalvdom1 rubvilval javperlag silgongal erisancha juanarcon manpende
 esRaizRuffini :: Int -> Polinomio Int -> Bool 
 esRaizRuffini r p = restoRuffini r p == 0
 
@@ -409,7 +410,7 @@ esRaizRuffini r p = restoRuffini r p == 0
 --     raicesRuffini (creaPol [1,-2,1])  == [1,1]
 -- ---------------------------------------------------------------------
 
--- manvermor rubvilval 
+-- manvermor rubvilval silgongal juanarcon abrdelrod
 raicesRuffini :: Polinomio Int -> [Int]
 raicesRuffini p = 
     if esPolCero p 
@@ -423,7 +424,7 @@ raicesRuffini p =
 
 -- Comentario: La definición anterior se puede simplificar usando guardas.
 
--- fracruzam carruirui3 javperlag alvalvdom1
+-- fracruzam carruirui3 javperlag alvalvdom1 erisancha manpende
 raicesRuffini2 :: Polinomio Int -> [Int]
 raicesRuffini2 p = filter (flip esRaizRuffini p)
                           (divisores $ terminoIndep p)
@@ -454,7 +455,8 @@ prop_raicesRuffini p =
 --    [x^2 + 1,1*x + 1,1*x + -1]
 -- ---------------------------------------------------------------------
 
--- manvermor josllagam abrdelrod jespergue rubvilval alvalvdom1
+-- manvermor josllagam abrdelrod jespergue rubvilval alvalvdom1 silgongal
+-- erisancha juanarcon manpende
 factorizacion :: Polinomio Int -> [Polinomio Int]
 factorizacion p = 
     if esPolCero p 
@@ -469,7 +471,7 @@ factorizacion2 p = reverse (aux p (raicesRuffini p))
     where aux p []     = [p]
           aux p (x:xs) = creaPol [1,-x] : aux (cocienteRuffini x p) xs
 
--- fracruzam
+-- fracruzam 
 factorizacion3 :: Polinomio Int -> [Polinomio Int]
 factorizacion3 p | esPolCero p = [polCero]
                  | otherwise   = descompon p (raicesRuffini p)
