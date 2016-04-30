@@ -1,5 +1,5 @@
 -- I1M 2015-16: Relación 34 (22 de abril de 2016)
--- División y factorización de polinomios mediante la regla de Ruffini.
+-- División y factorización de polinomios mediante la regla de Ruffini
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
 -- =====================================================================
