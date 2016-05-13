@@ -115,4 +115,10 @@ clase) y las soluciones definitivas.
 + **Relación 36**: Problemas básicos con el TAD de los grafos. 
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_36.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_36_sol.hs)).
++ **Relación 37**: Vectores y matrices. (Ejercicios de exámenes).
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_37.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_37_sol.hs)).
++ **Relación 38**: Ejercicios de exámenes sobre grafos.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_38.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_38_sol.hs)).
 

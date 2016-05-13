@@ -35,7 +35,7 @@
 {-# LANGUAGE FlexibleInstances, TypeSynonymInstances #-}
 
 import Data.Array
-import Data.List
+import Data.List (nub)
 import Test.QuickCheck
 
 -- Hay que elegir una librería 
@@ -48,7 +48,7 @@ import I1M.Grafo
 -- ---------------------------------------------------------------------
 
 -- Para los ejemplos se usarán los siguientes grafos.
-g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11 :: Grafo Int Int
+g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12 :: Grafo Int Int
 g1 = creaGrafo ND (1,5) [(1,2,12),(1,3,34),(1,5,78),
                          (2,4,55),(2,5,32),
                          (3,4,61),(3,5,44),
@@ -66,6 +66,7 @@ g8 = creaGrafo D (1,5) [(1,1,0),(1,2,0),(1,3,0),(2,4,0),(3,1,0),
 g9 = creaGrafo D (1,5) [(4,1,1),(4,3,2),(5,1,0)]
 g10 = creaGrafo ND (1,3) [(1,2,1),(1,3,1),(2,3,1),(3,3,1)]
 g11 = creaGrafo D (1,3) [(1,2,1),(1,3,1),(2,3,1),(3,3,1)]
+g12 = creaGrafo ND (1,4) [(1,1,0),(1,2,0),(3,3,0)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. El grafo completo de orden n, K(n), es un grafo no
@@ -80,8 +81,6 @@ g11 = creaGrafo D (1,3) [(1,2,1),(1,3,1),(2,3,1),(3,3,1)]
 --                       (4,[(1,0),(2,0),(3,0)])])
 -- ---------------------------------------------------------------------
 
--- fracruzam carruirui3 manpende manvermor javperlag alvalvdom1 abrdelrod
--- silgongal rubvilval juanarcon jespergue
 completo :: Int -> Grafo Int Int 
 completo n = 
     creaGrafo ND (1,n) [(x,y,0) | x <- [1..n], y <- [x+1..n]]
@@ -97,18 +96,9 @@ completo n =
 --    G ND (array (1,3) [(1,[(3,0),(2,0)]),(2,[(1,0),(3,0)]),(3,[(2,0),(1,0)])])
 -- ---------------------------------------------------------------------
 
--- fracruzam carruirui3 javperlag alvalvdom1 abrdelrod silgongal
--- juanarcon jespergue 
 grafoCiclo :: Int -> Grafo Int Int
 grafoCiclo n = 
     creaGrafo ND (1,n) ((n,1,0):[(x,x+1,0) | x <- [1..n-1]])
-
--- manpende manvermor rubvilval
-grafoCiclo2 :: Int -> Grafo Int Int
-grafoCiclo2 n = 
-    creaGrafo ND (1,n) [(i,f i, 0) | i <- [1..n]]
-    where f i | i < n     = i+1
-              | otherwise = 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -119,8 +109,6 @@ grafoCiclo2 n =
 --    nVertices (completo 5)  ==  5
 -- ---------------------------------------------------------------------
 
--- fracruzam carruirui3 manpende manvermor javperlag alvalvdom1 abrdelrod
--- silgongal rubvilval juanarcon jespergue
 nVertices :: (Ix v,Num p) => Grafo v p ->  Int
 nVertices = length . nodos
 
@@ -134,8 +122,6 @@ nVertices = length . nodos
 --    noDirigido (completo 4)  ==  True
 -- ---------------------------------------------------------------------
 
--- fracruzam carruirui3 manpende manvermor javperlag alvalvdom1 abrdelrod
--- silgongal rubvilval juanarcon jespergue
 noDirigido :: (Ix v,Num p) => Grafo v p ->  Bool
 noDirigido = not . dirigido
 
@@ -152,17 +138,8 @@ noDirigido = not . dirigido
 --    adyacentes g1 5  ==  [1,2,3,4]
 -- --------------------------------------------------------------------- 
 
--- fracruzam manpende manvermor alvalvdom1 silgongal juanarcon jespergue
 incidentes :: (Ix v,Num p) => Grafo v p -> v -> [v]
-incidentes g v = [x | (x,y,_) <- aristas g, y == v]
-
--- javperlag rubvilval
-incidentes2 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-incidentes2 g v = [u | u <- nodos g, aristaEn g (u,v)]
-
--- abrdelrod
-incidentes3 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-incidentes3 g v = filter (\x -> elem v (adyacentes g x)) (nodos g)
+incidentes g v = [x | x <- nodos g, v `elem` adyacentes g x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. En un un grafo g, los contiguos de un vértice v es el
@@ -175,33 +152,8 @@ incidentes3 g v = filter (\x -> elem v (adyacentes g x)) (nodos g)
 --    contiguos g1 5  ==  [1,2,3,4]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 contiguos :: (Ix v,Num p) => Grafo v p -> v -> [v]
-contiguos g v =
-    nub [(if x == v then y else x) | (x,y,_) <- aristas g, x == v || y == v]
-
--- manpende
-contiguos2 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-contiguos2 g v 
-    | noDirigido g = igv
-    | otherwise    = nub $ igv ++ incididos g v
-    where igv = incidentes g v
-                   
-incididos :: (Ix v,Num p) => Grafo v p -> v -> [v]
-incididos g v = [x | (y,x,_) <- aristas g, y == v]
-
--- manvermor abrdelrod silgongal rubvilval juanarcon jespergue
-contiguos3 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-contiguos3 g v = nub (adyacentes g v ++ incidentes g v) 
-
--- javperlag (Haría falta instalar la librería de listas)
-contiguos4 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-contiguos4 g v = union (incidentes g v) (adyacentes g v)
-
--- alvalvdom1
-contiguos5 :: (Ix v,Num p) => Grafo v p -> v -> [v]
-contiguos5 g v = 
-    [x | x <- nodos g, elem x (incidentes g v) || elem x (adyacentes g v)]
+contiguos g v = nub (adyacentes g v ++ incidentes g v)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -214,14 +166,8 @@ contiguos5 g v =
 --    []
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag alvalvdom1 rubvilval juanarcon
--- jespergue 
 lazos :: (Ix v,Num p) => Grafo v p -> [(v,v)]
-lazos g = [(x,x) | (x,y,_) <- aristas g, x == y]
-
--- abrdelrod
-lazos2 :: (Ix v,Num p) => Grafo v p -> [(v,v)]
-lazos2 g = [(x,x) | x <- nodos g, aristaEn g (x,x)]
+lazos g = [(x,x) | x <- nodos g, aristaEn g (x,x)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -232,8 +178,6 @@ lazos2 g = [(x,x) | x <- nodos g, aristaEn g (x,x)]
 --    nLazos g2  ==  0
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag alvalvdom1 abrdelrod rubvilval
--- juanarcon jespergue
 nLazos :: (Ix v,Num p) => Grafo v p ->  Int
 nLazos = length . lazos
 
@@ -246,25 +190,20 @@ nLazos = length . lazos
 --    nAristas g1            ==  8
 --    nAristas g2            ==  7
 --    nAristas g10           ==  4
+--    nAristas g12           ==  3
 --    nAristas (completo 4)  ==  6
 --    nAristas (completo 5)  ==  10
 -- ---------------------------------------------------------------------
 
--- fracruzam
 nAristas :: (Ix v,Num p) => Grafo v p ->  Int
-nAristas g | dirigido g = n
-           | otherwise  =
-               floor $ sum [(if x == y then 1 else 0.5) | (x,y,_) <- as]
-    where as = aristas g
-          n  = length as  
+nAristas g | dirigido g = length (aristas g)
+           | otherwise  = (length (aristas g) + nLazos g) `div` 2
 
--- manpende manvermor javperlag alvalvdom1 abrdelrod rubvilval juanarcon
--- jespergue 
+-- 2ª definición
 nAristas2 :: (Ix v,Num p) => Grafo v p ->  Int
-nAristas2 g | dirigido g = n
-            | otherwise = div n 2 + nLazos g
-            where n = length $ aristas g
-
+nAristas2 g | dirigido g = length (aristas g)
+            | otherwise  = length [(x,y) | (x,y,_) <- aristas g, x <= y]
+                          
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
 --    prop_nAristasCompleto :: Int -> Bool
@@ -273,11 +212,9 @@ nAristas2 g | dirigido g = n
 -- comprobar que la propiedad se cumple para n de 1 a 20.
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag alvalvdom1 abrdelrod rubvilval
--- juanarcon jespergue
 prop_nAristasCompleto :: Int -> Bool
-prop_nAristasCompleto n = 
-    nAristas (completo n) == (n*(n-1)) `div` 2 
+prop_nAristasCompleto n =
+    nAristas (completo n) == n*(n-1) `div` 2
 
 -- La comprobación es
 --    ghci> and [prop_nAristasCompleto n | n <- [1..20]]
@@ -294,10 +231,13 @@ prop_nAristasCompleto n =
 --    gradoPos g2 1  ==  3
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag alvalvdom1 abrdelrod rubvilval
--- juanarcon jespergue
+-- 1ª definición
 gradoPos :: (Ix v,Num p) => Grafo v p -> v -> Int
-gradoPos g = length . adyacentes g
+gradoPos g v = length (adyacentes g v)
+
+-- 2ª definición
+gradoPos2 :: (Ix v,Num p) => Grafo v p -> v -> Int
+gradoPos2 g = length .(adyacentes g)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. El grado negativo de un vértice v de un grafo dirigido
@@ -310,10 +250,13 @@ gradoPos g = length . adyacentes g
 --    gradoNeg g2 1  ==  0
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag alvalvdom1 abrdelrod rubvilval
--- juanarcon jespergue
+-- 1ª definición
 gradoNeg :: (Ix v,Num p) => Grafo v p -> v -> Int
-gradoNeg g = length . incidentes g
+gradoNeg g v = length (incidentes g v)
+
+-- 2ª definición
+gradoNeg :: (Ix v,Num p) => Grafo v p -> v -> Int
+gradoNeg g = length (incidentes g)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. El grado de un vértice v de un grafo dirigido g, es el
@@ -323,52 +266,33 @@ gradoNeg g = length . incidentes g
 --    grado :: (Ix v,Num p) => Grafo v p -> v -> Int
 -- tal que (grado g v) es el grado del vértice v en el grafo g. Por
 -- ejemplo, 
---    grado g1  5  ==  4
---    grado g2  5  ==  3
---    grado g2  1  ==  3 
---    grado g3  2  ==  4
---    grado g3  1  ==  2
---    grado g3  3  ==  2
---    grado g5  1  ==  2
---    grado g10 3  ==  4
---    grado g11 3  ==  4
+--    grado g1 5  ==  4
+--    grado g2 5  ==  3
+--    grado g2 1  ==  3 
+--    grado g3 2  ==  4
+--    grado g3 1  ==  2
+--    grado g3 3  ==  2
+--    grado g5 1  ==  2
+--    grado g10 3 ==  4
+--    grado g11 3 ==  4
 -- ---------------------------------------------------------------------
 
--- fracruzam
 grado :: (Ix v,Num p) => Grafo v p -> v -> Int
-grado g v | dirigido g =
-              sum [(if x == y then 2 else 1) | (x,y,_) <- aristas g,
-                                               x == v || y == v]
-          | otherwise  =
-              sum [(if x == y then 2 else 1) | (x,y,_) <- aristas g,
-                                               y == v]
-
--- manpende manvermor javperlag alvalvdom1 rubvilval juanarcon jespergue
-grado2 :: (Ix v,Num p) => Grafo v p -> v -> Int
-grado2 g v 
-    | noDirigido g = gN + length [ x | (x,y) <- lazos g,  x==v]
-    | otherwise    = gN + gradoPos g v
-    where gN = gradoNeg g v
-
--- abrdelrod
-grado3 :: (Ix v,Num p) => Grafo v p -> v -> Int
-grado3 g v | dirigido g = n + gradoPos g v
-           | otherwise  = n + if aristaEn g (v,v) then 1 else 0
-    where n = gradoNeg g v
+grado g v | dirigido g           = gradoNeg g v + gradoPos g v
+          | (v,v) `elem` lazos g = length (incidentes g v) + 1 
+          | otherwise            = length (incidentes g v)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Comprobar con QuickCheck que para cualquier grafo g, la
 -- suma de los grados positivos de los vértices de g es igual que la
 -- suma de los grados negativos de los vértices de g.
 -- ---------------------------------------------------------------------
- 
--- fracruzam manpende manvermor javperlag abrdelrod alvalvdom1 rubvilval
--- juanarcon jespergue
+
 -- La propiedad es
 prop_sumaGrados:: Grafo Int Int -> Bool
-prop_sumaGrados g =
-    sum (map (gradoPos g) ns) == sum (map (gradoNeg g) ns)
-    where ns = nodos g
+prop_sumaGrados g = 
+    sum [gradoPos g v | v <- vs] == sum [gradoNeg g v | v <- vs] 
+    where vs = nodos g
 
 -- La comprobación es
 --    ghci> quickCheck prop_sumaGrados
@@ -382,12 +306,9 @@ prop_sumaGrados g =
 -- dicha propiedad.
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag abrdelrod alvalvdom1 rubvilval
--- juanarcon jespergue
 prop_apretonManos:: Grafo Int Int -> Bool
-prop_apretonManos g =
-    sum (map (grado g) ns) == 2 * nAristas g
-    where ns = nodos g
+prop_apretonManos g = 
+    sum [grado g v | v <- nodos g] == 2 * nAristas g 
 
 -- La comprobación es
 --    ghci> quickCheck prop_apretonManos
@@ -398,11 +319,10 @@ prop_apretonManos g =
 -- de nodos de grado impar es par. 
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag abrdelrod alvalvdom1 rubvilval
--- juanarcon jespergue
 prop_numNodosGradoImpar :: Grafo Int Int -> Bool
-prop_numNodosGradoImpar g =
-    even $ length $ filter odd $ map (grado g) (nodos g)
+prop_numNodosGradoImpar g = even m
+    where vs = nodos g
+          m = length [v | v <- vs, odd (grado g v)]
 
 -- La comprobación es
 --    ghci> quickCheck prop_numNodosGradoImpar
@@ -416,16 +336,9 @@ prop_numNodosGradoImpar g =
 -- propiedad se verifica para los grafos completos de grados 1 hasta 30.
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende abrdelrod alvalvdom1
 prop_GradoCompleto :: Int -> Bool
 prop_GradoCompleto n = 
-    all (\x -> grado g x == n-1) (nodos g)
-    where g = completo n
-
--- manvermor javperlag rubvilval juanarcon
-prop_GradoCompleto2 :: Int -> Bool
-prop_GradoCompleto2 n = 
-    and [grado g v == n-1 | v <- nodos g]
+    and [grado g v == (n-1) | v <- nodos g]
     where g = completo n
 
 -- La comprobación es                       
@@ -443,31 +356,10 @@ prop_GradoCompleto2 n =
 --    regular (completo 4)  ==  True
 -- ---------------------------------------------------------------------
 
--- fracruzam
 regular :: (Ix v,Num p) => Grafo v p -> Bool
-regular g = length (group $ map (grado g) (nodos g)) == 1
-
--- manpende
-regular2 :: (Ix v,Num p) => Grafo v p -> Bool
-regular2 g = regularAux g (nodos g)
-
-regularAux :: (Ix v,Num p) => Grafo v p -> [v] -> Bool
-regularAux g (x:b@(y:xs)) 
-    | f x == f y = regularAux g b
-    | otherwise = False
-    where f = grado g
-regularAux _ _ = True
-
--- manvermor javperlag alvalvdom1 juanarcon
-regular3 :: (Ix v,Num p) => Grafo v p -> Bool
-regular3 g = 
-    nub [grado g v | v <- xs] == [grado g (head xs)]
-    where xs = nodos g
-
--- abrdelrod rubvilval
-regular4 :: (Ix v,Num p) => Grafo v p -> Bool
-regular4 g = 
-    length (nub (map (grado g) (nodos g))) == 1
+regular g = and [grado g v == k | v <- vs]
+    where vs = nodos g
+          k  = grado g (head vs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 19. Definir la propiedad
@@ -478,14 +370,9 @@ regular4 g =
 -- 1 hasta el de orden 30 son regulares.
 -- --------------------------------------------------------------------- 
 
--- fracruzam manpende abrdelrod
 prop_CompletoRegular :: Int -> Int -> Bool
 prop_CompletoRegular m n = 
-    all regular (map completo [m..n])
-
--- manvermor javperlag alvalvdom1 rubvilval juanarcon
-prop_CompletoRegular2 :: Int -> Int -> Bool
-prop_CompletoRegular2 m n = and [ regular (completo x) | x <- [m..n]]
+    and [regular (completo x) | x <- [m..n]]
 
 -- La comprobación es
 --    ghci> prop_CompletoRegular 1 30
@@ -503,19 +390,10 @@ prop_CompletoRegular2 m n = and [ regular (completo x) | x <- [m..n]]
 --    regularidad (grafoCiclo 5)  ==  Just 2
 -- ---------------------------------------------------------------------
 
--- fracruzam
 regularidad :: (Ix v,Num p) => Grafo v p -> Maybe Int
-regularidad g | null xss  = Just x
-              | otherwise = Nothing
-    where ((x:_):xss) = group $ map (grado g) (nodos g)
-
--- manpende manvermor javperlag abrdelrod (escribirlo en orden inverso
--- evita usar el not) alvalvdom1 rubvilval juanarcon
-regularidad2 :: (Ix v,Num p) => Grafo v p -> Maybe Int
-regularidad2 g 
-    | not (regular g) = Nothing
-    | otherwise       = Just (grado g x)    
-    where x = head $ nodos g
+regularidad g 
+    | regular g = Just (grado g (head (nodos g)))
+    | otherwise = Nothing    
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Definir la propiedad
@@ -527,11 +405,9 @@ regularidad2 g
 -- desde orden 1 hasta 20.
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag abrdelrod alvalvdom1 rubvilval
--- juanarcon
 prop_completoRegular :: Int -> Bool
 prop_completoRegular n = 
-    regularidad (completo n) == Just (n-1)
+   regularidad (completo n) == Just (n-1)
 
 -- La comprobación es                       
 --    ghci> and [prop_completoRegular n | n <- [1..20]]
@@ -547,11 +423,9 @@ prop_completoRegular n =
 -- desde orden 3 hasta 20.
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende manvermor javperlag abrdelrod alvalvdom1 rubvilval
--- juanarcon
 prop_cicloRegular :: Int -> Bool
 prop_cicloRegular n = 
-    regularidad (grafoCiclo n) == Just 2
+   regularidad (grafoCiclo n) == Just 2
 
 -- La comprobación es                       
 --    ghci> and [prop_cicloRegular n | n <- [3..20]]

@@ -18,7 +18,7 @@
 -- Signatura                                                          --
 -- ---------------------------------------------------------------------
 
-module Rel_35
+module Rel_35_sol
     (Orientacion (..),
      Grafo,
      creaGrafo,  -- (Ix v,Num p) => Orientacion -> (v,v) -> [(v,v,p)] -> 
@@ -36,6 +36,7 @@ module Rel_35
 -- ---------------------------------------------------------------------
 
 import Data.Array
+import Data.List
 
 -- ---------------------------------------------------------------------
 -- Representación de los grafos mediante listas                       --
@@ -68,39 +69,12 @@ data Grafo v p = G Orientacion ([v],[((v,v),p)])
 --    G D ([1,2,3,4],[((1,2),12),((1,3),34)])
 -- ---------------------------------------------------------------------
 
--- fracruzam abrdelrod manvermor pabmorgar isrbelnun
 creaGrafo :: (Ix v, Num p) => 
-              Orientacion -> (v,v) -> [(v,v,p)] -> Grafo v p
-creaGrafo o cs vs =
-    G o (range cs, [((a,b),c) | (a,b,c) <- vs]
-                   ++ (if o == D 
-                       then []
-                       else [((b,a),c) | (a,b,c) <- vs]))
-
--- manpende alvalvdom1 jespergue rubvilval juanarcon
-creaGrafo2 :: (Ix v, Num p) => 
              Orientacion -> (v,v) -> [(v,v,p)] -> Grafo v p
-creaGrafo2 o cs as = G o (range cs, f o as)
-     where f o as | o == D = xs
-                  | otherwise = xs ++ [((y,x),p) | (x,y,p) <- as]
-           xs = [((x,y),p) | (x,y,p) <- as]  
-
--- carruirui3 javperlag ivaruicam
-creaGrafo3 :: (Ix v, Num p) => 
-             Orientacion -> (v,v) -> [(v,v,p)] -> Grafo v p
-creaGrafo3  D cs as = 
-    G  D (range cs, map (\(u,v,p) -> ((u,v),p)) as)
-creaGrafo3 ND cs as = 
-    G ND (range cs, concatMap (\(u,v,p) -> [((u,v),p),((v,u),p)]) as)
-
--- silgongal 
-creaGrafo4 :: (Ix v, Num p) => 
-             Orientacion -> (v,v) -> [(v,v,p)] -> Grafo v p
-creaGrafo4 o cs as 
-    | o == ND   = G o (range cs, xs ++ ys)
-    | otherwise = G o (range cs, xs)
-    where xs = [((a,b),c)| (a,b,c) <- as]
-          ys = [((b,a),c)| (a,b,c) <- as]
+creaGrafo o cs as = 
+    G o (range cs, [((x1,x2),w) | (x1,x2,w) <- as] ++ 
+                    if o == D then []
+                    else [((x2,x1),w) | (x1,x2,w) <- as, x1 /= x2])
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir, con creaGrafo, la constante 
@@ -156,8 +130,6 @@ ejGrafoD = creaGrafo D (1,5) [(1,2,12),(1,3,34),(1,5,78),
 --    dirigido ejGrafoND  ==  False
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende carruirui3 javperlag abrdelrod manvermor pabmorgar
--- alvalvdom1 jespergue rubvilval silgongal juanarcon isrbelnun ivaruicam
 dirigido :: (Ix v,Num p) => (Grafo v p) -> Bool
 dirigido (G o _) = o == D
 
@@ -170,8 +142,6 @@ dirigido (G o _) = o == D
 --    nodos ejGrafoD   ==  [1,2,3,4,5]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende carruirui3 javperlag abrdelrod manvermor pabmorgar
--- alvalvdom1 jespergue rubvilval silgongal juanarcon isrbelnun ivaruicam
 nodos :: (Ix v,Num p) => (Grafo v p) -> [v]
 nodos (G _ (ns,_)) = ns
 
@@ -184,10 +154,8 @@ nodos (G _ (ns,_)) = ns
 --    adyacentes ejGrafoD  4  ==  [5]
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende carruirui3 javperlag abrdelrod manvermor pabmorgar
--- alvalvdom1 jespergue rubvilval silgongal juanarcon isrbelnun ivaruicam
 adyacentes :: (Ix v, Num p) => Grafo v p -> v -> [v]
-adyacentes (G _ (_,as)) v = [x | ((a,x),_) <- as, a == v]
+adyacentes (G _ (_,e)) v = nub [u | ((w,u),_) <- e, w == v]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -200,18 +168,8 @@ adyacentes (G _ (_,as)) v = [x | ((a,x),_) <- as, a == v]
 --    aristaEn ejGrafoD  (1,5)  ==  True
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende carruirui3
 aristaEn :: (Ix v,Num p) => Grafo v p -> (v,v) -> Bool
-aristaEn (G _ (_,as)) = flip elem (map fst as)
-
--- javperlag abrdelrod manvemor pabmorgar rubvilval silgongal isrbelnun
--- ivaruicam 
-aristaEn2 :: (Ix v,Num p) => Grafo v p -> (v,v) -> Bool
-aristaEn2 g (u,v)= v `elem` (adyacentes g u)
-
--- alvalvdom1 jespergue juanarcon
-aristaEn3 :: (Ix v,Num p) => Grafo v p -> (v,v) -> Bool
-aristaEn3 (G _ (_,xs)) a = any (==a) [x | (x,_) <- xs]
+aristaEn g (x,y) = y `elem` adyacentes g x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -222,10 +180,8 @@ aristaEn3 (G _ (_,xs)) a = any (==a) [x | (x,_) <- xs]
 --    peso 1 5 ejGrafoD   ==  78
 -- ---------------------------------------------------------------------
 
--- fracruzam manpende carruirui3 javperlag abrdelrod manvermor pabmorgar
--- alvalvdom1 jespergue rubvilval silgongal juanarcon isrbelnun ivaruicam
 peso :: (Ix v,Num p) => v -> v -> Grafo v p -> p
-peso a b (G _ (_,as)) = head [p | ((x,y),p) <- as, a == x , b == y]
+peso x y (G _ (_,gs)) = head [c | ((x',y'),c) <- gs, x==x', y==y']
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función
@@ -240,12 +196,6 @@ peso a b (G _ (_,as)) = head [p | ((x,y),p) <- as, a == x , b == y]
 --     (5,1,78),(5,2,32),(5,3,44),(5,4,93)]
 -- ---------------------------------------------------------------------
 
--- fracruzam carruirui3 javperlag abrdelrod manvermor pabmorgar
--- alvalvdom1 jespergue rubvilval silgongal juanarcon isrbelnun
--- ivaruicam 
 aristas :: (Ix v,Num p) => Grafo v p -> [(v,v,p)]
-aristas (G _ (_,as)) = [(x,y,p) | ((x,y),p) <- as]
+aristas (G _ (_,g)) = [(v1,v2,p) | ((v1,v2),p) <- g]
 
--- manpende
-aristas2 :: (Ix v,Num p) => Grafo v p -> [(v,v,p)]
-aristas2 (G _ (_,as)) = map (\((x,y),p) -> (x,y,p)) as
