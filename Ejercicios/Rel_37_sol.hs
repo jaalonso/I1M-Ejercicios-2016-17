@@ -17,8 +17,6 @@
 
 import Data.Array
 import Data.List
-import Data.Function
-import Data.Numbers.Primes
 
 -- Nota. En la relación usaremos los tipos de los vectores y las matrices 
 -- definidos por 
@@ -37,37 +35,15 @@ type Matriz a = Array (Int,Int) a
 --    False
 -- ---------------------------------------------------------------------
 
--- carruirui3 abrdelrod
+-- 1ª definición
 esTriangularS:: (Num a, Eq a) => Matriz a -> Bool
-esTriangularS = all ((==0) . snd) . filter ts . assocs
-    where ts ((i,j),_) = i > j
-
--- erisancha jespergue
-esTriangularS2 :: (Num a, Eq a) => Matriz a -> Bool
-esTriangularS2 p =
-    and [p ! x == 0| x <- elementosNulos (filasYcolumnas p)]
-
-elementosNulos n = [(a,b) | a <- [2..n], b <- take (a-1) [1..]]
-
-filasYcolumnas p = snd $ snd $ bounds p
-
--- fracruzam marvilmor juanarcon ivaruicam
-esTriangularS3 :: (Num a, Eq a) => Matriz a -> Bool
-esTriangularS3 p = and [x == 0 | ((i,j),x) <- assocs p, i > j]
-
--- alvalvdom1 manpende
-esTriangularS4 p =
-    all (==0) [p ! (i,j) | i <- [2..m], j <- [1..n], i > j]
+esTriangularS p = and [p!(i,j) == 0 | i <- [1..m], j <- [1..n], i > j]
     where (_,(m,n)) = bounds p
 
--- manvermor rubvilval
-esTriangularS5:: (Num a, Eq a) => Matriz a -> Bool
-esTriangularS5 p = null [x | ((i,j),x) <- assocs p, i > j, x /= 0]
-
---fatvilpiz
-esTriangularS6:: (Num a, Eq a) => Matriz a -> Bool
-esTriangularS6 p = and [p!(i,j)==0 | i <- [1..m],j<-[1..n],i>j]
-                  where (_,(m,n))= bounds p
+-- 2ª definición                      
+esTriangular2 :: (Num a, Eq a) => Matriz a -> Bool
+esTriangular2 p = and [x == 0 | ((i,j),x) <- assocs p, i > j]
+                      
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
 --    potencia :: Num a => Matriz a -> Int -> Matriz a
@@ -89,12 +65,16 @@ esTriangularS6 p = and [p!(i,j)==0 | i <- [1..m],j<-[1..n],i>j]
 q :: Matriz Int
 q = listArray ((1,1),(2,2)) [1,1,1,0] 
 
--- erisancha alvalvdom1 jespergue marvilmor juanarcon fracruzam
--- manvermor abrdelrod rubvilval manpende ivaruicam
 potencia :: Num a => Matriz a -> Int -> Matriz a
-potencia p 0 = identidad (snd (snd (bounds p)))
-potencia p n = prodMatrices (potencia p (n-1)) p
+potencia p 0 = identidad n
+    where (_,(n,_)) = bounds p
+potencia p n = prodMatrices p (potencia p (n-1))
 
+-- (identidad n) es la matriz identidad de orden n. Por ejemplo,
+--    ghci> identidad 3
+--    array ((1,1),(3,3)) [((1,1),1),((1,2),0),((1,3),0),
+--                         ((2,1),0),((2,2),1),((2,3),0),
+--                         ((3,1),0),((3,2),0),((3,3),1)]
 identidad :: Num a => Int -> Matriz a
 identidad n =     
     array ((1,1),(n,n))
@@ -102,24 +82,41 @@ identidad n =
     where f i j | i == j    = 1
                 | otherwise = 0
 
+-- (prodEscalar v1 v2) es el producto escalar de los vectores v1
+-- y v2. Por ejemplo,
+--    ghci> prodEscalar (listArray (1,3) [3,2,5]) (listArray (1,3) [4,1,2])
+--    24
 prodEscalar :: Num a => Vector a -> Vector a -> a
 prodEscalar v1 v2 = 
-    sum (zipWith (*) (elems v1) (elems v2))
+    sum [i*j | (i,j) <- zip (elems v1) (elems v2)]
 
-prodMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
+-- (filaMat i p) es el vector correspondiente a la fila i-ésima
+-- de la matriz p. Por ejemplo,
+--    filaMat 2 q  ==  array (1,2) [(1,1),(2,0)]
+filaMat :: Num a => Int -> Matriz a -> Vector a
+filaMat i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
+    where (_,(_,n)) = bounds p
+
+-- (columnaMat j p) es el vector correspondiente a la columna
+-- j-ésima de la matriz p. Por ejemplo,
+--    columnaMat 2 q  ==  array (1,2) [(1,1),(2,0)]
+columnaMat :: Num a => Int -> Matriz a -> Vector a
+columnaMat j p = array (1,m) [(i,p!(i,j)) | i <- [1..m]]
+    where (_,(m,_)) = bounds p
+
+-- (prodMatrices p q) es el producto de las matrices p y q. Por ejemplo,
+--    ghci> prodMatrices q q
+--    array ((1,1),(2,2)) [((1,1),2),((1,2),1),((2,1),1),((2,2),1)]
+prodMatrices :: Num a => Matriz a -> Matriz a -> Matriz a
 prodMatrices p q = 
     array ((1,1),(m,n))
           [((i,j), prodEscalar (filaMat i p) (columnaMat j q)) |
            i <- [1..m], j <- [1..n]]
-    where (m,n) = snd (bounds p)
-          
-filaMat :: Num a => Int -> Matriz a -> Vector a
-filaMat i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
-    where n = snd (snd (bounds p))
+    where (_,(m,n)) = bounds p
 
-columnaMat :: Num a => Int -> Matriz a -> Vector a
-columnaMat j p = array (1,m) [(i,p!(i,j)) | i <- [1..m]]
-    where m = fst (snd (bounds p))
+-- Los sucesión de Fibonacci es 0,1,1,2,3,5,8,13,... Se observa que los
+-- elementos de (potencia q n) son los términos de la sucesión en los
+-- lugares n+1, n, n y n-1.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -130,32 +127,10 @@ columnaMat j p = array (1,m) [(i,p!(i,j)) | i <- [1..m]]
 --    [(1,1),(2,1)]
 -- ---------------------------------------------------------------------
 
--- carruirui3 marvilmor
 indicesMaximo :: (Num a, Ord a) => Matriz a -> [(Int,Int)]
-indicesMaximo p = map fst . filter ((== maximo) . snd) $ assocs p
-    where maximo = maximum $ elems p
-
--- erisancha jespergue juanarcon manvermor rubvilval fatvilpiz
-indicesMaximo2 :: (Num a, Ord a) => Matriz a -> [(Int,Int)]
-indicesMaximo2 p = [(a,b) | ((a,b),x) <- assocs p, x == maximum (elems p)]
-
--- Comentario: La definición anterior se puede mejorar usando variables
--- locales. 
-
--- fracruzam
-indicesMaximo3 :: (Num a, Ord a) => Matriz a -> [(Int,Int)]
-indicesMaximo3 p = map fst $ takeWhile (\((_,_),y) -> x == y) xs
-    where xs@(((_,_),x):_) = sortBy (flip compare `on` snd) (assocs p)
-
--- fracruzam: `on` está definido en Data.Function
-
--- alvalvdom1 abrdelrod manpende ivaruicam
-indicesMaximo4 :: (Num a, Ord a) => Matriz a -> [(Int,Int)]
-indicesMaximo4 p = [i | i <- indices p, p ! i == maximum (elems p)]
-
--- Comentario: La definición anterior se puede mejorar usando variables
--- locales. 
-
+indicesMaximo p = [x | x <- indices p, p!x == m]
+    where m = maximum (elems p)
+              
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
 --    antidiagonal :: (Num a, Eq a) => Matriz a -> Bool
@@ -168,30 +143,19 @@ indicesMaximo4 p = [i | i <- indices p, p ! i == maximum (elems p)]
 --    False
 -- ---------------------------------------------------------------------
 
--- carruirui3 abrdelrod
+-- m1, m2 :: Matriz Int
+-- m1 = listArray ((1,1),(3,3)) [0,0,4, 0,6,0, 0,0,0]
+-- m2 = listArray ((1,1),(3,3)) [7,0,4, 0,6,0, 0,0,5]
+
 antidiagonal :: (Num a, Eq a) => Matriz a -> Bool 
-antidiagonal p
-    | m /= n = False
-    | otherwise =
-        all (==0) . map snd . filter (\((i,j),_) -> i+j/=n+1) $ assocs p
-  where (m,n) = snd $ bounds p
+antidiagonal p = 
+    m == n && nula [p!(i,j) | i <- [1..n], j <- [1..n], i + j /= n + 1]
+    where (_,(m,n)) = bounds p
 
--- erisancha jespergue  rubvilval
-antidiagonal2 :: (Num a, Eq a) => Matriz a -> Bool 
-antidiagonal2 p = and [p ! x == 0| x <- elementos p]
+nula :: (Num a, Eq a) => [a] -> Bool
+nula xs = xs == [0 | x <- xs]
 
-elementos p =
-    [(a,b) | a <- [1..n], b <- [1..(n-a)]] ++ 
-    [(a,b) | a <- [2..n], b <- drop (n-a+1) [1..n]]
-    where n = snd (snd (bounds p))
-
--- fracruzam marvilmor juanarcon manvermor manpende ivaruicam
-antidiagonal3 :: (Num a, Eq a) => Matriz a -> Bool 
-antidiagonal3 p =
-    n == m && and [p!(i,j) == 0 | i <- [1..n], j <- [1..n], i + j /= n + 1]
-    where (_,(n,m)) = bounds p
-
--------------------------------
+-- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función 
 --    posiciones :: Int -> Matriz Int -> [(Int,Int)]
 -- tal que (posiciones x p) es la lista de las posiciones de la matriz p
@@ -208,19 +172,8 @@ antidiagonal3 p =
 --    []
 -- ---------------------------------------------------------------------
 
--- carruirui3 abrdelrod
 posiciones :: Int -> Matriz Int -> [(Int,Int)]
-posiciones x = map fst . filter ((==x) . snd) . assocs
-
--- erisancha fracruzam alvalvdom1 jespergue marvilmor juanarcon manvermor
--- rubvilval manpende ivaruicam
-posiciones2 :: Int -> Matriz Int -> [(Int,Int)]
-posiciones2 x p = [(a,b) | ((a,b),z) <- assocs p, z == x] 
-
--- fatvilpiz
-posiciones3 :: Int -> Matriz Int -> [(Int,Int)]
-posiciones3 x p = [(m,n) | m <- [1..j], n <- [1..i], (p! (m,n)) == x]
-    where (_,(j,i)) = bounds p
+posiciones x p = [a | a <- indices p, p!a == x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -233,64 +186,34 @@ posiciones3 x p = [(m,n) | m <- [1..j], n <- [1..i], (p! (m,n)) == x]
 --    esEscalar (listArray ((1,1),(3,3)) [5,0,0,0,6,0,0,0,5])  ==  False
 -- ---------------------------------------------------------------------
 
--- carruirui3
 esEscalar:: (Num a, Eq a) => Matriz a -> Bool
-esEscalar p | esDiagonal p = all (==p!(1,1)) . filter (/=0) $ elems p
-            | otherwise    = False
-    where esDiagonal =
-              all (==0) . map snd . filter (\((i,j),_) -> i/=j) . assocs
+esEscalar p = esDiagonal p && todosIguales (elems (diagonalPral p))
 
--- erisancha
-esEscalar2 :: (Num a, Eq a) => Matriz a -> Bool
-esEscalar2 p = 
-    and [p ! x == 0| x <- elementos6 p] 
-    && length (nub [p ! (x,x)| x <- [1..n]]) == 1
-    where n = snd (snd(bounds p))
-
-elementos6 p = [(a,b)| a <- [1..n] , b <- [1..n], a /=  b]
-    where n = snd (snd (bounds p))
-
--- fracruzam manpende ivaruicam
-esEscalar3 :: (Num a, Eq a) => Matriz a -> Bool
-esEscalar3 p = all escalar (range (bounds p))
-    where escalar :: (Int,Int) -> Bool
-          escalar (i,j) | i == j    = p!(i,j) == p!(1,1)
-                        | otherwise = p!(i,j) == 0
-                                      
--- Comentario: La definición anterior se puede simplificar usando
--- indices.
-
--- alvalvdom1 marvilmor juanarcon rubvilval
-esEscalar4:: (Num a, Eq a) => Matriz a -> Bool
-esEscalar4 p =
-    length (nub [p!(i,i) | i <- [1..n]]) == 1
-    && all (==0) [p!(i,j) | i <- [1..m], j <- [1..n], i/=j]
+-- (esDiagonal p) se verifica si la matriz p es diagonal. Por ejemplo.
+--    esDiagonal (listArray ((1,1),(3,3)) [5,0,0,0,6,0,0,0,5])  ==  True
+--    esDiagonal (listArray ((1,1),(3,3)) [5,0,0,1,5,0,0,0,5])  ==  False
+esDiagonal:: (Num a, Eq a) => Matriz a -> Bool
+esDiagonal p = all (==0) [p!(i,j) | i<-[1..m],j<-[1..n], i/=j]
     where (_,(m,n)) = bounds p
 
--- manvermor
-esEscalar5 :: (Num a, Eq a) => Matriz a -> Bool
-esEscalar5 p = elems p == [aux i j | (i,j) <- indices p]
-   where aux i j | i == j    = head (elems p)
-                 | otherwise = 0
+-- (todosIguales xs) se verifica si todos los elementos de xs son
+-- iguales. Por ejemplo,
+--    todosIguales [5,5,5]  ==  True
+--    todosIguales [5,6,5]  ==  False
+todosIguales :: Eq a => [a] -> Bool
+todosIguales (x:y:ys) = x == y && todosIguales (y:ys) 
+todosIguales _ = True 
 
--- Comentario: La definición anterior se puede mejorar usando variables
--- locales. 
+-- (diagonalPral p) es la diagonal principal de la matriz p. Por
+-- ejemplo, 
+--    ghci> diagonalPral (listArray ((1,1),(3,3)) [5,0,0,1,6,0,0,2,4])
+--    array (1,3) [(1,5),(2,6),(3,4)]
+diagonalPral :: Num a => Matriz a -> Vector a
+diagonalPral p = array (1,n) [(i,p!(i,i)) | i <- [1..n]]
+    where n         = min k l
+          (_,(k,l)) = bounds p
 
--- abrdelrod
-esEscalar6 :: (Num a, Eq a) => Matriz a -> Bool
-esEscalar6 p = take (n^2) (concat (repeat xs)) == elems p
-    where xs = p!(1,1) : replicate n 0
-          n = snd (snd $ bounds p)
-
---fatvilpiz
-esEscalar7:: (Num a, Eq a) => Matriz a -> Bool
-esEscalar7 p = diagonal p && iguales p
-diagonal p = and [p!(i,j)== 0 |i<-[1..m],j<- [1..n], i /=j]
-             where (_,(m,n)) = bounds p
-iguales p = length (nub xs) == 1
-    where  xs = filter (/=0) (elems p)
-
----------------------------------------------------------------------
+-- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
 --    determinante:: Matriz Double -> Double
 -- tal que (determinante p) es el determinante de la matriz p. Por
@@ -303,29 +226,17 @@ iguales p = length (nub xs) == 1
 --    -33.0
 -- ---------------------------------------------------------------------
 
--- erisancha marvilmor juanarcon fracruzam manvermor abrdelrod rubvilval
--- manpende
 determinante:: Matriz Double -> Double
-determinante p
-    | (m,n) == (1,1) = p!(1,1) 
-    | otherwise =
-        sum [((-1)^(i+1))*(p!(i,1))*determinante (submatriz i 1 p) 
-            | i <- [1..m]] 
+determinante p 
+    | (m,n) == (1,1) = p!(1,1)
+    | otherwise = 
+        sum [((-1)^(i+1))*(p!(i,1))*determinante (submatriz i 1 p)
+             | i <- [1..m]]
     where (_,(m,n)) = bounds p
 
-submatriz :: Num a => Int -> Int -> Matriz a -> Matriz a 
-submatriz i j p = 
-    array ((1,1), (m-1,n -1))
-          [((k,l), p ! f k l) | k <- [1..m-1], l <- [1..n-1]]   
-   where (_,(m,n)) = bounds p 
-         f k l | k < i && l < j = (k,l) 
-               | k >= i && l < j = (k+1,l) 
-               | k < i && l >= j = (k,l+1) 
-               | otherwise = (k+1,l+1)
---ivaruicam (otra forma sería determinando el adjunto de la siguiente manera)
-submatriz2 :: Num a => Int -> Int -> Matriz a -> Matriz a 
-submatriz2 i j p = listArray ((1,1),(m-1,n-1)) [p!(a,b) | (a,b) <- indices p ,i/=a,j/=b]
-                     where (_,(m,n)) = bounds p
+-- (submatriz i j p) es la submatriz de p obtenida eliminado la fila i y
+-- la columna j. Está definida en el ejercicio 12.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función 
 --    aplicaT :: (Ix a, Num b) => Array a b -> (b -> c) -> Array a c
@@ -342,10 +253,8 @@ submatriz2 i j p = listArray ((1,1),(m-1,n-1)) [p!(a,b) | (a,b) <- indices p ,i/
 --                         ((2,1),0),((2,2),0),((2,3),-2)]
 -- ---------------------------------------------------------------------
 
--- erisancha fracruzam alvalvdom1 jespergue marvilmor juanarcon
--- manvermor abrdelrod rubvilval manpende fatvilpiz ivaruicam
 aplicaT :: (Ix a, Num b) => Array a b -> (b -> c) -> Array a c
-aplicaT t f = listArray (bounds t) [f x | x <- elems t]
+aplicaT t f = listArray (bounds t) [f e | e <- elems t]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Diremos que una matriz es creciente si para toda
@@ -364,49 +273,12 @@ aplicaT t f = listArray (bounds t) [f x | x <- elems t]
 --    False
 -- ---------------------------------------------------------------------
 
--- erisancha alvalvdom1 manvermor rubvilval
 matrizCreciente :: (Num a, Ord a) => Matriz a -> Bool
-matrizCreciente p =  
-    and ([p!(a,b) <= p!(a,b+1)   | a <- [1..m],   b <- [1..n-1]] ++
-         [p!(a,b) <= p!(a+1,b)   | a <- [1..m-1], b <- [1..n]] ++
-         [p!(a,b) <= p!(a+1,b+1) | a <- [1..m-1], b <- [1..n-1]])
+matrizCreciente p = 
+    and ([p!(i,j) <= p!(i,j+1)   | i <- [1..m],   j <- [1..n-1]] ++
+         [p!(i,j) <= p!(i+1,j)   | i <- [1..m-1], j <- [1..n]] ++
+         [p!(i,j) <= p!(i+1,j+1) | i <- [1..m-1], j <- [1..n-1]])
     where (m,n) = snd (bounds p)
-
--- fracruzam marvilmor
-matrizCreciente3 :: (Num a, Ord a) => Matriz a -> Bool
-matrizCreciente3 p = all creciente (range b)
-  where b@(_,(n,m)) = bounds p
-        creciente :: (Int,Int) -> Bool
-        creciente (i,j)
-            | i == n && j == m = True
-            | i == n           = x <= j1
-            |           j == m = x <= i1
-            | otherwise        = x <= i1 && x <= j1 && x <= ij
-          where x  = p!(i  ,j)
-                i1 = p!(i+1,j)
-                j1 = p!(i  ,j+1)
-                ij = p!(i+1,j+1)
-
--- juanarcon
-matrizCreciente4 :: (Num a, Ord a) => Matriz a -> Bool
-matrizCreciente4 p =
-    and (elems (array ((1,1),(m,n)) [((i,j),f i j)| i<-[1..m], j<-[1..n]]))
-    where (m,n) = snd (bounds p) 
-          f i j | i==m && j==n = True
-                | i==m = all (>= p!(i,j)) [x]
-                | j == n = all (>= p!(i,j)) [y]
-                | otherwise = all (>= p!(i,j)) [x,y,z]            
-                              where x = p!(i,j+1)
-                                    y = p!(i+1,j)
-                                    z = p!(i+1,j+1)
-
--- abrdelrod manpende
-matrizCreciente5 :: (Num a, Ord a) => Matriz a -> Bool
-matrizCreciente5 p = all p' (indices p)
-    where p' (i,j) | i == m || j == n = True
-                   | otherwise = all (>p!(i,j))
-                                     [p!(i+1,j),p!(i,j+1),p!(i+1,j+1)]
-          (m,n) = snd $ bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Dada una matriz numérica A de dimensiones (m,n) y una
@@ -433,30 +305,12 @@ matrizCreciente5 p = all p' (indices p)
 --  array ((1,1),(2,2)) [((1,1),2),((1,2),4),((2,1),6),((2,2),5)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 transformada :: Matriz a -> Matriz Bool -> (a -> b) -> (a -> b) -> Matriz b
-transformada a b f g = listArray bo (map segunB $ range bo)
-  where bo@(_,(n,m)) = bounds a
-        --segunB :: (Int,Int) -> b
-        segunB ij | b!ij      = f x
-                  | otherwise = g x
-          where x = a!ij
-
--- fracruzam : ¿Cuál sería el tipo correcto de segunB? Ese reporta un error.
-
--- juanarcon alvalvdom1 manvermor rubvilval
-transformada1 :: Matriz a -> Matriz Bool -> (a -> b) -> (a -> b) -> Matriz b
-transformada1 a b f g = 
-    array ((1,1),(m,n)) [((i,j),h i j)| i<- [1..m], j<- [1..n]]
-          where (m,n) = fst (bounds a)
-                h i j | b!(i,j) = f (a!(i,j))
-                      | otherwise = g (a!(i,j))
-
--- abrdelrod manpende ivaruicam erisancha
-transformada2 :: Matriz a -> Matriz Bool -> (a -> b) -> (a -> b) -> Matriz b
-transformada2 a b f g = listArray (bounds a) (map h (assocs a))
-    where h ((i,j),x) | b!(i,j) = f x
-                      | otherwise = g x
+transformada a b f g = 
+    array ((1,1),(m,n)) [((i,j),aplica i j) | i <- [1..m], j <- [1..m]]
+    where (m,n) = snd (bounds a)
+          aplica i j | b!(i,j)   = f (a!(i,j))
+                     | otherwise = g (a!(i,j))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.1. Un vector se denomina estocástico si todos sus
@@ -470,17 +324,8 @@ transformada2 a b f g = listArray (bounds a) (map h (assocs a))
 --    vectorEstocastico (listArray (1,5) [0.1, 0.2, 0, 0, 0.9]) == False
 -- ---------------------------------------------------------------------
 
--- fracruzam erisancha
 vectorEstocastico :: Vector Float -> Bool
-vectorEstocastico v = estocastico (elems v) 0
-  where estocastico :: [Float] -> Float -> Bool
-        estocastico (x:xs) n | x >= 0 = estocastico xs (n+x)
-                             | otherwise = False
-        estocastico  _     n = n == 1
-
--- juanarcon alvalvdom1 manvermor abrdelrod rubvilval manpende ivaruicam
-vectorEstocastico1 :: Vector Float -> Bool
-vectorEstocastico1 v = all (>= 0) xs && sum xs == 1
+vectorEstocastico v = all (>=0) xs && sum xs == 1
     where xs = elems v
 
 -- ---------------------------------------------------------------------
@@ -495,40 +340,21 @@ vectorEstocastico1 v = all (>= 0) xs && sum xs == 1
 --    matrizEstocastica (listArray ((1,1),(2,2)) [0.1,0.2,0.3,0.8]) == False
 -- ---------------------------------------------------------------------
 
--- fracruzam
 matrizEstocastica :: Matriz Float -> Bool        
-matrizEstocastica p =
-    all (flip estocastico 0) [[p!(i,j) | i <- [1..n]] | j <- [1..m]]
-    where (_,(n,m)) = bounds p
-          estocastico :: [Float] -> Float -> Bool
-          estocastico (x:xs) n | x >= 0 = estocastico xs (n+x)
-                               | otherwise = False
-          estocastico  _     n = n == 1
+matrizEstocastica p = all vectorEstocastico (columnas p)
 
--- Comentario: Se puede simplificar usando secciones en lugar de flip.
-
--- juanarcon 
-matrizEstocastica1 :: Matriz Float -> Bool        
-matrizEstocastica1 p = 
-    and (map estocastico (columnas (matrizLista p)))
-    where estocastico xs = all (>= 0) xs && sum xs == 1
-          columnas xss = [[xs!!i| xs <- xss] | i <- [0..numCol-1]]
-          numCol = (snd . snd . bounds) p
-
--- Comentario: La definición anterior se puede simplificar usando all.
-
-matrizLista :: Matriz a -> [[a]]
-matrizLista p = aux (elems p)
-    where aux [] = []
-          aux xs = take n xs : aux (drop n xs)
-          n      = (snd . snd . bounds) p
-
--- abrdelrod rubvilval manvermor manpende ivaruicam erisancha
-matrizEstocastica2 :: Matriz Float -> Bool        
-matrizEstocastica2 p = all vectorEstocastico (columnas p)
-    where columnas p = [listArray (1,m) [p!(i,k) | i <- [1..m]] 
-                       | k <- [1..n]]
-          (m,n) = snd $ bounds p
+-- (columnas p) es la lista de las columnas de la matriz p. Por ejemplo, 
+--    ghci> columnas (listArray ((1,1),(2,3)) [1..6])
+--    [array (1,2) [(1,1.0),(2,4.0)],
+--     array (1,2) [(1,2.0),(2,5.0)],
+--     array (1,2) [(1,3.0),(2,6.0)]]
+--    ghci> columnas (listArray ((1,1),(3,2)) [1..6])
+--    [array (1,3) [(1,1.0),(2,3.0),(3,5.0)],
+--     array (1,3) [(1,2.0),(2,4.0),(3,6.0)]]
+columnas :: Matriz Float -> [Vector Float]
+columnas p = 
+    [array (1,m) [(i,p!(i,j)) | i <- [1..m]] | j <- [1..n]]
+    where (_,(m,n)) = bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función 
@@ -552,52 +378,55 @@ matrizEstocastica2 p = all vectorEstocastico (columnas p)
 -- Hay dos selecciones con máxima suma: [2,8,7] y [3,8,6].
 -- ---------------------------------------------------------------------
 
--- fracruzam abrdelrod rubvilval
 maximaSuma :: Matriz Int -> Int
-maximaSuma p 
+maximaSuma p = maximum [sum xs | xs <- selecciones p]
+
+-- (selecciones p) es la lista de las selecciones en las que cada
+-- elemento pertenece a un única fila y a una única columna de la matriz
+-- p. Por ejemplo,
+--    ghci> selecciones (listArray ((1,1),(3,3)) [1,2,3,8,4,9,5,6,7])
+--    [[1,4,7],[2,8,7],[3,4,5],[2,9,5],[3,8,6],[1,9,6]]
+selecciones :: Matriz Int -> [[Int]]
+selecciones p = 
+    [[p!(i,j) | (i,j) <- ijs] | 
+     ijs <- [zip [1..n] xs | xs <- permutations [1..n]]] 
+    where (_,(m,n)) = bounds p
+
+-- Nota: En la anterior definición se ha usado la función pernutations
+-- de Data.List. También se puede definir mediante
+permutaciones :: [a] -> [[a]]
+permutaciones []     = [[]]
+permutaciones (x:xs) = 
+    concat [intercala x ys | ys <- permutaciones xs]
+
+-- (intercala x ys) es la lista de las listas obtenidas intercalando x
+-- entre los elementos de ys. Por ejemplo, 
+--    intercala 1 [2,3]  ==  [[1,2,3],[2,1,3],[2,3,1]]
+intercala :: a -> [a] -> [[a]]
+intercala x [] = [[x]]
+intercala x (y:ys) = (x:y:ys) : [y:zs | zs <- intercala x ys]
+
+-- 2ª solución (mediante submatrices):
+maximaSuma2 :: Matriz Int -> Int
+maximaSuma2 p 
     | (m,n) == (1,1) = p!(1,1)
     | otherwise = maximum [p!(1,j) 
-                  + maximaSuma (submatriz 1 j p) | j <- [1..n]]
+                  + maximaSuma2 (submatriz 1 j p) | j <- [1..n]]
     where (_,(m,n)) = bounds p
-          submatriz :: Int -> Int -> Matriz Int -> Matriz Int
-          submatriz i j p = array ((1,1), (m-1,n -1))
-                            [((k,l), p ! f k l) 
-                            | k <- [1..m-1], l <- [1.. n-1]]
-              where (_,(m,n)) = bounds p
-                    f k l | k < i  && l < j  = (k,l)
-                          | k >= i && l < j  = (k+1,l)
-                          | k < i  && l >= j = (k,l+1)
-                          | otherwise        = (k+1,l+1)
 
--- juanarcon manvermor erisancha
-maximaSuma1 :: Matriz Int -> Int
-maximaSuma1 p = maximum $ map sum (posiblesListas p)
-
-posiblesListas :: Matriz Int  -> [[Int]]
-posiblesListas p = 
-    [[p!(i,j) | (i,j) <- seleccionIndices] | 
-     seleccionIndices <- [zip [1..m] xs | xs <- permutations [1..n]]] 
-    where (m,n) = (snd . bounds) p
-
--- manpende
-maximaSuma2 :: Matriz Int -> Int
-maximaSuma2 p | m == 1 = m1
-              | n == 1 = m2
-              | otherwise = maximo + maximaSuma (submatriz i j p)
-    where m1 = maximoCol 1 p
-          m2 = maximoFila 1 p
-          maximo = max m1 m2 
-          (i,j) = head [(x,y) | x <- [1..n], y <- [1..m], p!(x,y) == maximo]
-          m = fst $ snd $ bounds p
-          n = snd $ snd $ bounds p
-                    
-maximoFila :: Int -> Matriz Int -> Int
-maximoFila x p = maximum [p!(x,j) | j <- [1..n]]
-    where (_,(_,n)) = bounds p
-
-maximoCol :: Int -> Matriz Int -> Int
-maximoCol x p = maximum [p!(i,x) | i <- [1..m]]
-    where (_,(m,_)) = bounds p
+-- (submatriz i j p) es la matriz obtenida a partir de la p eliminando
+-- la fila i y la columna j. Por ejemplo, 
+--    ghci> submatriz 2 3 (listArray ((1,1),(3,3)) [1,2,3,8,4,9,5,6,7])
+--    array ((1,1),(2,2)) [((1,1),1),((1,2),2),((2,1),5),((2,2),6)]
+submatriz :: Num a => Int -> Int -> Matriz a -> Matriz a
+submatriz i j p = 
+    array ((1,1), (m-1,n -1))
+          [((k,l), p ! f k l) | k <- [1..m-1], l <- [1..n-1]]
+    where (_,(m,n)) = bounds p
+          f k l | k < i  && l < j  = (k,l)
+                | k >= i && l < j  = (k+1,l)
+                | k < i  && l >= j = (k,l+1)
+                | otherwise        = (k+1,l+1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función 
@@ -614,55 +443,14 @@ maximoCol x p = maximum [p!(i,x) | i <- [1..m]]
 -- son 9 y 7.
 -- ---------------------------------------------------------------------
 
--- fracruzam juanarcon erisancha
 maximos :: Matriz Int -> [Int]
-maximos p = [x | y@(_,x) <- assocs p, maximo y]
-    where (_,(n,m)) = bounds p
-          maximo :: ((Int,Int),Int) -> Bool
-          maximo ((i,j),x) =
-              and [p!(a,b) < x | r <- [-1..1],
-                                 t <- [-1..1],
-                                 let a = i + r,
-                                 let b = j + t, a > 0, a <= n,
-                                 b > 0,
-                                 b <= n,
-                                 not (r == 0 && t == 0)]
-
--- abrdelrod rubvilval
-maximos2 :: Matriz Int -> [Int]
-maximos2 p = map snd (filter q (assocs p))
-    where f i j x | i < 1 || i > m || j < 1 || j > n = x-1
-                  | otherwise                        = p!(i,j)
-          q ((i,j),x) = all (<x) [f k l x | k <- [i-1..i+1],
-                                            l <- [j-1..j+1],
-                                            (i,j) /= (k,l)]
-          (m,n) = snd $ bounds p
-
--- manvermor
-maximos3 :: Matriz Int -> [Int]
-maximos3 p = 
-    [ p!(i,j) | (i,j) <- indices p,
-                and [ p!(a,b) < p!(i,j) | (a,b) <- vecinos (i,j)]]
-    where (m,n) = snd $ bounds p
+maximos p = 
+    [p!(i,j) | (i,j) <- indices p,
+               and [p!(a,b) < p!(i,j) | (a,b) <- vecinos (i,j)]] 
+    where (_,(m,n)) = bounds p
           vecinos (i,j) = [(a,b) | a <- [max 1 (i-1)..min m (i+1)],
                                    b <- [max 1 (j-1)..min n (j+1)],
                                    (a,b) /= (i,j)]
-
--- manpende
-maximos4 :: Matriz Int -> [Int]
-maximos4 p = nub $ [p!(i,j)| i <- [1..n], j <- [1..m], esMaximo i j p]
-     where (_,(n,m)) = bounds p
-
--- Comentario: La definición anterior se puede simplificar eliminando $.
-
-esMaximo :: Int -> Int -> Matriz Int -> Bool
-esMaximo i j p = 
-    all (<= p!(i,j)) [p!(x,y) | x <- [a1..a2], y <- [b1..b2]]
-    where a1 = max (i-1) 1
-          b1 = max (j-1) 1
-          a2 = min (i+1) n
-          b2 = min (j+1) m
-          (_,(n,m)) = bounds p
 
 -- ----------------------------------------------------------------------
 -- Ejercicio 14. Entre dos matrices de la misma dimensión se puede
@@ -689,32 +477,19 @@ esMaximo i j p =
 --                         ((2,1),3),((2,2),5),((2,3),5)]
 -- --------------------------------------------------------------------- 
 
--- fracruzam
+-- 1ª definición
 opMatriz :: (Int -> Int -> Int) -> 
             Matriz Int -> Matriz Int -> Matriz Int
-opMatriz f p q = listArray b [f (p!ij) (q!ij) | ij <- range b]
-  where b = bounds p
-
--- alvalvdom1 juanarcon manvermor
-opMatriz2 :: (Int -> Int -> Int) -> 
-            Matriz Int -> Matriz Int -> Matriz Int
-opMatriz2 f p q =
-    array (bounds p) [((i,j), f (p!(i,j)) (q!(i,j))) | i <- [1..m], j <- [1..n]]
+opMatriz f p q = 
+    array ((1,1),(m,n)) [((i,j), f (p!(i,j)) (q!(i,j)))
+                      | i <- [1..m], j <- [1..n]] 
     where (_,(m,n)) = bounds p
 
--- abrdelrod rubvilval ivaruicam erisancha
-opMatriz3 :: (Int -> Int -> Int) -> Matriz Int -> Matriz Int -> Matriz Int
-opMatriz3 f p q =
-    listArray (bounds p) [f x y | (x,y) <- zip (elems p) (elems q)]
-
--- manpende
-opMatriz4 :: (Int -> Int -> Int) -> 
+-- 2ª definición
+opMatriz2 :: (Int -> Int -> Int) -> 
             Matriz Int -> Matriz Int -> Matriz Int
-opMatriz4 f p q =
-    listArray a 
-    $ zipWith f [p!(i,j) | i <- [1..n], j <- [1..m]]
-                [q!(i,j) | i <- [1..n], j <- [1..m]] 
-    where a@(_,(n,m)) = bounds p
+opMatriz2 f p q = 
+    listArray (bounds p) [f x y | (x,y) <- zip (elems p) (elems q)]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función 
@@ -729,57 +504,14 @@ opMatriz4 f p q =
 --    |4 2 5 4|
 -- ---------------------------------------------------------------------        
 
--- fracruzam juanarcon
 algunMenor :: Matriz Int -> [Int]
-algunMenor p =
-    [x | y@((i,j),x) <- assocs p, (not.null) (vecinosMenores y)]
-    where (_,(n,m)) = bounds p
-          vecinosMenores :: ((Int,Int),Int) -> [Int]
-          vecinosMenores ((i,j),x) =
-              filter (<x) $ map (p!) [(l,k) | x <- xs,
-                                              y <- xs,
-                                              let l = i + x,
-                                              let k = j + y,
-                                              l > 0,
-                                              l <= n,
-                                              k > 0,
-                                              k <= m,
-                                              not (x == 0 && y == 0)]
-              where xs = [-1..1]
-
--- abrdelrod rubvilval erisancha
-algunMenor2 :: Matriz Int -> [Int]
-algunMenor2 p = map snd (filter q (assocs p))
-    where f i j x | i < 1 || i > m || j < 1 || j > n = x+1
-                  | otherwise = p!(i,j)
-          q ((i,j),x) = any (< x) [f k l x | k <- [i-1..i+1],
-                                             l <- [j-1..j+1],
-                                             (k,l) /= (i,j)]
-          (m,n) = snd $ bounds p
-
--- manvermor
-algunMenor3 :: Matriz Int -> [Int]
-algunMenor3 p =
+algunMenor p = 
     [p!(i,j) | (i,j) <- indices p,
-               or [p!(a,b) < p!(i,j) | (a,b) <- vecinos (i,j)]]
-    where (m,n) = snd $ bounds p
+               or [p!(a,b) < p!(i,j) | (a,b) <- vecinos (i,j)]] 
+    where (_,(m,n)) = bounds p
           vecinos (i,j) = [(a,b) | a <- [max 1 (i-1)..min m (i+1)],
                                    b <- [max 1 (j-1)..min n (j+1)],
                                    (a,b) /= (i,j)]
-
--- manpende
-algunMenor4 :: Matriz Int -> [Int]
-algunMenor4 p = [p!(i,j) | i <- [1..n], j <- [1..m], tieneMenor p i j]
-     where (_,(n,m)) = bounds p
-
-tieneMenor :: Matriz Int -> Int -> Int -> Bool
-tieneMenor p i j =
-    any (> p!(i,j)) [p!(x,y) | x <- [a1..a2], y <- [b1..b2]]
-    where a1 = max 1 (i-1)
-          b1 = max 1 (j-1) 
-          a2 = min n (i+1)
-          b2 = min m (j+1)
-          (_,(n,m)) = bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16.1. Definir la función
@@ -797,58 +529,39 @@ tieneMenor p i j =
 --    False
 -- ---------------------------------------------------------------------
 
--- fracruzam
 esAutovector :: (Fractional a, Eq a) => Vector a -> Matriz a -> Bool
-esAutovector v p = all (z==) zs
-    where (_,(m,n)) = bounds p
-          ys = elems v
-          pv = [prodEscalar (filaMat i) ys | i <- [1..m]]
-          (z:zs) = divide pv ys
-          --filaMat :: (Fractional a, Eq a) => Int -> [a]
-          filaMat i = [p!(i,j) | j <- [1..n]]
-          prodEscalar :: (Fractional a, Eq a) => [a] -> [a] -> a
-          prodEscalar xs ys = sum (zipWith (*) xs ys)
-          divide :: (Fractional a, Eq a) => [a] -> [a] -> [a]
-          divide (a:as) (b:bs) | b == 0 = divide as bs
-                               | otherwise = (a/b) : divide as bs
-          divide  _      _     = []
+esAutovector v p = proporcional (producto p v) v
 
--- fracruzam : ¿A alguien se le ocurre como comprobar que son proporcionales
---              evitando el 0/0?
+-- (producto p v) es el producto de la matriz p por el vector v. Por
+-- ejemplo, 
+--    producto p1 v1  = array (1,3) [(1,0.0),(2,1.0),(3,-1.0)]
+--    producto p1 v2  = array (1,3) [(1,1.0),(2,1.0),(3,2.0)]
+producto :: (Fractional a, Eq a) => Matriz a -> Vector a -> Vector a 
+producto p v =
+    array (1,n) [(i, sum [p!(i,j)*v!j | j <- [1..n]]) | i <- [1..m]]
+    where (_,n)     = bounds v
+          (_,(m,_)) = bounds p
 
--- abrdelrod rubvilval manvermor juanarcon
-esAutovector2 :: (Fractional a, Eq a) => Vector a -> Matriz a -> Bool
-esAutovector2 v p = length (nub zs) == 1
-  where ys = filter (/= (0,0)) $ zip (elems v) (multPor p v)
-        zs = map (\(x,y) -> y/x) ys
+-- (proporcional v1 v2) se verifica si los vectores v1 y v2 son
+-- proporcionales. Por ejemplo,
+--    proporcional v1 v1                           = True
+--    proporcional v1 v2                           = False
+--    proporcional v1 (listArray (1,3) [0,-5,5])   = True
+--    proporcional v1 (listArray (1,3) [0,-5,4])   = False
+--    proporcional (listArray (1,3) [0,-5,5]) v1   = True
+--    proporcional v1 (listArray (1,3) [0,0,0])    = True
+--    proporcional (listArray (1,3) [0,0,0]) v1    = False
+proporcional :: (Fractional a, Eq a) => Vector a -> Vector a -> Bool
+proporcional v1 v2 
+    | esCero v1 = esCero v2
+    | otherwise = and [v2!i == k*(v1!i) | i <- [1..n]]
+    where (_,n) = bounds v1
+          j     = minimum [i | i <- [1..n], v1!i /= 0]
+          k     = (v2!j) / (v1!j)
 
-separa _ [] = []
-separa n xs = take n xs : (separa n (drop n xs))
-
--- Comentario: La definición anterior se puede simplificar eliminando
--- paréntesis. 
-              
-multPor p v = [sum $ zipWith (*) xs (elems v) | xs <- separa m (elems p)]
-    where m = fst $ snd (bounds p)
-
--- manpende erisancha
-esAutovector3 :: (Fractional a, Eq a) => Vector a -> Matriz a -> Bool
-esAutovector3 v p = esProporcional (elems (producto v p)) (elems v)
-  
-producto :: (Fractional a, Eq a) => Vector a -> Matriz a -> Vector a
-producto v p = 
-    listArray (1,n) [prodEscalar (filaMat i p) v | i <- [1..n]]
-    where n = snd (bounds v)
-
-esProporcional :: (Fractional a, Eq a) => [a] -> [a] -> Bool
-esProporcional (x:xs) (y:ys) | x == 0 = esProporcional xs ys
-                             | y == 0 = all (==0) ys 
-                             | otherwise = map (*(x/y)) ys == xs
-esProporcional _ _ = True
-
-filaMat3 :: Num a => Int -> Matriz a -> Vector a
-filaMat3 i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
-    where n = snd $ snd $ bounds p 
+-- (esCero v) se verifica si v es el vector 0.
+esCero :: (Fractional a, Eq a) => Vector a -> Bool 
+esCero v = null [x | x <- elems v, x /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16.2. Definir la función
@@ -863,43 +576,13 @@ filaMat3 i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
 --    autovalorAsociado p1 v2 == Nothing
 -- ---------------------------------------------------------------------
 
--- fracruzam
 autovalorAsociado :: (Fractional a, Eq a) => 
                      Matriz a -> Vector a -> Maybe a
-autovalorAsociado p v | all (z==) zs = Just z
-                      | otherwise    = Nothing
-    where (_,(m,n)) = bounds p
-          ys = elems v
-          pv = [prodEscalar (filaMat i) ys | i <- [1..m]]
-          (z:zs) = divide pv ys
-          --filaMat :: (Fractional a, Eq a) => Int -> [a]
-          filaMat i = [p!(i,j) | j <- [1..n]]
-          prodEscalar :: (Fractional a, Eq a) => [a] -> [a] -> a
-          prodEscalar xs ys = sum (zipWith (*) xs ys)
-          divide :: (Fractional a, Eq a) => [a] -> [a] -> [a]
-          divide (a:as) (b:bs) | b == 0 = divide as bs
-                               | otherwise = (a/b) : divide as bs
-          divide  _      _     = []
-
--- abrdelrod rubvilval manvermor juanarcon
-autovalorAsociado2 :: (Fractional a, Eq a) => Matriz a -> Vector a -> Maybe a
-autovalorAsociado2 p v | esAutovector v p = Just $ head zs
-                       | otherwise = Nothing
-      where ys = filter (/= (0,0)) $ zip (elems v) (multPor p v)
-            zs =  map (\(x,y) -> y/x) ys
-
--- manpende erisancha
-autovalorAsociado3 :: (Fractional a, Eq a) => 
-                     Matriz a -> Vector a -> Maybe a
-autovalorAsociado3 p v 
-     | esAutovector v p = buscaAutovalor (elems (producto v p)) (elems v)
-     | otherwise = Nothing
- 
-buscaAutovalor :: (Fractional a, Eq a) => [a] -> [a] -> Maybe a
-buscaAutovalor (x:xs) (y:ys) | x == 0 && y == 0 = buscaAutovalor xs ys
-                             | y == 0 = Just x
-                             | otherwise = Just (x/y)
-buscaAutovalor _ _ = Just 0
+autovalorAsociado p v
+    | esAutovector v p = Just (producto p v ! j / v ! j)
+    | otherwise        = Nothing
+    where (_,n) = bounds v
+          j     = minimum [i | i <- [1..n], v!i /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Definir la función 
@@ -916,12 +599,43 @@ buscaAutovalor _ _ = Just 0
 --    array ((1,1),(2,2)) [((1,1),1),((1,2),4),((2,1),5),((2,2),8)]
 -- ---------------------------------------------------------------------
         
--- fracruzam alvalvdom1 juanarcon abrdelrod rubvilval manvermor manpende
--- ivaruicam erisancha
+-- 1ª definición: 
 borraCols :: Int -> Int -> Matriz Int -> Matriz Int
-borraCols j1 j2 p =
-    listArray (o,(n,m-2)) [x | ((i,j),x) <- assocs p, j /= j1, j /= j2]
-    where (o,(n,m)) = bounds p
+borraCols j1 j2 p = 
+  borraCol (j2-1) (borraCol j1 p)
+
+-- (borraCol j1 p) es la matriz obtenida borrando la columna j1 de la
+-- matriz p. Por ejemplo,
+--    ghci> let p = listArray ((1,1),(2,4)) [1..8]
+--    ghci> borraCol 2 p
+--    array ((1,1),(2,3)) [((1,1),1),((1,2),3),((1,3),4),
+--                         ((2,1),5),((2,2),7),((2,3),8)]
+--    ghci> borraCol 3 p
+--    array ((1,1),(2,3)) [((1,1),1),((1,2),2),((1,3),4),
+--                         ((2,1),5),((2,2),6),((2,3),8)]
+borraCol :: Int -> Matriz Int -> Matriz Int
+borraCol j1 p = 
+  array ((1,1),(m,n-1))
+        [((i,j), f i j)| i <- [1..m], j <- [1..n-1]]
+  where (_,(m,n)) = bounds p
+        f i j | j < j1    = p!(i,j)
+              | otherwise = p!(i,j+1)
+
+-- 2ª definición: 
+borraCols2 :: Int -> Int -> Matriz Int -> Matriz Int
+borraCols2 j1 j2 p = 
+  array ((1,1),(m,n-2))
+        [((i,j), f i j)| i <- [1..m], j <- [1..n-2]]
+  where (_,(m,n)) = bounds p
+        f i j | j < j1    = p!(i,j)
+              | j < j2-1  = p!(i,j+1)
+              | otherwise = p!(i,j+2)
+
+-- 3ª definición: 
+borraCols3 :: Int -> Int -> Matriz Int -> Matriz Int
+borraCols3 j1 j2 p = 
+  listArray ((1,1),(n,m-2)) [p!(i,j) | i <- [1..n], j <- [1..m], j/=j1 && j/=j2]
+  where (_,(n,m)) = bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18.1. Definir la función 
@@ -935,38 +649,13 @@ borraCols j1 j2 p =
 --                         ((3,1),1),((3,2),1),((3,3),0)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 cambiaM :: (Int, Int) -> Matriz Int -> Matriz Int
-cambiaM (a,b) p = p // [(ij,cambia $ p!ij) | ij <- xs]
-    where (_,(n,m)) = bounds p
-          xs = union [(a,j) | j <- [1..m]] [(i,b) | i <- [1..n]]
-          cambia :: Int -> Int
-          cambia x | x == 0    = 1
-                   | x == 1    = 0
-                   | otherwise = x
-
--- alvalvdom1 juanarcon rubvilval manvermor manpende ivaruicam erisancha
-
-cambiaM2 :: (Int, Int) -> Matriz Int -> Matriz Int
-cambiaM2 (a,b) p =
-    array ((1,1),(m,n)) [((i,j),f i j) | i <- [1..m], j <- [1..n]]
-    where f i j | i==a || j==b = cambia (p!(i,j))
-                | otherwise = p!(i,j)
-          (_,(m,n)) = bounds p
-                       
-cambia :: Int -> Int
-cambia 1 = 0
-cambia 0 = 1
-cambia x = x
-
--- abrdelrod
-cambiaM3 :: (Int, Int) -> Matriz Int -> Matriz Int
-cambiaM3 (a,b) p =
-    p // [((i,j),f i j) | (i,j) <- [(a,k) | k <- [1..n]] ++
-                                   [(l,b) | l <- [1..m]]]
-    where (m,n) = snd (bounds p)
-          f i j | notElem (p!(i,j)) [0,1] = p!(i,j)
-                | otherwise = 1 - p!(i,j)
+cambiaM (a,b) p = array (bounds p) [((i,j),f i j) | (i,j) <- indices p]
+       where f i j  | i == a || j == b = cambia (p!(i,j))
+                    | otherwise = p!(i,j)
+             cambia x | x == 0    = 1
+                      | x == 1    = 0
+                      | otherwise = x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18.2. Definir la función 
@@ -989,35 +678,32 @@ cambiaM3 (a,b) p =
 --                         ((3,1),1),((3,2),0),((3,3),0)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
 quitaRepetidosFila :: Int -> Matriz Int -> Matriz Int
-quitaRepetidosFila x p =
-    p // [cambia (xj,p!xj) | j <- [2..m], let xj = (x,j)]
-    where (_,(_,m)) = bounds p
-          cambia :: ((Int,Int),Int) -> ((Int,Int),Int)
-          cambia k@((a,b),c) | esRepetido k = ((a,b),0)
-                             | otherwise    = k
-          esRepetido :: ((Int,Int),Int) -> Bool
-          esRepetido ((a,b),c) = or [p!(a,j) == c | j <- [1..b-1]]
+quitaRepetidosFila x p = 
+    array (bounds p) [((i,j),f i j) | (i,j) <- indices p]
+        where f i j | i == x    = (cambia (fila i p)) !! (j-1)
+                    | otherwise = p!(i,j)
 
--- abrdelrod manvermor manpende juanarcon
-quitaRepetidosFila2 :: Int -> Matriz Int -> Matriz Int
-quitaRepetidosFila2 x p = p // [((x,j),f x j) | j <- [1..n]]
-    where f i j | j == 1 = p!(i,j)
-                | notElem (p!(i,j)) [p!(i,k) | k <- [1..j-1]] = p!(i,j)
-                | otherwise = 0
-          (_,(_,n)) = bounds p
-                      
--- ivaruicam erisancha
-quitaRepetidosFila3 :: Int -> Matriz Int -> Matriz Int
-quitaRepetidosFila3 x p =
-    listArray ((1,1),(m,n)) (concat [cambia i [] (fila i p)| i<-[1..m]])
-    where cambia i v [] = v
-          cambia i v (y:ys) | i/=x = y:ys
-                            | elem y v = cambia i (v++[0]) ys
-                            | otherwise = cambia i(v++[y]) ys
-          fila i p = [p!(i,j) | j <- [1..n]]
-          (_,(m,n)) = bounds p
+-- (fila i p) es la fila i-ésima de la matriz p. Por ejemplo,
+--    ghci> m1
+--    array ((1,1),(3,3)) [((1,1),1),((1,2),0),((1,3),1),
+--                         ((2,1),0),((2,2),7),((2,3),1),
+--                         ((3,1),1),((3,2),1),((3,3),1)]
+--    ghci> fila 2 m1
+--    [0,7,1]
+fila :: Int -> Matriz Int -> [Int]
+fila i p = [p!(i,j) | j <- [1..n]]
+    where (_,(_,n)) = bounds p
+
+-- (cambia xs) es la lista obtenida eliminando los elementos repetidos
+-- de xs y completando con ceros al final para que tenga la misma
+-- longitud que xs. Por ejemplo,
+--   cambia [2,3,2,5,3,2]  ==  [2,3,5,0,0,0]
+cambia :: [Int] -> [Int]
+cambia xs = ys ++ replicate (n-m) 0
+    where ys = nub xs
+          n  = length xs
+          m  = length ys
 
 -- ------------------------------------------------------------------
 -- Ejercicio 19. Definir la función
@@ -1031,54 +717,14 @@ quitaRepetidosFila3 x p =
 --                         ((3,1),8),((3,2),10),((3,3), 7)]
 -- ------------------------------------------------------------------
 
--- fracruzam juanarcon
 sumaVecinos :: Matriz Int -> Matriz Int
-sumaVecinos p = listArray b [suma ij | ij <- range b]
-    where b@(_,(n,m)) = bounds p
-          suma :: (Int,Int) -> Int
-          suma (i,j) = sum $ map (p!) [(l,k) | x <- xs,
-                                               y <- xs,
-                                               let l = i + x, 
-                                               let k = j + y,
-                                               l > 0,
-                                               l <= n,
-                                               k > 0,
-                                               k <= m,
-                                               not (x == 0 && y == 0)]
-              where xs = [-1..1]
-
--- abrdelrod erisancha
-sumaVecinos2 :: Matriz Int -> Matriz Int
-sumaVecinos2 p = listArray (bounds p) [f i j | i <- [1..m], j <- [1..n]]
-    where (m,n) = snd $ bounds p
-          f i j = sum (map g [(k,l) | k <- [i-1..i+1],
-                                      l <- [j-1..j+1],
-                                      (k,l) /= (i,j)])
-          g (i,j) | i < 1 || i > m || j < 1 || j > n = 0
-                  | otherwise = p!(i,j)
-
--- manvermor
-sumaVecinos3 :: Matriz Int -> Matriz Int
-sumaVecinos3 p =
-    array ((1,1),(m,n)) [ ((i,j),f i j) | i <- [1..m], j <- [1..n]]
-    where (_,(m,n)) = bounds p 
-          f i j = sum [ p!(a,b) | (a,b) <- vecinos (i,j)]
-          vecinos (i,j) = [ (a,b) | a <- [max 1 (i-1)..min m (i+1)],
-                                    b <- [max 1 (j-1)..min n (j+1)],
-                                    (a,b) /= (i,j)]
-
--- manpende
-sumaVecinos4 :: Matriz Int -> Matriz Int
-sumaVecinos4 p = array a [((i,j),suma p i j) | i <- [1..n], j <- [1..m]]
-    where a@(_,(n,m)) = bounds p
-
-suma :: Matriz Int -> Int -> Int -> Int
-suma p i j = sum [p!(x,y) | x <- [a1..a2], y <- [b1..b2]] - p!(i,j)
-    where a1 = max 1 (i-1)
-          a2 = min n (i+1)
-          b1 = max 1 (j-1)
-          b2 = min m (j+1)
-          (_,(n,m)) = bounds p
+sumaVecinos p =  
+    array ((1,1),(m,n)) 
+          [((i,j), f i j) | i <- [1..m], j <- [1..n]] 
+    where (_,(m,n)) = bounds p
+          f i j = sum [p!(i+a,j+b) | a <- [-1..1], b <- [-1..1], 
+                                     a /= 0 || b /= 0,
+                                     inRange (bounds p) (i+a,j+b)]
 
 -- ----------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -1099,43 +745,13 @@ suma p i j = sum [p!(x,y) | x <- [a1..a2], y <- [b1..b2]] - p!(i,j)
 --           ((2,1),2),((2,2),3),((2,3),7),((2,4),8),((2,5),9)]
 -- --------------------------------------------------------------------- 
 
--- fracruzam juanarcon abrdelrod rubvilval manpende
 ampliaColumnas :: Matriz a -> Matriz a -> Matriz a
-ampliaColumnas p1 p2 = array ((1,1),(n,m+m')) xs
-    where (_,(n,m)) = bounds p1
-          (_,(_,m')) = bounds p2
-          xs = assocs p1 ++ [((i,j+m),x) | ((i,j),x) <- assocs p2]
-
--- manvermor erisancha
-ampliaColumnas2 :: Matriz a -> Matriz a -> Matriz a
-ampliaColumnas2 p1 p2 =
-    listArray ((1,1),(m,x)) (concat $ mezcla xss yss)
-    where (_,(m,n)) = bounds p1
-          (_,(y,z)) = bounds p2
-          x = n+z
-          xss = listas n (elems p1) 
-          yss = listas z (elems p2)
-
-mezcla :: [t] -> [t] -> [t]
-mezcla [] [] = []
-mezcla (xs:xss) (ys:yss) = xs:ys:mezcla xss yss
-
-listas :: Int -> [a] -> [[a]]
-listas n [] = []
-listas n xs = take n xs : listas n (drop n xs)
-
--- ivaruicam
-ampliaColumnas3 :: Matriz a -> Matriz a -> Matriz a
-ampliaColumnas3 p1 p2 =
-    listArray ((1,1),(m,n+b))
-              (concat[(filaLista i p1) ++ (filaLista i p2) | i <- [1..m]])
-    where (_,(m,n)) = bounds p1
-          (_,(a,b)) = bounds p2
-
--- Comentario: La definición anterior se puede simplificar eliminando paréntesis
-                      
-filaLista i p = [p!(i,j) | j <- [1..n]]
-    where (_,(m,n)) = bounds p
+ampliaColumnas p1 p2 =
+  array ((1,1),(m,n1+n2)) [((i,j), f i j) | i <- [1..m], j <- [1..n1+n2]]
+    where ((_,_),(m,n1)) = bounds p1
+          ((_,_),(_,n2)) = bounds p2
+          f i j | j <= n1   = p1!(i,j)
+                | otherwise = p2!(i,j-n1) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 21. Una matriz cuadrada es bisimétrica si es simétrica
@@ -1171,51 +787,40 @@ ejM2 = listArray ((1,1),(3,3)) [1,2,3,
                                 2,6,8,
                                 3,8,0]
 
--- fracruzam juanarcon manvermor
+-- 1ª definición:
 esBisimetrica :: Eq a => Matriz a -> Bool
-esBisimetrica p = all (simetrica p) xs && all (simetrica q) ys
-    where b@(_,(_,m)) = bounds p
-          xs = assocs p
-          ys = [((i,m-j+1),x) | ((i,j),x) <- xs]
-          q = array b ys
-          simetrica :: Eq a => Matriz a -> ((Int,Int),a) -> Bool
-          simetrica p ((i,j),x) = p!(j,i) == x 
+esBisimetrica p =
+    and [p!(i,j) == p!(j,i) | i <- [1..n], j <- [1..n]] &&
+    and [p!(i,j) == p!(n+1-j,n+1-i) | i <- [1..n], j <- [1..n]]
+    where ((_,_),(n,_)) = bounds p
 
--- abrdelrod erisancha
+-- 2ª definición:
 esBisimetrica2 :: Eq a => Matriz a -> Bool
-esBisimetrica2 p = m == n && all q (indices p)
-    where q (i,j) = p!(i,j) == p!(j,i) && p!(n-i+1,j) == p!(i,n-j+1)
-          (m,n) = snd $ bounds p
+esBisimetrica2 p = p == simetrica p && p == simetricaS p
+        
+-- (simetrica p) es la simétrica de la matriz p respecto de la diagonal
+-- principal. Por ejemplo,
+--    ghci> simetrica (listArray ((1,1),(4,4)) [1..16])
+--    array ((1,1),(4,4)) [((1,1),1),((1,2),5),((1,3), 9),((1,4),13),
+--                         ((2,1),2),((2,2),6),((2,3),10),((2,4),14),
+--                         ((3,1),3),((3,2),7),((3,3),11),((3,4),15),
+--                         ((4,1),4),((4,2),8),((4,3),12),((4,4),16)]
+simetrica :: Eq a => Matriz a -> Matriz a
+simetrica p =
+    array ((1,1),(n,n)) [((i,j),p!(j,i)) | i <- [1..n], j <- [1..n]]
+    where ((_,_),(n,_)) = bounds p
 
--- manpende
-esBisimetrica3 :: (Num a, Eq a) => Matriz a -> Bool
-esBisimetrica3 p =
-    m == n && all (simetrico p) [i | i <- [1..mitad n]]
-    where (_,(n,m)) = bounds p
-          mitad x = div x 2 + rem x 2
-
--- Comentario: La definición anterior se puede simplificar eliminando
--- listas innecesarias en [i | i <- [1..mitad n]].
-                              
-simetrico :: (Num a, Eq a) => Matriz a -> Int -> Bool
-simetrico p i =
-    all (== elmFila p i) $ elmCol p i :
-                           map reverse [elmFila p (n-i+1), elmCol p (n-i+1)]
-    where (_,(n,_)) = bounds p 
-
-elmFila :: (Num a, Eq a) => Matriz a -> Int -> [a]
-elmFila p i = elems $ filaMat i p
-
-elmCol :: (Num a, Eq a) => Matriz a -> Int -> [a]
-elmCol p i = elems $ columnaMat i p
-
-filaMat2 :: Eq a => Int -> Matriz a -> Vector a
-filaMat2 i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
-    where n = snd $ snd $ bounds p 
-
-columnaMat2 :: Eq a => Int -> Matriz a -> Vector a
-columnaMat2 j p = array (1,n) [(i,p!(i,j)) | i <- [1..n]]
-    where n = fst $ snd $ bounds p
+-- (simetricaS p) es la simétrica de la matriz p respecto de la diagonal
+-- secundaria. Por ejemplo,
+--    ghci> simetricaS (listArray ((1,1),(4,4)) [1..16])
+--    array ((1,1),(4,4)) [((1,1),16),((1,2),12),((1,3),8),((1,4),4),
+--                         ((2,1),15),((2,2),11),((2,3),7),((2,4),3),
+--                         ((3,1),14),((3,2),10),((3,3),6),((3,4),2),
+--                         ((4,1),13),((4,2), 9),((4,3),5),((4,4),1)]
+simetricaS :: Matriz a -> Matriz a
+simetricaS p =
+    array ((1,1),(n,n)) [((i,j),p!(n+1-j,n+1-i)) | i <- [1..n], j <- [1..n]]
+    where ((_,_),(n,_)) = bounds p
 
 -- ----------------------------------------------------------------------
 -- Ejercicio 22. Definir la función
@@ -1236,60 +841,16 @@ columnaMat2 j p = array (1,n) [(i,p!(i,j)) | i <- [1..n]]
 --                         ((4,1),7),((4,2),1),((4,3),8),((4,4),3)]
 -- --------------------------------------------------------------------- 
 
--- fracruzam
 matrizPorBloques :: Matriz a -> Matriz a -> Matriz a -> Matriz a ->
                     Matriz a
-matrizPorBloques p1 p2 p3 p4 = array ((1,1),(m,n)) xs
-    where (_,(m1,n1)) = bounds p1
-          (_,(m2,_)) = bounds p2
-          (_,(_,n3)) = bounds p3
-          (m,n) = (m1+m2,n1+n3)
-          xs = assocs p1
-               ++ [((i,j+n1),x)    | ((i,j),x) <- assocs p2]
-               ++ [((i+m1,j),x)    | ((i,j),x) <- assocs p3]
-               ++ [((i+m1,j+n1),x) | ((i,j),x) <- assocs p4]
-
--- abrdelrod
-matrizPorBloques2 p1 p2 p3 p4 =
-    array ((1,1),(2*n,2*n)) [f i j | i <- [1..2*n],j <- [1..2*n]]
-    where (_,(_,n)) = bounds p1
-          f i j | i <= n && j <= n = p1!(i,j)
-                | i <= n = p2!(i,j-n)
-                | i > n && j > n = p4!(i-n,j-n)
-                | otherwise = p3!(i-n,j)
-
--- manvermor juanarcon erisancha
-matrizPorBloques3 :: Matriz a -> Matriz a -> Matriz a -> Matriz a ->
-                    Matriz a
-matrizPorBloques3 p1 p2 p3 p4 =
-    listArray ((1,1),(2*m,2*n)) (xs ++ ys)
-    where (_,(m,n)) = bounds p1
-          (_,(_,y)) = bounds p2
-          (_,(_,t)) = bounds p3
-          (_,(_,d)) = bounds p4
-          xs = concat $ mezcla (listas n (elems p1)) (listas y (elems p2))
-          ys = concat $ mezcla (listas t (elems p3)) (listas d (elems p4))
-
--- manpende
-matrizPorBloques4 :: Matriz a -> Matriz a -> Matriz a -> Matriz a ->
-                    Matriz a
-matrizPorBloques4 p1 p2 p3 p4 =
-    ampliaFilas (ampliaColumnas p1 p2)
-                (ampliaColumnas p3 p4)
-
-ampliaFilas :: Matriz a -> Matriz a -> Matriz a
-ampliaFilas p1 p2 = array ((1,1),(n+n',m)) xs
-    where (_,(n,m)) = bounds p1
-          (_,(n',_)) = bounds p2
-          xs = assocs p1 ++ [((i+n,j),x) | ((i,j),x) <- assocs p2] 
-
-
-matrizPorBloques5 :: Matriz a -> Matriz a -> Matriz a -> Matriz a ->
-                    Matriz a
-matrizPorBloques5 p1 p2 p3 p4 =
-    listArray ((1,1),(2*n,2*n)) (elems (ampliaColumnas p1 p2)
-                                 ++ elems (ampliaColumnas p3 p4))
-    where (_,(m,n)) = bounds p1
+matrizPorBloques p1 p2 p3 p4 =
+  array ((1,1),(m,m)) [((i,j), f i j) | i <- [1..m], j <- [1..m]]
+  where ((_,_),(n,_)) = bounds p1
+        m = 2*n
+        f i j | i <= n && j <= n = p1!(i,j)
+              | i <= n && j >  n = p2!(i,j-n)
+              | i >  n && j <= n = p3!(i-n,j)
+              | i >  n && j >  n = p4!(i-n,j-n)                             
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 23. Definir la función
@@ -1307,21 +868,13 @@ matrizPorBloques5 p1 p2 p3 p4 =
 --    |13 11 12|
 -- ------------------------------------------------------------------
 
--- fracruzam manpende
 sumaColumnas :: Matriz Int -> Matriz Int
-sumaColumnas p = listArray b (map suma (range b))
-    where b@(_,(m,n)) = bounds p
-          suma :: (Int,Int) -> Int
-          suma (i,1) = p!(i,1) + p!(i,n)
-          suma (i,j) = p!(i,j) + p!(i,j-1)
-
--- juanarcon abrdelrod manvermor erisancha
-sumaColumnas2 :: Matriz Int -> Matriz Int
-sumaColumnas2 p = 
-    array (o,(n,m)) [((i,j),f i j) | i<- [1..n], j<- [1..m]]
-    where (o,(n,m)) = bounds p
-          f i j | j == 1 = p!(i,j) + p!(i,m)
-                | otherwise = p!(i,j) + p!(i,j-1)
+sumaColumnas p =  
+    array ((1,1),(m,n)) 
+          [((i,j), f i j) | i <- [1..m], j <- [1..n]] 
+    where (_,(m,n)) = bounds p
+          f i 1 = p!(i,1) + p!(i,m)
+          f i j = p!(i,j) + p!(i,j-1)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 24. La matrices piramidales son las formadas por unos y
@@ -1358,49 +911,39 @@ p3 = listArray ((1,1),(3,5)) [0,0,1,0,0,
                               0,1,1,1,0,
                               1,1,1,1,1]
 
--- fracruzam juanarcon erisancha
 esPiramidal :: (Eq a, Num a) => Matriz a -> Bool
-esPiramidal p = all piramidal (range b)
-    where b@(_,(m,n)) = bounds p
-          piramidal :: (Int,Int) -> Bool
-          piramidal (i,j) | j <= k || j > l = p!(i,j) == 0
-                          | otherwise       = p!(i,j) == 1
-              where k = m - i
-                    l = n - k
+esPiramidal p =
+    p == listArray ((1,1),(n,m)) (concat (filasPiramidal n))
+    where (_,(n,m)) = bounds p 
 
--- abrdelrod
+-- (filasPiramidal n) es la lista dela filas de la matriz piramidal de n
+-- filas. Por ejemplo,
+--    filasPiramidal 1  ==  [[1]]
+--    filasPiramidal 2  ==  [[0,1,0],[1,1,1]]
+--    filasPiramidal 3  ==  [[0,0,1,0,0],[0,1,1,1,0],[1,1,1,1,1]]
+filasPiramidal 1 = [[1]]
+filasPiramidal n = [0:xs++[0] | xs <- filasPiramidal (n-1)] ++ 
+                   [replicate (2*n-1) 1]
+
+-- 2ª definición
+-- =============
+
 esPiramidal2 :: (Eq a, Num a) => Matriz a -> Bool
-esPiramidal2 p = all q [0..m-1]
-   where q a = filas !! a == xs ++ replicate (2*a+1) 1 ++ xs
-             where xs = replicate (div n 2 - a) 0
-         filas = [[p!(i,k) | k <- [1..n]] | i <- [1..m]]
-         (m,n) = snd $ bounds p
+esPiramidal2 p =
+    p == piramidal n
+    where (_,(n,_)) = bounds p 
 
--- manvermor
-esPiramidal3 :: (Eq a, Num a) => Matriz a -> Bool
-esPiramidal3 p
-    | p == listArray ((1,1),(1,1)) [1] = True
-    | otherwise = [1,3..n] == [length $ filter (/= 0) xs
-                              | xs <- listas n (elems p)]
-                              && nub (elems p) == [0,1]
-    where (_,(_,n)) = bounds p
-
---manpende
-esPiramidal4 :: (Eq a, Num a) => Matriz a -> Bool
-esPiramidal4 p = piramidalAux 1 p
-    where (_,(n,_)) = bounds p
-
-
-piramidalAux :: (Eq a, Num a) => Int -> Matriz a -> Bool
-piramidalAux x p
-    | x == n    = xs == replicate b 0 ++ replicate a 1 ++  replicate b 0
-    | x >= m    = xs == replicate m 1
-    | otherwise = xs == (replicate b 0 ++ replicate a 1 ++ replicate b 0)
-                        && piramidalAux (x+1) p
-    where a = 2*x - rem m 2
-          b = div (m-a) 2
-          (_,(n,m)) = bounds p
-          xs = elmFila p x
+-- (piramidal n) es la matriz piramidal con n filas. Por ejemplo,
+--    ghci> piramidal 3
+--    array ((1,1),(3,5)) [((1,1),0),((1,2),0),((1,3),1),((1,4),0),((1,5),0),
+--                         ((2,1),0),((2,2),1),((2,3),1),((2,4),1),((2,5),0),
+--                         ((3,1),1),((3,2),1),((3,3),1),((3,4),1),((3,5),1)]
+piramidal :: (Eq a, Num a) => Int -> Matriz a
+piramidal n =
+    array ((1,1),(n,2*n-1)) [((i,j),f i j) | i <- [1..n], j <- [1..2*n-1]]
+    where f i j | j <= n-i  = 0
+                | j <  n+i  = 1
+                | otherwise = 0
 
 -- ----------------------------------------------------------------------
 -- Ejercicio 25. El algoritmo de Jacobi se utiliza para calcular el
@@ -1428,16 +971,16 @@ piramidalAux x p
 -- 
 -- En Haskell, las dos matrices anteriores se representan por
 --    matriz1, matriz2 :: Matriz Float
---    matriz1 = listArray ((1,1),(5,5)) [2, 2, 2, 2, 2, 
---                                       2, 0, 0, 0, 2, 
---                                       2, 0, 0, 0, 2, 
---                                       2, 0, 0, 0, 2, 
---                                       2, 2, 2, 2, 2]
---    matriz2 = listArray ((1,1),(5,5)) [2.0, 2.0, 2.0, 2.0, 2.0, 
---                                       2.0, 0.8, 0.4, 0.8, 2.0, 
---                                       2.0, 0.4, 0.0, 0.4, 2.0, 
---                                       2.0, 0.8, 0.4, 0.8, 2.0, 
---                                       2.0, 2.0, 2.0, 2.0, 2.0]
+--    matriz1 = listArray ((1,1),(5,5)) ([2, 2, 2, 2, 2, 
+--                                        2, 0, 0, 0, 2, 
+--                                        2, 0, 0, 0, 2, 
+--                                        2, 0, 0, 0, 2, 
+--                                        2, 2, 2, 2, 2])       
+--    matriz2 = listArray ((1,1),(5,5)) ([2.0, 2.0, 2.0, 2.0, 2.0, 
+--                                        2.0, 0.8, 0.4, 0.8, 2.0, 
+--                                        2.0, 0.4, 0.0, 0.4, 2.0, 
+--                                        2.0, 0.8, 0.4, 0.8, 2.0, 
+--                                        2.0, 2.0, 2.0, 2.0, 2.0])
 -- 
 -- Definir la función 
 --    iteracion_jacobi:: Matriz Float -> Matriz Float
@@ -1447,38 +990,36 @@ piramidalAux x p
 -- ---------------------------------------------------------------------
 
 matriz1 :: Matriz Float
-matriz1 = listArray ((1,1),(5,5)) [2, 2, 2, 2, 2, 
-                                   2, 0, 0, 0, 2, 
-                                   2, 0, 0, 0, 2, 
-                                   2, 0, 0, 0, 2, 
-                                   2, 2, 2, 2, 2]
+matriz1 = listArray ((1,1),(5,5)) ([2, 2, 2, 2, 2, 
+                                    2, 0, 0, 0, 2, 
+                                    2, 0, 0, 0, 2, 
+                                    2, 0, 0, 0, 2, 
+                                    2, 2, 2, 2, 2])       
 
-matriz2 :: Matriz Float                                
-matriz2 = listArray ((1,1),(5,5)) [2.0, 2.0, 2.0, 2.0, 2.0, 
-                                   2.0, 0.8, 0.4, 0.8, 2.0, 
-                                   2.0, 0.4, 0.0, 0.4, 2.0, 
-                                   2.0, 0.8, 0.4, 0.8, 2.0, 
-                                   2.0, 2.0, 2.0, 2.0, 2.0]
+matriz2 :: Matriz Float                                 
+matriz2 = listArray ((1,1),(5,5)) ([2.0, 2.0, 2.0, 2.0, 2.0, 
+                                    2.0, 0.8, 0.4, 0.8, 2.0, 
+                                    2.0, 0.4, 0.0, 0.4, 2.0, 
+                                    2.0, 0.8, 0.4, 0.8, 2.0, 
+                                    2.0, 2.0, 2.0, 2.0, 2.0])
 
--- fracruzam
+-- 1ª definición:
 iteracion_jacobi :: Matriz Float -> Matriz Float
-iteracion_jacobi p = listArray b [jacobi ij | ij <- range b]
-  where b@(_,(m,n)) = bounds p
-        jacobi :: (Int,Int) -> Float
-        jacobi (i,j) | i == 1 || j == 1 || i == n || j == n = p!(i,j)
-                     | otherwise = 0.2 * (p!(i,j) + sum ys + sum zs)
-          where xs = [-1,1]
-                ys = [p!(k,j) | l <- xs, let k = i + l, k > 0, k <= n]
-                zs = [p!(i,k) | l <- xs, let k = j + l, k > 0, k <= n]
+iteracion_jacobi p = array ((1,1),(n,m)) [((i,j), f i j) | i <- [1..n], j<-[1..m]]
+    where (_,(n,m)) = bounds p
+          f i j | frontera (i,j) = p!(i,j)
+                | otherwise      = 0.2*(p!(i,j)+p!(i+1,j)+p!(i-1,j)+p!(i,j+1)+p!(i,j-1))
+          frontera (i,j) = i == 1 || i == n || j == 1 || j == m
 
--- abrdelrod manvermor manpende juanarcon ivaruicam erisancha
-iteracion_jacobi2 :: Matriz Float -> Matriz Float
-iteracion_jacobi2 p =
-    listArray (bounds p) [f i j | i <- [1..m],j <- [1..n]]
-    where (m,n) = snd $ bounds p
-          f i j | i == 1 || i == m || j == 1 || j == m = p!(i,j)
-                | otherwise = 
-                    0.2*(p!(i,j)+p!(i+1,j)+p!(i-1,j)+p!(i,j+1)+p!(i,j-1))
+-- 2ª definición:
+iteracion_jacobi2 :: Matriz Float -> Matriz Float              
+iteracion_jacobi2 p = 
+    array ((1,1),(n,m)) 
+          ([((i,j), 0.2*(p!(i,j)+p!(i+1,j)+p!(i-1,j)+p!(i,j+1)+p!(i,j-1))) | 
+            i <- [2..n-1], j <- [2..m-1]] ++
+           [((i,j),p!(i,j)) | i <- [1,n],  j <- [1..m]]++ 
+           [((i,j),p!(i,j)) | i <- [1..n], j <- [1,m]])  
+    where (_,(n,m)) = bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26.1. Una matriz tridiagonal es aquella en la que sólo hay
@@ -1512,30 +1053,14 @@ iteracion_jacobi2 p =
 --                         ((4,1),0),((4,2),0),((4,3),3),((4,4),4)]
 -- ----------------------------------------------------------------------------
 
--- fracruzam
 creaTridiagonal :: Int -> Matriz Int
-creaTridiagonal n = listArray ((1,1),(n,n)) xs
-  where k = n - 2
-        xs = 1:1:replicate k 0 
-             ++ concat [x:y:y:replicate k 0 | x <- [1..n-1], let y = x + 1]
-             ++ replicate k 0 ++ [n,n+1]
-
--- abrdelrod
-creaTridiagonal2 :: Int -> Matriz Int
-creaTridiagonal2 n =
-    listArray ((1,1),(n,n)) [f i j | i <- [1..n], j <- [1..n]]
-    where f i j | elem i [j-1,j] = i
-                | i == j+1 = i-1
-                | otherwise = 0
-
--- manvermor manpende juanarcon erisancha
-creaTridiagonal3 :: Int -> Matriz Int
-creaTridiagonal3 n =
-    array ((1,1),(n,n)) [((i,j),f i j) | i <- [1..n], j <- [1..n]]
-    where f i j | i == j = i
-                | (i-1,j) == (j,j) = j
-                | (i,j-1) == (i,i) = i
-                | otherwise = 0
+creaTridiagonal n =
+    array ((1,1),(n,n))
+          [((i,j),valores i j) | i <- [1..n], j <- [1..n]]
+    where valores i j | i == j     = i
+                      | i == j+1   = j
+                      | i+1 == j   = i
+                      | otherwise  = 0
 
 -- ----------------------------------------------------------------------------
 -- Ejercicio 26.2. Definir la función 
@@ -1546,14 +1071,10 @@ creaTridiagonal3 n =
 --    esTridiagonal (listArray ((1,1),(3,3)) [1..9])  ==  False
 -- ----------------------------------------------------------------------------
 
--- fracruzam abrdelrod manvermor manpende juanarcon erisancha
 esTridiagonal :: Matriz Int -> Bool
-esTridiagonal p = all tridigonal (range b)
-  where b@(_,(n,m)) = bounds p
-        tridigonal :: (Int,Int) -> Bool
-        tridigonal (i,j)
-            | i == j || i == j + 1 || i + 1 == j = p!(i,j) /= 0
-            | otherwise                          = p!(i,j) == 0
+esTridiagonal p =
+    and [p!(i,j) == 0 | i <- [1..m], j <- [1..n], (j < i-1 || j > i+1)]
+    where (_,(m,n)) = bounds p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 27. La matriz de Vandermonde generada por
@@ -1577,24 +1098,29 @@ esTridiagonal p = all tridigonal (range b)
 --                         ((4,1),1),((4,2),4),((4,3),16),((4,4), 64)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
-vandermonde :: [Integer] -> Matriz Integer
-vandermonde xs = array ((1,1),(n,n)) ys
-  where ys = concat [map (\(x,i) -> ((i,m+1),x^m)) zs | m <- [0..n-1]]
-        n = length xs
-        zs = zip xs [1..]
+-- 1ª solución
+-- ===========
 
--- abrdelrod erisancha
+vandermonde1 :: [Integer] -> Matriz Integer
+vandermonde1 xs = array ((1,1), (n,n)) 
+                  [((i,j), f i j) | i <- [1..n], j <- [1..n]]
+      where n     = length xs
+            f i j = (xs!!(i-1))^(j-1)
+
+-- 2ª solución
+-- ===========
+
 vandermonde2 :: [Integer] -> Matriz Integer
-vandermonde2 xs =
-    listArray ((1,1),(n,n)) [(xs!!(i-1))^(j-1) | i <- [1..n], j <- [1..n]]
+vandermonde2 xs = listArray ((1,1),(n,n)) (concat (listaVandermonde xs))
     where n = length xs
 
--- manvermor manpende juanarcon ivaruicam
-vandermonde3:: [Integer] -> Matriz Integer
-vandermonde3 xs =
-    listArray ((1,1),(d,d)) [ x^n | x <- xs, n <-[0..d-1]]
-    where d = length xs
+-- (listaVandermonde xs) es la lista correspondiente a la matriz de
+-- Vandermonde generada por xs. Por ejemplo,
+--    ghci> listaVandermonde [5,2,3,4]
+--    [[1,5,25,125],[1,2,4,8],[1,3,9,27],[1,4,16,64]]
+listaVandermonde :: [Integer] -> [[Integer]]
+listaVandermonde xs = [[x^i | i <- [0..n-1]] | x <- xs]
+    where n = length xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Una matriz es monomial si en cada una de sus filas y
@@ -1634,48 +1160,19 @@ ej2 = listArray ((1,1),(4,4)) [0,  0, 3, 0,
                                1,  0, 0, 0,
                                0,  1, 0, 1]
 
--- fracruzam
 esMonomial :: Matriz Int -> Bool
-esMonomial p = all esListaMonomial xss
-    where (_,(_,n)) = bounds p
-          xss = takeWhile (not . null)
-                          (map (take n) (iterate (drop n) (elems p)))
-
--- abrdelrod manpende juanarcon ivaruicam erisancha
-esMonomial2 :: Matriz Int -> Bool
-esMonomial2 p = all esListaMonomial filas
-    where filas = [[p!(i,k) | k <- [1..m]] | i <- [1..n]]
-          (m,n) = snd $ bounds p
-
--- manvermor
-esMonomial3 :: Matriz Int -> Bool
-esMonomial3 p = [1..n] == sort (concat (map posTodas (listas n $ elems p)))
-  where (_,(_,n)) = bounds p
-                    
--- Comentario: La definición anterior se puede simplificar usando concatMap.
-
-posTodas :: (Eq a, Num t, Num a) => [a] -> [t]
-posTodas xs = [ posicion x xs | x <- xs, x /=0]
-
-posicion :: (Eq a, Num a1) => a -> [a] -> a1
-posicion n (x:xs) | n == x = 1
-                  | otherwise = 1 + posicion n xs
+esMonomial p = all esListaMonomial (filas ++ columnas)
+    where filas     = [[p!(i,j) | j <- [1..n]] | i <- [1..m]]
+          columnas  = [[p!(i,j) | i <- [1..m]] | j <- [1..n]]
+          (_,(m,n)) = bounds p
 
 -- (esListaMonomial xs) se verifica si todos los elementos de xs excepto
 -- uno son nulos. Por ejemplo,
 --    esListaMonomial [0,3,0,0]  ==  True
 --    esListaMonomial [0,3,0,2]  ==  False
 --    esListaMonomial [0,0,0,0]  ==  False
-
--- fracruzam
 esListaMonomial :: [Int] -> Bool
-esListaMonomial (x:xs) | x /= 0    = all (0==) xs
-                       | otherwise = esListaMonomial xs
-esListaMonomial  _     = False
-
--- abrdelrod manvermor manpende juanarcon ivaruicam
-esListaMonomial2 :: [Int] -> Bool
-esListaMonomial2 xs = length (filter (/= 0) xs) == 1
+esListaMonomial xs = length (filter (/=0) xs) == 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 29. El triángulo de Pascal es un triángulo de números 
@@ -1687,8 +1184,8 @@ esListaMonomial2 xs = length (filter (/= 0) xs) == 1
 --    1 5 10 10 5 1
 --   ...............
 -- construido de la siguiente forma
--- + la primera fila está formada por el número 1;
--- + las filas siguientes se construyen sumando los números adyacentes
+-- * la primera fila está formada por el número 1;
+-- * las filas siguientes se construyen sumando los números adyacentes
 --   de la fila superior y añadiendo un 1 al principio y al final de la
 --   fila. 
 --
@@ -1715,31 +1212,44 @@ esListaMonomial2 xs = length (filter (/= 0) xs) == 1
 --           ((5,1),1),((5,2),4),((5,3),6),((5,4),4),((5,5),1)]
 -- ---------------------------------------------------------------------
 
--- fracruzam
-matrizPascal :: Int -> Matriz Int 
-matrizPascal n = listArray ((1,1),(n,n)) (concat xs)
-  where
-    xs = zipWith (\xs y -> xs ++ replicate y 0) listaPascal [n-1,n-2..0]
-    listaPascal :: [[Int]]
-    listaPascal =
-       [1] : map (\ys@(_:xs) -> 1: zipWith (+) ys xs ++ [1]) listaPascal
+-- 1ª solución
+-- ===========
 
--- abrdelrod manpende juanarcon ivaruicam
-matrizPascal2 :: Int -> Matriz Int 
-matrizPascal2 n =
-    listArray ((1,1),(n,n)) [f i j | i <- [1..n], j <- [1..n]]
-      where f i j | j == 1 = 1
-                  | i == 1 = 0
-                  | otherwise = f (i-1) (j-1) + f (i-1) j
+matrizPascal1 :: Int -> Matriz Int 
+matrizPascal1 1 = array ((1,1),(1,1)) [((1,1),1)]
+matrizPascal1 n = 
+    array ((1,1),(n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
+    where f i j | i < n && j <  n  = p!(i,j)
+                | i < n && j == n  = 0
+                | j == 1 || j == n = 1
+                | otherwise        = p!(i-1,j-1) + p!(i-1,j)
+          p = matrizPascal2 (n-1)
 
--- manvermor erisancha
-matrizPascal3 :: Int -> Matriz Int 
-matrizPascal3 n = listArray ((1,1),(n,n)) (concat xss)
-    where xss = [ take n xs | xs <- [ ys ++ repeat 0 | ys <- take n pascal]]
+-- 2ª solución
+-- ===========
 
+matrizPascal2 :: Int -> Matriz Int
+matrizPascal2 n = listArray ((1,1),(n,n)) (concat xss)
+    where yss = take n pascal
+          xss = map (take n) (map (++ (repeat 0)) yss)
+        
 pascal :: [[Int]]
 pascal = [1] : map f pascal
     where f xs = zipWith (+) (0:xs) (xs++[0])
+
+-- 3ª solución
+-- ===========
+
+matrizPascal3 :: Int -> Matriz Int
+matrizPascal3 n = 
+    array ((1,1),(n,n)) [((i,j), f i j) | i <- [1..n], j <- [1..n]]
+    where f i j | i >=  j   = comb (i-1) (j-1)
+                | otherwise = 0
+
+-- (comb n k) es el número de combinaciones (o coeficiente binomial) de
+-- n sobre k. Por ejemplo,
+comb :: Int -> Int -> Int
+comb n k = product [n,n-1..n-k+1] `div` product [1..k]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 30. Para cada número n la matriz completa de orden n es la
@@ -1767,61 +1277,84 @@ pascal = [1] : map f pascal
 --    [[2,3,5],[2,3,7],[2,5,7],[3,2,7],[7,2,3],[7,2,11],[7,3,11]]
 -- ---------------------------------------------------------------------
 
--- abrdelrod
 ternasPrimasOrden :: Int -> [[Int]]
-ternasPrimasOrden n = concatMap h (indices p)
-    where vecinos i j = filter isPrime [f k l | k <- [i-1..i+1],
-                                                l <- [j-1..j+1],
-                                                (k,l) /= (i,j)]
-          f i j | i < 1 || i > n || j < 1 || j > n = 0
-                | otherwise = p!(i,j)
-          g = concat.aux 
-          aux (x:xs) = [[x,z] | z <- xs] : aux xs
-          aux _ = []
-          h i@(a,b) | isPrime (p!i) =  map (p!i:) (g $ vecinos a b)
-                    | otherwise = []
-          p = listArray ((1,1),(n,n)) [1..n^2]
+ternasPrimasOrden = ternasPrimas . matrizCompleta
 
--- manvermor erisancha
+-- (ternasPrimas p) es la lista de las ternas primas de p. Por ejemplo,  
+--    ghci> ternasPrimas (listArray ((1,1),(3,3)) [2,3,7,5,4,1,6,8,9])
+--    [[2,3,5],[3,2,7],[3,2,5],[3,7,5],[5,2,3]]
+ternasPrimas :: Matriz Int -> [[Int]]
+ternasPrimas p = 
+    [xs | xs <- ternas p, all esPrimo xs]
+
+-- (ternas p) es la lista de las ternas de p formadas por un elemento de
+-- p junto con dos vecinos. Por ejemplo,  
+--    ghci>  ternas (listArray ((1,1),(3,3)) [2,3,7,5,4,0,6,8,9])
+--     [[2,3,5],[2,3,4],[2,5,4],[3,2,7],[3,2,5],[3,2,4],[3,2,0],[3,7,5],
+--      [3,7,4],[3,7,0],[3,5,4],[3,5,0],[3,4,0],[7,3,4],[7,3,0],[7,4,0],
+--      [5,2,3],[5,2,4],[5,2,6],[5,2,8],[5,3,4],[5,3,6],[5,3,8],[5,4,6],
+--      [5,4,8],[5,6,8],[4,2,3],[4,2,7],[4,2,5],[4,2,0],[4,2,6],[4,2,8],
+--      [4,2,9],[4,3,7],[4,3,5],[4,3,0],[4,3,6],[4,3,8],[4,3,9],[4,7,5],
+--      [4,7,0],[4,7,6],[4,7,8],[4,7,9],[4,5,0],[4,5,6],[4,5,8],[4,5,9],
+--      [4,0,6],[4,0,8],[4,0,9],[4,6,8],[4,6,9],[4,8,9],[0,3,7],[0,3,4],
+--      [0,3,8],[0,3,9],[0,7,4],[0,7,8],[0,7,9],[0,4,8],[0,4,9],[0,8,9],
+--      [6,5,4],[6,5,8],[6,4,8],[8,5,4],[8,5,0],[8,5,6],[8,5,9],[8,4,0],
+--      [8,4,6],[8,4,9],[8,0,6],[8,0,9],[8,6,9],[9,4,0],[9,4,8],[9,0,8]]
+ternas :: Matriz Int -> [[Int]]
+ternas p = 
+    [[p!(i1,j1),p!(i2,j2),p!(i3,j3)] | 
+     (i1,j1) <- indices p,
+     ((i2,j2):ps) <- tails (vecinos (i1,j1) n),
+     (i3,j3) <- ps]
+    where (_,(n,_)) = bounds p
+
+-- (vecinos (i,j) n) es la lista de las posiciones vecinas de la (i,j)
+-- en una matriz cuadrada de orden n. Por ejemplo,
+--    vecinos (2,3) 4  ==  [(1,2),(1,3),(1,4),(2,2),(2,4),(3,2),(3,3),(3,4)]
+--    vecinos (2,4) 4  ==  [(1,3),(1,4),(2,3),(3,3),(3,4)]
+--    vecinos (1,4) 4  ==  [(1,3),(2,3),(2,4)]
+vecinos :: (Int,Int) -> Int -> [(Int,Int)]
+vecinos (i,j) n = [(a,b) | a <- [max 1 (i-1)..min n (i+1)],
+                           b <- [max 1 (j-1)..min n (j+1)],
+                           (a,b) /= (i,j)]
+
+-- (esPrimo n) se verifica si n es primo. Por ejemplo,
+--    esPrimo  7  ==  True
+--    esPrimo 15  ==  False
+esPrimo :: Int -> Bool
+esPrimo n = [x | x <- [1..n], n `rem` x == 0] == [1,n]
+
+-- (matrizCompleta n) es la matriz completa de orden n. Por ejemplo,
+--    ghci> matrizCompleta 3
+--    array ((1,1),(3,3)) [((1,1),1),((1,2),2),((1,3),3),
+--                         ((2,1),4),((2,2),5),((2,3),6),
+--                         ((3,1),7),((3,2),8),((3,3),9)]
+matrizCompleta :: Int -> Matriz Int
+matrizCompleta n =
+    listArray ((1,1),(n,n)) [1..n*n]
+
+-- 2ª definición
+-- =============
+
 ternasPrimasOrden2 :: Int -> [[Int]]
-ternasPrimasOrden2 n =
-    filter (\xs -> all isPrime xs) $ todasTernas (matrizOrden n)
+ternasPrimasOrden2 = ternasPrimas2 . matrizCompleta
 
--- Comentario: La definición anterior se puede simplificar eliminando el lambda.
+ternasPrimas2 :: Matriz Int -> [[Int]]
+ternasPrimas2 p = 
+    [[p!(i1,j1),p!(i2,j2),p!(i3,j3)] | 
+     (i1,j1) <- indices p,
+     esPrimo (p!(i1,j1)),
+     ((i2,j2):ps) <- tails (vecinos (i1,j1) n),
+     esPrimo (p!(i2,j2)),
+     (i3,j3) <- ps,
+     esPrimo (p!(i3,j3))]
+    where (_,(n,_)) = bounds p
 
-todasTernas :: (Enum t, Enum t1, Num t, Num t1, Ix t, Ix t1) 
-               => Array (t, t1) e -> [[e]]
-todasTernas p =
-    [[p!(i,j),p!(i',j'),p!(i'',j'')] | (i,j) <- indices p,
-                                       ((i',j'):ps) <- tails (vecinos (i,j)),
-                                       (i'',j'') <- ps]
-    where (_,(m,n)) = bounds p
-          vecinos (i,j) = [(a,b) | a <- [max 1 (i-1)..min m (i+1)],
-                                   b <- [max 1 (j-1)..min n (j+1)],
-                                   (a,b) /= (i,j)]
+-- Comparación:
+--    ghci> length (ternasPrimasOrden 30)
+--    51
+--    (5.52 secs, 211095116 bytes)
+--    ghci> length (ternasPrimasOrden2 30)
+--    51
+--    (0.46 secs, 18091148 bytes)
 
-matrizOrden :: (Enum e, Num e, Ix e) => e -> Array (e, e) e
-matrizOrden n = listArray ((1,1),(n,n)) [1..n^2]
-
--- manpende juanarcon
-ternasPrimasOrden3 :: Int -> [[Int]]
-ternasPrimasOrden3 n = [xs | xs <- xss, length xs == 3]
-     where xss = map nub [[p!(i,j),y,z] | i <- [1..n],
-                                          j <- [1..n], 
-                                          y <- vecinos i j p,
-                                          z <- vecinos i j p,
-                                          isPrime (p!(i,j)),
-                                          isPrime y && isPrime z,
-                                          z>y]
-           p = matrizOrden n
-
-matrizOrden2 :: Int -> Matriz Int
-matrizOrden2 n = listArray ((1,1),(n,n)) [1..n^2]
- 
-vecinos :: Int -> Int -> Matriz Int -> [Int]
-vecinos i j p = [p!(x,y) | x <- [a1..a2], y <- [b1..b2]]
-    where a1 = max 1 (i-1)
-          a2 = min n (i+1)
-          b1 = max 1 (j-1)
-          b2 = min m (j+1)
-          (_,(n,m)) = bounds p
