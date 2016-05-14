@@ -121,4 +121,7 @@ clase) y las soluciones definitivas.
 + **Relación 38**: Ejercicios de exámenes sobre grafos.
   ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_38.hs) y
    [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_38_sol.hs)).
++ **Relación 39**: El problema del granjero mediante búsqueda en espacio de estado.
+  ([Enunciado](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_39.hs) y
+   [Solución](https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_39_sol.hs)).
 
