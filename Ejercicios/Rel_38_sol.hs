@@ -33,7 +33,8 @@
 
 import Data.List
 import Data.Array
-
+import Test.QuickCheck
+    
 -- Hay que elegir una librería 
 import I1M.Grafo
 -- import GrafoConVectorDeAdyacencia 
@@ -52,13 +53,17 @@ import I1M.Grafo
 -- Indicación: No importa el orden de los recorridos en la lista.
 -- ---------------------------------------------------------------------
 
--- juanarcon alvalvdom1 jespergue manvermor
+-- juanarcon alvalvdom1 jespergue manvermor josllagam
 recorridos :: [a] -> [[a]]
 recorridos xs = [ys ++ [head ys] | ys <- permutations xs]
 
--- fracruzam
+-- fracruzam marvilmor
 recorridos2 :: [a] -> [[a]]
 recorridos2 xs = [y:ys ++ [y] | y:ys <- permutations xs]
+
+-- abrdelrod erisancha carruirui3
+recorridos3 :: [a] -> [[a]]
+recorridos3 = map (\xs -> xs ++ [head xs]) . permutations
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. Consideremos un grafo G = (V,E), donde V es un
@@ -68,10 +73,10 @@ recorridos2 xs = [y:ys ++ [y] | y:ys <- permutations xs]
 -- anchura del grafo es la máxima anchura de sus nodos. Por ejemplo, en
 -- el grafo  
 --    grafo2 :: Grafo Int Int
---    grafo2 = creaGrafo ND (1,5) [(1,2,1),(1,3,1),(1,5,1),
---                                 (2,4,1),(2,5,1),
---                                 (3,4,1),(3,5,1),
---                                 (4,5,1)]
+--    grafo2 = creaGrafo D (1,5) [(1,2,1),(1,3,1),(1,5,1),
+--                                (2,4,1),(2,5,1),
+--                                (3,4,1),(3,5,1),
+--                                (4,5,1)]
 -- su anchura es 4 y el nodo de máxima anchura es el 5.
 -- 
 -- Definir la función 
@@ -81,32 +86,33 @@ recorridos2 xs = [y:ys ++ [y] | y:ys <- permutations xs]
 -- ---------------------------------------------------------------------
 
 grafo2 :: Grafo Int Int
-grafo2 = creaGrafo ND (1,5) [(1,2,1),(1,3,1),(1,5,1),
-                             (2,4,1),(2,5,1),
-                             (3,4,1),(3,5,1),
-                             (4,5,1)]
+grafo2 = creaGrafo D (1,5) [(1,2,1),(1,3,1),(1,5,1),
+                            (2,4,1),(2,5,1),
+                            (3,4,1),(3,5,1),
+                            (4,5,1)]
 
--- juanarcon jespergue
+-- fracruzam manvermor abrdelrod josllagam
 anchura :: Grafo Int Int -> Int
-anchura g = maximum $ concat [[x-y| y <- adyacentes g x] | x <- nodos g]
+anchura g = maximum [abs (x-y) | (x,y,_) <- aristas g]
 
--- fracruzam manvermor
-anchura2 :: Grafo Int Int -> Int
-anchura2 g = maximum [abs(x-y) | (x,y,_) <- aristas g]
-
--- alvalvdom1
+-- alvalvdom1 marvilmor
 anchura3 :: Grafo Int Int -> Int
 anchura3 g = maximum (map (anchuraN g) (nodos g))
-          where anchuraN :: Grafo Int Int -> Int -> Int
-                anchuraN g v = maximum [abs (v-x) | x <- adyacentes g v]
+    where anchuraN :: Grafo Int Int -> Int -> Int
+          anchuraN g v = maximum [abs (v-x) | x <- adyacentes g v]
+
+-- carruirui3
+anchura4 :: Grafo Int Int -> Int
+anchura4 g = maximum . map (anchuraV g) $ nodos g
+    where anchuraV g v = maximum . map (abs . (v-)) $ adyacentes g v
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Comprobar experimentalmente que la anchura del grafo
 -- grafo cíclico de orden n es n-1.
 -- ---------------------------------------------------------------------
 
--- juanarcon fracruzam alvalvdom1 jespergue manvermor
--- La conjetura
+-- juanarcon fracruzam alvalvdom1 jespergue manvermor abrdelrod erisancha
+-- carruirui3 josllagam marvilmor
 conjetura :: Int -> Bool
 conjetura n = anchura (grafoCiclo n) == n-1
 
@@ -116,11 +122,13 @@ grafoCiclo n =
 
 -- La comprobación es
 
--- fracruzam jespergue juanarcon
-prop_conjetura :: (Positive Int) -> Bool
+-- fracruzam jespergue juanarcon abrdelrod erisancha carruirui3 josllagam
+-- marvilmor
+prop_conjetura :: Positive Int -> Bool
 prop_conjetura (Positive n) = conjetura n
-   -- λ> quickCheck prop_conjetura
-   -- +++ OK, passed 100 tests.
+
+-- λ> quickCheck prop_conjetura
+-- +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Un grafo no dirigido G se dice conexo, si para cualquier
@@ -134,16 +142,16 @@ prop_conjetura (Positive n) = conjetura n
 --    conexo (creaGrafo ND (1,4) [(1,2,0),(3,4,0)])  ==  False
 -- ---------------------------------------------------------------------
 
--- juanarcon jespergue 
+-- juanarcon jespergue abrdelrod josllagam
 conexo :: (Ix a, Num p) => Grafo a p -> Bool
 conexo g = or [esConexo xs | xs <- caminos g]
-           where esConexo [x] = True
-                 esConexo (x:y:xs) = aristaEn g (x,y) && esConexo (y:xs)
+    where esConexo [x]      = True
+          esConexo (x:y:xs) = aristaEn g (x,y) && esConexo (y:xs)
 
 caminos :: (Ix a, Num p) => Grafo a p -> [[a]]
 caminos g = permutations (nodos g)
 
--- manvermor
+-- manvermor erisancha carruirui3 marvilmor
 conexo2 :: (Ix a, Num p) => Grafo a p -> Bool
 conexo2 g = length (recorridoEnAnchura x g) == n
     where xs = nodos g
@@ -197,35 +205,56 @@ mapa = creaGrafo ND (1,7)
 
 data Color = A | B | C | E deriving (Eq, Show)
 
--- fracruzam juanarcon
+-- fracruzam juanarcon jespergue josllagam
 correcta :: [(Int,Color)] -> Grafo Int Int -> Bool
 correcta ncs g = and [color x /= color y | (x,y,_) <- aristas g]
-  where color :: Int -> Color
-        color x = head [c | (r,c) <- ncs, r == x]
+    where color :: Int -> Color
+          color x = head [c | (r,c) <- ncs, r == x]
 
--- alvalvdom1
+-- alvalvdom1 erisancha
 correcta2 :: [(Int,Color)] -> Grafo Int Int -> Bool
 correcta2 ncs g = and [coloresVecinos a ncs g | a <- ncs]
 
 coloresVecinos :: (Int,Color) -> [(Int,Color)] -> Grafo Int Int -> Bool
-coloresVecinos (v,c) ncs g = all (/=c) [c' | (v',c') <- ncs, elem v' (adyacentes g v)]
+coloresVecinos (v,c) ncs g =
+    all (/=c) [c' | (v',c') <- ncs, elem v' (adyacentes g v)]
 
+-- Comentario: La definición anterior se puede simplificar usando
+-- notElem y reduciendo el número de paréntesis.
+        
 -- manvermor
 correcta3 :: [(Int,Color)] -> Grafo Int Int -> Bool
-correcta3 ncs g = and [ x/=y | [x,y] <- separa2 (reemplazados ncs g)]
+correcta3 ncs g = and [x /= y | [x,y] <- separa2 (reemplazados ncs g)]
 
 separa2 :: [a] -> [[a]]
 separa2 [] = []
 separa2 zs = take 2 zs : separa2 (drop 2 zs)
 
 reemplazados :: (Num p, Ix a) => [(a, t)] -> Grafo a p -> [t]
-reemplazados xs g = [ reemplaza n xs | ys <- puntos g, n <- ys]
+reemplazados xs g = [reemplaza n xs | ys <- puntos g, n <- ys]
 
 puntos :: (Num p, Ix a) => Grafo a p -> [[a]]
-puntos g = [ x:[y]| (x,y,_) <- aristas g]
+puntos g = [x:[y] | (x,y,_) <- aristas g]
 
 reemplaza :: Eq a1 => a1 -> [(a1, a)] -> a
-reemplaza n xs = head [ y | (x,y) <- xs, x == n]
+reemplaza n xs = head [y | (x,y) <- xs, x == n]
+
+-- abrdelrod
+correcta4 :: [(Int,Color)] -> Grafo Int Int -> Bool
+correcta4 ncs g = all p xs
+    where xs = concat (aux ncs)
+          aux (x:xs) = [(x,z) | z <- xs] : aux xs
+          aux _ = []
+          p ((n1,c1),(n2,c2)) | c1 /= c2 = True
+                              | otherwise = notElem (n1,n2,0) (aristas g)
+                                            
+-- Comentario: La definición anterior se puede simplificar reduciendo
+-- paréntesis. 
+                                            
+-- carruirui3 marvilmor
+correcta5 :: [(Int,Color)] -> Grafo Int Int -> Bool
+correcta5 ncs = all (\(x,y,_) -> color x /= color y) . aristas
+    where color x = snd . head $ filter ((x==) . fst) ncs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Dado un grafo dirigido G, diremos que un nodo está
@@ -247,7 +276,8 @@ reemplaza n xs = head [ y | (x,y) <- xs, x == n]
                     
 grafo5 = creaGrafo D (1,6) [(1,2,0),(1,3,0),(1,4,0),(3,6,0),
                             (5,4,0),(6,2,0),(6,5,0)]
-    
+
+
 aislados :: (Ix v, Num p) => Grafo v p -> [v]
 aislados g = filter (aislado (aristas g) True True) (nodos g)
   where aislado :: (Ix v, Num p) => [(v,v,p)] -> Bool -> Bool -> v -> Bool
@@ -258,26 +288,45 @@ aislados g = filter (aislado (aristas g) True True) (nodos g)
             | otherwise        = aislado as b1    b2    n
         aislado []           b1 b2 _ = b1 || b2
 
--- juanarcon
+-- juanarcon jespergue josllagam
 aislados1 :: (Ix v, Num p) => Grafo v p -> [v]
 aislados1 g = [x | x <- nodos g, esAislado g x]
 
 esAislado :: (Num p, Ix a) => Grafo a p -> a -> Bool
-esAislado g v = null(adyacentes g v) || null [ 1 |(_,x,_) <- aristas g, x==v]
+esAislado g v =
+  null (adyacentes g v) || null [1 | (_,x,_) <- aristas g, x == v]
 
--- alvalvdom1
-aislados :: (Ix v, Num p) => Grafo v p -> [v]
-aislados g = (ns \\ [v | (_,v,_) <- as]) ++ (ns \\ [v | (v,_,_) <- as])
-           where ns = nodos g
-                 as = aristas g
+-- alvalvdom1 erisancha
+aislados2 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados2 g = (ns \\ [v | (_,v,_) <- as]) ++ (ns \\ [v | (v,_,_) <- as])
+  where ns = nodos g
+        as = aristas g
 
 -- manvermor
 aislados3 :: (Ix v, Num p) => Grafo v p -> [v]
 aislados3 g = nub $ aislado xs ys
-       where xs = [ x | (x,_,_) <- aristas g]
-             ys = [ y | (_,y,_) <- aristas g]
-             aislado xs ys = [ z | z <- xs, notElem z ys] ++ [ y | y <- ys, notElem
-                                                            y xs] 
+  where xs = [x | (x,_,_) <- aristas g]
+        ys = [y | (_,y,_) <- aristas g]
+        aislado xs ys = [z | z <- xs, notElem z ys] ++
+                        [y | y <- ys, notElem y xs] 
+
+-- abrdelrod marvilmor
+aislados4 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados4 g = [x | x <- nodos g, any (notElem x) [map f1 xs, map f2 xs]]
+    where xs = aristas g
+          f1 (a,_,_) = a
+          f2 (_,b,_) = b
+
+-- carruirui3
+aislados5 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados5 g = filter (aislado g) (nodos g)
+
+aislado :: (Ix v, Num p) => Grafo v p -> v -> Bool
+aislado g v = null (adyacentes g v) || null (adyacentes' g v)
+
+adyacentes' :: (Ix v, Num p) => Grafo v p -> v -> [v]
+adyacentes' g v = nub [u | (u,v',_) <- aristas g, v == v']
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Consideremos una implementación del TAD de los grafos,
 -- por ejemplo en la que los grafos se representan mediante listas. Un
@@ -293,17 +342,38 @@ aislados3 g = nub $ aislado xs ys
 --    conectados grafo6 1 3  ==  True
 --    conectados grafo6 1 4  ==  False
 --    conectados grafo6 6 2  ==  False
---    conectados grafo6 2 6  ==  True
+--    conectados grafo6 3 1  ==  True
 -- ----------------------------------------------------------------------------
 
 grafo6 :: Grafo Int Int
 grafo6 = creaGrafo D (1,6) [(1,3,2),(1,5,4),(3,5,6),(5,1,8),(5,5,10),
                             (2,4,1),(2,6,3),(4,6,5),(4,4,7),(6,4,9)]
 
--- juanarcon manvermor
+-- juanarcon manvermor jespergue erisancha josllagam marvilmor
 conectados :: Grafo Int Int -> Int -> Int -> Bool
 conectados g v1 v2 = aristaEn g (v1,v2)
 
+-- Comentario: La definición anterior no es correcta. Falla en el último
+-- ejemplo. 
+
 -- alvalvdom1
-conectados :: Grafo Int Int -> Int -> Int -> Bool
-conectados g v1 v2 = not $ null [1 | (v1',v2',_) <- aristas g, v1'==v1, v2'==v2]
+conectados2 :: Grafo Int Int -> Int -> Int -> Bool
+conectados2 g v1 v2 =
+    not $ null [1 | (v1',v2',_) <- aristas g, v1'==v1, v2'==v2]
+
+-- Comentario: La definición anterior no es correcta. Falla en el último
+-- ejemplo. 
+
+-- abrdelrod
+conectados3 :: Grafo Int Int -> Int -> Int -> Bool
+conectados3 g v1 v2 = aux v1 []
+    where  incidentes v = [x | x <- nodos g, elem v (adyacentes g x)]
+           aux a xs
+             | elem a (incidentes v2) = True
+             | and [elem b xs | b <- adyacentes g a] = False
+             | otherwise = or [aux b (a:xs) | b <- adyacentes g a, b /= a]
+                                  
+-- carruirui3
+conectados4 :: Grafo Int Int -> Int -> Int -> Bool
+conectados4 g v1 v2 = v2 `elem` recorridoEnAnchura v1 g
+
