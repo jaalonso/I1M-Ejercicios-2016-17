@@ -1,0 +1,12 @@
+Ofertas de trabajo de interés para el MULCIA (Máster Universitario en Lógica,
+Computación e Inteligencia Artificial de la Universidad de Sevilla)
+
++ 26-May-16: PhD position at INRIA Grenoble: "Formal proofs for the analysis of
+  real-time systems in Coq" http://bit.ly/1qL7uYF #PhD #CompSci #Coq
+
++ 26-May-16: PhD position at INRIA Grenoble: "Analysis and types for safe
+  dynamic software configurations". http://bit.ly/1TLjUvp #PhD #CompSci
+
++ 26-May-16: PhD position at INRIA Grenoble: "Programming IoT and software
+  defined radio with dynamic data-flow models of computation"
+  http://bit.ly/1TLkCZF #PhD #CompSci

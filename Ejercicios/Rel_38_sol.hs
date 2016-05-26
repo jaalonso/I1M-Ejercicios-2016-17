@@ -53,7 +53,8 @@ import I1M.Grafo
 -- Indicación: No importa el orden de los recorridos en la lista.
 -- ---------------------------------------------------------------------
 
--- juanarcon alvalvdom1 jespergue manvermor josllagam
+-- juanarcon alvalvdom1 jespergue manvermor josllagam lucgamgal javoliher
+-- rubvilval silgongal
 recorridos :: [a] -> [[a]]
 recorridos xs = [ys ++ [head ys] | ys <- permutations xs]
 
@@ -91,11 +92,11 @@ grafo2 = creaGrafo D (1,5) [(1,2,1),(1,3,1),(1,5,1),
                             (3,4,1),(3,5,1),
                             (4,5,1)]
 
--- fracruzam manvermor abrdelrod josllagam
+-- fracruzam manvermor abrdelrod josllagam lucgamgal javoliher silgongal
 anchura :: Grafo Int Int -> Int
 anchura g = maximum [abs (x-y) | (x,y,_) <- aristas g]
 
--- alvalvdom1 marvilmor
+-- alvalvdom1 marvilmor rubvilval
 anchura3 :: Grafo Int Int -> Int
 anchura3 g = maximum (map (anchuraN g) (nodos g))
     where anchuraN :: Grafo Int Int -> Int -> Int
@@ -112,7 +113,7 @@ anchura4 g = maximum . map (anchuraV g) $ nodos g
 -- ---------------------------------------------------------------------
 
 -- juanarcon fracruzam alvalvdom1 jespergue manvermor abrdelrod erisancha
--- carruirui3 josllagam marvilmor
+-- carruirui3 josllagam marvilmor lucgamgal javoliher rubvilval silgongal
 conjetura :: Int -> Bool
 conjetura n = anchura (grafoCiclo n) == n-1
 
@@ -123,7 +124,7 @@ grafoCiclo n =
 -- La comprobación es
 
 -- fracruzam jespergue juanarcon abrdelrod erisancha carruirui3 josllagam
--- marvilmor
+-- marvilmor silgongal
 prop_conjetura :: Positive Int -> Bool
 prop_conjetura (Positive n) = conjetura n
 
@@ -138,11 +139,12 @@ prop_conjetura (Positive n) = conjetura n
 -- Definirla función 
 --    conexo :: (Ix a, Num p) => Grafo a p -> Bool
 -- tal que (conexo g) se verifica si el grafo g es conexo. Por ejemplo, 
---    conexo (creaGrafo ND (1,3) [(1,2,0),(3,2,0)])  ==  True
---    conexo (creaGrafo ND (1,4) [(1,2,0),(3,4,0)])  ==  False
+--    conexo (creaGrafo ND (1,3) [(1,2,0),(3,2,0)])          ==  True
+--    conexo (creaGrafo ND (1,4) [(1,2,0),(3,2,0),(4,1,0)])  ==  True
+--    conexo (creaGrafo ND (1,4) [(1,2,0),(3,4,0)])          ==  False
 -- ---------------------------------------------------------------------
 
--- juanarcon jespergue abrdelrod josllagam
+-- juanarcon jespergue abrdelrod josllagam rubvilval
 conexo :: (Ix a, Num p) => Grafo a p -> Bool
 conexo g = or [esConexo xs | xs <- caminos g]
     where esConexo [x]      = True
@@ -211,7 +213,7 @@ correcta ncs g = and [color x /= color y | (x,y,_) <- aristas g]
     where color :: Int -> Color
           color x = head [c | (r,c) <- ncs, r == x]
 
--- alvalvdom1 erisancha
+-- alvalvdom1 erisancha rubvilval
 correcta2 :: [(Int,Color)] -> Grafo Int Int -> Bool
 correcta2 ncs g = and [coloresVecinos a ncs g | a <- ncs]
 
@@ -255,6 +257,17 @@ correcta4 ncs g = all p xs
 correcta5 :: [(Int,Color)] -> Grafo Int Int -> Bool
 correcta5 ncs = all (\(x,y,_) -> color x /= color y) . aristas
     where color x = snd . head $ filter ((x==) . fst) ncs
+
+-- javoliher
+correcta6 :: [(Int,Color)] -> Grafo Int Int -> Bool
+correcta6 ncs g = and [correctos1aTodos  g ncs x | x <- nodos g]
+
+correctos1aTodos :: Grafo Int Int -> [(Int,Color)] -> Int -> Bool
+correctos1aTodos  g ncs x =
+    and [(y,z) `notElem` ncs | y <- adyacentes g x]
+    where z = color x ncs
+
+color x ncs = head [snd y | y <- ncs, fst y == x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Dado un grafo dirigido G, diremos que un nodo está
@@ -327,6 +340,40 @@ aislado g v = null (adyacentes g v) || null (adyacentes' g v)
 adyacentes' :: (Ix v, Num p) => Grafo v p -> v -> [v]
 adyacentes' g v = nub [u | (u,v',_) <- aristas g, v == v']
 
+-- erisancha
+aislados6 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados6 g = 
+   [x | x <- primero g, x `notElem` segundo g]
+   ++ [x | x <- segundo g, x `notElem` primero g] 
+
+primero :: (Num p, Ix a) => Grafo a p -> [a]
+primero g = nub [x | (x,_,_) <- aristas g]
+
+segundo :: (Num p, Ix a) => Grafo a p -> [a]
+segundo g = nub [x | (_,x,_) <- aristas g]
+
+-- javoliher 
+aislados7 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados7 g =
+    [x | x <- nodos g,
+         (incidentes g x) == [] || (adyacentes g x) == []]
+
+incidentes :: (Num p, Ix v) => Grafo v p -> v -> [v]
+incidentes g v = [fst x | x <- (map f (aristas g)), snd x == v]
+    where f (a,b,c) = (a,b)
+
+-- rubvilval
+aislados8 :: (Ix v, Num p) => Grafo v p -> [v]
+aislados8 g = filter (\x -> aislado8 x g) (nodos g)
+
+sinpeso (a,b,c) = (a,b)
+
+llegadas x g = [y | (y,x') <- (map sinpeso (aristas g)), x' == x]
+
+salidas  x g = [y | (x',y) <- (map sinpeso (aristas g)), x' == x]
+
+aislado8  x g = (llegadas x g == []) || (salidas x g == [])
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Consideremos una implementación del TAD de los grafos,
 -- por ejemplo en la que los grafos se representan mediante listas. Un
@@ -373,7 +420,6 @@ conectados3 g v1 v2 = aux v1 []
              | and [elem b xs | b <- adyacentes g a] = False
              | otherwise = or [aux b (a:xs) | b <- adyacentes g a, b /= a]
                                   
--- carruirui3
+-- carruirui3 fracruzam
 conectados4 :: Grafo Int Int -> Int -> Int -> Bool
 conectados4 g v1 v2 = v2 `elem` recorridoEnAnchura v1 g
-
