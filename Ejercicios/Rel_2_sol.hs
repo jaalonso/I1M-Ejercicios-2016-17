@@ -377,31 +377,30 @@ formaReducida (a,b) = (a `div` c, b  `div` c)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.2. Definir la función 
---    sumaRacional :: (Integer,Integer) -> (Integer,Integer) -> (Integer,Integer)
+--    sumaRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 -- tal que (sumaRacional x y) es la suma de los números racionales x e
 -- y, expresada en forma reducida. Por ejemplo, 
 --    sumaRacional (2,3) (5,6)  ==  (3,2)
 --    sumaRacional (3,5) (-3,5) ==  (0,1)
 -- ---------------------------------------------------------------------
 
-sumaRacional :: (Integer,Integer) -> (Integer,Integer) -> (Integer,Integer)
+sumaRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 sumaRacional (a,b) (c,d) = formaReducida (a*d+b*c, b*d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.3. Definir la función 
---    productoRacional :: (Integer,Integer) -> (Integer,Integer) -> (Integer,Integer)
+--    productoRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 -- tal que (productoRacional x y) es el producto de los números
 -- racionales x e y, expresada en forma reducida. Por ejemplo, 
 --    productoRacional (2,3) (5,6)  ==  (5,9)
 -- ---------------------------------------------------------------------
 
-productoRacional :: (Integer,Integer) -> (Integer,Integer)
-                 -> (Integer,Integer)
+productoRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 productoRacional (a,b) (c,d) = formaReducida (a*c, b*d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.4. Definir la función 
---    igualdadRacional :: (Integer,Integer) -> (Integer,Integer) -> Bool
+--    igualdadRacional :: (Int,Int) -> (Int,Int) -> Bool
 -- tal que (igualdadRacional x y) se verifica si los números racionales
 -- x e y son iguales. Por ejemplo, 
 --    igualdadRacional (6,9) (10,15)  ==  True
@@ -409,7 +408,7 @@ productoRacional (a,b) (c,d) = formaReducida (a*c, b*d)
 --    igualdadRacional (0,2) (0,-5)   ==  True
 -- ---------------------------------------------------------------------
 
-igualdadRacional :: (Integer,Integer) -> (Integer,Integer) -> Bool
+igualdadRacional :: (Int,Int) -> (Int,Int) -> Bool
 igualdadRacional (a,b) (c,d) = 
     a*d == b*c
 
@@ -419,8 +418,7 @@ igualdadRacional (a,b) (c,d) =
 -- ---------------------------------------------------------------------
 
 -- La propiedad es
-prop_distributiva :: (Integer,Integer) -> (Integer,Integer) ->
-                     (Integer,Integer) -> Property
+prop_distributiva :: (Int,Int) -> (Int,Int) -> (Int,Int) -> Property
 prop_distributiva x y z =
     snd x /= 0 && snd y /= 0 && snd z /= 0 ==>
     igualdadRacional (productoRacional x (sumaRacional y z))
