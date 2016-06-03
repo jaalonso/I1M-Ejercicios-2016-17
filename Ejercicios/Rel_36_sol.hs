@@ -255,8 +255,8 @@ gradoNeg :: (Ix v,Num p) => Grafo v p -> v -> Int
 gradoNeg g v = length (incidentes g v)
 
 -- 2ª definición
-gradoNeg :: (Ix v,Num p) => Grafo v p -> v -> Int
-gradoNeg g = length (incidentes g)
+gradoNeg2 :: (Ix v,Num p) => Grafo v p -> v -> Int
+gradoNeg2 g = length . incidentes g
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. El grado de un vértice v de un grafo dirigido g, es el
