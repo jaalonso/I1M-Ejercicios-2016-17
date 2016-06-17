@@ -389,4 +389,3 @@ generaAsamblea =
 
 instance Arbitrary Asamblea2 where
     arbitrary   = generaAsamblea
-    -- coarbitrary = undefined

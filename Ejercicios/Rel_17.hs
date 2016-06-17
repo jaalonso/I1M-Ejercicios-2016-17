@@ -296,7 +296,7 @@ paresDeIgualLongitud gen =
        ys <- listaDe (abs n) gen
        return (xs,ys)
 
--- generaAsamblea esun generador de datos de tipo Asamblea. Por ejemplo, 
+-- generaAsamblea es un generador de datos de tipo Asamblea. Por ejemplo,
 --    Main> muestra generaAsamblea
 --    A [(P1,1),(P2,1),(P3,0),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
 --    A [(P1,0),(P2,1),(P3,1),(P4,1),(P5,0),(P6,1),(P7,0),(P8,1)]
@@ -310,4 +310,3 @@ generaAsamblea =
 
 instance Arbitrary Asamblea2 where
     arbitrary   = generaAsamblea
-    coarbitrary = undefined

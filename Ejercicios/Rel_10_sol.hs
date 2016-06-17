@@ -358,8 +358,8 @@ superparF n = filter even (digitos n) == digitos n
 -- ---------------------------------------------------------------------
 
 concatR :: [[a]] -> [a]
-concatR _       = []
 concatR (xs:xss) = xs ++ concatR xss
+concatR _       = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8.2. Definir, usando foldr, la función 
