@@ -1,0 +1,9 @@
+En este repositorio se encuentran los ejercicios del curso de [[https://www.cs.us.es/~jalonso/cursos/i1m/][Informática de 1º
+del Grado en Matemáticas]] de la Universidad de Sevilla.
+
+Para cada relación de ejercicio se muestra su enunciado, las revisiones de las
+soluciones colaborativas escritas por los alumnos (hasta su comentario en
+clase) y las soluciones definitivas. 
+
++ *Relación 1*: Definiciones por composición sobre números, listas y
+  booleanos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1.hs][Enunciado]]).
