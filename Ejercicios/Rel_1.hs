@@ -1,4 +1,4 @@
--- I1M 2015-16: Rel_1.hs (23 de septiembre de 2015)
+-- I1M 2016-17: Rel_1.hs (21 de septiembre de 2016)
 -- Definiciones por composición sobre números, listas y booleanos. 
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
