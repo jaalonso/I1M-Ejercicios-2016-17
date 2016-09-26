@@ -11,21 +11,17 @@ especificacion :: Int -> Spec
 
 especificacion 1 = 
   describe "Ejercicio 1: media3" $ do
-    it "e1_1" $
-       media3_1 1 3 8 `shouldBe` 4.0
-    it "e2_1" $
-       media3_1 (-1) 0 7 `shouldBe` 2.0
-    it "e3_1" $
-       media3_1 (-3) 0 3 `shouldBe` 0.0
-    it "e1_2" $
-       media3_2 1 3 8 `shouldBe` 4.0
-    it "e2_2" $
-       media3_2 (-1) 0 7 `shouldBe` 2.0
-    it "e3_2" $
-       media3_2 (-3) 0 3 `shouldBe` 0.0
-
+    let media3 = media3_1
+    it "e1" $
+       media3 1 3 8 `shouldBe` 4.0
+    it "e2" $
+       media3 (-1) 0 7 `shouldBe` 2.0
+    it "e3" $
+       media3 (-3) 0 3 `shouldBe` 0.0
+    
+        
 especificacion 2 = 
-  describe "Ejercicio 2: sumaMoedas" $ do
+  describe "Ejercicio 2: sumaMonedas" $ do
     it "e1" $
       sumaMonedas 0 0 0 0 1  `shouldBe`  20
     it "e1" $
@@ -35,33 +31,29 @@ especificacion 2 =
 
 especificacion 3 = 
   describe "Ejercicio 3: volumenEsfera" $ do
+    let volumenEsfera = volumenEsfera1 
     it "e1" $
       volumenEsfera 10 `shouldBe` 4188.790204786391
 
 especificacion 4 = 
   describe "Ejercicio 4: areaDeCoronaCircular" $ do
-    it "e1_1" $
-      areaDeCoronaCircular1 1 2 `shouldBe` 9.42477796076938
-    it "e2_1" $
-      areaDeCoronaCircular1 2 5 `shouldBe` 65.97344572538566
-    it "e3_1" $
-      areaDeCoronaCircular1 3 5 `shouldBe` 50.26548245743669
-    it "e1_2" $
-      areaDeCoronaCircular2 1 2 `shouldBe` 9.42477796076938
-    it "e2_2" $
-      areaDeCoronaCircular2 2 5 `shouldBe` 65.97344572538566
-    it "e3_2" $
-      areaDeCoronaCircular2 3 5 `shouldBe` 50.26548245743669
+    let areaDeCoronaCircular = areaDeCoronaCircular1
+    it "e1" $
+      areaDeCoronaCircular 1 2 `shouldBe` 9.42477796076938
+    it "e2" $
+      areaDeCoronaCircular 2 5 `shouldBe` 65.97344572538566
+    it "e3" $
+      areaDeCoronaCircular 3 5 `shouldBe` 50.26548245743669
 
 especificacion 5 = 
   describe "Ejercicio 5: ultimaCifra" $ do
-    it "e1_1" $
-      ultimaCifra1 325 `shouldBe` 5
-    it "e1_2" $
-      ultimaCifra2 325 `shouldBe` 5
+    let ultimaCifra = ultimaCifra1
+    it "e1" $
+      ultimaCifra 325 `shouldBe` 5
 
 especificacion 6 = 
   describe "Ejercicio 6: maxTres" $ do
+    let maxTres = maxTres1
     it "e1" $
       maxTres 6 2 4  `shouldBe`  6
     it "e2" $
@@ -76,25 +68,19 @@ especificacion 7 =
 
 especificacion 8 = 
   describe "Ejercicio 8: rota" $ do
-    it "e1_1" $
-      rota_1 1 [3,2,5,7]  `shouldBe`  [2,5,7,3]
-    it "e2_1" $
-      rota_1 2 [3,2,5,7]  `shouldBe`  [5,7,3,2]
-    it "e3_1" $
-      rota_1 3 [3,2,5,7]  `shouldBe`  [7,3,2,5]
-    it "e1_2" $
-      rota_2 1 [3,2,5,7]  `shouldBe`  [2,5,7,3]
-    it "e2_2" $
-      rota_2 2 [3,2,5,7]  `shouldBe`  [5,7,3,2]
-    it "e3_2" $
-      rota_2 3 [3,2,5,7]  `shouldBe`  [7,3,2,5]
+    let rota = rota_1
+    it "e1" $
+      rota 1 [3,2,5,7]  `shouldBe`  [2,5,7,3]
+    it "e2" $
+      rota 2 [3,2,5,7]  `shouldBe`  [5,7,3,2]
+    it "e3" $
+      rota 3 [3,2,5,7]  `shouldBe`  [7,3,2,5]
 
 especificacion 9 = 
   describe "Ejercicio 9: rango" $ do
-    it "e1_1" $
-      rango1 [3,2,7,5]  `shouldBe`  [2,7]
-    it "e1_2" $
-      rango2 [3,2,7,5]  `shouldBe`  [2,7]
+    let rango = rango2
+    it "e1" $
+      rango [3,2,7,5] `shouldBe` [2,7]
 
 especificacion 10 = 
   describe "Ejercicio 10: palindromo" $ do
@@ -105,62 +91,49 @@ especificacion 10 =
 
 especificacion 11 = 
   describe "Ejercicio 11: interior" $ do
-    it "e1_1" $
-      interior1 [2,5,3,7,3]  `shouldBe`  [5,3,7]
-    it "e2_1" $
-      interior1 [2..7]       `shouldBe`  [3,4,5,6]
-    it "e1_2" $
-      interior2 [2,5,3,7,3]  `shouldBe`  [5,3,7]
-    it "e2_2" $
-      interior2 [2..7]       `shouldBe`  [3,4,5,6]
-    it "e1_3" $
-      interior3 [2,5,3,7,3]  `shouldBe`  [5,3,7]
-    it "e2_3" $
-      interior3 [2..7]       `shouldBe`  [3,4,5,6]
+    let interior = interior6
+    it "e1" $
+      interior [2,5,3,7,3]  `shouldBe`  [5,3,7]
+    it "e2" $
+      interior [2..7]       `shouldBe`  [3,4,5,6]
 
 especificacion 12 = 
   describe "Ejercicio 12: finales" $ do
+    let finales = finales2
     it "e1" $
       finales 3 [2,5,4,7,9,6]  `shouldBe`  [7,9,6]
 
 especificacion 13 = 
   describe "Ejercicio 13: segmento" $ do
-    it "e1_1" $
-      segmento1 3 4 [3,4,1,2,7,9,0]  `shouldBe`  [1,2]
-    it "e2_1" $
-      segmento1 3 5 [3,4,1,2,7,9,0]  `shouldBe`  [1,2,7]
-    it "e3_1" $
-      segmento1 5 3 [3,4,1,2,7,9,0]  `shouldBe`  []
-    it "e1_2" $
-      segmento2 3 4 [3,4,1,2,7,9,0]  `shouldBe`  [1,2]
-    it "e2_2" $
-      segmento2 3 5 [3,4,1,2,7,9,0]  `shouldBe`  [1,2,7]
-    it "e3_2" $
-      segmento2 5 3 [3,4,1,2,7,9,0]  `shouldBe`  []
+    let segmento = segmento4
+    it "e1" $
+      segmento 3 4 [3,4,1,2,7,9,0]  `shouldBe`  [1,2]
+    it "e2" $
+      segmento 3 5 [3,4,1,2,7,9,0]  `shouldBe`  [1,2,7]
+    it "e3" $
+      segmento 5 3 [3,4,1,2,7,9,0]  `shouldBe`  []
 
 especificacion 14 = 
-  describe "Ejercicio 14: segmento" $ do
+  describe "Ejercicio 14: extremos" $ do
+    let extremos = extremos2
     it "e1" $
       extremos 3 [2,6,7,1,2,4,5,8,9,2,3]  `shouldBe`  [2,6,7,9,2,3]
 
 especificacion 15 = 
   describe "Ejercicio 15: mediano" $ do
-    it "e1_1" $
-      mediano1 3 2 5  `shouldBe`  3
-    it "e2_1" $
-      mediano1 2 4 5  `shouldBe`  4
-    it "e3_1" $
-      mediano1 2 6 5  `shouldBe`  5
-    it "e4_1" $
-      mediano1 2 6 6  `shouldBe`  6
-    it "e1_2" $
-      mediano2 3 2 5  `shouldBe`  3
-    it "e2_2" $
-      mediano2 2 4 5  `shouldBe`  4
-    it "e3_2" $
-      mediano2 2 6 5  `shouldBe`  5
-    it "e4_2" $
-      mediano2 2 6 6  `shouldBe`  6
+    let mediano = mediano5
+    it "e1" $
+      mediano 3 2 5  `shouldBe`  3
+    it "e2" $
+      mediano 2 4 5  `shouldBe`  4
+    it "e3" $
+      mediano 2 6 5  `shouldBe`  5
+    it "e4" $
+      mediano 2 6 6  `shouldBe`  6
+    it "e5" $
+      mediano 3 0 0  `shouldBe`  0
+    it "e6" $
+      mediano 0 0 0  `shouldBe`  0
 
 especificacion 16 = 
   describe "Ejercicio 16: tresIguales" $ do
@@ -182,9 +155,9 @@ especificacion 17 =
 
 especificacion 18 = 
   describe "Ejercicio 18: cuatroIguales" $ do
+    let cuatroIguales = cuatroIguales3
     it "e1" $
       cuatroIguales 5 5 5 5          `shouldBe`  True
     it "e2" $
       cuatroIguales 5 5 4 5          `shouldBe`  False
-    it "e3" $
-      cuatroIguales 'a' 'a' 'a' 'a'  `shouldBe`  True
+

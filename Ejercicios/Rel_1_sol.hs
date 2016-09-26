@@ -15,7 +15,7 @@
 -- funciones de Haskell que se encuentra en http://bit.ly/1uJZiqi y su
 -- resumen en http://bit.ly/ZwSMHO
 
-module Rel_1_sol where
+import Data.List
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función media3 tal que (media3 x y z) es
@@ -25,7 +25,9 @@ module Rel_1_sol where
 --    media3 (-3) 0 3  ==  0.0
 -- ---------------------------------------------------------------------
 
--- enrnarbej ignareeva marjimcom cargonler manruiber roscargar
+-- enrnarbej ignareeva marjimcom cargonler manruiber roscargar felsuacor
+-- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
+-- eliguivil eledejim2 monlagare 
 media3_1 x y z = (x+y+z)/3
 
 -- juaorture
@@ -42,6 +44,8 @@ media3_2 x y z = x/3 + y/3 + z/3
 -- ---------------------------------------------------------------------
 
 -- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
+-- felsuacor congomgom fatfervaz antmorper3 belbenzam luimotmar
+-- beagongon1 eliguivil eledejim2 monlagare 
 sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
@@ -52,7 +56,12 @@ sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 -- ---------------------------------------------------------------------
 
 -- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
-volumenEsfera r = 4/3*pi*r^3
+-- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
+-- eliguivil eledejim2 monlagare
+volumenEsfera1 r = 4/3*pi*r^3
+
+-- luimotmar
+volumenEsfera2 r = 4/3 * (pi * r^3)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función areaDeCoronaCircular tal que 
@@ -68,7 +77,9 @@ areaDeCoronaCircular1 r1 r2 = areaCirculo r2 - areaCirculo r1
 
 areaCirculo r = pi*r^2
 
--- juaorture marjimcom paumacpar manruiber roscargar
+-- juaorture marjimcom paumacpar manruiber roscargar felsuacor eledejim2
+-- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
+-- eliguivil ignareeva monlagare
 areaDeCoronaCircular2 r1 r2 = (pi)*(r2^2 - r1^2)
 
 -- Comentario: La definición de areaDeCoronaCircular2 se puede
@@ -76,12 +87,13 @@ areaDeCoronaCircular2 r1 r2 = (pi)*(r2^2 - r1^2)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función ultimaCifra tal que (ultimaCifra x)
--- es la última cifra del nímero x. Por ejemplo,
+-- es la última cifra del número x. Por ejemplo,
 --    ultimaCifra 325  ==  5
 -- Indicación: Usar la función rem
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber roscargar
+-- enrnarbej manruiber roscargar , marjimcom felsuacor congomgom antmorper3 belbenzam
+-- beagongon1 eliguivil ignareeva paumacpar
 ultimaCifra1 x = x `rem` 10
 
 -- juaorture
@@ -98,8 +110,15 @@ ultimaCifra2 x = x `rem` (10 * (length "x"))
 -- Indicación: Usar la función max.
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber roscargar
-maxTres x y z = max x (max z y)
+-- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
+-- congomgom antmorper3 beagongon1 eliguivil ignareeva
+maxTres1 x y z = max x (max z y)
+
+-- belbenzam monlagare
+maxTres2 x y z = maximum [x,y,z]
+
+-- Comentario: La definición maxTres2 no cumple la restricción del
+-- enunciado.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función rota1 tal que (rota1 xs) es la lista
@@ -108,7 +127,9 @@ maxTres x y z = max x (max z y)
 --    rota1 [3,2,5,7]  ==  [2,5,7,3]
 -- ---------------------------------------------------------------------
 
--- paumacpar enrnarbej juaorture manruiber roscargar
+-- paumacpar enrnarbej juaorture manruiber roscargar marjimcom felsuacor
+-- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
+-- monlagare 
 rota1 xs = tail xs ++ [head xs]
 
 -- ---------------------------------------------------------------------
@@ -124,7 +145,8 @@ rota1 xs = tail xs ++ [head xs]
 rota_1 0 xs = xs
 rota_1 n xs = rota_1 (n-1) (rota1 xs)
 
--- juaorture paumacpar manruiber roscargar
+-- juaorture paumacpar manruiber roscargar marjimcom felsuacor antmorper3
+-- beagongon1 eliguivil ignareeva
 rota_2 n xs = drop n xs ++ take n xs
 
 -- ---------------------------------------------------------------------
@@ -134,10 +156,11 @@ rota_2 n xs = drop n xs ++ take n xs
 -- Indicación: Se pueden usar minimum y maximum.
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture roscargar
+-- enrnarbej juaorture roscargar marjimcom beagongon1 belbenzam
+-- fatfervaz ignareeva 
 rango1 xs = [minimum xs, maximum xs]
 
--- paumacpar manruiber
+-- paumacpar manruiber antmorper3 eliguivil
 rango2 xs = [minimum xs] ++ [maximum xs]
 
 -- ---------------------------------------------------------------------
@@ -148,7 +171,8 @@ rango2 xs = [minimum xs] ++ [maximum xs]
 --    palindromo [3,2,5,6,2,3]  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber roscargar
+-- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
+-- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
 palindromo xs = xs == reverse xs
 
 -- ---------------------------------------------------------------------
@@ -167,8 +191,17 @@ interior1 xs = tail (reverse (tail (reverse xs)))
 -- enrnarbej
 interior2 xs = take (length xs - 2) (tail xs)
 
--- juaorture
+-- juaorture felsuacor antmorper3
 interior3 xs = init (tail xs)
+
+-- marjimcom beagongon1
+interior4 xs = drop 1 (init xs)
+
+-- eliguivil
+interior5 xs = tail (take ((length xs)-1) xs)
+
+-- fatfervaz
+interior6 xs = tail (init xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función finales tal que (finales n xs) es la
@@ -176,9 +209,15 @@ interior3 xs = init (tail xs)
 --    finales 3 [2,5,4,7,9,6]  ==  [7,9,6]
 -- ---------------------------------------------------------------------
  
--- enrnarbej juaorture paumacpar manruiber
-finales n xs = drop (length xs - n) xs
- 
+-- enrnarbej juaorture paumacpar manruiber beagongon1 belbenzam
+finales1 n xs = drop (length xs - n) xs
+
+--felsuacor antmorper3 eliguivil roscargar
+finales2 n xs = reverse (take n ( reverse xs))
+
+-- Se usará la 1ª
+finales = finales1
+  
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función segmento tal que (segmento m n xs) es
 -- la lista de los elementos de xs comprendidos entre las posiciones m y
@@ -192,8 +231,15 @@ finales n xs = drop (length xs - n) xs
 segmento1 m n xs =
   reverse (drop (length xs - n) (reverse (drop (m-1) xs)))
 
--- enrnarbej juaorture manruiber
+-- enrnarbej juaorture manruiber beagongon1
 segmento2 m n xs = drop (m-1) (take n xs)
+
+-- antmorper3 roscargar
+segmento3 m n xs = take (n-(m-1)) (drop (m-1)xs)
+
+-- eliguivil
+segmento4 m n xs =
+  reverse (drop ((length xs)-n) (reverse (drop (m-1) xs)))
  
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función extremos tal que (extremos n xs) es
@@ -202,8 +248,11 @@ segmento2 m n xs = drop (m-1) (take n xs)
 --    extremos 3 [2,6,7,1,2,4,5,8,9,2,3]  ==  [2,6,7,9,2,3]
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber
-extremos n xs = take n xs ++ finales n xs
+-- enrnarbej juaorture paumacpar manruiber antmorper3 beagongon1
+extremos1 n xs = take n xs ++ finales n xs
+
+--felsuacor eliguivil roscargar
+extremos2 n xs = take n xs ++ reverse (take n (reverse xs))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función mediano tal que (mediano x y z) es el
@@ -212,14 +261,29 @@ extremos n xs = take n xs ++ finales n xs
 --    mediano 2 4 5  ==  4
 --    mediano 2 6 5  ==  5
 --    mediano 2 6 6  ==  6
+--    mediano 3 0 0  ==  0
+--    mediano 0 0 0  ==  0
 -- Indicación: Usar maximum y minimum.
 -- ---------------------------------------------------------------------
- 
--- enrnarbej juaorture
-mediano1 x y z = maximum [x, minimum [y, z]]
 
 -- juaorture
-mediano2 x y z = max x (min y z)
+mediano1 x y z = (sort [x,y,z]) !! 1
+
+-- enrnarbej marjimcom
+mediano2 x y z =
+  minimum [minimum [maximum [x,y], maximum [x,z]], maximum [y,z]]
+
+-- manruiber
+mediano3 x y z =
+  minimum [maximum [x,y], maximum [y,z], maximum [x,z]]
+
+-- beagongon1
+mediano4 x y z =
+  maximum [minimum [x,y], minimum [x,z], minimum [y,z]]
+
+-- eliguivil
+mediano5 x y z =
+  sum [x,y,z] - maximum [x,y,z] - minimum [x,y,z]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función tresIguales tal que 
@@ -230,7 +294,7 @@ mediano2 x y z = max x (min y z)
 --    tresIguales 'a' 'a' 'a'  ==  True
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber
+-- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 tresIguales x y z = (x==y) && (y==z)
 
 -- juaorture
@@ -247,7 +311,7 @@ tresIguales x y z = (x==y) && (y==z)
 --    tresDiferentes 'a' 'b' 'c'  ==  True
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber
+-- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 
 -- juaorture
@@ -265,10 +329,13 @@ tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 -- Indicación: Usar la función tresIguales.
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber
+-- enrnarbej manruiber marjimcom antmorper3 beagongon1 roscargar
 cuatroIguales x y z u = tresIguales x y z && u == x
 
 -- juaorture
 --    cuatroIguales2 x y z u = x - y == 0 && y - z == 0 && z - u == 0
 
 -- Comentario: La definición cuatroIguales2 falla en el 3º ejemplo.
+
+-- eliguivil
+cuatroIguales3 x y z u = tresIguales x y z && tresIguales x y u
