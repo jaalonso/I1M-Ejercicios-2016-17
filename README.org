@@ -6,4 +6,4 @@ soluciones colaborativas escritas por los alumnos (hasta su comentario en
 clase) y las soluciones definitivas. 
 
 + *Relación 1*: Definiciones por composición sobre números, listas y
-  booleanos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1.hs][Enunciado]]).
+  booleanos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1_sol.hs][solución colaborativa]]).
