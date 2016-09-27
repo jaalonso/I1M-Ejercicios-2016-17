@@ -27,7 +27,7 @@ import Data.List
 
 -- enrnarbej ignareeva marjimcom cargonler manruiber roscargar felsuacor
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
--- eliguivil eledejim2 monlagare 
+-- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon josdeher
 media3_1 x y z = (x+y+z)/3
 
 -- juaorture
@@ -45,7 +45,8 @@ media3_2 x y z = x/3 + y/3 + z/3
 
 -- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
 -- felsuacor congomgom fatfervaz antmorper3 belbenzam luimotmar
--- beagongon1 eliguivil eledejim2 monlagare 
+-- beagongon1 eliguivil eledejim2 monlagare glovizcas joscasgom1 
+-- pabrabmon josdeher
 sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
@@ -57,11 +58,14 @@ sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
 -- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
--- eliguivil eledejim2 monlagare
+-- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon
 volumenEsfera1 r = 4/3*pi*r^3
 
 -- luimotmar
 volumenEsfera2 r = 4/3 * (pi * r^3)
+
+-- josdeher
+volumenEsfera3 r = 4/3*pi*r**3
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función areaDeCoronaCircular tal que 
@@ -79,7 +83,7 @@ areaCirculo r = pi*r^2
 
 -- juaorture marjimcom paumacpar manruiber roscargar felsuacor eledejim2
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
--- eliguivil ignareeva monlagare
+-- eliguivil ignareeva monlagare glovizcas joscasgom1 pabrabmon josdeher
 areaDeCoronaCircular2 r1 r2 = (pi)*(r2^2 - r1^2)
 
 -- Comentario: La definición de areaDeCoronaCircular2 se puede
@@ -92,14 +96,18 @@ areaDeCoronaCircular2 r1 r2 = (pi)*(r2^2 - r1^2)
 -- Indicación: Usar la función rem
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber roscargar , marjimcom felsuacor congomgom antmorper3 belbenzam
--- beagongon1 eliguivil ignareeva paumacpar
+-- enrnarbej manruiber roscargar , marjimcom felsuacor congomgom
+-- antmorper3 belbenzam beagongon1 eliguivil ignareeva paumacpar
+-- glovizcas joscasgom1 pabrabmon eledejim2 
 ultimaCifra1 x = x `rem` 10
 
 -- juaorture
 ultimaCifra2 x = x `rem` (10 * (length "x"))
 
 -- Comentario: La definición de ultimaCifra2 se puede simplificar.
+
+-- josdeher
+ultimaCifra3 x = rem x 10
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función maxTres tal que (maxTres x y z) es
@@ -111,11 +119,15 @@ ultimaCifra2 x = x `rem` (10 * (length "x"))
 -- ---------------------------------------------------------------------
 
 -- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
--- congomgom antmorper3 beagongon1 eliguivil ignareeva
+-- congomgom antmorper3 beagongon1 eliguivil ignareeva glovizcas
+-- joscasgom1 pabrabmon fatfervaz
 maxTres1 x y z = max x (max z y)
 
 -- belbenzam monlagare
 maxTres2 x y z = maximum [x,y,z]
+
+-- eledejim2 josdeher
+maxTres3 x y z = max (max x y) z
 
 -- Comentario: La definición maxTres2 no cumple la restricción del
 -- enunciado.
@@ -129,8 +141,11 @@ maxTres2 x y z = maximum [x,y,z]
 
 -- paumacpar enrnarbej juaorture manruiber roscargar marjimcom felsuacor
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
--- monlagare 
+-- monlagare glovizcas joscasgom1 eledejim2 josdeher
 rota1 xs = tail xs ++ [head xs]
+
+-- pabrabmon
+rota12 xs = drop 1 xs ++ [head xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función rota tal que (rota n xs) es la lista
@@ -146,7 +161,8 @@ rota_1 0 xs = xs
 rota_1 n xs = rota_1 (n-1) (rota1 xs)
 
 -- juaorture paumacpar manruiber roscargar marjimcom felsuacor antmorper3
--- beagongon1 eliguivil ignareeva
+-- beagongon1 eliguivil ignareeva glovizcas joscasgom1 pabrabmon
+-- eledejim2 josdeher
 rota_2 n xs = drop n xs ++ take n xs
 
 -- ---------------------------------------------------------------------
@@ -157,10 +173,10 @@ rota_2 n xs = drop n xs ++ take n xs
 -- ---------------------------------------------------------------------
 
 -- enrnarbej juaorture roscargar marjimcom beagongon1 belbenzam
--- fatfervaz ignareeva 
+-- fatfervaz ignareeva joscasgom1 eledejim2
 rango1 xs = [minimum xs, maximum xs]
 
--- paumacpar manruiber antmorper3 eliguivil
+-- paumacpar manruiber antmorper3 eliguivil glovizcas pabrabmon josdeher
 rango2 xs = [minimum xs] ++ [maximum xs]
 
 -- ---------------------------------------------------------------------
@@ -173,6 +189,7 @@ rango2 xs = [minimum xs] ++ [maximum xs]
 
 -- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
+-- glovizcas joscasgom1 pabrabmon eledejim2 josdeher
 palindromo xs = xs == reverse xs
 
 -- ---------------------------------------------------------------------
@@ -182,7 +199,7 @@ palindromo xs = xs == reverse xs
 --    interior [2..7]       ==  [3,4,5,6]
 -- ---------------------------------------------------------------------
 
--- paumacpar manruiber roscargar
+-- paumacpar manruiber roscargar joscasgom1 pabrabmon
 interior1 xs = tail (reverse (tail (reverse xs)))
 
 -- Comentario: La definición anterior se puede simplificar usando la
@@ -191,17 +208,20 @@ interior1 xs = tail (reverse (tail (reverse xs)))
 -- enrnarbej
 interior2 xs = take (length xs - 2) (tail xs)
 
--- juaorture felsuacor antmorper3
+-- juaorture felsuacor antmorper3 
 interior3 xs = init (tail xs)
 
--- marjimcom beagongon1
+-- marjimcom beagongon1 glovizcas pabrabmon
 interior4 xs = drop 1 (init xs)
 
 -- eliguivil
 interior5 xs = tail (take ((length xs)-1) xs)
 
--- fatfervaz
+-- fatfervaz eledejim2
 interior6 xs = tail (init xs)
+
+-- josdeher
+interior7 xs = init (drop 1 xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función finales tal que (finales n xs) es la
@@ -210,9 +230,10 @@ interior6 xs = tail (init xs)
 -- ---------------------------------------------------------------------
  
 -- enrnarbej juaorture paumacpar manruiber beagongon1 belbenzam
+-- glovizcas joscasgom1 pabrabmon eledejim2
 finales1 n xs = drop (length xs - n) xs
 
---felsuacor antmorper3 eliguivil roscargar
+-- felsuacor antmorper3 eliguivil roscargar josdeher
 finales2 n xs = reverse (take n ( reverse xs))
 
 -- Se usará la 1ª
@@ -231,7 +252,8 @@ finales = finales1
 segmento1 m n xs =
   reverse (drop (length xs - n) (reverse (drop (m-1) xs)))
 
--- enrnarbej juaorture manruiber beagongon1
+-- enrnarbej juaorture manruiber beagongon1 joscasgom1 pabrabmon
+-- josdeher 
 segmento2 m n xs = drop (m-1) (take n xs)
 
 -- antmorper3 roscargar
@@ -249,9 +271,10 @@ segmento4 m n xs =
 -- ---------------------------------------------------------------------
 
 -- enrnarbej juaorture paumacpar manruiber antmorper3 beagongon1
+-- pabrabmon 
 extremos1 n xs = take n xs ++ finales n xs
 
---felsuacor eliguivil roscargar
+--felsuacor eliguivil roscargar joscasgom1 josdeher
 extremos2 n xs = take n xs ++ reverse (take n (reverse xs))
 
 -- ---------------------------------------------------------------------
@@ -273,11 +296,11 @@ mediano1 x y z = (sort [x,y,z]) !! 1
 mediano2 x y z =
   minimum [minimum [maximum [x,y], maximum [x,z]], maximum [y,z]]
 
--- manruiber
+-- manruiber joscasgom1 pabrabmon
 mediano3 x y z =
   minimum [maximum [x,y], maximum [y,z], maximum [x,z]]
 
--- beagongon1
+--beagongon1 pabrabmon josdeher
 mediano4 x y z =
   maximum [minimum [x,y], minimum [x,z], minimum [y,z]]
 
@@ -295,6 +318,7 @@ mediano5 x y z =
 -- ---------------------------------------------------------------------
 
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
+-- joscasgom1 pabrabmon eledejim2 josdeher
 tresIguales x y z = (x==y) && (y==z)
 
 -- juaorture
@@ -312,6 +336,7 @@ tresIguales x y z = (x==y) && (y==z)
 -- ---------------------------------------------------------------------
 
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
+-- joscasgom1 pabrabmon eledejim2 josdeher
 tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 
 -- juaorture
@@ -330,6 +355,7 @@ tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 -- ---------------------------------------------------------------------
 
 -- enrnarbej manruiber marjimcom antmorper3 beagongon1 roscargar
+-- joscasgom1 pabrabmon eledejim2 josdeher
 cuatroIguales x y z u = tresIguales x y z && u == x
 
 -- juaorture
