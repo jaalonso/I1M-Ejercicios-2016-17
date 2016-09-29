@@ -29,7 +29,8 @@ import Data.List
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon josdeher 
 -- javleilor alvfercen fraferpoy marmerzaf josrodgal7 carmarcar5
--- margarflo5 migibagar natmarmar2 artmorfer josjimgon2 albcercid 
+-- margarflo5 migibagar natmarmar2 artmorfer josjimgon2 albcercid
+-- margarvil14 
 media3_1 x y z = (x+y+z)/3
 
 -- juaorture
@@ -50,7 +51,7 @@ media3_2 x y z = x/3 + y/3 + z/3
 -- beagongon1 eliguivil eledejim2 monlagare glovizcas joscasgom1 
 -- pabrabmon josdeher cargonler javleilor alvfercen fraferpoy marmerzaf
 -- josrodgal7 carmarcar5 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid 
+-- josjimgon2 albcercid margarvil14
 sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
@@ -63,7 +64,8 @@ sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 -- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
 -- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon cargonler
--- javleilor alvfercen marmerzaf josrodgal7 carmarcar5 migibagar artmorfer albcercid
+-- javleilor alvfercen marmerzaf josrodgal7 carmarcar5 migibagar
+-- artmorfer albcercid margarvil14 
 volumenEsfera1 r = 4/3*pi*r^3
 
 -- luimotmar
@@ -96,8 +98,8 @@ areaCirculo r = pi*r^2
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
 -- eliguivil ignareeva monlagare glovizcas joscasgom1 pabrabmon josdeher
 -- cargonler javleilor alvfercen marmerzaf margarflo5 migibagar
--- natmarmar2 artmorfer josjimgon2 
-areaDeCoronaCircular2 r1 r2 = (pi)*(r2^2 - r1^2)
+-- natmarmar2 artmorfer josjimgon2 margarvil14
+areaDeCoronaCircular2 r1 r2 = pi*(r2^2 - r1^2)
 
 -- fraferpoy josrodgal7 carmarcar5 albcercid
 areaDeCoronaCircular3 r1 r2 =(pi*r2^2)-(pi*r1^2)
@@ -147,7 +149,7 @@ maxTres2 x y z = maximum [x,y,z]
 -- Comentario: La definición maxTres2 no cumple la restricción del
 -- enunciado.
 
--- eledejim2 josdeher migibagar
+-- eledejim2 josdeher migibagar margarvil14
 maxTres3 x y z = max (max x y) z
 
 -- albcercid
@@ -267,6 +269,9 @@ interior8 xs = reverse (tail (reverse (tail xs)))
 -- albcercid
 interior9 xs = tail (take (length xs - 1) xs)
 
+-- margarvil14
+interior10 xs = tail (reverse (tail xs))
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función finales tal que (finales n xs) es la
 -- lista formada por los n finales elementos de xs. Por ejemplo,
@@ -279,7 +284,8 @@ interior9 xs = tail (take (length xs - 1) xs)
 -- josjimgon2 albcercid
 finales1 n xs = drop (length xs - n) xs
 
--- felsuacor antmorper3 eliguivil roscargar josdeher ignareeva fraferpoy 
+-- felsuacor antmorper3 eliguivil roscargar josdeher ignareeva fraferpoy
+-- margarvil14 
 finales2 n xs = reverse (take n ( reverse xs))
 
 -- Se usará la 1ª
