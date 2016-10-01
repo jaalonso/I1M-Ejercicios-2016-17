@@ -30,7 +30,7 @@ import Data.List
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon josdeher 
 -- javleilor alvfercen fraferpoy marmerzaf josrodgal7 carmarcar5
 -- margarflo5 migibagar natmarmar2 artmorfer josjimgon2 albcercid
--- margarvil14 
+-- margarvil14 paumacpar natruipin
 media3_1 x y z = (x+y+z)/3
 
 -- juaorture
@@ -51,7 +51,7 @@ media3_2 x y z = x/3 + y/3 + z/3
 -- beagongon1 eliguivil eledejim2 monlagare glovizcas joscasgom1 
 -- pabrabmon josdeher cargonler javleilor alvfercen fraferpoy marmerzaf
 -- josrodgal7 carmarcar5 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid margarvil14
+-- josjimgon2 albcercid margarvil14 natruipin
 sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
@@ -65,7 +65,7 @@ sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 -- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon cargonler
 -- javleilor alvfercen marmerzaf josrodgal7 carmarcar5 migibagar
--- artmorfer albcercid margarvil14 
+-- artmorfer albcercid margarvil14 natruipin
 volumenEsfera1 r = 4/3*pi*r^3
 
 -- luimotmar
@@ -98,7 +98,7 @@ areaCirculo r = pi*r^2
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
 -- eliguivil ignareeva monlagare glovizcas joscasgom1 pabrabmon josdeher
 -- cargonler javleilor alvfercen marmerzaf margarflo5 migibagar
--- natmarmar2 artmorfer josjimgon2 margarvil14
+-- natmarmar2 artmorfer josjimgon2 margarvil14 natruipin
 areaDeCoronaCircular2 r1 r2 = pi*(r2^2 - r1^2)
 
 -- fraferpoy josrodgal7 carmarcar5 albcercid
@@ -125,7 +125,7 @@ ultimaCifra2 x = x `rem` (10 * (length "x"))
 
 -- Comentario: La definición de ultimaCifra2 se puede simplificar.
 
--- josdeher fraferpoy margarflo5 migibagar josjimgon2
+-- josdeher fraferpoy margarflo5 migibagar josjimgon2 natruipin
 ultimaCifra3 x = rem x 10
 
 -- ---------------------------------------------------------------------
@@ -140,10 +140,10 @@ ultimaCifra3 x = rem x 10
 -- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
 -- congomgom antmorper3 beagongon1 eliguivil ignareeva glovizcas
 -- joscasgom1 pabrabmon fatfervaz cargonler fraferpoy alvfercen marmerzaf
--- josrodgal7 margarflo5 natmarmar2 artmorfer
+-- josrodgal7 margarflo5 natmarmar2 artmorfer natruipin
 maxTres1 x y z = max x (max z y)
 
--- belbenzam monlagare javleilor josjimgon2
+-- belbenzam monlagare javleilor josjimgon2 carmarcar5
 maxTres2 x y z = maximum [x,y,z]
 
 -- Comentario: La definición maxTres2 no cumple la restricción del
@@ -168,10 +168,10 @@ maxTres4 x y z = max x (max y (max z (z-1)))
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
 -- monlagare glovizcas joscasgom1 eledejim2 josdeher cargonler fraferpoy
 -- javleilor alvfercen congomgom marmerzaf margarflo5 artmorfer
--- josjimgon2 
+-- josjimgon2 carmarcar5
 rota1 xs = tail xs ++ [head xs]
 
--- pabrabmon josrodgal7 migibagar
+-- pabrabmon josrodgal7 migibagar natruipin
 rota12 xs = drop 1 xs ++ [head xs]
 
 -- albcercid
@@ -194,7 +194,7 @@ rota_1 n xs = rota_1 (n-1) (rota1 xs)
 -- beagongon1 eliguivil ignareeva glovizcas joscasgom1 pabrabmon
 -- eledejim2 josdeher cargonler javleilor alvfercen fraferpoy congomgom
 -- marmerzaf josrodgal7 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid 
+-- josjimgon2 albcercid natruipin
 rota_2 n xs = drop n xs ++ take n xs
 
 -- ---------------------------------------------------------------------
@@ -211,6 +211,7 @@ rango1 xs = [minimum xs, maximum xs]
 
 -- paumacpar manruiber antmorper3 eliguivil glovizcas pabrabmon josdeher
 -- cargonler fraferpoy congomgom marmerzaf migibagar artmorfer albcercid
+-- natruipin 
 rango2 xs = [minimum xs] ++ [maximum xs]
 
 -- ---------------------------------------------------------------------
@@ -225,7 +226,7 @@ rango2 xs = [minimum xs] ++ [maximum xs]
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
 -- glovizcas joscasgom1 pabrabmon eledejim2 josdeher cargonler javleilor
 -- alvfercen fraferpoy congomgom marmerzaf josrodgal7 margarflo5
--- migibagar natmarmar2 artmorfer josjimgon2 
+-- migibagar natmarmar2 artmorfer josjimgon2 natruipin
 palindromo xs = xs == reverse xs
 
 -- albcercid
@@ -252,6 +253,7 @@ interior2 xs = take (length xs - 2) (tail xs)
 interior3 xs = init (tail xs)
 
 -- marjimcom beagongon1 glovizcas pabrabmon cargonler marmerzaf
+-- natruipin 
 interior4 xs = drop 1 (init xs)
 
 -- eliguivil
@@ -281,7 +283,7 @@ interior10 xs = tail (reverse (tail xs))
 -- enrnarbej juaorture paumacpar manruiber beagongon1 belbenzam
 -- glovizcas joscasgom1 pabrabmon eledejim2 javleilor marmerzaf
 -- congomgom josrodgal7 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid
+-- josjimgon2 albcercid natruipin
 finales1 n xs = drop (length xs - n) xs
 
 -- felsuacor antmorper3 eliguivil roscargar josdeher ignareeva fraferpoy
@@ -300,7 +302,7 @@ finales = finales1
 --    segmento 5 3 [3,4,1,2,7,9,0]  ==  []
 -- ---------------------------------------------------------------------
  
--- enrnarbej
+-- enrnarbej natruipin
 segmento1 m n xs =
   reverse (drop (length xs - n) (reverse (drop (m-1) xs)))
 
@@ -309,7 +311,7 @@ segmento1 m n xs =
 -- artmorfer josjimgon2 albcercid 
 segmento2 m n xs = drop (m-1) (take n xs)
 
--- antmorper3 roscargar josrodgal
+-- antmorper3 roscargar josrodgal paumacpar
 segmento3 m n xs = take (n-(m-1)) (drop (m-1)xs)
 
 -- eliguivil
@@ -331,7 +333,7 @@ segmento5 m n xs = take n xs \\ take (m - 1) xs
 extremos1 n xs = take n xs ++ finales n xs
 
 --felsuacor eliguivil roscargar joscasgom1 josdeher josrodgal7 congomgom
---margarflo5 josjimgon2 
+--margarflo5 josjimgon2 natruipin
 extremos2 n xs = take n xs ++ reverse (take n (reverse xs))
 
 -- migibagar
@@ -360,7 +362,7 @@ mediano2 x y z =
   minimum [minimum [maximum [x,y], maximum [x,z]], maximum [y,z]]
 
 -- manruiber joscasgom1 pabrabmon cargonler marmerzaf josrodgal7
--- migibagar josjimgon2 
+-- migibagar josjimgon2 natruipin
 mediano3 x y z =
   minimum [maximum [x,y], maximum [y,z], maximum [x,z]]
 
@@ -368,7 +370,7 @@ mediano3 x y z =
 mediano4 x y z =
   maximum [minimum [x,y], minimum [x,z], minimum [y,z]]
 
--- eliguivil antmorper3 margarflo5
+-- eliguivil antmorper3 margarflo5 fraferpoy
 mediano5 x y z =
   sum [x,y,z] - maximum [x,y,z] - minimum [x,y,z]
 
@@ -388,9 +390,10 @@ mediano6 x y z =
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas
 -- marmerzaf congomgom margarflo5 monlagare artmorfer josjimgon2
+-- paumacpar natruipin fraferpoy
 tresIguales x y z = (x==y) && (y==z)
 
--- juaorture
+-- juaorture 
 --    tresIguales2 x y z = x - y == 0 && y - z == 0
 
 -- Comentario: La definición tresIguales2 falla en el 3º ejemplo.
@@ -412,7 +415,7 @@ tresIguales3 x y z = (x == y) && (y == z) && (x == z)
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
 -- marmerzaf margarflo5 congomgom monlagare migibagar artmorfer
--- josjimgon2 albcercid 
+-- josjimgon2 albcercid paumacpar natruipin fraferpoy
 tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z) 
 
 -- juaorture
@@ -432,7 +435,8 @@ tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 
 -- enrnarbej manruiber marjimcom antmorper3 beagongon1 roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
--- marmerzaf margarflo5 congomgom artmorfer josjimgon2
+-- marmerzaf margarflo5 congomgom artmorfer josjimgon2 paumacpar
+-- natruipin fraferpoy
 cuatroIguales x y z u = tresIguales x y z && u == x 
 
 -- juaorture

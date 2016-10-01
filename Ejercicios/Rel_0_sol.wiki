@@ -1,0 +1,82 @@
+=== Relación 0: Programación de dibujos con CodeWorl/Haskell ===
+
+En la primera clase del curso (del 21 de septiembre) se explicó el tema [http://bit.ly/2cHsOIZ  Programas, funciones y dibujos] en el que se hace una introducción a la programación funcional de dibujos con [https://code.world/haskell# CodeWorld/Haskell].
+
+Como ejercicio se propuso la programación de dibujos libremente elegidos.
+
+==== Dibujos recibidos el 21 y 22 de septiembre ====
+
+{|
+| albcercid        || [http://bit.ly/2cAvGJW Ceci n'est pas une guitare].
+|-
+| alvfercen        || [http://bit.ly/2d63zQ9 Dos triángulos].
+|-
+| antmorper3       || [http://bit.ly/2d68ikG Ratón y queso].
+|-
+| artmorfer        || [http://bit.ly/2d65iVH La libélula y la flor].
+|-
+| beagongon1       || [http://bit.ly/2d65Evl Fútbol].
+|-
+| belbenzam        || [http://bit.ly/2d65BQq Estrella girando].
+|-
+| carmarcar5       || [http://bit.ly/2d66lVC Libélula].
+|-
+| cargonler        || [http://bit.ly/2d66vfR Sistema solar].
+|-
+| congomgom        || [http://bit.ly/2d65hB1 Pentagrama y notas].
+|-
+| cescarde         || [http://bit.ly/2d65LXS Lobo].
+|-
+| eledejim2        || [http://bit.ly/2d65S5Q Kaleidoscope].
+|-
+| enrnarbej        || [http://bit.ly/2d65GDA Copo de Nieve de Koch].
+|-
+| fatfervaz        || [http://bit.ly/2cAxFha Átomo].
+|-
+| fraferpoy        || [http://bit.ly/2d66E2Q Casa].
+|-
+| glovizcas        || [http://bit.ly/2d66o3y Estrella girando].
+|-
+| josrodgal7       || [http://bit.ly/2d66EzS Cara muy feliz].
+|-
+| joscasgom1       || [http://bit.ly/2d65nsn Estrella girando dentro de círculos].
+|-
+| josjimgon2       || [http://bit.ly/2d65MLl Amor].
+|-
+| josdeher         || [http://bit.ly/2d66GYw Reloj de péndulo].
+|-
+| juaorture        || [http://bit.ly/2d66HeJ Barco].
+|-
+| luimotmar        || [http://bit.ly/2d65Tqk Mapa de la Tierra].
+|-
+| manruiber        || [http://bit.ly/2d66aJZ Coche].
+|-
+| marmerzaf        || [http://bit.ly/2d65qo3 Caracol].
+|-
+| migibagar        || [http://bit.ly/2d66bO3 Sol].
+|-
+| monlagare        || [http://bit.ly/2cAyEht Bandera].
+|-
+| natruipin        || [http://bit.ly/2d65QLk Habitación].
+|-
+| pabrabmon        || [http://bit.ly/2d65W5I Cara de asombro].
+|-
+| roscargar        || [http://bit.ly/2d65vZ7 Robot superman].
+|-
+| @brain8damage    || [http://bit.ly/2d66A2M Figuras en movimiento].
+|-
+| @estrella17jimen || [http://bit.ly/2cAyvux Ventilador]. 
+|-
+| @marian_super25  || [http://bit.ly/2cAyvL3 Pacman].
+|-
+|}
+
+==== Dibujos recibidos del 23 al 28 de septiembre ====
+
+{|
+| cescarde    || [http://bit.ly/2djRkjO Sistema solar en movimiento].
+|-
+| roscargar   || [http://bit.ly/2cXFvol Barco y pájaros en movimiento]. 
+|-
+| @Carmengp11 || [http://bit.ly/2cVCK3o Paisaje]. 
+|}
