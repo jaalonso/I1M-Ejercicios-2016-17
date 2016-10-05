@@ -30,7 +30,8 @@ import Data.List
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon josdeher 
 -- javleilor alvfercen fraferpoy marmerzaf josrodgal7 carmarcar5
 -- margarflo5 migibagar natmarmar2 artmorfer josjimgon2 albcercid
--- margarvil14 paumacpar natruipin
+-- margarvil14 paumacpar natruipin margirmon antdursan mardelrui
+-- javcancif criortcar marlobrip
 media3_1 x y z = (x+y+z)/3
 
 -- juaorture
@@ -51,7 +52,8 @@ media3_2 x y z = x/3 + y/3 + z/3
 -- beagongon1 eliguivil eledejim2 monlagare glovizcas joscasgom1 
 -- pabrabmon josdeher cargonler javleilor alvfercen fraferpoy marmerzaf
 -- josrodgal7 carmarcar5 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid margarvil14 natruipin
+-- josjimgon2 albcercid margarvil14 natruipin margirmon antdursan mardelrui
+-- javcancif criortcar marlobrip
 sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
@@ -65,7 +67,8 @@ sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
 -- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
 -- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon cargonler
 -- javleilor alvfercen marmerzaf josrodgal7 carmarcar5 migibagar
--- artmorfer albcercid margarvil14 natruipin
+-- artmorfer albcercid margarvil14 natruipin margirmon mardelrui
+-- criortcar  
 volumenEsfera1 r = 4/3*pi*r^3
 
 -- luimotmar
@@ -74,10 +77,10 @@ volumenEsfera2 r = 4/3 * (pi * r^3)
 -- josdeher
 volumenEsfera3 r = 4/3*pi*r**3
 
--- fraferpoy margarflo5
+-- fraferpoy margarflo5 javcancif marlobrip
 volumenEsfera4 r =(4/3)*pi*r^3
 
--- josjimgon2
+-- josjimgon2 antdursan
 volumenEsfera5 r = (4*pi*r^3)/3
 
 -- ---------------------------------------------------------------------
@@ -98,11 +101,15 @@ areaCirculo r = pi*r^2
 -- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
 -- eliguivil ignareeva monlagare glovizcas joscasgom1 pabrabmon josdeher
 -- cargonler javleilor alvfercen marmerzaf margarflo5 migibagar
--- natmarmar2 artmorfer josjimgon2 margarvil14 natruipin
+-- natmarmar2 artmorfer josjimgon2 margarvil14 natruipin margirmon mardelrui
+-- javcancif criortcar
 areaDeCoronaCircular2 r1 r2 = pi*(r2^2 - r1^2)
 
 -- fraferpoy josrodgal7 carmarcar5 albcercid
 areaDeCoronaCircular3 r1 r2 =(pi*r2^2)-(pi*r1^2)
+
+-- antdursan marlobrip
+areaDeCoronaCircular4 r1 r2 = pi*r2^2-pi*r1^2
 
 -- Comentario: La definición de areaDeCoronaCircular2 se puede
 -- simplificar. 
@@ -118,6 +125,7 @@ areaDeCoronaCircular3 r1 r2 =(pi*r2^2)-(pi*r1^2)
 -- antmorper3 belbenzam beagongon1 eliguivil ignareeva paumacpar
 -- glovizcas joscasgom1 pabrabmon eledejim2 cargonler alvfercen
 -- javleilor marmerzaf josrodgal7 natmarmar2 artmorfer albcercid
+-- margirmon mardelrui 
 ultimaCifra1 x = x `rem` 10
 
 -- juaorture
@@ -126,6 +134,7 @@ ultimaCifra2 x = x `rem` (10 * (length "x"))
 -- Comentario: La definición de ultimaCifra2 se puede simplificar.
 
 -- josdeher fraferpoy margarflo5 migibagar josjimgon2 natruipin
+-- carmarcar5 antdursan javcancif criortcar
 ultimaCifra3 x = rem x 10
 
 -- ---------------------------------------------------------------------
@@ -140,7 +149,8 @@ ultimaCifra3 x = rem x 10
 -- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
 -- congomgom antmorper3 beagongon1 eliguivil ignareeva glovizcas
 -- joscasgom1 pabrabmon fatfervaz cargonler fraferpoy alvfercen marmerzaf
--- josrodgal7 margarflo5 natmarmar2 artmorfer natruipin
+-- josrodgal7 margarflo5 natmarmar2 artmorfer natruipin margirmon 
+-- antdursan marlobrip
 maxTres1 x y z = max x (max z y)
 
 -- belbenzam monlagare javleilor josjimgon2 carmarcar5
@@ -149,13 +159,16 @@ maxTres2 x y z = maximum [x,y,z]
 -- Comentario: La definición maxTres2 no cumple la restricción del
 -- enunciado.
 
--- eledejim2 josdeher migibagar margarvil14
+-- eledejim2 josdeher migibagar margarvil14 mardelrui
 maxTres3 x y z = max (max x y) z
 
 -- albcercid
 maxTres4 x y z = max x (max y (max z (z-1)))
 
 -- Comentario: La definición maxTres4 se puede mejorar.
+
+-- javcancif criortcar
+maxTres x y z = max x (max y z)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función rota1 tal que (rota1 xs) es la lista
@@ -168,7 +181,7 @@ maxTres4 x y z = max x (max y (max z (z-1)))
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
 -- monlagare glovizcas joscasgom1 eledejim2 josdeher cargonler fraferpoy
 -- javleilor alvfercen congomgom marmerzaf margarflo5 artmorfer
--- josjimgon2 carmarcar5
+-- josjimgon2 carmarcar5 antdursan mardelrui javcancif criortcar
 rota1 xs = tail xs ++ [head xs]
 
 -- pabrabmon josrodgal7 migibagar natruipin
@@ -176,6 +189,9 @@ rota12 xs = drop 1 xs ++ [head xs]
 
 -- albcercid
 rota13 xs = tail xs ++ take 1 xs
+
+-- margirmon
+rota14 xs = drop 1 xs ++ take 1 xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función rota tal que (rota n xs) es la lista
@@ -194,7 +210,8 @@ rota_1 n xs = rota_1 (n-1) (rota1 xs)
 -- beagongon1 eliguivil ignareeva glovizcas joscasgom1 pabrabmon
 -- eledejim2 josdeher cargonler javleilor alvfercen fraferpoy congomgom
 -- marmerzaf josrodgal7 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid natruipin
+-- josjimgon2 albcercid natruipin carmarcar5 margirmon belbenzam
+-- antdursan mardelrui javcancif criortcar
 rota_2 n xs = drop n xs ++ take n xs
 
 -- ---------------------------------------------------------------------
@@ -206,12 +223,13 @@ rota_2 n xs = drop n xs ++ take n xs
 
 -- enrnarbej juaorture roscargar marjimcom beagongon1 belbenzam
 -- fatfervaz ignareeva joscasgom1 eledejim2 javleilor alvfercen
--- josrodgal7 margarflo5 josjimgon2 
+-- josrodgal7 margarflo5 josjimgon2 carmarcar5 margirmon antdursan
+-- javcancif 
 rango1 xs = [minimum xs, maximum xs]
 
 -- paumacpar manruiber antmorper3 eliguivil glovizcas pabrabmon josdeher
 -- cargonler fraferpoy congomgom marmerzaf migibagar artmorfer albcercid
--- natruipin 
+-- natruipin mardelrui criortcar
 rango2 xs = [minimum xs] ++ [maximum xs]
 
 -- ---------------------------------------------------------------------
@@ -226,10 +244,11 @@ rango2 xs = [minimum xs] ++ [maximum xs]
 -- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
 -- glovizcas joscasgom1 pabrabmon eledejim2 josdeher cargonler javleilor
 -- alvfercen fraferpoy congomgom marmerzaf josrodgal7 margarflo5
--- migibagar natmarmar2 artmorfer josjimgon2 natruipin
+-- migibagar natmarmar2 artmorfer josjimgon2 natruipin carmarcar5
+-- margirmon javcancif antdursan criortcar
 palindromo xs = xs == reverse xs
 
--- albcercid
+-- albcercid mardelrui
 palindromo2 xs = reverse xs == xs
 
 -- ---------------------------------------------------------------------
@@ -249,23 +268,23 @@ interior1 xs = tail (reverse (tail (reverse xs)))
 interior2 xs = take (length xs - 2) (tail xs)
 
 -- juaorture felsuacor antmorper3 alvfercen congomgom margarflo5
--- migibagar artmorfer josjimgon2 
+-- migibagar artmorfer josjimgon2 mardelrui criortcar
 interior3 xs = init (tail xs)
 
 -- marjimcom beagongon1 glovizcas pabrabmon cargonler marmerzaf
--- natruipin 
+-- natruipin antdursan
 interior4 xs = drop 1 (init xs)
 
 -- eliguivil
 interior5 xs = tail (take ((length xs)-1) xs)
 
--- fatfervaz eledejim2 fraferpoy 
+-- fatfervaz eledejim2 fraferpoy javcancif
 interior6 xs = tail (init xs)
 
 -- josdeher
 interior7 xs = init (drop 1 xs)
 
---ignareeva josrodgal7
+--ignareeva josrodgal7 carmarcar5 margirmon
 interior8 xs = reverse (tail (reverse (tail xs)))
 
 -- albcercid
@@ -283,11 +302,12 @@ interior10 xs = tail (reverse (tail xs))
 -- enrnarbej juaorture paumacpar manruiber beagongon1 belbenzam
 -- glovizcas joscasgom1 pabrabmon eledejim2 javleilor marmerzaf
 -- congomgom josrodgal7 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid natruipin
+-- josjimgon2 albcercid natruipin margirmon antdursan mardelrui
+-- javcancif criortcar
 finales1 n xs = drop (length xs - n) xs
 
 -- felsuacor antmorper3 eliguivil roscargar josdeher ignareeva fraferpoy
--- margarvil14 
+-- margarvil14 carmarcar5 
 finales2 n xs = reverse (take n ( reverse xs))
 
 -- Se usará la 1ª
@@ -302,13 +322,14 @@ finales = finales1
 --    segmento 5 3 [3,4,1,2,7,9,0]  ==  []
 -- ---------------------------------------------------------------------
  
--- enrnarbej natruipin
+-- enrnarbej natruipin margirmon
 segmento1 m n xs =
   reverse (drop (length xs - n) (reverse (drop (m-1) xs)))
 
 -- enrnarbej juaorture manruiber beagongon1 joscasgom1 pabrabmon
 -- josdeher cargonler glovizcas javleilor marmerzaf congomgom margarflo5
--- artmorfer josjimgon2 albcercid 
+-- artmorfer josjimgon2 albcercid carmarcar5 antdursan mardelrui
+-- javcancif
 segmento2 m n xs = drop (m-1) (take n xs)
 
 -- antmorper3 roscargar josrodgal paumacpar
@@ -320,6 +341,7 @@ segmento4 m n xs =
 
 -- migibagar
 segmento5 m n xs = take n xs \\ take (m - 1) xs
+
   
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función extremos tal que (extremos n xs) es
@@ -332,11 +354,11 @@ segmento5 m n xs = take n xs \\ take (m - 1) xs
 -- pabrabmon cargonler glovizcas javleilor marmerzaf fraferpoy artmorfer
 extremos1 n xs = take n xs ++ finales n xs
 
---felsuacor eliguivil roscargar joscasgom1 josdeher josrodgal7 congomgom
---margarflo5 josjimgon2 natruipin
+-- felsuacor eliguivil roscargar joscasgom1 josdeher josrodgal7 congomgom
+-- margarflo5 josjimgon2 natruipin carmarcar5 margirmon mardelrui
 extremos2 n xs = take n xs ++ reverse (take n (reverse xs))
 
--- migibagar
+-- migibagar javcancif
 extremos3 n xs = take n xs ++ drop (length xs - n) xs
 
 -- albcercid
@@ -362,21 +384,30 @@ mediano2 x y z =
   minimum [minimum [maximum [x,y], maximum [x,z]], maximum [y,z]]
 
 -- manruiber joscasgom1 pabrabmon cargonler marmerzaf josrodgal7
--- migibagar josjimgon2 natruipin
+-- migibagar josjimgon2 natruipin glovizcas
 mediano3 x y z =
   minimum [maximum [x,y], maximum [y,z], maximum [x,z]]
 
--- beagongon1 pabrabmon josdeher cargonler, paumacpar
+-- beagongon1 pabrabmon josdeher cargonler paumacpar mardelrui
 mediano4 x y z =
   maximum [minimum [x,y], minimum [x,z], minimum [y,z]]
 
--- eliguivil antmorper3 margarflo5 fraferpoy
+-- eliguivil antmorper3 margarflo5 fraferpoy margirmon
 mediano5 x y z =
   sum [x,y,z] - maximum [x,y,z] - minimum [x,y,z]
 
 -- albcercid
 mediano6 x y z =
   maximum [x,y] + maximum [z,x] + maximum [y,z] - 2*maximum [x,y,z]
+
+-- carmarcar5
+mediano7 x y z = [x,y,z] \\ [maximum [x,y,z], minimum [x,y,z]]
+
+-- antdursan
+mediano8 x y z = minimum [maximum[x,y],maximum[y,z],maximum[z,x]]
+
+-- javcancif
+mediano9 x y z = x + y + z - maximum[x,y,z] - minimum[x,y,z] 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función tresIguales tal que 
@@ -390,7 +421,8 @@ mediano6 x y z =
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas
 -- marmerzaf congomgom margarflo5 monlagare artmorfer josjimgon2
--- paumacpar natruipin fraferpoy
+-- paumacpar natruipin fraferpoy carmarcar5 margirmon  belbenzam 
+-- antdursan mardelrui javcancif
 tresIguales x y z = (x==y) && (y==z)
 
 -- juaorture 
@@ -415,7 +447,8 @@ tresIguales3 x y z = (x == y) && (y == z) && (x == z)
 -- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
 -- marmerzaf margarflo5 congomgom monlagare migibagar artmorfer
--- josjimgon2 albcercid paumacpar natruipin fraferpoy
+-- josjimgon2 albcercid paumacpar natruipin fraferpoy carmarcar5
+-- margirmon belbenzam javcancif antdursan mardelrui
 tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z) 
 
 -- juaorture
@@ -436,7 +469,7 @@ tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 -- enrnarbej manruiber marjimcom antmorper3 beagongon1 roscargar
 -- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
 -- marmerzaf margarflo5 congomgom artmorfer josjimgon2 paumacpar
--- natruipin fraferpoy
+-- natruipin fraferpoy carmarcar5 margirmon belbenzam antdursan
 cuatroIguales x y z u = tresIguales x y z && u == x 
 
 -- juaorture
@@ -444,7 +477,7 @@ cuatroIguales x y z u = tresIguales x y z && u == x
 
 -- Comentario: La definición cuatroIguales2 falla en el 3º ejemplo.
 
--- eliguivil
+-- eliguivil mardelrui
 cuatroIguales3 x y z u = tresIguales x y z && tresIguales x y u
 
 -- migibagar
@@ -456,3 +489,6 @@ cuatroIguales4 x y z u = tresIguales x y z && x == z && y == u
 cuatroIguales5 x y z u = (tresIguales x y z)&&(x==u)
 
 -- Comentario: La definición cuatroIguales5 se puede simplificar.
+
+-- javcancif
+cuatroIguales6 x y z u = x == y && y == z && z == u

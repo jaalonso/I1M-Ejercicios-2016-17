@@ -33,18 +33,26 @@ import Data.Tuple
 --    divisionSegura 7 0  ==  9999.0
 -- ---------------------------------------------------------------------
 
--- paumacpar roscargar
+-- paumacpar roscargar pabrabmon cargonler marjimcom joscasgom1
+-- carmarcar5 eliguivil eledejim2 belbenzam marmerzaf albcercid
+-- manruiber josdeher
 divisionSegura :: Double -> Double -> Double
-divisionSegura x y = if y /= 0 then x/y else 999
+divisionSegura x y = if y /= 0 then x/y else 9999
 
 -- enrnarbej
 divisionSegura2 _ 0 = 9999
 divisionSegura2 x y = x/y
 
--- enrnarbej fatfervaz
+-- enrnarbej fatfervaz glovizcas natmarmar2 congomgom migibagar
+-- antmorper3 natruipin 
 divisionSegura3 x y
   | y == 0    = 9999
   | otherwise = x/y
+
+-- margarflo5
+divisionSegura4 x y
+  | y /= 0    = x/y
+  | otherwise = 9999 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.1. La disyunción excluyente xor de dos fórmulas se
@@ -64,14 +72,16 @@ divisionSegura3 x y
 -- de la tabla. 
 -- ---------------------------------------------------------------------
 
--- antdursan roscargar
+-- antdursan roscargar cargonler marjimcom joscasgom1 glovizcas 
+-- belbenzam marmerzaf albcercid manruiber migibagar
 xor1 :: Bool -> Bool -> Bool
 xor1 x y | x == True  && y == True  = False
          | x == True  && y == False = True
          | x == False && y == True  = True
          | x == False && y == False = False
 
--- enrnarbej
+-- enrnarbej fatfervaz pabrabmon paumacpar carmarcar5 eliguivil
+-- natmarmar2 margarflo5 josdeher antmorper3 congomgom natruipin
 xor1b :: Bool -> Bool -> Bool
 xor1b True  True  = False
 xor1b True  False = True
@@ -86,10 +96,41 @@ xor1b False False = False
 -- cada valor del primer argumento. 
 -- ---------------------------------------------------------------------
 
--- enrnarbej roscargar
+-- enrnarbej roscargar fatfervaz pabrabmon cargonler marjimcom paumacpar
+-- eliguivil manruiber josdeher antmorper3 congomgom natruipin
 xor2 :: Bool -> Bool -> Bool
 xor2 True x  = not x
 xor2 False x = x
+
+-- carmarcar5
+xor2b :: Bool -> Bool -> Bool
+xor2b True  x = x == False
+xor2b False x = x == True
+
+-- glovizcas eledejim2 belbenzam margarflo5
+xor2c :: Bool -> Bool -> Bool
+xor2c x y
+  | x /= y = True
+  | x == y = False
+
+-- marmerzaf
+xor2d ::  Bool -> Bool -> Bool
+xor2d x y | x == True && y == True || x == False && y == False = False
+          | x == False && y == True || x == True && y == False = True
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- albcercid migibagar
+xor2e :: Bool -> Bool -> Bool
+xor2e x y | x == y    = False
+          | otherwise = True
+
+-- fraferpoy
+xor2f :: Bool -> Bool -> Bool
+xor2f x y | x == x && y == not x = True
+          | x == x && y == x = False 
+
+-- Comentario: La definición xor2f se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Definir la función 
@@ -99,11 +140,41 @@ xor2 False x = x
 -- Usar 1 ecuación. 
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej eliguivil
 xor3 :: Bool -> Bool -> Bool
 xor3 x y = ((not (x && y)) && (x || y))
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- fatfervaz cargonler marjimcom josdeher antmorper3 margarflo5 
+xor3b :: Bool -> Bool -> Bool
+xor3b x y = (x || y) && (not x || not y)
+
+-- pabrabmon glovizcas
+xor3c :: Bool -> Bool -> Bool
+xor3c x y = (x || y) == not (x && y)
+
+-- paumacpar marmerzaf
+xor3d :: Bool -> Bool -> Bool
+xor3d x y = (x || y == True) && (x == not y)
+
+-- carmarcar5
+xor3e :: Bool -> Bool -> Bool
+xor3e x y = x || y == True && not(x == y)
+
+-- manruiber
+xor3f :: Bool -> Bool -> Bool
+xor3f x y = (x || y) && not (x && y)
+
+-- albcercid
+xor3g :: Bool -> Bool -> Bool
+xor3g x y = (x == True && y == not x) || (x == False && y == not x)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- migibagar
+xor3h :: Bool -> Bool -> Bool
+xor3h x y = not (((not x) || y) && ((not y) || x))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.4. Definir la función 
@@ -112,17 +183,25 @@ xor3 x y = ((not (x && y)) && (x || y))
 -- a partir de desigualdad (/=). Usar 1 ecuación.
 -- ---------------------------------------------------------------------
 
--- enrnarbej roscargar
+-- enrnarbej roscargar fatfervaz pabrabmon cargonler paumacpar marjimcom
+-- glovizcas belbenzam marmerzaf manruiber albcercid josdeher antmorper3
+-- margarflo5 natruipin 
 xor4 :: Bool -> Bool -> Bool
 xor4 x y = x /= y
 
+-- eliguivil eledejim2 migibagar
+xor4b x y = if x /= y then True else False
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.5. Comprobar con QuickCheck que las cuatros definiciones
 -- de xor son equivalentes.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej fatfervaz pabrabmon cargonler paumacpar marjimcom eliguivil
+-- glovizcas marmerzaf manruiber albcercid migibagar josdeher antmorper3 
+-- margarflo5 congomgom natruipin
 -- La propiedad es
 prop_xor_equivalentes :: Bool -> Bool -> Bool
 prop_xor_equivalentes x y =
@@ -148,10 +227,16 @@ prop_xor_equivalentes x y =
 --    mayorRectangulo (4,6) (3,9)  ==  (3,9)
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej joscasgom1 marjimcom eliguivil eledejim2 glovizcas
+-- natmarmar2 margarflo5 migibagar josdeher antmorper3 congomgom
+-- natruipin 
 mayorRectangulo :: (Num a, Ord a) => (a,a) -> (a,a) -> (a,a)
 mayorRectangulo (x,y) (a, b) | x*y >= a*b = (x,y)
                              | otherwise  = (a,b)
+
+-- fatfervaz pabrabmon paumacpar roscargar cargonler manruiber ablcercid
+mayorRectangulo2 :: (Num a, Ord a) => (a,a) -> (a,a) -> (a,a)
+mayorRectangulo2 (a,b) (c,d) = if a*b >= c*d then (a,b) else (c,d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.1. Definir la función 
@@ -162,7 +247,9 @@ mayorRectangulo (x,y) (a, b) | x*y >= a*b = (x,y)
 --    intercambia (5,2)  ==  (2,5)
 -- ---------------------------------------------------------------------
 
--- enrnarbej, paumacpar
+-- enrnarbej paumacpar fatfervaz pabrabmon joscasgom1 marjimcom
+-- eliguivil roscargar eledejim2 glovizcas natmarmar2 cargonler 
+-- manruiber albcercid migibagar josdeher antmorper3 congomgom natruipin
 intercambia :: (a,b) -> (b,a)
 intercambia (a,b)=(b,a) 
 
@@ -172,7 +259,9 @@ intercambia (a,b)=(b,a)
 -- aplicarla ninguna.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej fatfervaz pabrabmon joscasgom1 marjimcom roscargar eledejim2
+-- glovizcas natmarmar2 cargonler manruiber josdeher antmorper3 margarflo5
+-- congomgom natruipin
 -- La propiedad es intercambia (intercambia p)
 prop_intercambia :: (Int,Int) -> Bool
 prop_intercambia p = p == intercambia (intercambia p)
@@ -181,7 +270,7 @@ prop_intercambia p = p == intercambia (intercambia p)
 --    >>> quickCheck prop_intercambia
 --    +++ OK, passed 100 tests.
 
--- paumacpar
+-- paumacpar eliguivil albcercid migibagar
 prop_intercambia2 :: (Int,Int) -> Bool
 prop_intercambia2 (a,b) = intercambia (intercambia (a,b)) == (a,b)
 
@@ -195,9 +284,22 @@ prop_intercambia2 (a,b) = intercambia (intercambia (a,b)) == (a,b)
 --    distancia (1,2) (4,6)  ==  5.0
 -- ---------------------------------------------------------------------
 
--- enrnarbej, paumacpar   
+-- enrnarbej paumacpar pabrabmon joscasgom1 marjimcom glovizcas
+-- cargonler manruiber migibagar antmorper3 margarflo5 congomgom
 distancia :: (Double,Double) -> (Double,Double) -> Double
 distancia (x1, y1) (x2,y2)= sqrt ((x2-x1)^2 + (y2-y1)^2) 
+
+-- fatfervaz roscargar josdeher 
+distancia2 :: (Double,Double) -> (Double,Double) -> Double
+distancia2 (a,b) (c,d) = sqrt ((c-a)**2 + (d-b)**2)
+
+-- eliguivil
+distancia3 :: (Double,Double) -> (Double,Double) -> Double
+distancia3 (a,b) (c,d) = ((c-a)^2+(d-b)^2)**0.5 
+
+-- albcercid natruipin
+distancia4 :: (Double,Double) -> (Double,Double) -> Double
+distancia4 (x,y) (a,b) = ((a-x)^2+(b-y)^2)**(1/2) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Comprobar con QuickCheck que se verifica la propiedad
@@ -206,7 +308,9 @@ distancia (x1, y1) (x2,y2)= sqrt ((x2-x1)^2 + (y2-y1)^2)
 -- de p1 a p2 y la de p2 a p3.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej fatfervaz pabrabmon joscasgom1 marjimcom roscargar eledejim2
+-- glovizcas cargonler manruiber migibagar josdeher antmorper3 margarflo5
+-- congomgom natruipin fraferpoy
 -- La propiedad es distancia p1 p3 <= distancia p1 p2 + distancia p2 p3
 prop_triangular :: (Double,Double) -> (Double,Double) -> (Double,Double) -> Bool
 prop_triangular p1 p2 p3 =
@@ -216,7 +320,7 @@ prop_triangular p1 p2 p3 =
 --    >>> quickCheck prop_triangular
 --    +++ OK, passed 100 tests.
 
--- paumacpar 
+-- paumacpar albcercid
 prop_triangular2 :: (Double,Double) -> (Double,Double) -> (Double,Double) -> Bool
 prop_triangular2 (x1,y1) (x2,y2) (x3,y3) =
   distancia (x1,y1) (x3,y3) <= distancia (x2,y2) (x3,y3) + distancia (x1,y1) (x2,y2) 
@@ -234,12 +338,39 @@ prop_triangular2 (x1,y1) (x2,y2) (x3,y3) =
 --    ciclo [2]        == [2]
 -- ---------------------------------------------------------------------
 
---enrnarbej
+-- enrnarbej pabrabmon luimotmar
 ciclo :: [a] -> [a]
 ciclo [] = []
 ciclo xs = last xs : take (length xs - 1) xs 
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- fatfervaz marjimcom roscargar paumacpar eledejim2 glovizcas cargonler
+-- manruiber migibagar josdeher antmorper3 congomgom natruipin fraferpoy
+ciclo2 :: [a] -> [a]
+ciclo2 [] = []
+ciclo2 xs = last xs : init xs
+
+-- eliguivil
+ciclo3 :: [a] -> [a]
+ciclo3 [] = []
+ciclo3 [a] = [a]
+ciclo3 xs = drop 1 xs ++ [head xs]
+
+-- Comentario: La definición ciclo3 se puede simplificar.
+
+-- albcercid
+ciclo4 :: [a] -> [a]
+ciclo4 [] = []
+ciclo4 xs = [xs!! (length xs-1)] ++ take (length xs-1) xs
+
+-- margarflo5
+ciclo5 :: [a] -> [a]
+ciclo5 [] = []
+ciclo5 [a] = [a]
+ciclo5 xs = tail xs ++  [head xs]
+
+-- Comentario: La definición ciclo5 se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Comprobar que la longitud es un invariante de la
@@ -247,8 +378,10 @@ ciclo xs = last xs : take (length xs - 1) xs
 -- de xs.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
--- La propiedad es length xs == length (ciclo xs)
+-- enrnarbj fatfervaz pabrabmon marjimcom eliguivil roscargar paumacpar 
+-- eledejim2 glovizcas cargonler manruiber albcercid josdeher antmorper3
+-- margarflo5 congomgom natruipin fraferpoy
+-- La propiedad es length xs == length (ciclo xs) 
 prop_ciclo :: [a] -> Bool 
 prop_ciclo xs = length xs == length (ciclo xs)
 
@@ -265,7 +398,7 @@ prop_ciclo xs = length xs == length (ciclo xs)
 --    numeroMayor 5 2 ==  52
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej antmorper3
 numeroMayor :: (Num a, Ord a) => a -> a -> a
 numeroMayor x y | n >= m    = n
                 | otherwise = m
@@ -273,6 +406,19 @@ numeroMayor x y | n >= m    = n
     n = x*10 + y
     m = y*10 + x
 
+-- pabrabmon joscasgom1 marjimcom roscargar paumacpar cargonler manruiber
+-- fatfervaz josdeher fraferpoy
+numeroMayor2 :: (Num a, Ord a) => a -> a -> a
+numeroMayor2 x y = if x >= y then x*10+y else y*10+x
+
+-- luimotmar eliguivil glovizcas eledejim2 congomgom
+numeroMayor3 (x,y) | x >= y   = x*10 + y
+                   | x < y    = y*10 + x
+
+-- albcercid margarflo5 natruipin
+numeroMayor4 :: (Num a, Ord a) => a -> a -> a
+numeroMayor4 x y = (max x y)*10 + min x y
+         
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función 
 --    numeroDeRaices :: (Num t, Ord t) => t -> t -> t -> Int
@@ -281,17 +427,27 @@ numeroMayor x y | n >= m    = n
 --    numeroDeRaices 2 0 3    ==  0
 --    numeroDeRaices 4 4 1    ==  1
 --    numeroDeRaices 5 23 12  ==  2
+-- Nota: Se supone que a es no nulo.
+-- ---------------------------------------------------------------------
 -- ---------------------------------------------------------------------
 
 -- enrnarbej
 numeroDeRaices :: (Num t, Ord t) => t -> t -> t -> Int
-numeroDeRaices 0 _ _ = 1
 numeroDeRaices a b c
   | discriminante > 0 = 2
   | discriminante < 0 = 0
   | otherwise         = 1
   where
     discriminante = b^2 - 4*a*c
+
+-- paumacpar pabrabmon joscasgom1 marjimcom luimotmar roscargar glovizcas
+-- cargonler manruiber albcercid fatfervaz josdeher antmorper3 margarflo5
+-- congomgom natruipin fraferpoy eliguivil
+numeroDeRaices2 :: (Num t, Ord t) => t -> t -> t -> Int
+numeroDeRaices2 a b c
+  | (b^2 - 4*a*c) >  0 = 2
+  | (b^2 - 4*a*c) <  0 = 0
+  | (b^2 - 4*a*c) == 0 = 1
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.1. Definir la función 
@@ -301,18 +457,55 @@ numeroDeRaices a b c
 --    raices 1 3 2    ==  [-1.0,-2.0]
 --    raices 1 (-2) 1 ==  [1.0,1.0]
 --    raices 1 0 1    ==  []
+-- Nota: Se supone que a es no nulo.
 -- ---------------------------------------------------------------------
 
 
--- enrnarbej
+-- enrnarbej pabrabmon joscasgom1 marjimcom roscargar glovizcas
+-- cargonler manruiber eledejim2 antmorper3 margarflo5 congomgom
 raices :: Double -> Double -> Double -> [Double]
-raices 0 b c = [-c/b, -c/b]
 raices a b c
   | (numeroDeRaices a b c /= 0) = [s1, s2]
   | otherwise                   = []
   where
     s1 = (-b + sqrt (b^2 - 4*a*c))/(2*a)
     s2 = (-b - sqrt (b^2 - 4*a*c))/(2*a)
+
+-- paumacpar
+raices2 :: Double -> Double -> Double -> [Double]
+raices2 a b c
+  | numeroDeRaices a b c == 1 = [-b / (2*a), -b / (2*a)]
+  | numeroDeRaices a b c == 0 = []
+  | numeroDeRaices a b c == 2 = [x,y]
+  where [x,y] = [(-b + sqrt (b^2 - 4*a*c))/2*a,(-b - sqrt (b^2 - 4*a*c))/2*a]
+
+-- Comentario: La definición anterior se puede mejorar reduciendo el
+-- número de veces que se calcula numeroDeRaices y sqrt.
+
+-- albcercid josdeher
+raices3 :: Double -> Double -> Double -> [Double]
+raices3 a b c =
+  if  0 > b^2-4*a*c
+  then []
+  else [(-b + sqrt (b^2 - 4*a*c))/(2*a),(-b - sqrt (b^2 - 4*a*c))/(2*a)]
+
+-- fatfervaz natruipin
+raices4 :: Double -> Double -> Double -> [Double]
+raices4 a b c
+  | numeroDeRaices a b c == 0 = []
+  | otherwise = [(-b + sqrt (b^2 - 4*a*c))/(2*a),
+                 (-b - sqrt (b^2 - 4*a*c))/(2*a)]
+
+-- eliguivil
+raices5 :: Double -> Double -> Double -> [Double]
+raices5 a b c | dis <  0 = []
+              | dis == 0 = [solpos, solneg]
+              | dis >  0 = [solpos, solneg]
+  where { dis    = b^2-4*a*c            ;
+          solpos = (-b+sqrt(dis))/(2*a) ;
+          solneg = (-b-sqrt(dis))/(2*a) }
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9.2. Definir el operador
@@ -324,9 +517,24 @@ raices a b c
 --    12.3457 ~= 12.3479  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar
+-- enrnarbej paumacpar pabrabmon joscasgom1 marjimcom luimotmar
+-- roscargar margarflo5 glovizcas cargonler manruiber eledejim2
+-- fatfervaz josdeher antmorper3 congomgom natruipin fraferpoy 
 (~=) :: (Fractional a, Ord a) => a -> a -> Bool
 x ~= y = abs ( x - y ) < 0.001
+
+-- albcercid
+(~==) :: (Fractional a, Ord a) => a -> a -> Bool
+x ~== y = if x-y > (-0.001) && 0.001 > x-y then True else False
+
+-- Comentario: La definición de (~==) se puede simplificar.
+
+-- eliguivil
+(~===) :: (Fractional a, Ord a) => a -> a -> Bool
+x ~=== y | max (x-y) (y-x) < 0.001 = True
+         | max (x-y) (y-x) > 0.001 = False
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- --------------------------------------------------------------------- 
 -- Ejercicio 9.3. Comprobar con QuickCheck que la suma de las raíces
@@ -336,7 +544,8 @@ x ~= y = abs ( x - y ) < 0.001
 -- Nota. En la comparación usar ~= en lugar de ==
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej pabrabmon, paumacpar cargonler manruiber eledejim2 albcercid 
+-- marjimcom antmorper3 margarflo5 congomgom natruipin
 -- La propiedad es
 prop_raices :: Double -> Double -> Double -> Property
 prop_raices a b c =
@@ -362,7 +571,9 @@ prop_raices a b c =
 -- ---------------------------------------------------------------------
 
 
--- enrnarbej paumacpar
+-- enrnarbej paumacpar pabrabmon joscasgom1 luimotmar roscargar glovizcas
+-- cargonler manruiber eledejim2 fatfervaz josdeher antmorper3 margarflo5
+-- congomgom natruipin eliguivil
 area :: Double -> Double -> Double -> Double 
 area a b c = sqrt (s*(s-a)*(s-b)*(s-c))
   where s = (a+b+c)/2
@@ -397,16 +608,40 @@ interseccion [a,b] [c,d] = take 1 xs ++ drop (length xs-1) xs
 --    [1,10000]
 --    (15.93 secs, 16,614,456 bytes)
 -- y con otra definición
---    >>> interseccion2 [1,10^5] [1,10^4]
+--    >>> interseccion' [1,10^5] [1,10^4]
 --    [1,10000]
 --    (0.01 secs, 0 bytes)
+
+-- enrnarbej
+interseccion2 :: (Enum a,Ord a) => [a] -> [a] -> [a]
+interseccion2 [a,b] [c,d]
+  | a > c                          = interseccion [c,d] [a,b]
+  | xs1 == b && xs2 == c && b /= c = []
+  | otherwise                      = [xs1 , xs2]
+  where
+    xs = sort [a,b,c,d]
+    xs1 = xs !! 1
+    xs2 = xs !! 2
+
+-- albcercid antmorper3
+interseccion3 :: Ord a => [a] -> [a] -> [a]
+interseccion3 [a,b] [c,d]
+  | (c>b)||(a>d) = []
+  | (d>=b) && (b>=c) && (c>=a) = [c,b]
+  | (d>=b) && (b>=a) && (a>=c) = [a,b]
+  | (b>=d) && (d>=c) && (c>=a) = [c,d]
+  | (b>=d) && (d>=a) && (a>=c) = [a,d]
+  | b==c = [b,c]
+  | d==a =  [d,a]
+interseccion3 [] [c,d] = []
+interseccion3 [a,b] [] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Comprobar con QuickCheck que la intersección de
 -- intervalos es conmutativa.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej pabrabmon albcercid antmorper3
 -- La propiedad es
 prop_interseccion :: Int -> Int -> Int -> Int -> Property
 prop_interseccion a1 b1 a2 b2 =
@@ -429,27 +664,50 @@ prop_interseccion a1 b1 a2 b2 =
 --    formaReducida (4,10)  ==  (2,5)
 --    formaReducida (0,5)   ==  (0,1)
 --    formaReducida (0,-5)  ==  (0,1)
+--    formaReducida (-1,1)  ==  (-1,1)
+--    formaReducida (1,-1)  ==  (-1,1)
 -- ---------------------------------------------------------------------
+
+-- paumacpar 
+formaReducida :: (Int,Int) -> (Int, Int)
+formaReducida (a,b)
+  | a == 0    = (0,1)
+  | b == 0    = (0,0)
+  | b < 0     = (-c,d) 
+  | otherwise = (c, d)
+  where
+    c = div a (gcd a b) 
+    d = abs (div b (gcd a b))
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- enrnarbej
-formaReducida :: (Int,Int) -> (Int,Int)
-formaReducida (_,0) = (0,0)
-formaReducida (a,b)
-  | a < 0 && b < 0 = formaReducida (abs a, abs b)
-  | a < 0 && b > 0 = (div (abs a)  (gcd (abs a) b), (div b (gcd (abs a) b)*(-1)))
-  | a > 0 && b < 0 = formaReducida (-1*a, abs b)
-  | otherwise      = (div a  (gcd a b), div b (gcd a b))
-
--- Comentario: La definición anterior falla en el 3º ejemplo.
-
--- paumacpar
 formaReducida2 :: (Int,Int) -> (Int, Int)
-formaReducida2 (a,b) = (div a x, div b x)
-  where x = gcd a b
+formaReducida2 (_,0) = (0,0)
+formaReducida2 (0,_) = (0,1)
+formaReducida2 (a,b)
+  | a <0 && b <0 = formaReducida (abs a, abs b)
+  | a <0 && b >0 = (-1*(div (abs a)  (gcd (abs a) b)), div b (gcd (abs a) b))
+  | a >0 && b <0 = formaReducida (-1*a, abs b)
+  | otherwise    = (div a  (gcd a b), div b (gcd a b))
 
--- Comentario: La definición anterior falla en el 3º ejemplo.
+-- josdeher
+formaReducida3 (a,b) =
+  if b>=0
+  then ((div a (gcd a b)),(div b (gcd a b)))
+  else ((div (-a) (gcd a b)),(div (-b) (gcd a b)))
 
--- ---------------------------------------------------------------------
+-- antmorper3
+formaReducida4 :: (Int,Int) -> (Int, Int)
+formaReducida4 (a,b)
+  | b == 0    = (0,0)
+  | b < 0     = (-c,d) 
+  | otherwise = (c, d)
+  where
+    c = div a (gcd a b) 
+    d = abs (div b (gcd a b))
+
+------------------------------------------------------------------------
 -- Ejercicio 12.2. Definir la función 
 --    sumaRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 -- tal que (sumaRacional x y) es la suma de los números racionales x e
@@ -458,7 +716,7 @@ formaReducida2 (a,b) = (div a x, div b x)
 --    sumaRacional (3,5) (-3,5) ==  (0,1)
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej pabrabmon eledejim2 antmorper3 margarflo5 congomgom
 sumaRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 sumaRacional (a,b) (c,d) = formaReducida (a*d + c*b,b*d) 
 
@@ -477,7 +735,7 @@ sumaRacional2 (a,b) (c,d) =
 --    productoRacional (2,3) (5,6)  ==  (5,9)
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar
+-- enrnarbej paumacpar pabrabmon eledejim2 antmorper3 margarflo5 congomgom
 productoRacional :: (Int,Int) -> (Int,Int) -> (Int,Int)
 productoRacional (a,b) (c,d) = formaReducida (a*c,b*d)
 
@@ -496,16 +754,16 @@ igualdadRacional :: (Int,Int) -> (Int,Int) -> Bool
 igualdadRacional (0,_) (0,_) = True
 igualdadRacional (a,b) (c,d) = formaReducida (a,b) == formaReducida (c,d)
 
--- paumacpar
+-- paumacpar pabrabmon eledejim2 antmorper3 margarflo5 congomgom
 igualdadRacional2 :: (Int,Int) -> (Int,Int) -> Bool
-igualdadRacional2 (a,b) (c,d) =  formaReducida2 (a,b) == formaReducida2 (c,d)
+igualdadRacional2 (a,b) (c,d) = formaReducida (a,b) == formaReducida (c,d)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12.5. Comprobar con QuickCheck la propiedad distributiva
 -- del producto racional respecto de la suma.
 -- ---------------------------------------------------------------------
 
--- enrnarbej
+-- enrnarbej pabrabmon paumacpar antmorper3 congomgom
 -- La propiedad es
 prop_distributiva :: (Int,Int) -> (Int,Int) -> (Int,Int) -> Property
 prop_distributiva x y z =
