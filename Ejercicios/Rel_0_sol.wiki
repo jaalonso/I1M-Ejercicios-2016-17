@@ -4,8 +4,6 @@ En la primera clase del curso (del 21 de septiembre) se explicó el tema [http:/
 
 Como ejercicio se propuso la programación de dibujos libremente elegidos.
 
-==== Dibujos recibidos el 21 y 22 de septiembre ====
-
 {|
 | albcercid        || [http://bit.ly/2cAvGJW Ceci n'est pas une guitare].
 |-
@@ -26,6 +24,10 @@ Como ejercicio se propuso la programación de dibujos libremente elegidos.
 | congomgom        || [http://bit.ly/2d65hB1 Pentagrama y notas].
 |-
 | cescarde         || [http://bit.ly/2d65LXS Lobo].
+|-
+| cescarde         || [http://bit.ly/2djRkjO Sistema solar en movimiento].
+|-
+| cescarde         || [http://bit.ly/2dZ2H40 Cielo estrellado].
 |-
 | eledejim2        || [http://bit.ly/2d65S5Q Kaleidoscope].
 |-
@@ -65,18 +67,11 @@ Como ejercicio se propuso la programación de dibujos libremente elegidos.
 |-
 | @brain8damage    || [http://bit.ly/2d66A2M Figuras en movimiento].
 |-
+| @Carmengp11      || [http://bit.ly/2cVCK3o Paisaje]. 
+|-
 | @estrella17jimen || [http://bit.ly/2cAyvux Ventilador]. 
 |-
 | @marian_super25  || [http://bit.ly/2cAyvL3 Pacman].
 |-
 |}
 
-==== Dibujos recibidos del 23 al 28 de septiembre ====
-
-{|
-| cescarde    || [http://bit.ly/2djRkjO Sistema solar en movimiento].
-|-
-| roscargar   || [http://bit.ly/2cXFvol Barco y pájaros en movimiento]. 
-|-
-| @Carmengp11 || [http://bit.ly/2cVCK3o Paisaje]. 
-|}
