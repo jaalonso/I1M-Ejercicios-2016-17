@@ -1,7 +1,7 @@
--- I1M 2016-17: Rel_1.hs (21 de septiembre de 2016)
+-- I1M 2016-17: Rel_1_sol.hs (21 de septiembre de 2016)
 -- Definiciones por composición sobre números, listas y booleanos. 
 -- Departamento de Ciencias de la Computación e I.A.
--- Universidad de Sevilla 
+-- Universidad de Sevilla
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
@@ -15,8 +15,6 @@
 -- funciones de Haskell que se encuentra en http://bit.ly/1uJZiqi y su
 -- resumen en http://bit.ly/ZwSMHO
 
-import Data.List
-
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función media3 tal que (media3 x y z) es
 -- la media aritmética de los números x, y y z. Por ejemplo, 
@@ -25,18 +23,7 @@ import Data.List
 --    media3 (-3) 0 3  ==  0.0
 -- ---------------------------------------------------------------------
 
--- enrnarbej ignareeva marjimcom cargonler manruiber roscargar felsuacor
--- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
--- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon josdeher 
--- javleilor alvfercen fraferpoy marmerzaf josrodgal7 carmarcar5
--- margarflo5 migibagar natmarmar2 artmorfer josjimgon2 albcercid
--- margarvil14 paumacpar natruipin margirmon antdursan mardelrui
--- javcancif criortcar marlobrip antlopgom2 cescarde albagucen antbeacar 
--- juacasnie
-media3_1 x y z = (x+y+z)/3
-
--- juaorture
-media3_2 x y z = x/3 + y/3 + z/3
+media3 x y z = (x+y+z)/3
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función sumaMonedas tal que 
@@ -48,26 +35,7 @@ media3_2 x y z = x/3 + y/3 + z/3
 --    sumaMonedas 1 1 1 1 1  ==  38
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
--- felsuacor congomgom fatfervaz antmorper3 belbenzam luimotmar
--- beagongon1 eliguivil eledejim2 monlagare glovizcas joscasgom1 
--- pabrabmon josdeher cargonler javleilor alvfercen fraferpoy marmerzaf
--- josrodgal7 carmarcar5 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid margarvil14 natruipin margirmon antdursan mardelrui
--- javcancif criortcar marlobrip antlopgom2 albagucen antbeacar juacasnie
-sumaMonedas a b c d e = a+2*b+5*c+10*d+20*e
-
--- cescarde
-sumaMonedas2 a b c d e = f + g + h + i + j
-  where
-    f=a
-    g=2*b
-    h=5*c
-    i=10*d
-    j=20*e
-
--- Comentario: La definición anterior se puede simplificar, ya que las
--- variable locales sólo se usan una vez.
+sumaMonedas a b c d e = 1*a+2*b+5*c+10*d+20*e
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función volumenEsfera tal que 
@@ -76,25 +44,7 @@ sumaMonedas2 a b c d e = f + g + h + i + j
 -- Indicación: Usar la constante pi.
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture ignareeva marjimcom paumacpar manruiber roscargar
--- felsuacor congomgom fatfervaz antmorper3 belbenzam beagongon1
--- eliguivil eledejim2 monlagare glovizcas joscasgom1 pabrabmon antbeacar 
--- javleilor alvfercen marmerzaf josrodgal7 carmarcar5 migibagar
--- artmorfer albcercid margarvil14 natruipin margirmon mardelrui
--- criortcar cargonler
-volumenEsfera1 r = 4/3*pi*r^3
-
--- luimotmar
-volumenEsfera2 r = 4/3 * (pi * r^3)
-
--- josdeher antlopgom2
-volumenEsfera3 r = 4/3*pi*r**3
-
--- fraferpoy margarflo5 javcancif marlobrip
-volumenEsfera4 r =(4/3)*pi*r^3
-
--- josjimgon2 antdursan cescarde juacasnie
-volumenEsfera5 r = (4*pi*r^3)/3
+volumenEsfera r = (4/3)*pi*r^3
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función areaDeCoronaCircular tal que 
@@ -105,54 +55,16 @@ volumenEsfera5 r = (4*pi*r^3)/3
 --    areaDeCoronaCircular 3 5 == 50.26548245743669
 -- ---------------------------------------------------------------------
 
--- enrnarbej
-areaDeCoronaCircular1 r1 r2 = areaCirculo r2 - areaCirculo r1
-
-areaCirculo r = pi*r^2
-
--- juaorture marjimcom paumacpar manruiber roscargar felsuacor eledejim2
--- congomgom fatfervaz antmorper3 belbenzam luimotmar beagongon1
--- eliguivil ignareeva monlagare glovizcas joscasgom1 pabrabmon josdeher
--- cargonler javleilor alvfercen marmerzaf margarflo5 migibagar
--- natmarmar2 artmorfer josjimgon2 margarvil14 natruipin margirmon mardelrui
--- javcancif criortcar cescarde antbeacar juacasnie
-areaDeCoronaCircular2 r1 r2 = pi*(r2^2 - r1^2)
-
--- fraferpoy josrodgal7 carmarcar5 albcercid
-areaDeCoronaCircular3 r1 r2 =(pi*r2^2)-(pi*r1^2)
-
--- antdursan marlobrip
-areaDeCoronaCircular4 r1 r2 = pi*r2^2-pi*r1^2
-
--- Comentario: La definición de areaDeCoronaCircular2 se puede
--- simplificar. 
-
--- antlopgom2
-areaDeCoronaCircular5 r1 r2 = pi*(r2**2-r1**2)
+areaDeCoronaCircular r1 r2 = pi*(r2^2 -r1^2) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función ultimaCifra tal que (ultimaCifra x)
--- es la última cifra del número x. Por ejemplo,
+-- es la última cifra del nímero x. Por ejemplo,
 --    ultimaCifra 325  ==  5
 -- Indicación: Usar la función rem
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber roscargar , marjimcom felsuacor congomgom
--- antmorper3 belbenzam beagongon1 eliguivil ignareeva paumacpar
--- glovizcas joscasgom1 pabrabmon eledejim2 cargonler alvfercen
--- javleilor marmerzaf josrodgal7 natmarmar2 artmorfer albcercid
--- margirmon mardelrui albagucen antbeacar monlagare margarvil14
--- fatfervaz juacasnie
-ultimaCifra1 x = x `rem` 10
-
--- juaorture
-ultimaCifra2 x = x `rem` (10 * (length "x"))
-
--- Comentario: La definición de ultimaCifra2 se puede simplificar.
-
--- josdeher fraferpoy margarflo5 migibagar josjimgon2 natruipin
--- carmarcar5 antdursan javcancif criortcar cescarde antlopgom2
-ultimaCifra3 x = rem x 10
+ultimaCifra x = rem x 10
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función maxTres tal que (maxTres x y z) es
@@ -163,28 +75,6 @@ ultimaCifra3 x = rem x 10
 -- Indicación: Usar la función max.
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
--- congomgom antmorper3 beagongon1 eliguivil ignareeva glovizcas
--- joscasgom1 pabrabmon fatfervaz cargonler fraferpoy alvfercen marmerzaf
--- josrodgal7 margarflo5 natmarmar2 artmorfer natruipin margirmon 
--- antdursan marlobrip cescarde albagucen antbeacar natmarmar2
-maxTres1 x y z = max x (max z y)
-
--- belbenzam monlagare javleilor josjimgon2 carmarcar5 cescarde antlopgom2
-maxTres2 x y z = maximum [x,y,z]
-
--- Comentario: La definición maxTres2 no cumple la restricción del
--- enunciado.
-
--- eledejim2 josdeher migibagar margarvil14 mardelrui
-maxTres3 x y z = max (max x y) z
-
--- albcercid
-maxTres4 x y z = max x (max y (max z (z-1)))
-
--- Comentario: La definición maxTres4 se puede mejorar.
-
--- javcancif criortcar juacasnie
 maxTres x y z = max x (max y z)
 
 -- ---------------------------------------------------------------------
@@ -194,25 +84,7 @@ maxTres x y z = max x (max y z)
 --    rota1 [3,2,5,7]  ==  [2,5,7,3]
 -- ---------------------------------------------------------------------
 
--- paumacpar enrnarbej juaorture manruiber roscargar marjimcom felsuacor
--- antmorper3 beagongon1 antbeacar belbenzam eliguivil fatfervaz ignareeva
--- monlagare glovizcas joscasgom1 eledejim2 josdeher cargonler fraferpoy
--- javleilor alvfercen congomgom marmerzaf margarflo5 artmorfer
--- josjimgon2 carmarcar5 antdursan mardelrui javcancif criortcar natmarmar2
--- margarvil14 antlopgom2
 rota1 xs = tail xs ++ [head xs]
-
--- pabrabmon josrodgal7 migibagar natruipin marlobrip
-rota12 xs = drop 1 xs ++ [head xs]
-
--- albcercid cescarde
-rota13 xs = tail xs ++ take 1 xs
-
--- margirmon
-rota14 xs = drop 1 xs ++ take 1 xs
-
--- juacasnie
-rotal5 xs = init ((last xs):xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función rota tal que (rota n xs) es la lista
@@ -223,18 +95,7 @@ rotal5 xs = init ((last xs):xs)
 --    rota 3 [3,2,5,7]  ==  [7,3,2,5]
 -- ---------------------------------------------------------------------
 
--- enrnarbej
-rota_1 0 xs = xs
-rota_1 n xs = rota_1 (n-1) (rota1 xs)
-
--- juaorture paumacpar manruiber roscargar marjimcom felsuacor antmorper3
--- beagongon1 eliguivil ignareeva glovizcas joscasgom1 pabrabmon
--- eledejim2 josdeher cargonler javleilor alvfercen fraferpoy congomgom
--- marmerzaf josrodgal7 antbeacar margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid natruipin carmarcar5 margirmon belbenzam
--- antdursan mardelrui javcancif criortcar cescarde monlagare margarvil14
--- fatfervaz antlopgom2 juacasnie natmarmar2
-rota_2 n xs = drop n xs ++ take n xs
+rota n xs = drop n xs ++ take n xs 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 9. Definir la función rango tal que (rango xs) es la
@@ -243,16 +104,7 @@ rota_2 n xs = drop n xs ++ take n xs
 -- Indicación: Se pueden usar minimum y maximum.
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture roscargar marjimcom beagongon1 belbenzam
--- fatfervaz ignareeva antbeacar joscasgom1 eledejim2 javleilor alvfercen
--- josrodgal7 margarflo5 josjimgon2 carmarcar5 margirmon antdursan
--- javcancif margarvil14 antlopgom2 juacasnie natmarmar2
-rango1 xs = [minimum xs, maximum xs]
-
--- paumacpar manruiber antmorper3 eliguivil glovizcas pabrabmon josdeher
--- cargonler fraferpoy congomgom marmerzaf migibagar artmorfer albcercid
--- natruipin mardelrui criortcar cescarde marlobrip
-rango2 xs = [minimum xs] ++ [maximum xs]
+rango xs = [minimum xs, maximum xs]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función palindromo tal que (palindromo xs) se
@@ -262,22 +114,7 @@ rango2 xs = [minimum xs] ++ [maximum xs]
 --    palindromo [3,2,5,6,2,3]  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber roscargar marjimcom felsuacor
--- antmorper3 beagongon1 belbenzam eliguivil fatfervaz ignareeva
--- glovizcas joscasgom1 pabrabmon eledejim2 josdeher cargonler javleilor
--- alvfercen fraferpoy congomgom marmerzaf josrodgal7 margarflo5
--- migibagar natmarmar2 artmorfer josjimgon2 natruipin carmarcar5
--- margirmon javcancif antdursan criortcar marlobrip antbeacar monlagare
--- margarvil14 antlopgom2 juacasnie 
 palindromo xs = xs == reverse xs
-
--- albcercid mardelrui
-palindromo2 xs = reverse xs == xs
-
--- cescarde
-palindromo3 xs = if reverse xs == xs then True else False
-
--- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función interior tal que (interior xs) es la
@@ -286,63 +123,16 @@ palindromo3 xs = if reverse xs == xs then True else False
 --    interior [2..7]       ==  [3,4,5,6]
 -- ---------------------------------------------------------------------
 
--- paumacpar manruiber roscargar joscasgom1 pabrabmon javleilor
-interior1 xs = tail (reverse (tail (reverse xs)))
-
--- Comentario: La definición anterior se puede simplificar usando la
--- función init (ver http://bit.ly/2d5QVAJ )
-
--- enrnarbej
-interior2 xs = take (length xs - 2) (tail xs)
-
--- juaorture felsuacor antmorper3 alvfercen congomgom margarflo5
--- migibagar artmorfer josjimgon2 mardelrui criortcar antlopgom2 natmarmar2
-interior3 xs = init (tail xs)
-
--- marjimcom beagongon1 glovizcas pabrabmon cargonler marmerzaf
--- natruipin antdursan
-interior4 xs = drop 1 (init xs)
-
--- eliguivil
-interior5 xs = tail (take ((length xs)-1) xs)
-
--- fatfervaz eledejim2 fraferpoy javcancif marlobrip margarvil14
-interior6 xs = tail (init xs)
-
--- josdeher juacasnie
-interior7 xs = init (drop 1 xs)
-
---ignareeva josrodgal7 carmarcar5 margirmon cescarde
-interior8 xs = reverse (tail (reverse (tail xs)))
-
--- albcercid
-interior9 xs = tail (take (length xs - 1) xs)
-
--- monlagare
-interior10 xs = tail (reverse (tail xs))
-
+interior xs = tail (init xs)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 12. Definir la función finales tal que (finales n xs) es la
 -- lista formada por los n finales elementos de xs. Por ejemplo,
 --    finales 3 [2,5,4,7,9,6]  ==  [7,9,6]
 -- ---------------------------------------------------------------------
+
+finales n xs = drop (length xs - n) xs 
  
--- enrnarbej juaorture paumacpar manruiber beagongon1 belbenzam
--- glovizcas joscasgom1 pabrabmon eledejim2 javleilor marmerzaf
--- congomgom josrodgal7 margarflo5 migibagar natmarmar2 artmorfer
--- josjimgon2 albcercid natruipin margirmon antdursan mardelrui
--- javcancif criortcar alvfercen marjimcom monlagare cargonler
--- fatfervaz
-finales1 n xs = drop (length xs - n) xs
-
--- felsuacor antmorper3 eliguivil roscargar josdeher ignareeva fraferpoy
--- margarvil14 carmarcar5 cescarde antlopgom2 juacasnie
-finales2 n xs = reverse (take n ( reverse xs))
-
--- Se usará la 1ª
-finales = finales1
-  
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función segmento tal que (segmento m n xs) es
 -- la lista de los elementos de xs comprendidos entre las posiciones m y
@@ -351,29 +141,9 @@ finales = finales1
 --    segmento 3 5 [3,4,1,2,7,9,0]  ==  [1,2,7]
 --    segmento 5 3 [3,4,1,2,7,9,0]  ==  []
 -- ---------------------------------------------------------------------
+
+segmento m n xs = drop (m-1) (take n xs)
  
--- enrnarbej natruipin margirmon
-segmento1 m n xs =
-  reverse (drop (length xs - n) (reverse (drop (m-1) xs)))
-
--- enrnarbej juaorture manruiber beagongon1 joscasgom1 pabrabmon
--- josdeher cargonler glovizcas javleilor marmerzaf congomgom margarflo5
--- artmorfer josjimgon2 albcercid carmarcar5 antdursan mardelrui
--- javcancif cescarde alvfercen marjimcom monlagare margarvil14 fraferpoy
--- fatfervaz eledejim2 antlopgom2 juacasnie natmarmar2
-segmento2 m n xs = drop (m-1) (take n xs)
-
--- antmorper3 roscargar josrodgal paumacpar
-segmento3 m n xs = take (n-(m-1)) (drop (m-1)xs)
-
--- eliguivil fatfervaz
-segmento4 m n xs =
-  reverse (drop ((length xs)-n) (reverse (drop (m-1) xs)))
-
--- migibagar
-segmento5 m n xs = take n xs \\ take (m - 1) xs
-
-  
 -- ---------------------------------------------------------------------
 -- Ejercicio 14. Definir la función extremos tal que (extremos n xs) es
 -- la lista formada por los n primeros elementos de xs y los n finales
@@ -381,21 +151,7 @@ segmento5 m n xs = take n xs \\ take (m - 1) xs
 --    extremos 3 [2,6,7,1,2,4,5,8,9,2,3]  ==  [2,6,7,9,2,3]
 -- ---------------------------------------------------------------------
 
--- enrnarbej juaorture paumacpar manruiber antmorper3 beagongon1
--- pabrabmon cargonler glovizcas javleilor marmerzaf fraferpoy artmorfer
--- cescarde alvfercen marjimcom fatfervaz ignareeva eledejim2 juacasnie
--- natmarmar2 
-extremos1 n xs = take n xs ++ finales n xs
-
--- felsuacor eliguivil roscargar joscasgom1 josdeher josrodgal7 congomgom
--- margarflo5 josjimgon2 natruipin carmarcar5 margirmon mardelrui antlopgom2
-extremos2 n xs = take n xs ++ reverse (take n (reverse xs))
-
--- migibagar javcancif monlagare margarvil14
-extremos3 n xs = take n xs ++ drop (length xs - n) xs
-
--- albcercid
-extremos4 n xs = take n xs ++ drop (length xs-n) xs
+extremos n xs = take n xs ++ drop (length xs - n) xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función mediano tal que (mediano x y z) es el
@@ -404,147 +160,41 @@ extremos4 n xs = take n xs ++ drop (length xs-n) xs
 --    mediano 2 4 5  ==  4
 --    mediano 2 6 5  ==  5
 --    mediano 2 6 6  ==  6
---    mediano 3 0 0  ==  0
---    mediano 0 0 0  ==  0
 -- Indicación: Usar maximum y minimum.
 -- ---------------------------------------------------------------------
 
--- juaorture
-mediano1 x y z = (sort [x,y,z]) !! 1
+mediano x y z = x + y + z- minimum [x,y,z] - maximum [x,y,z]
 
--- enrnarbej marjimcom ignareeva
-mediano2 x y z =
-  minimum [minimum [maximum [x,y], maximum [x,z]], maximum [y,z]]
-
--- manruiber joscasgom1 pabrabmon cargonler marmerzaf josrodgal7
--- migibagar josjimgon2 natruipin glovizcas alvfercen fatfervaz natmarmar2
-mediano3 x y z =
-  minimum [maximum [x,y], maximum [y,z], maximum [x,z]]
-
--- beagongon1 pabrabmon josdeher cargonler paumacpar mardelrui antlopgom2
-mediano4 x y z =
-  maximum [minimum [x,y], minimum [x,z], minimum [y,z]]
-
--- eliguivil antmorper3 margarflo5 fraferpoy margirmon monlagare
--- eledejim2
-mediano5 x y z =
-  sum [x,y,z] - maximum [x,y,z] - minimum [x,y,z]
-
--- albcercid
-mediano6 x y z =
-  maximum [x,y] + maximum [z,x] + maximum [y,z] - 2*maximum [x,y,z]
-
--- carmarcar5
-mediano7 x y z = [x,y,z] \\ [maximum [x,y,z], minimum [x,y,z]]
-
--- antdursan
-mediano8 x y z = minimum [maximum[x,y],maximum[y,z],maximum[z,x]]
-
--- javcancif margarvil14 juacasnie
-mediano9 x y z = x + y + z - maximum[x,y,z] - minimum[x,y,z] 
-
--- cescarde
-mediano10 x y z =
-  if maximum [x,y,z] /= x && x /= minimum [x,y,z]
-  then x
-  else if maximum [x,y,z] /= y && y /= minimum [x,y,z]
-       then y
-       else z
+-- 2ª definición:
+mediano2 x y z = maximum [x,minimum [y,z]]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función tresIguales tal que 
 -- (tresIguales x y z) se verifica si los elementos x, y y z son
 -- iguales. Por ejemplo, 
---    tresIguales 4 4 4        ==  True
---    tresIguales 4 3 4        ==  False
---    tresIguales 'a' 'a' 'a'  ==  True
+--    tresIguales 4 4 4  ==  True
+--    tresIguales 4 3 4  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
--- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas
--- marmerzaf congomgom margarflo5 monlagare artmorfer josjimgon2
--- paumacpar natruipin fraferpoy carmarcar5 margirmon  belbenzam juacasnie
--- antdursan mardelrui javcancif alvfercen marjimcom margarvil14
--- ignareeva  natmarmar2 
-tresIguales x y z = (x==y) && (y==z)
-
--- juaorture 
---    tresIguales2 x y z = x - y == 0 && y - z == 0
-
--- Comentario: La definición tresIguales2 falla en el 3º ejemplo.
-
--- migibagar albcercid antlopgom2
-tresIguales3 x y z = (x == y) && (y == z) && (x == z)
-
--- Comentario: La definición tresIguales3 se puede simplificar.
-
--- cescarde
-tresIguales4 x y z = if x == y && y == z then True else False
-
--- Comentario: La definición anterior se puede simplificar.
+tresIguales x y z = x == y && y == z
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 17. Definir la función tresDiferentes tal que 
 -- (tresDiferentes x y z) se verifica si los elementos x, y y z son
 -- distintos. Por ejemplo, 
---    tresDiferentes 3 5 2        ==  True
---    tresDiferentes 3 5 3        ==  False
---    tresDiferentes 'a' 'b' 'c'  ==  True
+--    tresDiferentes 3 5 2  ==  True
+--    tresDiferentes 3 5 3  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber antmorper3 beagongon1 eliguivil roscargar
--- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
--- marmerzaf margarflo5 congomgom monlagare migibagar artmorfer
--- josjimgon2 albcercid paumacpar natruipin fraferpoy carmarcar5
--- margirmon belbenzam javcancif antdursan mardelrui alvfercen marjimcom
--- margarvil14 ignareeva antlopgom2 juacasnie natmarmar2
-tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z) 
-
--- juaorture
---    tresDiferentes2 x y z = x - y /= 0 && x - z /= 0 && y - z /= 0
-
--- Comentario: La definición tresDiferentes2 falla en el 3º ejemplo.
+tresDiferentes x y z = x /= y && x /= z && y /= z
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función cuatroIguales tal que 
 -- (cuatroIguales x y z u) se verifica si los elementos x, y, z y u son
 -- iguales. Por ejemplo, 
---    cuatroIguales 5 5 5 5          ==  True
---    cuatroIguales 5 5 4 5          ==  False
---    cuatroIguales 'a' 'a' 'a' 'a'  ==  True
+--    cuatroIguales 5 5 5 5   ==  True
+--    cuatroIguales 5 5 4 5   ==  False
 -- Indicación: Usar la función tresIguales.
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber marjimcom antmorper3 beagongon1 roscargar
--- joscasgom1 pabrabmon eledejim2 josdeher cargonler fatfervaz glovizcas 
--- marmerzaf margarflo5 congomgom artmorfer josjimgon2 paumacpar juacasnie
--- natruipin fraferpoy carmarcar5 margirmon belbenzam antdursan
--- antlopgom2 natmarmar2 
-cuatroIguales x y z u = tresIguales x y z && u == x 
-
--- juaorture
---    cuatroIguales2 x y z u = x - y == 0 && y - z == 0 && z - u == 0
-
--- Comentario: La definición cuatroIguales2 falla en el 3º ejemplo.
-
--- eliguivil mardelrui
-cuatroIguales3 x y z u = tresIguales x y z && tresIguales x y u
-
--- migibagar
-cuatroIguales4 x y z u = tresIguales x y z && x == z && y == u
-
--- Comentario: La definición cuatroIguales4 se puede simplificar.
-
--- albcercid monlagare margarvil14 ignareeva
-cuatroIguales5 x y z u = (tresIguales x y z)&&(x==u)
-
--- Comentario: La definición cuatroIguales5 se puede simplificar.
-
--- javcancif alvfercen
-cuatroIguales6 x y z u = x == y && y == z && z == u
-
--- cescarde
-cuatroIguales7 x y z u =
-  if tresIguales4 x y z && z == u then True else False
-
--- Comentario: La definición anterior se puede simplificar.
+cuatroIguales x y z u = x == y && tresIguales y z u

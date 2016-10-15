@@ -7,3 +7,7 @@ clase) y las soluciones definitivas.
 
 + *Relación 1*: Definiciones por composición sobre números, listas y
   booleanos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_1_sol.hs][solución colaborativa]]).
++ *Relación 2*: Definiciones con condicionales, guardas o patrones. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_2.hs][Enunciado]]
+  y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_2_sol.hs][solución colaborativa]]). 
++ *Relación 3*: Definiciones por comprensión. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_3.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_3_sol.hs][solución
+  colaborativa]]). 
