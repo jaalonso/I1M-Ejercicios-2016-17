@@ -13,7 +13,7 @@
 -- patrones. 
 -- 
 -- Estos ejercicios se corresponden con el tema 4 que se encuentran en  
---    http://www.cs.us.es/~jalonso/cursos/i1m-15/temas/tema-4.html
+--    http://www.cs.us.es/~jalonso/cursos/i1m-16/temas/tema-4.html
 
 -- ---------------------------------------------------------------------
 -- Librerías auxiliares                                               --
