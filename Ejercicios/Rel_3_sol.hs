@@ -29,7 +29,8 @@ import Data.List
 -- monlagare ignareeva natmarmar2 glovizcas margarvil14 marmerzaf
 -- mardelrui marjimcom joscasgom1 felsuacor eliguivil belbenzam
 -- migibagar fraferpoy congomgom carmarcar5 antdursan albagucen
--- juaorture manruiber natruipin josjimgon2 josdeher josrodgal7
+-- juacasnie juaorture manruiber natruipin luimotmar josjimgon2 josdeher
+-- josrodgal7 
 sumaDeCuadrados :: Integer -> Integer 
 sumaDeCuadrados n = sum [x^2 | x <- [1..n]]
 
@@ -54,7 +55,7 @@ replica n x = [x | k <- [1..n]]
 
 -- paumacpar artmorfer margarflo5 ignareeva natmarmar2 fatfervaz glovizcas
 -- marmerzaf joscasgom1 felsuacor eledejim2 belbenzam fraferpoy
--- congomgom antdursan albagucen manruiber josjimgon2 
+-- congomgom antdursan albagucen luimotmar manruiber josjimgon2 
 replica2 :: Int -> a -> [a]
 replica2 n x = [ x | n <- [1..n]]
 
@@ -73,6 +74,10 @@ replica5 n x = [x | (x,_) <- [(x,y) | y <- [1..n]]]
 
 -- Comentario: La definición replica5 se puede simplificar.
 
+--juacasnie
+replica6 :: Int -> a -> [a]
+replica6 n x = [x | _  <- [1..n]]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir la función 
 --    suma :: Integer -> Integer
@@ -83,7 +88,7 @@ replica5 n x = [x | (x,_) <- [(x,y) | y <- [1..n]]]
 -- fatfervaz enrnarbej antmorper3 eledejim2 roscargar paumacpar margarflo5
 -- cargonler beagongon1 albcercid monlagare natmarmar2 marjimcom joscasgom1
 -- eliguivil belbenzam migibagar fraferpoy carmarcar5 antdursan
--- albagucen manruiber natruipin josjimgon2
+-- albagucen manruiber natruipin josjimgon2 juacasnie
 suma :: Integer -> Integer
 suma n = sum [x | x <- [1..n]]
 
@@ -93,8 +98,8 @@ suma n = sum [x | x <- [1..n]]
 suma2 :: Integer -> Integer
 suma2 n = n*(n+1) `div` 2
 
--- pabrabmon artmorfer glovizcas ignareeva margarvil14 marmerzaf
--- mardelrui felsuacor congomgom albagucen josdeher josrodgal7
+-- pabrabmon artmorfer glovizcas luimotmar ignareeva margarvil14
+-- marmerzaf mardelrui felsuacor congomgom albagucen josdeher josrodgal7 
 suma3 :: Integer -> Integer 
 suma3 n = sum [1..n]
 
@@ -148,7 +153,7 @@ linea6 n = [x,x+1..x+(n-1)]
 
 -- Comentario: La definición linea6 se puede simplificar.
 
--- mardelrui felsuacor eledejim2 belbenzam
+-- mardelrui felsuacor eledejim2 belbenzam juacasnie
 linea7 :: Integer -> [Integer]
 linea7 n = [x + suma(n-1) | x <- [1..n]]
 
@@ -173,7 +178,7 @@ linea9 n = [(sum[1..n-1]+1)..(sum[1..n])]
 -- margarflo5 ignareeva monlagare fatfervaz glovizcas mardelrui
 -- marmerzaf marjimcom joscasgom1 felsuacor margarvil14 eledejim2
 -- eliguivil belbenzam beagongon1 artmorfer migibagar congomgom carmarcar5
--- antdursan juaorture manruiber josjimgon2 josdeher josrodgal7
+-- antdursan juaorture manruiber josjimgon2 josdeher josrodgal7 juacasnie
 triangulo :: Integer -> [[Integer]]
 triangulo n = [linea n | n <- [1..n]]
 
@@ -192,7 +197,7 @@ triangulo n = [linea n | n <- [1..n]]
 -- ---------------------------------------------------------------------
 
 -- enrnarbej antmorper3 monlagare joscasgom1 eledejim2 artmorfer
--- carmarcar5 ignareeva manruiber natruipin 
+-- carmarcar5 ignareeva manruiber natruipin fatfervaz
 perfectos :: Int -> [Int]
 perfectos n = [x | x <- [1..n]
                  , sum (factores x) == 2*x]
@@ -202,8 +207,8 @@ factores n = [x | x <- [1..n]
                 , n `mod` x == 0]
 
 -- paumacpar cargonler margarflo5 glovizcas pabrabmon mardelrui
--- marjimcom natmarmar2 roscargar belbenzam fraferpoy marmerzaf
--- beagongon1 antdursan felsuacor albagucen josjimgon2 josrodgal7
+-- marjimcom natmarmar2 roscargar belbenzam fraferpoy marmerzaf juacasnie
+-- beagongon1 antdursan felsuacor luimotmar albagucen josjimgon2 josrodgal7
 perfectos2 :: Int -> [Int]
 perfectos2 n = [x | x <- [1..n]
                   , x == (sum (factores x))-x]
@@ -258,13 +263,14 @@ factores8 n = [x | x <- [1..n]
 --    numeroAbundante 30 == True
 -- ---------------------------------------------------------------------
 
--- enrnarbej antmorper3 artmorfer ignareeva carmarcar5 albagucen manruiber
+-- enrnarbej antmorper3 artmorfer ignareeva carmarcar5 albagucen
+-- manruiber luimotmar 
 numeroAbundante :: Int -> Bool
 numeroAbundante n = sum (factores n) > 2*n
 
 -- paumacpar cargonler pabrabmon albcercid margarflo5 monlagare fatfervaz 
 -- glovizcas marjimcom joscasgom1 natmarmar2 roscargar belbenzam fraferpoy
--- marmerzaf beagongon1 antdursan felsuacor josjimgon2 josrodgal7
+-- marmerzaf beagongon1 antdursan felsuacor josjimgon2 josrodgal7 juacasnie
 numeroAbundante2 :: Int -> Bool
 numeroAbundante2 n = n < (sum (factores n) -n)
 
@@ -308,7 +314,7 @@ numeroAbundante7 n = sum (factores n \\ [n]) > n
 -- glovizcas fatfervaz monlagare mardelrui joscasgom1 natmarmar2
 -- eledejim2 eliguivil roscargar migibagar marmerzaf marjimcom 
 -- beagongon1 artmorfer ignareeva carmarcar5 felsuacor albagucen
--- juaorture manruiber fraferpoy josjimgon2 josdeher josrodgal7
+-- juaorture manruiber fraferpoy josjimgon2 josdeher josrodgal7 juacasnie
 numerosAbundantesMenores :: Int -> [Int]
 numerosAbundantesMenores n =
   [x | x <- [1..n], numeroAbundante x]
@@ -325,6 +331,13 @@ numerosAbundantesMenores3 n = [x | x <- [1..n-1]
 
 -- Comentario: La definición numerosAbundantesMenores3 se puede simplificar.
 
+-- luimotmar
+numerosAbundantesMenores4 :: Int -> [Int]
+numerosAbundantesMenores4 n = [x | x <- [1..n]
+                                 , numeroAbundante x == True]
+
+-- Comentario: La definición anterior se puede simplificar.
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Definir la función 
 --    todosPares :: Int -> Bool
@@ -336,13 +349,13 @@ numerosAbundantesMenores3 n = [x | x <- [1..n-1]
 -- ---------------------------------------------------------------------
 
 -- enrnarbej paumacpar margarflo5 glovizcas fatfervaz mardelrui
--- joscasgom1 eliguivil carmarcar5 manruiber natruipin josrodgal7
+-- joscasgom1 eliguivil carmarcar5 manruiber natruipin josrodgal7 juacasnie
 todosPares :: Int -> Bool
 todosPares n = and [even x | x <- numerosAbundantesMenores n]
 
 -- antmorper3 cargonler pabrabmon monlagare natmarmar2 margarvil14
 -- eledejim2 roscargar marmerzaf marjimcom beagongon1 migibagar artmorfer 
--- ignareeva felsuacor albagucen fraferpoy josdeher
+-- ignareeva felsuacor albagucen fraferpoy josdeher luimotmar
 todosPares2 :: Int -> Bool 
 todosPares2 n = all even (numerosAbundantesMenores n)
 
@@ -374,12 +387,12 @@ primerAbundanteImpar = head [x | x <- [1..]
                                ,  odd x]
 
 -- margarvil14 eledejim2 roscargar marmerzaf artmorfer ignareeva
--- albagucen fraferpoy 
+-- albagucen fraferpoy fatfervaz
 primerAbundanteImpar2 :: Int
 primerAbundanteImpar2 = head [x | x <- [1,3..]
                                 , numeroAbundante x]
 
--- migibagar natruipin
+-- migibagar natruipin juacasnie
 primerAbundanteImpar3 :: Int
 primerAbundanteImpar3 = head [x | x <- (numerosAbundantesMenores 1000)
                                 , odd x]
@@ -398,7 +411,7 @@ primerAbundanteImpar3 = head [x | x <- (numerosAbundantesMenores 1000)
 -- Calcular la suma de todos los múltiplos de 3 ó 5 menores que 1000.
 -- ---------------------------------------------------------------------
 
--- enrnarbej antmorper3 pabrabmon joscasgom1 manruiber
+-- enrnarbej antmorper3 pabrabmon joscasgom1 manruiber fatfervaz
 euler1 :: Int -> Int
 euler1 n =
   sum [x | x <- [1..n-1], x `mod` 3  == 0] +
@@ -427,6 +440,11 @@ euler1e n = sum [3*m | m <- [1..n], 3*m < n] +
             sum [5*m | m <- [1..n], 5*m < n] -
             sum [15*m | m <- [1..n], 15*m < n]
 
+-- luimotmar
+euler1f :: Int -> Int
+euler1f n = sum [x | x <- [1..n-1]
+                   , mod x 3 == 0 ||  mod x 5 == 0]
+
 -- Cálculo:
 --    Prelude> euler1 1000
 --    233168
@@ -444,6 +462,7 @@ euler1e n = sum [3*m | m <- [1..n], 3*m < n] +
 -- enrnarbej antmorper3 pabrabmon albcercid cargonler margarflo5
 -- joscasgom1 roscargar eliguivil belbenzam paumacpar eledejim2
 -- beagongon1 monlagare migibagar carmarcar5 manruiber natruipin josdeher
+-- fatfervaz
 circulo :: Int -> Int
 circulo n =
   length [(x,y) | x <- [ 0..n]
@@ -675,7 +694,7 @@ errorPi3 x = head [m | m <- [1..]
 -- enrnarbej pabrabmon antmorper3 albcercid glovizcas joscasgom1
 -- mardelrui margarflo5 paumacpar fatfervaz roscargar eliguivil 
 -- beagongon1 migibagar marjimcom belbenzam carmarcar5 felsuacor
--- juaorture manruiber marmerzaf fraferpoy josdeher
+-- juaorture manruiber marmerzaf fraferpoy josdeher luimotmar margarvil14
 pitagoricas :: Int -> [(Int,Int,Int)]
 pitagoricas n =
   [(x,y,z) | x <- [1..n]
@@ -740,6 +759,31 @@ numeroDePares7 (x,y,z) =
               , z' == z
               , even z'])
 
+-- luimotmar
+numeroDePares8 :: (Int,Int,Int) -> Int
+numeroDePares8 (x,y,z) =
+  if even x == True && even y == True && even z == True
+  then 3
+  else if even x  == True && even y == True
+       then 2
+       else if even y  == True && even z == True
+            then 2
+            else if even x  == True && even z == True
+                 then 2                                             
+                 else if even x == True
+                      then 1
+                      else if even y == True
+                           then 1
+                           else if even z == True
+                                then 1
+                                else 0
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- margarvil14
+numeroDePares9 :: (Int,Int,Int) -> Int
+numeroDePares9 (x,y,z) = length (filter even [x,y,z])
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.3. Definir la función
 --    conjetura :: Int -> Bool
@@ -777,6 +821,10 @@ conjetura5 n = and [odd (numeroDePares (x,y,z)) | (x,y,z) <- pitagoricas n]
 -- marjimcom
 conjetura6 :: Int -> Bool
 conjetura6 n = all odd [numeroDePares m | m <- pitagoricas n]
+
+-- margarvil14
+conjetura7 :: Int -> Bool
+conjetura7 n = and (map (odd . numeroDePares) (pitagoricas n))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.4. Demostrar la conjetura para todas las ternas
@@ -912,9 +960,20 @@ ternasPitagoricas8 n =
            , y <- [x..n]
            , z <- [y..n]
            , x<y && y<z
-           , x^2+y^2 == z^2
+           , x^2 + y^2 == z^2
            , sum[x,y,z] == n]
 
+-- Comentario: La definición anterior se puede mejorar.
+
+-- margarvil14
+ternasPitagoricas10 :: Integer -> [(Integer,Integer,Integer)]
+ternasPitagoricas10 x =
+  [(a,b,c) | a <- [1..x]
+           , b <- [a..x]
+           , c <- [b..x]
+           , a + b + c == x
+           , a^2 + b^2 == c^2]
+                              
 -- Comentario: La definición anterior se puede mejorar.
 
 -- ---------------------------------------------------------------------
@@ -944,6 +1003,11 @@ euler9b = head [a*b*c | (a,b,c) <- ternasPitagoricas 1000]
 -- El cálculo del valor de euler9 es 
 -- 31875000 (567.11 secs, 360,484,325,448 bytes)
 
+-- margarvil14
+euler9c :: Integer
+euler9c = a*b*c
+  where (a,b,c) = head (ternasPitagoricas10 1000)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. El producto escalar de dos listas de enteros xs y ys de
 -- longitud n viene dado por la suma de los productos de los elementos
@@ -954,6 +1018,7 @@ euler9b = head [a*b*c | (a,b,c) <- ternasPitagoricas 1000]
 -- tal que (productoEscalar xs ys) es el producto escalar de las listas
 -- xs e ys. Por ejemplo,
 --    productoEscalar [1,2,3] [4,5,6]  ==  32
+--    productoEscalar [1,2] [3,4]      ==  11
 -- ---------------------------------------------------------------------
 
 -- enrnarbej
@@ -1087,7 +1152,7 @@ personas = [("Cervantes","Literatura",1547,1616),
 
 -- enrnarbej pabrabmon antmorper3 albcercid joscasgom1 fatfervaz
 -- paumacpar mardelrui beagongon1 migibagar margarflo5 eliguivil manruiber
--- josdeher
+-- josdeher belbenzam
 nombres :: [(String,String,Int,Int)] -> [String]
 nombres bd = [a | (a,b,c,d) <- bd ]
 

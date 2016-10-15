@@ -275,7 +275,7 @@ prop_xor_equivalentes x y =
 -- natmarmar2 margarflo5 migibagar josdeher antmorper3 congomgom margirmon
 -- natruipin josrodgal7 albagucen felsuacor belbenzam beagongon1
 -- luimotmar monlagare antdursan margarvil14 josjimgon2 marmerzaf
--- cescarde juaorture carmarcar5 antlopgom2 marlobrip
+-- cescarde juaorture carmarcar5 antlopgom2 marlobrip juacasnie
 mayorRectangulo :: (Num a, Ord a) => (a,a) -> (a,a) -> (a,a)
 mayorRectangulo (x,y) (a, b) | x*y >= a*b = (x,y)
                              | otherwise  = (a,b)
@@ -428,7 +428,7 @@ ciclo xs = last xs : take (length xs - 1) xs
 -- manruiber migibagar josdeher antmorper3 congomgom natruipin fraferpoy
 -- artmorfer ignareeva fraferpoy antbeacar felsuacor belbenzam
 -- beagongon1 margirmon antdursan margarvil14 josjimgon2 marmerzaf antlopgom2
--- carmarcar5 
+-- carmarcar5 eliguivil juacasnie
 ciclo2 :: [a] -> [a]
 ciclo2 [] = []
 ciclo2 xs = last xs : init xs
@@ -573,7 +573,7 @@ numeroDeRaices2 a b c
 numeroDeRaices3 :: (Num t, Ord t) => t -> t -> t -> t
 numeroDeRaices3 a b c = signum (b ^ 2 - 4 * a * c) + 1
 
--- margarvil14 cescarde
+-- margarvil14 cescarde juacasnie
 numeroDeRaices4 :: (Num t, Ord t) => t -> t -> t -> Int
 numeroDeRaices4 a b c | d < 0     = 0
                       | d == 0    = 1
@@ -594,7 +594,7 @@ numeroDeRaices4 a b c | d < 0     = 0
 -- enrnarbej pabrabmon joscasgom1 marjimcom roscargar glovizcas
 -- cargonler manruiber antbeacar eledejim2 antmorper3 margarflo5 
 -- artmorfer ignareeva felsuacor beagongon1 monlagare margirmon
--- antdursan josjimgon2 marmerzaf mardelrui congomgom
+-- antdursan josjimgon2 marmerzaf mardelrui congomgom juacasnie
 raices :: Double -> Double -> Double -> [Double]
 raices a b c
   | (numeroDeRaices a b c /= 0) = [s1, s2]
@@ -800,7 +800,7 @@ interseccion2 [a,b] [c,d]
     xs1 = xs !! 1
     xs2 = xs !! 2
 
--- albcercid antmorper3 manruiber paumacpar beagongon1 monlagare
+-- albcercid antmorper3 manruiber antbeacar paumacpar beagongon1 monlagare
 -- ignareeva mardelrui antdursan
 interseccion3 :: Ord a => [a] -> [a] -> [a]
 interseccion3 [a,b] [c,d]
@@ -841,13 +841,22 @@ interseccion5 [a,b] [c,d]
   | max a c >  min b d                   = []
   | otherwise                            = []
 
+-- juacasnie roscargar
+interseccion6 :: Ord a => [a] -> [a] -> [a]
+interseccion6 [a,b] [c,d] 
+   | x <= y    = [x,y]
+   | otherwise = []
+  where 
+    x = max a c
+    y = min b d
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 11.2. Comprobar con QuickCheck que la intersección de
 -- intervalos es conmutativa.
 -- ---------------------------------------------------------------------
 
 -- enrnarbej pabrabmon albcercid antmorper3 manruiber paumacpar
--- beagongon1 monlagare ignareeva margirmon eliguivil josjimgon2
+-- beagongon1 monlagare antbeacar ignareeva margirmon eliguivil josjimgon2
 -- mardelrui antdursan juacasnie
 -- La propiedad es
 prop_interseccion :: Int -> Int -> Int -> Int -> Property
@@ -937,6 +946,15 @@ formaReducida7 (a,b)
   | gcd a b == 1 && not (xor2 (a > 0) (b > 0)) = (abs a,abs b)
   | gcd a b == 1 &&      xor2 (a > 0) (b > 0)  = (-abs a,abs b)
   | gcd a b /= 1 = formaReducida7 (a `quot` (gcd a b),b `quot` (gcd a b))
+
+-- juacasnie
+formaReducida8 :: (Int,Int) -> (Int,Int) 
+formaReducida8 (0,_) = (0,1)
+formaReducida8 (_,0) = (0,0)
+formaReducida8 (a,b)  
+  | b > 0     = (a `div` m, b `div` m)
+  | otherwise = ((-a) `div` m, abs(b) `div` m)
+  where m = gcd a b
 
 ------------------------------------------------------------------------
 -- Ejercicio 12.2. Definir la función 
@@ -1038,7 +1056,7 @@ igualdadRacional2 (a,b) (c,d) = formaReducida (a,b) == formaReducida (c,d)
 
 -- enrnarbej pabrabmon paumacpar antmorper3 congomgom migibagar josdeher
 -- manruiber beagongon1 monlagare margirmon albcercid mardelrui antdursan
--- natruipin
+-- natruipin juacasnie
 -- La propiedad es
 prop_distributiva :: (Int,Int) -> (Int,Int) -> (Int,Int) -> Property
 prop_distributiva x y z =
