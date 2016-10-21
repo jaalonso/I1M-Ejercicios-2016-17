@@ -1,7 +1,129 @@
 
-./Euler_2.hs,125
-euler2a euler2a13,14
-fibonacci fibonacci18,19
-euler2b euler2b25,26
-fibonacci2 fibonacci229,30
-inversa inversa33,34
+./Euler_14.hs,96
+euler14a euler14a24,25
+euler14a euler14a25,26
+collatz collatz28,29
+collatz collatz29,30
+
+./Euler_13.hs,178
+numbers numbers112,113
+numbers numbers113,114
+euler13a euler13a215,216
+euler13a euler13a216,217
+listOfNumbers listOfNumbers218,219
+listOfNumbers listOfNumbers219,220
+
+./Euler_5.hs,382
+euler5a euler5a15,16
+euler5a euler5a16,17
+euler5b euler5b29,30
+euler5b euler5b30,31
+multiplo10 multiplo1035,36
+multiplo10 multiplo1036,37
+factores factores40,41
+factores factores41,42
+multiplos10 multiplos1047,48
+multiplos10 multiplos1048,49
+multiplo20 multiplo2054,55
+multiplo20 multiplo2055,56
+multiplos20 multiplos2059,60
+multiplos20 multiplos2060,61
+
+./Euler_20.hs,92
+euler20a euler20a16,17
+euler20a euler20a17,18
+digits digits19,20
+digits digits20,21
+
+./Euler_4.hs,112
+euler4a euler4a16,17
+euler4a euler4a17,18
+isPalindrome isPalindrome21,22
+isPalindrome isPalindrome22,23
+
+./Euler_16.hs,92
+euler16a euler16a13,14
+euler16a euler16a14,15
+digits digits16,17
+digits digits17,18
+
+./Euler_3.hs,216
+euler3a euler3a15,16
+euler3a euler3a16,17
+euler3b euler3b28,29
+euler3b euler3b29,30
+factoresPrimos factoresPrimos31,32
+factoresPrimos factoresPrimos32,33
+factores factores35,36
+factores factores36,37
+
+./Euler_2.hs,204
+euler2a euler2a15,16
+euler2a euler2a16,17
+fibonacci fibonacci20,21
+fibonacci fibonacci21,22
+euler2b euler2b35,36
+euler2b euler2b36,37
+fibonacci2 fibonacci241,42
+fibonacci2 fibonacci242,43
+
+./Euler_6.hs,119
+euler6a euler6a21,22
+cuadradoSuma cuadradoSuma23,24
+suma suma25,26
+euler6b euler6b37,38
+euler6b euler6b38,39
+
+./Euler_10.hs,108
+euler10a euler10a15,16
+euler10a euler10a16,17
+primeBelow primeBelow18,19
+primeBelow primeBelow19,20
+
+./Euler_21.hs,162
+euler21a euler21a18,19
+euler21a euler21a19,20
+isAmicable isAmicable22,23
+isAmicable isAmicable23,24
+divisores divisores26,27
+divisores divisores27,28
+
+./Euler_8.hs,188
+numero numero37,38
+numero numero38,39
+euler8 euler860,61
+euler8 euler861,62
+consecutivos consecutivos64,65
+consecutivos consecutivos65,66
+split split69,70
+split split70,71
+
+./Euler_12.hs,256
+euler12a euler12a33,34
+euler12a euler12a34,35
+triangleNumber triangleNumber38,39
+triangleNumber triangleNumber39,40
+numeroDivisores numeroDivisores41,42
+numeroDivisores numeroDivisores42,43
+repetidos repetidos45,46
+repetidos repetidos46,47
+
+./Euler_549.hs,198
+cabeza cabeza17,18
+cabeza cabeza18,19
+factorial factorial21,22
+factorial factorial22,23
+factores' factores'24,25
+factores' factores'25,26
+s s28,29
+s s29,30
+ss ss32,33
+ss ss33,34
+
+./Euler_7.hs,144
+euler7a euler7a16,17
+listaPrimos listaPrimos18,19
+primo primo20,21
+factores factores22,23
+euler7b euler7b34,35
+euler7b euler7b35,36
