@@ -1,0 +1,5 @@
+
+./EA2.hs,118
+todosDistintos todosDistintos12,13
+todosDistintos todosDistintos13,14
+todosDistintos (x:xs) | x `elem`elem14,15
