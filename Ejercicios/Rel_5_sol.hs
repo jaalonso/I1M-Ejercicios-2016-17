@@ -19,6 +19,7 @@
 
 import Test.QuickCheck
 import Data.List
+import Data.Numbers.Primes
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.1. Definir, por recursión, la función 
@@ -29,18 +30,29 @@ import Data.List
 -- ---------------------------------------------------------------------
 
 -- enrnarbej albcercid eliguivil josrodgal7 fatfervaz manruiber
--- juaorture glovizcas roscargar antdursan 
+-- juaorture glovizcas roscargar antdursan eledejim2 paumacpar marjimcom 
+-- carmarcar5 natmarmar2 belbenzam pabrabmon alvfercen cargonler
+-- antmorper3 artmorfer cescarde marmerzaf criortcar ignareeva margarflo5
 sumaCuadradosR :: Integer -> Integer
 sumaCuadradosR 1 = 1
 sumaCuadradosR n = n^2 + sumaCuadradosR (n-1)
 
+--fraferpoy
+--sumaCuadradosR2 :: Integer -> Integer
+sumaCuadradosR2 0 = 0
+sumaCuadradosR2 1 = 1
+sumaCuadradosR2 n = n^2 + sumaCuadradosR2 (n-1)
+  
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Comprobar con QuickCheck si sumaCuadradosR n es igual a
 -- n(n+1)(2n+1)/6. 
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil josrodgal7 fatfervaz manruiber glovizcas antdursan
--- La propiedad es
+-- enrnarbej eliguivil josrodgal7 fatfervaz manruiber glovizcas antdursan 
+-- marjimcom marlobrip natmarmar2 artmorfer belbenzam alvfercen
+-- cargonler antmorper3 albcercid paumacpar carmarcar5 fraferpoy cescarde
+-- marmerzaf criortcar ignareeva margarflo5
+-- La propiedad es 
 prop_SumaCuadrados :: Integer -> Property
 prop_SumaCuadrados n =
   n > 0 ==> sumaCuadradosR n == n*(n+1)*(2*n+1) `div` 6
@@ -49,7 +61,7 @@ prop_SumaCuadrados n =
 --    Prelude> quickCheck prop_SumaCuadrados
 --    +++ OK, passed 100 tests.
 
--- juaorture roscargar
+-- juaorture roscargar eledejim2 pabrabmon
 -- La propiedad es
 prop_SumaCuadrados2 :: Integer -> Property
 prop_SumaCuadrados2 n =
@@ -68,8 +80,11 @@ prop_SumaCuadrados2 n =
 -- ---------------------------------------------------------------------
 
 -- enrnarbej josrodgal7 fatfervaz manruiber juaorture glovizcas
--- roscargar antdursan 
-sumaCuadradosC :: Integer -> Integer
+-- roscargar antdursan eledejim2 paumacpar marjimcom carmarcar5
+-- marlobrip belbenzam pabrabmon artmorfer alvfercen cargonler
+-- antmorper3 albcercid fraferpoy cescarde marmerzaf criortcar
+-- ignareeva margarflo5 eliguivil
+sumaCuadradosC :: Integer -> Integer 
 sumaCuadradosC n = sum [ x^2 | x<-[1..n]]
 
 -- ---------------------------------------------------------------------
@@ -79,6 +94,9 @@ sumaCuadradosC n = sum [ x^2 | x<-[1..n]]
 -- ---------------------------------------------------------------------
 
 -- enrnarbej josrodgal7 fatfervaz manruiber glovizcas roscargar antdursan
+-- eledejim2 paumacpar marjimcom carmarcar5 natmarmar2 belbenzam
+-- artmorfer alvfercen cargonler antmorper3 albcercid fraferpoy cescarde
+-- marmerzaf criortcar ignareeva margarflo5 eliguivil
 -- La propiedad es
 prop_sumaCuadradosR :: Integer -> Property
 prop_sumaCuadradosR n =
@@ -88,7 +106,7 @@ prop_sumaCuadradosR n =
 --    Prelude> quickCheck prop_sumaCuadradosR
 --    +++ OK, passed 100 tests.
 
--- juaorture
+-- juaorture pabrabmon
 -- La propiedad es
 prop_sumaCuadradosR1 :: Integer -> Property
 prop_sumaCuadradosR1 n =
@@ -113,10 +131,13 @@ digitosR n = digitosR ((n-(n `mod` 10)) `div` 10) ++ [n `mod` 10]
 
 -- Comentario: La definición digitosR se puede mejorar.
 
--- manruiber glovizcas
+-- manruiber glovizcas eledejim2 marjimcom carmarcar5 natmarmar2
+-- belbenzam albcercid fraferpoy marmerzaf criortcar ignareeva
+-- margarflo5 eliguivil 
 digitosR1 0 = []
 digitosR1 n = digitosR1 (n `div` 10) ++ [mod n 10]
 
+-- juaorture pabrabmon alvfercen cargonler
 digitosR2 :: Integer -> [Integer]
 digitosR2 0 = []
 digitosR2 n = digitosR2 (n `div` 10) ++ [n `mod` 10]
@@ -129,6 +150,18 @@ digitosR3 n = digitosR3 (fst (x,y)) ++ [snd (x,y)]
 
 -- Comentario: La definición digitosR3 se puede simplificar.
 
+-- antmorper3 paumacpar 
+digitosR4 :: Integer -> [Integer]
+digitosR4 0 = []
+digitosR4 n = digitosR4 (div n 10) ++ [rem n 10]
+
+-- cescarde
+digitosR5 :: Integer -> [Integer]
+digitosR5 n = reverse (digitosR5a n)
+
+digitosR5a n | n < 10    = [n]
+             | otherwise = (rem n 10) : digitosR5a (div n 10) 
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir, por comprensión, la función
 --    digitosC :: Integer -> [Integer]
@@ -138,11 +171,13 @@ digitosR3 n = digitosR3 (fst (x,y)) ++ [snd (x,y)]
 -- Indicación: Usar las funciones show y read.
 -- ---------------------------------------------------------------------
 
---enrnarbej manruiber glovizcas roscargar antdursan
+--enrnarbej manruiber glovizcas roscargar antdursan eledejim2 marjimcom
+--carmarcar5 natmarmar2 pabrabmon belbenzam alvfercen cargonler antmorper3
+-- cescarde fraferpoy marmerzaf criortcar ignareeva margarflo5 eliguivil
 digitosC :: Integer -> [Integer]
 digitosC n = [read [x] | x <- show n]
 
--- juaorture 
+-- juaorture albcercid
 digitosC1 :: Integer -> [Integer]
 digitosC1 n = [(read [a]):: Integer | a <- show n]
 
@@ -153,7 +188,10 @@ digitosC1 n = [(read [a]):: Integer | a <- show n]
 -- digitosC son equivalentes.
 -- ---------------------------------------------------------------------
 
--- enrnarbej manruiber juaorture glovizcas roscargar antdursan
+-- enrnarbej manruiber juaorture glovizcas roscargar antdursan eledejim2
+-- marjimcom carmarcar5 natmarmar2 pabrabmon belbenzam alvfercen cargonler
+-- antmorper3 albcercid cescarde fraferpoy marmerzaf criortcar paumacpar 
+-- ignareeva margarflo5 eliguivil
 -- La propiedad es
 prop_digitos :: Integer -> Property
 prop_digitos n = n > 0 ==> digitosR n == digitosC n
@@ -171,7 +209,7 @@ prop_digitos n = n > 0 ==> digitosR n == digitosC n
 --    sumaDigitosR 20045 == 11
 -- ---------------------------------------------------------------------
 
--- juaorture
+-- juaorture eledejim2 carmarcar5 natmarmar2 manruiber
 sumaDigitosR :: Integer -> Integer
 sumaDigitosR 0 = 0
 sumaDigitosR n = last (digitosC n) + sumaDigitosR (n `div` 10)
@@ -189,6 +227,23 @@ sumaDigitosR3 a = a `mod` 10 + sumaDigitosR3 ((a- (a `mod` 10)) `div` 10)
 
 -- Comentario: La definición sumaDigitosR3 se puede mejorar.
 
+-- marjimcom glovizcas belbenzam antmorper3 marmerzaf fraferpoy paumacpar 
+sumaDigitosR4 :: Integer -> Integer
+sumaDigitosR4 0 = 0
+sumaDigitosR4 n = n `rem` 10 + sumaDigitosR4 (n `div` 10)
+
+-- pabrabmon enrnarbej alvfercen cargonler albcercid criortcar
+-- margarflo5 eliguivil 
+sumaDigitosR5 :: Integer -> Integer
+sumaDigitosR5 0 = 0
+sumaDigitosR5 n = sumaDigitosR (n `div` 10) + (n `mod` 10) 
+
+-- cescarde
+sumaDigitosR6 :: Integer -> Integer
+sumaDigitosR6 0 = 0
+sumaDigitosR6 n | n < 10    = n
+                | otherwise = (rem n 10) + sumaDigitosR (div n 10)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, sin usar recursión, la función 
 --    sumaDigitosNR :: Integer -> Integer
@@ -198,16 +253,28 @@ sumaDigitosR3 a = a `mod` 10 + sumaDigitosR3 ((a- (a `mod` 10)) `div` 10)
 --    sumaDigitosNR 20045 == 11
 -- ---------------------------------------------------------------------
 
--- juaorture manruiber roscargar antdursan
+-- juaorture manruiber roscargar antdursan eledejim2 carmarcar5
+-- marjimcom glovizcas natmarmar2 pabrabmon belbenzam enrnarbej
+-- alvfercen antmorper3 albcercid marmerzaf fraferpoy criortcar 
+-- paumacpar ignareeva margarflo5 eliguivil
 sumaDigitosNR :: Integer -> Integer
 sumaDigitosNR n = sum (digitosC n)
+
+-- cargonler cescarde
+sumaDigitosNR2 :: Integer -> Integer
+sumaDigitosNR2 n = sum [ read [x] | x <- show n ]
+
+-- Comentario: La definición anterior se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que las funciones sumaDigitosR
 -- y sumaDigitosNR son equivalentes.
 -- ---------------------------------------------------------------------
 
--- juaorture manruiber roscargar antdursan
+-- juaorture manruiber roscargar antdursan eledejim2 carmarcar5
+-- marjimcom glovizcas natmarmar2 pabrabmon belbenzam enrnarbej
+-- alvfercen cargonler antmorper3 albcercid cescarde marmerzaf fraferpoy 
+-- criortcar ignareeva margarflo5 eliguivil paumacpar 
 -- La propiedad es
 prop_sumaDigitos :: Integer -> Property
 prop_sumaDigitos n =
@@ -243,7 +310,7 @@ por n xs = [n*a | a <- xs]
 --    5
 --    (0.00 secs, 0 bytes)
 
--- manruiber
+-- manruiber carmarcar5 antmorper3 eliguivil
 listaNumeroR2 :: [Integer] -> Integer
 listaNumeroR2 [] = 0
 listaNumeroR2 xs = last xs + (10 * listaNumeroR (init xs))
@@ -256,7 +323,8 @@ listaNumeroR2 xs = last xs + (10 * listaNumeroR (init xs))
 --    5
 --    (0.00 secs, 0 bytes)
 
--- joscasgom1
+-- joscasgom1 carmarcar5 pabrabmon marjimcom enrnarbej belbenzam
+-- cargonler roscargar albcercid  marmerzaf margarflo5 eliguivil
 listaNumeroR3 :: [Integer] -> Integer
 listaNumeroR3 [] = 0
 listaNumeroR3 (x:xs) = x*10^(length xs) + listaNumeroR xs
@@ -283,6 +351,42 @@ listaNumeroR4 (x:xs) = x*(10^n) + listaNumeroR xs
 --    5
 --    (0.00 secs, 0 bytes)
 
+-- glovizcas
+listaNumeroR5 :: [Integer] -> Integer
+listaNumeroR5 xs = read (cadenaNumeroR xs) :: Integer
+
+cadenaNumeroR [] = []
+cadenaNumeroR xs = show (xs !! 0) ++ cadenaNumeroR (tail xs)
+
+-- Comentario: La definición anterior se puede simplificar.
+
+-- cescarde
+listaNumeroR6 :: [Integer] -> Integer
+listaNumeroR6 []  = 0
+listaNumeroR6 [n] = n
+listaNumeroR6 xs  = head xs * 10^((length xs)-1) + listaNumeroR (tail xs)
+
+-- Comentario: La definición listaNumeroR4 se puede mejorar. Por ejemplo,
+--    λ> listaNumeroR6 (replicate 2000 5) `mod` 10
+--    5
+--    (1.92 secs, 1,213,310,096 bytes)
+--    λ> listaNumeroR' (replicate 2000 5) `mod` 10
+--    5
+--    (0.00 secs, 0 bytes)
+
+-- paumacpar
+listaNumeroR7 :: [Integer] -> Integer
+listaNumeroR7 (x:xs) = (x*(10^(length (x:xs)-1))) + listaNumeroR xs
+listaNumeroR7 []     = 0
+
+-- Comentario: La definición listaNumeroR4 se puede mejorar. Por ejemplo,
+--    λ> listaNumeroR6 (replicate 2000 5) `mod` 10
+--    5
+--    (1.91 secs, 1,219,463,312 bytes)
+--    λ> listaNumeroR' (replicate 2000 5) `mod` 10
+--    5
+--    (0.00 secs, 0 bytes)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Definir, por comprensión, la función 
 --    listaNumeroC :: [Integer] -> Integer
@@ -301,12 +405,37 @@ listaNumeroC xs =
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- marjimcom cargonler antmorper3
+listaNumeroC2 :: [Integer] -> Integer
+listaNumeroC2 xs =
+  sum[x*10^y | (x,y) <- zip xs (reverse [0..(length xs)-1])]
+
+-- enrnarbej glovizcas roscargar cescarde marmerzaf manruiber margarflo5
+listaNumeroC3 :: [Integer] -> Integer
+listaNumeroC3 [] = 0
+listaNumeroC3 xs = read (concat [ show x | x <- xs])
+
+-- albcercid
+listaNumeroC4 :: [Integer] -> Integer
+listaNumeroC4 xs =
+  sum [x * 10^(y-1) | (x,y) <- zip (reverse xs) [1..]]
+
+-- paumacpar
+listaNumeroC5 :: [Integer] -> Integer 
+listaNumeroC5 xs = sum [a*b | (a,b) <- zip (reverse xs) ys]
+  where ys = [10^x | x <- [0..]]
+
+-- eliguivil
+listaNumeroC6 :: [Integer] -> Integer
+listaNumeroC6 xs = sum [x*10^(-a) | (x,a) <- zip xs [-(length xs)+1..0]]
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.3. Comprobar con QuickCheck que las funciones
 -- listaNumeroR y listaNumeroC son equivalentes.
 -- ---------------------------------------------------------------------
 
--- juaorture
+-- juaorture pabrabmon marjimcom cargonler glovizcas roscargar manruiber
+-- antmorper3 albcercid cescarde marmerzaf paumacpar margarflo5
 -- La propiedad es
 prop_listaNumero :: [Integer] -> Bool
 prop_listaNumero xs = listaNumeroR xs == listaNumeroC xs
@@ -326,8 +455,24 @@ prop_listaNumero xs = listaNumeroR xs == listaNumeroC xs
 --    mayorExponenteR 2 60   ==  2
 -- ---------------------------------------------------------------------
 
-mayorExponenteR :: Integer -> Integer -> Integer 
-mayorExponenteR a b = undefined
+-- juaorture pabrabmon
+mayorExponenteR :: Integer -> Integer -> Integer
+mayorExponenteR a b
+  | a `elem` factores b =
+    1 + mayorExponenteR a (b `div` minimum [x | x <- factores b
+                                              , x `mod`a == 0])
+  | otherwise = 0
+
+factores:: Integer -> [Integer]
+factores n = [a | a <- [1..n]
+                , n `mod`a == 0]
+
+-- enrnarbej marjimcom antmorper3 albcercid marmerzaf paumacpar
+-- cargonler manruiber 
+mayorExponenteR2 :: Integer -> Integer -> Integer
+mayorExponenteR2 a b
+  | mod b a /= 0 = 0
+  | otherwise    = 1 + mayorExponenteR2 a (div b a)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Definir, por comprensión, la función 
@@ -339,18 +484,69 @@ mayorExponenteR a b = undefined
 --    mayorExponenteC 5 101  ==  0
 -- ---------------------------------------------------------------------
 
--- juaorture
+-- juaorture roscargar
 mayorExponenteC :: Integer -> Integer -> Integer
 mayorExponenteC a b =
-  maximum ([n | n <- [1..b]
+  maximum ([n | n <- [1..b `div` a]
               , b `rem` a^n == 0]
            ++ [0])
 
 -- Comentario: La definición anterior se puede mejorar. Por ejemplo,
 --    λ> mayorExponenteC 2 (2^16)
 --    16
---    (3.27 secs, 1,177,928,440 bytes)
+--    (0.65 secs, 379,071,136 bytes)
 --    λ> mayorExponenteC' 2 (2^16)
 --    16
 --    (0.01 secs, 23,570,056 bytes)
+
+-- mejorada (mayorExponenteC5)
+
+-- pabrabmon marjimcom antmorper3 marmerzaf cargonler
+mayorExponenteC2 :: Integer -> Integer -> Integer
+mayorExponenteC2 a b =
+  last [x | x <- [0..b]
+          , b `mod` a^x == 0]
+
+-- Comentario: La definición anterior se puede mejorar. Por ejemplo,
+--    λ> mayorExponenteC2 2 (2^16)
+--    16
+--    (3.26 secs, 1,166,111,640 bytes)
+--    λ> mayorExponenteC' 2 (2^16)
+--    16
+--    (0.01 secs, 23,570,056 bytes)
+
+-- enrnarbej manruiber
+mayorExponenteC3 :: Integer -> Integer -> Integer
+mayorExponenteC3 a b = sum [1 | p <- primeFactors b
+                              , a == p]
+
+-- albcercid
+mayorExponenteC4 :: Integer -> Integer -> Integer
+mayorExponenteC4 a b =
+  last (0 : [x | x <- [0..c]
+               , mod b (a^x) == 0
+               , a^x <= b
+               ])
+  where c = head [x | x <- [1..]
+                    , b <= a^x]
+
+-- Comentario: La definición mayorExponenteC4 se puede simplificar (eliminando
+-- una condición).
+
+-- juaorture (mejorada)
+mayorExponenteC5 :: Integer -> Integer -> Int
+mayorExponenteC5 a b =
+  length (filter (==a) (descomposicion b))
+
+descomposicion :: Integer -> [Integer]
+descomposicion n
+  | n > 1     = head (primos n):(descomposicion (n `div` (head (primos n))))
+  | otherwise = []
+
+primos:: Integer -> [Integer]
+primos n = [a | a <- factores n
+              , factores a == [1,a]]
+
+
+
 
