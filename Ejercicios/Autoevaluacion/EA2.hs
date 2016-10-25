@@ -35,7 +35,7 @@ todosDistintos3 xs =
      , a == b]
   == []
 
--- glovizcas marmerzaf natmarmar2
+-- glovizcas marmerzaf natmarmar2 josdeher
 todosDistintos4 []     = True
 todosDistintos4 (x:xs) = x `notElem` xs && todosDistintos xs
 

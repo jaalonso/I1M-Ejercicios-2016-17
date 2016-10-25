@@ -15,7 +15,7 @@ todosDistintos6 todosDistintos647,48
 todosDistintos7 todosDistintos753,54
 todosDistintos7 todosDistintos754,55
 
-./z.hs,391
+./z.hs,547
 todosDistintos todosDistintos14,15
 todosDistintos todosDistintos15,16
 todosDistintos (x:xs) | x `elem`elem16,17
@@ -26,6 +26,10 @@ todosDistintos3 todosDistintos331,32
 todosDistintos4 todosDistintos438,39
 todosDistintos5 todosDistintos542,43
 todosDistintos5 todosDistintos543,44
+todosDistintos6 todosDistintos646,47
+todosDistintos6 todosDistintos647,48
+todosDistintos7 todosDistintos753,54
+todosDistintos7 todosDistintos754,55
 
 ./EA1.hs,478
 todosIguales todosIguales12,13
