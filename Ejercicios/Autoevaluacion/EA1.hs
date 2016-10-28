@@ -9,13 +9,13 @@
 -- ---------------------------------------------------------------------
 
 -- enrnarbej antmorper3 pabrabmon joscasgom1 manruiber roscargar
--- artmorfer fraferpoy albagucen cargonler natmarmar2 eliguivil
+-- artmorfer fraferpoy albagucen cargonler natmarmar2 eliguivil fatfervaz
 todosIguales :: Eq a => [a] -> Bool
 todosIguales []     = True
 todosIguales (x:xs) = and [x == y | y <- xs]
 
 -- albcercid glovizcas beagongon1 cargonler eliguivil josdeher juacasnie
--- natruipin marjimcom margirmon carmarcar5 josjimgon2 antdursan
+-- natruipin marjimcom margirmon carmarcar5 josjimgon2 antdursan roscargar
 todosIguales2 :: Eq a => [a] -> Bool
 todosIguales2 xs = and [x == y | (x,y) <- zip xs (tail xs)]
 
@@ -34,8 +34,13 @@ todosIguales4 xs =
                                  , a == b ]
 
 -- josrodgal7
-todosIguales5 :: Eq a => [a] -> Bool
-todosIguales5 xs = and [a == b | a <- xs, b <- xs ]
+todosIguales5a :: Eq a => [a] -> Bool
+todosIguales5a xs = and [a == b | a <- xs, b <- xs ]
+
+todosIguales5b :: Eq a => [a] -> Bool
+todosIguales5b []     = True
+todosIguales5b (x:xs) = and [x == a | a <- xs] && todosIguales5b xs   
+
 
 -- luimotmar
 todosIguales6 :: Eq a => [a] -> Bool
