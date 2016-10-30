@@ -12,3 +12,4 @@ clase) y las soluciones definitivas.
 + *Relación 3*: Definiciones por comprensión. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_3.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_3_sol.hs][solución]]). 
 + *Relación 4*: Definiciones por recursión (1). ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_4.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_4_sol.hs][solución]]). 
 + *Relación 5*: Definiciones por recursión (2). ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_5.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_5_sol.hs][solución]]). 
++ *Relación 6*: Funciones sobre cadenas. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_6_sol.hs][solución]]). 
