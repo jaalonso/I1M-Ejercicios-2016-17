@@ -25,7 +25,7 @@ import Test.QuickCheck
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 eliguivil
 -- marmerzaf glovizcas eledejim2 cargonler fraferpoy fatfervaz pabrabmon
--- roscargar 
+-- roscargar congomgom beagongon1 joscasgom1
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x] 
 
@@ -40,7 +40,7 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 roscargar
 -- eliguivil glovizcas marmerzaf eledejim2 cargonler fraferpoy fatfervaz
--- pabrabmon
+-- pabrabmon congomgom beagongon1 joscasgom1
 
 sumaDigitosR :: String -> Int
 sumaDigitosR (x:xs) | isDigit x = digitToInt x + sumaDigitosR xs
@@ -54,6 +54,7 @@ sumaDigitosR [] = 0
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 roscargar
 -- eliguivil glovizcas marmerzaf eledejim2 cargonler fatfervaz pabrabmon
+-- beagongon1 congomgom joscasgom1
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
 prop_sumaDigitosC xs = sumaDigitosR xs == sumaDigitosC xs
@@ -76,6 +77,7 @@ prop_sumaDigitosC xs = sumaDigitosR xs == sumaDigitosC xs
 
 -- josrodgal7 albcercid josdeher eliguivil antmorper3 glovizcas
 -- marmerzaf cargonler paumacpar fatfervaz pabrabmon roscargar
+-- beagongon1 congomgom marjimcom joscasgom1
 mayusculaInicial :: String -> String
 mayusculaInicial []     = []
 mayusculaInicial (x:xs) = toUpper x : [ toLower a | a <- xs ]
@@ -89,7 +91,9 @@ mayusculaInicial (x:xs) = toUpper x : [ toLower a | a <- xs ]
 -- ---------------------------------------------------------------------
 
 -- josdeher albcercid antmorper3 glovizcas marmerzaf cargonler paumacpar 
--- josrodgal7 fatfervaz pabrabmon roscargar
+-- josrodgal7 fatfervaz pabrabmon roscargar beagongon1 marjimcom congomgom
+-- joscasgom1
+
 mayusculaInicialRec :: String -> String
 mayusculaInicialRec []     = []
 mayusculaInicialRec (x:xs) = toUpper x : minusculaResto xs
@@ -112,7 +116,8 @@ mayusculaInicialRec3 (x:xs) =
 -- ---------------------------------------------------------------------
 
 -- josdeher albcercid eliguivil antmorper3 glovizcas marmerzaf cargonler
--- paumacpar josrodgal7 fatfervaz pabrabmon roscargar
+-- paumacpar josrodgal7 fatfervaz pabrabmon roscargar beagongon1 marjimcom
+-- congomgom joscasgom1
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
 prop_mayusculaInicial xs = mayusculaInicial xs == mayusculaInicialRec xs
@@ -159,7 +164,8 @@ otraRegla xs | 4 <= length xs = mayusculaInicial xs
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- antmorper3 paumacpar  marmerzaf cargonler pabrabmon roscargar
+-- antmorper3 paumacpar  marmerzaf cargonler pabrabmon roscargar 
+-- beagongon1 marjimcom congomgom
 titulo3 :: [String] -> [String]
 titulo3 []     = []
 titulo3 (p:ps) = mayusculaInicial p : [resto k | k <- ps]
@@ -187,7 +193,7 @@ cadaPalabra cad l  | l == []       = []
 --    ["El","Arte","de","la","Programacion"]
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher antmorper3
+-- albcercid josdeher antmorper3 congomgom joscasgom1
 tituloRec :: [String] -> [String]
 tituloRec []     = []
 tituloRec (x:xs) = mayusculaInicial x : segundaRegla xs
@@ -209,7 +215,7 @@ regla :: String -> String
 regla xs | length xs >= 4 = mayusculaInicial xs
          | otherwise      = map toLower xs
 
--- paumacpar cargonler pabrabmon roscargar
+-- paumacpar cargonler pabrabmon roscargar beagongon1 marjimcom
 tituloRec3 :: [String] -> [String]
 tituloRec3 (x:xs) = mayusculaInicial x : restoRec xs 
 tituloRec3 []     = []
@@ -224,7 +230,7 @@ restoRec (x:xs) = resto x : restoRec xs
 -- ---------------------------------------------------------------------
 
 -- albcercid josdeher eliguivil antmorper3 paumacpar cargonler pabrabmon
--- roscargar 
+-- roscargar beagongon1 marjimcom congomgom joscasgom1
 -- La propiedad es
 prop_titulo :: [String] -> Bool
 prop_titulo xs = titulo xs == tituloRec xs
@@ -250,6 +256,7 @@ prop_titulo xs = titulo xs == tituloRec xs
 -- ---------------------------------------------------------------------
  
 -- albcercid josdeher antmorper3 josrodgal7 paumacpar pabrabmon roscargar
+-- beagongon1 marjimcom joscasgom1 congomgom
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigrama l  pos lon ps
   | pos >= 0 && lon > pos = [a | a <- ps
@@ -267,7 +274,8 @@ buscaCrucigrama l  pos lon ps
 --    ["acabado","ocupado"]
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar
+-- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar beagongon1
+-- marjimcom joscasgom1 congomgom
 buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigramaR l  pos lon [] = []
 buscaCrucigramaR l  pos lon (p:ps)
@@ -280,7 +288,8 @@ buscaCrucigramaR l  pos lon (p:ps)
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar
+-- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar beagongon1
+-- marjimcom joscasgom1 congomgom
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
 prop_buscaCrucigrama l  pos lon ps =
@@ -299,8 +308,8 @@ prop_buscaCrucigrama l  pos lon ps =
 -- ---------------------------------------------------------------------
 
 -- albcercid josdeher eliguivil antmorper3 glovizcas josrodgal7
--- paumacpar cargonler roscargar 
--- pabrabmon
+-- paumacpar cargonler roscargar beagongon1 marjimcom
+-- pabrabmon joscasgom1 congomgom
 posiciones :: String -> Char -> [Int]
 posiciones xs y = [b | (a,b) <- zip xs [0..]
                      , a == y]
@@ -313,7 +322,7 @@ posiciones xs y = [b | (a,b) <- zip xs [0..]
 --    posicionesR "Salamamca" 'a'  ==  [1,3,5,8]
 -- ---------------------------------------------------------------------
 
--- albcercid cargonler pabrabmon
+-- albcercid cargonler pabrabmon joscasgom1
 posicionesR :: String -> Char -> [Int]
 posicionesR [] _ = []
 posicionesR xs y
@@ -328,7 +337,7 @@ posicionesR xs y
 --    []
 --    (0.01 secs, 0 bytes)
 
--- eliguivil antmorper3 josdeher glovizcas
+-- eliguivil antmorper3 josdeher glovizcas beagongon1 marjimcom congomgom
 posicionesR2 :: String -> Char -> [Int]
 posicionesR2 []     _ = []
 posicionesR2 (x:xs) y
@@ -352,7 +361,7 @@ posicionesRR [] _ = []
 -- ---------------------------------------------------------------------
  
 -- albcercid eliguivil antmorper3 josdeher glovizcas paumacpar cargonler
--- pabrabmon
+-- pabrabmon beagongon1 marjimcom joscasgom1 congomgom
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
 prop_posiciones xs y = posiciones xs y == posicionesR xs y
@@ -373,7 +382,8 @@ prop_posiciones xs y = posiciones xs y == posicionesR xs y
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher glovizcas paumacpar pabrabmon
+-- albcercid josdeher glovizcas paumacpar pabrabmon beagongon1 marjimcom
+-- joscasgom1 congomgom
 contieneR :: String -> String -> Bool
 contieneR _ ""      = True
 contieneR "" _      = False
@@ -392,7 +402,8 @@ contieneR (x:xs) ys = isPrefixOf ys (x:xs) || contieneR xs ys
 -- si ys es un prefijo de xs.
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher paumacpar pabrabmon
+-- albcercid josdeher paumacpar pabrabmon beagongon1 marjimcom joscasgom1
+-- congomgom
 contiene :: String -> String -> Bool
 contiene xs ys = any (isPrefixOf ys) (tails xs)
 
@@ -409,7 +420,8 @@ recortes (x:xs) = [x:xs] ++ recortes xs
 -- equivalentes. 
 -- ---------------------------------------------------------------------
 
--- albcercid eliguivil josdeher paumacpar pabrabmon
+-- albcercid eliguivil josdeher paumacpar pabrabmon beagongon1 marjimcom
+-- joscasgom1 congomgom
 -- La propiedad es
 prop_contiene :: String -> String -> Bool
 prop_contiene xs ys = contieneR xs ys == contiene xs ys

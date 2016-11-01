@@ -9,6 +9,11 @@
 -- ¿Cuál es el menor número divisible por los números del 1 al 20? 
 -- ---------------------------------------------------------------------
 
+import Data.Numbers.Primes ( primes
+                           , primeFactors
+                           )
+import Data.List           ( (\\)
+                           )
 
 -- 1ª solución: enrnarbej
 -- ======================
@@ -28,7 +33,7 @@ euler5a (x:xs) = lcm x (euler5a xs)
 -- ======================
 
 euler5b :: Integer -> Integer
-euler5b n = head (multiplos20 (product [1..n])
+euler5b n = head (multiplos20 (product [1..n]))
 
 -- (multiplo10 n) se verifica si n es divisible por los números desde 1
 -- hasta 10. Por ejemplo,
@@ -63,4 +68,42 @@ multiplos20 n = [x | x <- [40,80..n]
 
 -- ---------------------------------------------------------------------
                   
- 
+-- 3ª solución: eliguivil
+-- ======================
+
+euler5c :: Int -> Int
+euler5c n =
+  product [potenciaMaxima p xs
+          | p <- takeUntil (maximum $
+                            concatenaListas [primeFactors y
+                                            | y <- [1..n]])
+                           primes]
+  where xs = ocurrenciasSublistas [primeFactors x | x <- [1..n]]
+
+concatenaListas :: [[a]] -> [a]
+concatenaListas []     = []
+concatenaListas (x:xs) = x ++ concatenaListas xs
+
+ocurrencias :: Eq a => a -> [a] -> Int
+ocurrencias x xs = sum [1 | x' <- xs, x' == x]
+
+potenciaMaxima :: Int -> [(Int,Int)] -> Int
+potenciaMaxima n xs = n^(maximum [b | (m,b) <- xs, m == n])
+
+takeUntil :: Eq a => a -> [a] -> [a]
+takeUntil _ []                 = []
+takeUntil n (x:xs) | n == x    = [x]
+                   | otherwise = x : takeUntil n xs
+
+ocurrenciasSublistas :: Eq a => [[a]] -> [(a,Int)]
+ocurrenciasSublistas []      = []
+ocurrenciasSublistas ([]:xs) = ocurrenciasSublistas xs
+ocurrenciasSublistas (x:xs)  =
+  (head x, ocurr) :
+  ocurrenciasSublistas ((x \\ (replicate ocurr (head x))) : xs)
+  where ocurr = ocurrencias (head x) x
+
+-- Cálculo:
+--    λ> euler5c 20
+--    232792560
+--    (0.01 secs, 0 bytes)
