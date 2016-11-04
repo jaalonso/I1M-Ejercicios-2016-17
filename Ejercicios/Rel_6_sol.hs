@@ -25,8 +25,9 @@ import Test.QuickCheck
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 eliguivil
 -- marmerzaf glovizcas eledejim2 cargonler fraferpoy fatfervaz pabrabmon
--- roscargar congomgom beagongon1 joscasgom1 albagucen manruiber
--- enrnarbej margarflo5 josjimgon2 
+-- roscargar congomgom beagongon1 joscasgom1 albagucen manruiber migibagar
+-- enrnarbej margarflo5 josjimgon2 javcancif juaorture carmarcar5
+-- margirmon cescarde juacasnie
 sumaDigitosC :: String -> Int
 sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x] 
 
@@ -41,12 +42,14 @@ sumaDigitosC xs = sum [digitToInt x | x <- xs, isDigit x]
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 roscargar
 -- eliguivil glovizcas marmerzaf eledejim2 cargonler fraferpoy fatfervaz
--- pabrabmon congomgom beagongon1 joscasgom1 albagucen manruiber
--- enrnarbej margarflo5 josjimgon2 
+-- pabrabmon congomgom beagongon1 joscasgom1 albagucen manruiber migibagar
+-- enrnarbej margarflo5 josjimgon2 javcancif juaorture carmarcar5
+-- margirmon cescarde juacasnie
 sumaDigitosR :: String -> Int
+sumaDigitosR [] = 0
 sumaDigitosR (x:xs) | isDigit x = digitToInt x + sumaDigitosR xs
                     | otherwise = sumaDigitosR xs
-sumaDigitosR [] = 0
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.3. Comprobar con QuickCheck que ambas definiciones son
@@ -55,8 +58,9 @@ sumaDigitosR [] = 0
 
 -- paumacpar josrodgal7 marjimcom josdeher albcercid antmorper3 roscargar
 -- eliguivil glovizcas marmerzaf eledejim2 cargonler fatfervaz pabrabmon
--- beagongon1 congomgom joscasgom1 albagucen manruiber enrnarbej
--- margarflo5 josjimgon2 
+-- beagongon1 congomgom joscasgom1 albagucen manruiber enrnarbej migibagar
+-- margarflo5 josjimgon2 javcancif juaorture carmarcar5 margirmon cescarde
+-- juacasnie
 -- La propiedad es
 prop_sumaDigitosC :: String -> Bool
 prop_sumaDigitosC xs = sumaDigitosR xs == sumaDigitosC xs
@@ -80,7 +84,8 @@ prop_sumaDigitosC xs = sumaDigitosR xs == sumaDigitosC xs
 -- josrodgal7 albcercid josdeher eliguivil antmorper3 glovizcas
 -- marmerzaf cargonler paumacpar fatfervaz pabrabmon roscargar
 -- beagongon1 congomgom marjimcom joscasgom1 albagucen manruiber
--- enrnarbej margarflo5 josjimgon2
+-- enrnarbej margarflo5 josjimgon2 javcancif juaorture carmarcar5 migibagar
+-- margirmon cescarde juacasnie
 mayusculaInicial :: String -> String
 mayusculaInicial []     = []
 mayusculaInicial (x:xs) = toUpper x : [ toLower a | a <- xs ]
@@ -95,8 +100,8 @@ mayusculaInicial (x:xs) = toUpper x : [ toLower a | a <- xs ]
 
 -- josdeher albcercid antmorper3 glovizcas marmerzaf cargonler paumacpar 
 -- josrodgal7 fatfervaz pabrabmon roscargar beagongon1 marjimcom congomgom
--- joscasgom1 albagucen manruiber enrnarbej margarflo5 josjimgon2
-
+-- joscasgom1 albagucen manruiber enrnarbej margarflo5 josjimgon2 migibagar
+-- juaorture carmarcar5 margirmon juacasnie
 mayusculaInicialRec :: String -> String
 mayusculaInicialRec []     = []
 mayusculaInicialRec (x:xs) = toUpper x : minusculaResto xs
@@ -113,6 +118,13 @@ mayusculaInicialRec3 (x:xs) =
 
 -- Comentario: La definición anterior se puede mejorar.
 
+-- cescarde
+mayusculaInicialRec4 :: String -> String
+mayusculaInicialRec4 [] = []
+mayusculaInicialRec4 (x:xs) = toUpper x : minusculas xs
+  where minusculas (x:xs) = toLower x : minusculas xs
+        minusculas []     = []
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
@@ -121,6 +133,7 @@ mayusculaInicialRec3 (x:xs) =
 -- josdeher albcercid eliguivil antmorper3 glovizcas marmerzaf cargonler
 -- paumacpar josrodgal7 fatfervaz pabrabmon roscargar beagongon1 marjimcom
 -- congomgom joscasgom1 albagucen manruiber enrnarbej margarflo5 josjimgon2
+-- juaorture carmarcar5 margirmon migibagar cescarde juacasnie
 -- La propiedad es
 prop_mayusculaInicial :: String -> Bool
 prop_mayusculaInicial xs = mayusculaInicial xs == mayusculaInicialRec xs
@@ -169,7 +182,8 @@ otraRegla xs | 4 <= length xs = mayusculaInicial xs
 
 -- antmorper3 paumacpar  marmerzaf cargonler pabrabmon roscargar 
 -- beagongon1 marjimcom congomgom albagucen fatfervaz manruiber
--- enrnarbej  margarflo5 josjimgon2
+-- enrnarbej  margarflo5 josjimgon2 carmarcar5 margirmon cescarde
+-- juacasnie
 titulo3 :: [String] -> [String]
 titulo3 []     = []
 titulo3 (p:ps) = mayusculaInicial p : [resto k | k <- ps]
@@ -188,6 +202,19 @@ cadaPalabra cad l  | l == []       = []
                    | length l < 4  = minusculaResto l
                    | otherwise     = mayusculaInicial l
 
+-- juaorture
+titulo5 :: [String] -> [String]
+titulo5 []       = []
+titulo5 (xs:xss) = mayusculaInicial xs : [mayusculas a | a <- xss]
+
+minuscula :: String -> String
+minuscula "" = ""
+minuscula xs = [toLower a | a <- xs]
+
+mayusculas :: String -> String
+mayusculas xs | length xs >= 4 = mayusculaInicial xs
+              | otherwise      = minuscula xs
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir, por recursión, la función
 --    tituloRec :: [String] -> [String]
@@ -197,7 +224,7 @@ cadaPalabra cad l  | l == []       = []
 --    ["El","Arte","de","la","Programacion"]
 -- ---------------------------------------------------------------------
 
--- albcercid josdeher antmorper3 congomgom joscasgom1 manruiber
+-- albcercid josdeher antmorper3 congomgom joscasgom1 manruiber jucasnie
 tituloRec :: [String] -> [String]
 tituloRec []     = []
 tituloRec (x:xs) = mayusculaInicial x : segundaRegla xs
@@ -220,7 +247,7 @@ regla xs | length xs >= 4 = mayusculaInicial xs
          | otherwise      = map toLower xs
 
 -- paumacpar cargonler pabrabmon roscargar beagongon1 marjimcom
--- fatfervaz enrnarbej margarflo5 josjimgon2
+-- fatfervaz enrnarbej margarflo5 josjimgon2 carmarcar5 margirmon cescarde
 tituloRec3 :: [String] -> [String]
 tituloRec3 (x:xs) = mayusculaInicial x : restoRec xs 
 tituloRec3 []     = []
@@ -229,6 +256,20 @@ restoRec :: [String] -> [String]
 restoRec []     = []
 restoRec (x:xs) = resto x : restoRec xs 
 
+-- juaorture
+tituloRec1a :: String -> String
+tituloRec1a [] = []
+tituloRec1a xs | length xs >= 4 = mayusculaInicial xs
+               | otherwise      = [toLower a | a <- xs] 
+
+tituloRec2a :: [String] -> [String]
+tituloRec2a []       = []
+tituloRec2a (xs:xss) = tituloRec1a xs : tituloRec2a xss
+
+tituloRec4 :: [String] -> [String]
+tituloRec4 []       = []
+tituloRec4 (xs:xss) = mayusculaInicial xs : tituloRec2a xss
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
@@ -236,7 +277,8 @@ restoRec (x:xs) = resto x : restoRec xs
 
 -- albcercid josdeher eliguivil antmorper3 paumacpar cargonler pabrabmon
 -- roscargar beagongon1 marjimcom congomgom joscasgom1 albagucen
--- fatfervaz manruiber enrnarbej margarflo5 josjimgon2
+-- fatfervaz manruiber enrnarbej margarflo5 josjimgon2 juaorture
+-- carmarcar5 margirmon cescarde juacasnie
 -- La propiedad es
 prop_titulo :: [String] -> Bool
 prop_titulo xs = titulo xs == tituloRec xs
@@ -261,9 +303,10 @@ prop_titulo xs = titulo xs == tituloRec xs
 --    *** Exception: Prelude.!!: index too large
 -- ---------------------------------------------------------------------
  
--- albcercid josdeher antmorper3 josrodgal7 paumacpar pabrabmon roscargar
--- beagongon1 marjimcom joscasgom1 congomgom albagucen manruiber
--- enrnarbej fatfervaz cargonler margarflo5 josjimgon2
+-- albcercid josdeher antmorper3 josrodgal7 paumacpar pabrabmon
+-- roscargar beagongon1 marjimcom joscasgom1 congomgom albagucen
+-- manruiber enrnarbej fatfervaz cargonler margarflo5 josjimgon2
+-- carmarcar5 margirmon cescarde juacasnie
 buscaCrucigrama :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigrama l  pos lon ps
   | pos >= 0 && lon > pos = [a | a <- ps
@@ -279,6 +322,20 @@ buscaCrucigrama2 l pos lon ps
   | pos < 0 || lon < 0 || lon <= pos = []
   | otherwise = [p | p <- ps, length p == lon, p !! pos == l]
 
+-- juaorture
+buscaCrucigrama3 :: Char -> Int -> Int -> [String] -> [String]
+buscaCrucigrama3 l pos lon ps
+  | lon < 0 || pos > lon || pos < 0  = []
+  | otherwise                        = [ a | a <- ps
+                                           , length a == lon
+                                           , a!!pos == l ]
+
+-- migibagar
+buscaCrucigrama4 :: Char -> Int -> Int -> [String] -> [String]
+buscaCrucigrama4 l pos lon ps
+  | pos >= 0   =  [xs | xs <- ps, length xs == lon, xs !! pos == l]
+  | otherwise  =  []
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Definir, por recursión, la función
 --    buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
@@ -291,7 +348,7 @@ buscaCrucigrama2 l pos lon ps
 
 -- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar beagongon1
 -- marjimcom joscasgom1 congomgom manruiber enrnarbej fatfervaz
--- cargonler margarflo5 josjimgon2 
+-- cargonler margarflo5 josjimgon2 carmarcar5 margirmon cescarde juacasnie
 buscaCrucigramaR :: Char -> Int -> Int -> [String] -> [String]
 buscaCrucigramaR l  pos lon [] = []
 buscaCrucigramaR l  pos lon (p:ps)
@@ -309,6 +366,15 @@ buscaCrucigramaR2 l pos lon (p:ps)
     p !! pos == l      = p:(buscaCrucigramaR l pos lon ps)
   | otherwise          = buscaCrucigramaR l pos lon ps
 
+-- juaorture
+buscaCrucigramaR3 :: Char -> Int -> Int -> [String] -> [String]
+buscaCrucigramaR3 _ 0   _   _  = []
+buscaCrucigramaR3 _ _   _   [] = []
+buscaCrucigramaR3 l pos lon (p:ps)
+  | lon < pos || pos < 0 || lon < 0 = []
+  | length p == lon && p!!pos == l  = p : buscaCrucigramaR3 l pos lon ps
+  | otherwise                       = buscaCrucigramaR3 l pos lon ps
+                       
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
@@ -316,7 +382,8 @@ buscaCrucigramaR2 l pos lon (p:ps)
 
 -- albcercid josdeher antmorper3 paumacpar pabrabmon roscargar beagongon1
 -- marjimcom joscasgom1 congomgom eliguivil manruiber enrnarbej
--- fatfervaz cargonler margarflo5 josjimgon2
+-- fatfervaz cargonler margarflo5 josjimgon2 juaorture carmarcar5
+-- margirmon cescarde juacasnie
 -- La propiedad es
 prop_buscaCrucigrama :: Char -> Int -> Int -> [String] -> Bool
 prop_buscaCrucigrama l  pos lon ps =
@@ -335,9 +402,9 @@ prop_buscaCrucigrama l  pos lon ps =
 -- ---------------------------------------------------------------------
 
 -- albcercid josdeher eliguivil antmorper3 glovizcas josrodgal7
--- paumacpar cargonler roscargar beagongon1 marjimcom 
+-- paumacpar cargonler roscargar beagongon1 marjimcom migibagar
 -- pabrabmon joscasgom1 congomgom manruiber enrnarbej fatfervaz
--- margarflo5 josjimgon2 
+-- margarflo5 josjimgon2 juaorture carmarcar5 margirmon cescarde juacasnie
 posiciones :: String -> Char -> [Int]
 posiciones xs y = [b | (a,b) <- zip xs [0..]
                      , a == y]
@@ -351,7 +418,7 @@ posiciones xs y = [b | (a,b) <- zip xs [0..]
 -- ---------------------------------------------------------------------
 
 -- albcercid cargonler pabrabmon joscasgom1 manruiber enrnarbej
--- fatfervaz margarflo5 
+-- fatfervaz margarflo5 roscargar cescarde juacasnie
 posicionesR :: String -> Char -> [Int]
 posicionesR [] _ = []
 posicionesR xs y
@@ -367,7 +434,7 @@ posicionesR xs y
 --    (0.01 secs, 0 bytes)
 
 -- eliguivil antmorper3 josdeher glovizcas beagongon1 marjimcom
--- congomgom josjimgon2 
+-- congomgom josjimgon2 margirmon
 posicionesR2 :: String -> Char -> [Int]
 posicionesR2 []     _ = []
 posicionesR2 (x:xs) y
@@ -385,6 +452,21 @@ posicionesRR (x:xs) y
   | otherwise = posicionesRR xs y
 posicionesRR [] _ = []
 
+-- juaorture
+posicionesR4 :: String -> Char -> [Int]
+posicionesR4 [] _ = []
+posicionesR4 xs n
+  | last xs == n = sort (length xs - 1 : posicionesR4 (init xs) n)
+  | otherwise    = posicionesR4 (init xs) n
+
+-- Comentario: La definición posicionesR se puede mejorar. Por ejemplo,
+--    λ> posicionesR4 (replicate 20000 'a') 'b'
+--    []
+--    (7.06 secs, 11,212,895,232 bytes)
+--    λ> posicionesR' (replicate 20000 'a') 'b'
+--    []
+--    (0.01 secs, 0 bytes)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.3. Comprobar con QuickCheck que ambas definiciones son
 -- equivalentes. 
@@ -392,7 +474,8 @@ posicionesRR [] _ = []
  
 -- albcercid eliguivil antmorper3 josdeher glovizcas paumacpar cargonler
 -- pabrabmon beagongon1 marjimcom joscasgom1 congomgom manruiber
--- enrnarbej fatfervaz margarflo5 josjimgon2
+-- enrnarbej fatfervaz margarflo5 josjimgon2 juaorture roscargar
+-- margirmon cescarde juacasnie
 -- La propiedad es
 prop_posiciones :: String -> Char -> Bool
 prop_posiciones xs y = posiciones xs y == posicionesR xs y
@@ -414,14 +497,14 @@ prop_posiciones xs y = posiciones xs y == posicionesR xs y
 -- ---------------------------------------------------------------------
 
 -- albcercid josdeher glovizcas paumacpar pabrabmon beagongon1 marjimcom
--- joscasgom1 congomgom manruiber enrnarbej fatfervaz cargonler
--- margarflo5 josjimgon2 
+-- joscasgom1 congomgom manruiber enrnarbej fatfervaz cargonler roscargar
+-- margarflo5 josjimgon2 antmorper3 margirmon migibagar cescarde juacasnie
 contieneR :: String -> String -> Bool
 contieneR _ ""      = True
 contieneR "" _      = False
 contieneR (x:xs) ys = isPrefixOf ys (x:xs) || contieneR xs ys
 
--- eliguivil
+-- eliguivil carmarcar5
 contieneR2 :: String -> String -> Bool
 contieneR2 _      "" = True
 contieneR2 ""     _  = False
@@ -443,6 +526,7 @@ contieneR2 (x:xs) ys | isPrefixOf ys (x:xs) = True
 
 -- albcercid josdeher paumacpar pabrabmon beagongon1 marjimcom joscasgom1
 -- congomgom manruiber enrnarbej fatfervaz cargonler margarflo5 josjimgon2
+-- antmorper3 roscargar margirmon cescarde juacasnie
 contiene :: String -> String -> Bool
 contiene xs ys = any (isPrefixOf ys) (tails xs)
 
@@ -460,8 +544,8 @@ recortes (x:xs) = [x:xs] ++ recortes xs
 -- ---------------------------------------------------------------------
 
 -- albcercid eliguivil josdeher paumacpar pabrabmon beagongon1 marjimcom
--- joscasgom1 congomgom manruiber enrnarbej fatfervaz cargonler
--- margarflo5 josjimgon2 
+-- joscasgom1 congomgom manruiber enrnarbej fatfervaz cargonler juacasnie
+-- margarflo5 josjimgon2 antmorper3 juaorture roscargar margirmon cescarde
 -- La propiedad es
 prop_contiene :: String -> String -> Bool
 prop_contiene xs ys = contieneR xs ys == contiene xs ys
