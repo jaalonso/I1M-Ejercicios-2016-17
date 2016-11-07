@@ -31,8 +31,9 @@ import Data.List
 -- ---------------------------------------------------------------------
 
 -- enrnarbej congomgom juaorture pabrabmon antmorper3 marjimcom
--- beagongon1 margarflo5 eledejim2 belbenzam fraferpoy luimotmar
--- ignareeva marmerzaf artmorfer margirmon
+-- beagongon1 margarflo5 antbeacar eledejim2 belbenzam fraferpoy
+-- ignareeva marmerzaf artmorfer margirmon josdeher margarvil14
+-- alvfercen glovizcas luimotmar 
 subconjunto :: Eq a => [a] -> [a] -> Bool
 subconjunto xs ys = and [x `elem` ys | x<- xs]
 
@@ -49,7 +50,7 @@ subconjunto3 (x:xs) ys = x `elem` ys && subconjunto3 xs ys
 subconjunto4 :: Eq a => [a] -> [a] -> Bool
 subconjunto4 xs ys = foldl' (\x y -> x && y `elem` ys) True xs
 
--- pabrabmon cargonler roscargar juacasnie migibagar
+-- pabrabmon cargonler roscargar juacasnie migibagar josdeher
 subconjunto5 :: Eq a => [a] -> [a] -> Bool
 subconjunto5 [] ys = True
 subconjunto5 (x:xs) ys
@@ -57,6 +58,11 @@ subconjunto5 (x:xs) ys
   | otherwise         = False
 
 -- Comentario: La definición anterior se puede simplificar.
+
+-- josrodgal7
+subconjunto6 :: Eq a => [a] -> [a] -> Bool
+subconjunto6 [] _      = True
+subconjunto6 (x:xs) ys = any (==x) ys && subconjunto xs ys
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -69,10 +75,11 @@ subconjunto5 (x:xs) ys
 --    iguales [2,3] [4,5]      ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3 paumacpar 
--- marjimcom beagongon1 cargonler roscargar albcercid margarflo5 manruiber
--- juacasnie migibagar eledejim2 belbenzam natruipin fraferpoy luimotmar
--- ignareeva artmorfer margirmon 
+-- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3
+-- paumacpar marjimcom beagongon1 antbeacar cargonler roscargar
+-- albcercid margarflo5 manruiber juacasnie migibagar eledejim2
+-- belbenzam natruipin fraferpoy luimotmar ignareeva artmorfer margirmon
+-- josdeher margarvil14 alvfercen glovizcas josrodgal7
 iguales :: Eq a => [a] -> [a] -> Bool
 iguales xs ys = subconjunto xs ys && subconjunto ys xs
 
@@ -112,7 +119,8 @@ sinRepeticiones (x:xs)
 
 -- Comentario: La definición anterior se puede mejorar.
 
--- pabrabmon marjimcom belbenzam luimotmar marmerzaf
+-- pabrabmon marjimcom belbenzam antbeacar luimotmar marmerzaf josdeher
+-- margarvil14 alvfercen glovizcas josrodgal7
 union3 :: Eq a => [a] -> [a] -> [a]
 union3 xs ys = [x | x <- xs, notElem x ys] ++ ys
 
@@ -138,10 +146,12 @@ union5 xs ys = xs ++ [y | y <- ys, notElem y xs]
 -- Ejercicio 3.2. Comprobar con QuickCheck que la unión es conmutativa.
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3 paumacpar 
--- marjimcom beagongon1 cargonler roscargar albcercid margarflo5 manruiber
--- juacasnie migibagar eledejim2 belbenzam natruipin luimotmar fraferpoy
--- ignareeva marmerzaf artmorfer margirmon
+-- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3
+-- paumacpar marjimcom beagongon1 cargonler roscargar albcercid
+-- margarflo5 manruiber juacasnie migibagar eledejim2 belbenzam
+-- natruipin luimotmar fraferpoy ignareeva marmerzaf antbeacar
+-- artmorfer margirmon josdeher margarvil14 alvfercen glovizcas
+-- josrodgal7 
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
 prop_union_conmutativa xs ys = iguales (union1 xs ys) (union1 ys xs)
@@ -182,12 +192,13 @@ interseccion3 xs ys =
 --    125250
 --    (0.01 secs, 0 bytes)
 
--- pabrabmon antmorper3 beagongon1 albcercid manruiber belbenzam luimotmar
--- eledejim2 marmerzaf artmorfer margirmon
+-- pabrabmon antmorper3 beagongon1 albcercid manruiber belbenzam
+-- luimotmar eledejim2 marmerzaf antbeacar artmorfer margirmon
+-- fraferpoy  marjimcom  josdeher margarvil14 alvfercen josrodgal7
 interseccion5 :: Eq a => [a] -> [a] -> [a]
 interseccion5 xs ys = [x | x <- xs , x `elem` ys]
 
--- paumacpar 
+-- paumacpar fatfervaz 
 interseccion6 :: Eq a => [a] -> [a] -> [a]
 interseccion6 xs ys = nub (filter (`elem` ys) xs) 
 
@@ -201,6 +212,10 @@ interseccion7 (x:xs) ys
 
 -- Comentario: La definición anterior se puede simplificar.
 
+-- joscascomg1
+interseccion8 :: Eq a => [a] -> [a] -> [a]
+interseccion8 xs ys = ys \\ (ys \\ xs)
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Comprobar con QuickCheck si se cumple la siguiente
 -- propiedad 
@@ -210,8 +225,9 @@ interseccion7 (x:xs) ys
 -- ---------------------------------------------------------------------
 
 -- enrnarbej pabrabmon antmorper3 beagongon1 cargonler roscargar albcercid 
--- margarflo5 manruiber juacasnie migibagar belbenzam eledejim2
--- natruipin luimotmar ignareeva marmerzaf artmorfer margirmon
+-- margarflo5 manruiber juacasnie migibagar belbenzam eledejim2 marjimcom
+-- natruipin luimotmar antbeacar ignareeva marmerzaf artmorfer margirmon 
+-- fatfervaz josdeher margarvil14 alvfercen josrodgal7 fraferpoy 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
 prop_union_interseccion xs ys zs =
   iguales (union1 xs (interseccion ys zs))
@@ -250,8 +266,9 @@ prop_union_interseccion3 xs ys zs =
 
 -- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3 paumacpar 
 -- beagongon1 cargonler roscargar albcercid margarflo5 manruiber
--- juacasnie migibagar belbenzam eledejim2 luimotmar fraferpoy marmerzaf
--- artmorfer margirmon 
+-- juacasnie migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy
+-- marmerzaf artmorfer margirmon marjimcom fatfervaz josdeher
+-- margarvil14 ignareeva alvfercen josrodgal7
 producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = [(x,y) | x <- xs, y <- ys]
 
@@ -263,8 +280,9 @@ producto xs ys = [(x,y) | x <- xs, y <- ys]
 
 -- enrnarbej eliguivil congomgom pabrabmon antmorper3 paumacpar juacasnie
 -- beagongon1 cargonler juaorture roscargar albcercid margarflo5
--- manruiber migibagar belbenzam eledejim2 luimotmar fraferpoy marmerzaf
--- artmorfer margirmon 
+-- manruiber migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy 
+-- artmorfer margirmon marjimcom josdeher margarvil14 ignareeva alvfercen
+-- josrodgal7 marmerzaf
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
 prop_elementos_producto xs ys =
@@ -288,7 +306,8 @@ prop_elementos_producto xs ys =
 
 -- enrnarbej pabrabmon antmorper3 beagongon1 albcercid margarflo5 manruiber
 -- juacasnie eledejim2 natruipin luimotmar fraferpoy cargonler marmerzaf
--- artmorfer margirmon 
+-- artmorfer margirmon marjimcom josdeher fatfervaz margarvil14 ignareeva
+-- alvfercen
 subconjuntos :: [a] -> [[a]]
 subconjuntos [] = [[]] 
 subconjuntos (x:xs) = [x:c | c <- sc] ++ sc
@@ -328,7 +347,8 @@ subconjuntos3 xs = foldr (\x y -> [x:c | c <- y] ++ y) [[]] xs
 
 -- enrnarbej pabrabmon antmorper3 beagongon1 juaorture roscargar eliguivil 
 -- juacasnie albcercid margarflo5 manruiber eledejim2 luimotmar fraferpoy
--- cargonler --marmerzaf artmorfer margirmon
+-- cargonler marmerzaf artmorfer margirmon marjimcom josdeher fatfervaz 
+-- ignareeva alvfercen josrodgal7 margarvil14
  
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
