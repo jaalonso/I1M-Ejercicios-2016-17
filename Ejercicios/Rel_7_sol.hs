@@ -33,7 +33,9 @@ import Data.List
 -- enrnarbej congomgom juaorture pabrabmon antmorper3 marjimcom
 -- beagongon1 margarflo5 antbeacar eledejim2 belbenzam fraferpoy
 -- ignareeva marmerzaf artmorfer margirmon josdeher margarvil14
--- alvfercen glovizcas luimotmar 
+-- alvfercen glovizcas luimotmar felsuacor cescarde carmarcar5 
+-- criortcar joscasgom1 natmarmar2 marlobrip monlagare antdursan
+-- albagucen  
 subconjunto :: Eq a => [a] -> [a] -> Bool
 subconjunto xs ys = and [x `elem` ys | x<- xs]
 
@@ -78,8 +80,10 @@ subconjunto6 (x:xs) ys = any (==x) ys && subconjunto xs ys
 -- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3
 -- paumacpar marjimcom beagongon1 antbeacar cargonler roscargar
 -- albcercid margarflo5 manruiber juacasnie migibagar eledejim2
--- belbenzam natruipin fraferpoy luimotmar ignareeva artmorfer margirmon
--- josdeher margarvil14 alvfercen glovizcas josrodgal7
+-- belbenzam natruipin fraferpoy luimotmar ignareeva artmorfer margirmon 
+-- josdeher margarvil14 alvfercen glovizcas josrodgal7 marmerzaf 
+-- carmarcar5 antdursan criortcar joscasgom1 marlobrip natmarmar2
+-- cescarde monlagare 
 iguales :: Eq a => [a] -> [a] -> Bool
 iguales xs ys = subconjunto xs ys && subconjunto ys xs
 
@@ -103,7 +107,7 @@ iguales3 xs ys =
 
 -- enrnarbej juaorture congomgom antmorper3 paumacpar beagongon1
 -- cargonler roscargar margarflo5 manruiber juacasnie migibagar
--- eledejim2 natruipin fraferpoy ignareeva fatfervaz margirmon
+-- eledejim2 natruipin fraferpoy ignareeva fatfervaz margirmon joscasgom1
 union1 :: Eq a => [a] -> [a] -> [a]
 union1 xs ys = nub (xs ++ ys)
 
@@ -120,7 +124,9 @@ sinRepeticiones (x:xs)
 -- Comentario: La definición anterior se puede mejorar.
 
 -- pabrabmon marjimcom belbenzam antbeacar luimotmar marmerzaf josdeher
--- margarvil14 alvfercen glovizcas josrodgal7
+-- margarvil14 alvfercen glovizcas josrodgal7 felsuacor cescarde 
+-- antdursan joscasgom1 albagucen natmarmar2 marlobrip carmarcar5
+-- monlagare 
 union3 :: Eq a => [a] -> [a] -> [a]
 union3 xs ys = [x | x <- xs, notElem x ys] ++ ys
 
@@ -132,7 +138,7 @@ unidos xs [] = []
 unidos xs (y:ys) | y `elem` xs = unidos xs ys
                  | otherwise   = y : unidos xs ys
 
--- artmorfer
+-- artmorfer criortcar
 union5 :: Eq a => [a] -> [a] -> [a]
 union5 xs ys = xs ++ [y | y <- ys, notElem y xs]
 
@@ -151,7 +157,8 @@ union5 xs ys = xs ++ [y | y <- ys, notElem y xs]
 -- margarflo5 manruiber juacasnie migibagar eledejim2 belbenzam
 -- natruipin luimotmar fraferpoy ignareeva marmerzaf antbeacar
 -- artmorfer margirmon josdeher margarvil14 alvfercen glovizcas
--- josrodgal7 
+-- josrodgal7 felsuacor cescarde carmarcar5 monlagare antdursan
+-- criortcar joscasgom1 albagucen natmarmar2 marlobrip
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
 prop_union_conmutativa xs ys = iguales (union1 xs ys) (union1 ys xs)
@@ -170,6 +177,7 @@ prop_union_conmutativa xs ys = iguales (union1 xs ys) (union1 ys xs)
 -- ---------------------------------------------------------------------
 
 -- enrnarbej congomgom cargonler roscargar margarflo5 natruipin ignareeva
+-- carmarcar5 
 interseccion :: Eq a => [a] -> [a] -> [a]
 interseccion xs ys = nub [ x | x <- xs , elem x ys]
 
@@ -194,7 +202,9 @@ interseccion3 xs ys =
 
 -- pabrabmon antmorper3 beagongon1 albcercid manruiber belbenzam
 -- luimotmar eledejim2 marmerzaf antbeacar artmorfer margirmon
--- fraferpoy  marjimcom  josdeher margarvil14 alvfercen josrodgal7
+-- fraferpoy  marjimcom  josdeher margarvil14 alvfercen josrodgal7 
+-- glovizcas felsuacor cescarde monlagare antdursan criortcar albagucen
+-- marlobrip natmarmar2 
 interseccion5 :: Eq a => [a] -> [a] -> [a]
 interseccion5 xs ys = [x | x <- xs , x `elem` ys]
 
@@ -227,7 +237,9 @@ interseccion8 xs ys = ys \\ (ys \\ xs)
 -- enrnarbej pabrabmon antmorper3 beagongon1 cargonler roscargar albcercid 
 -- margarflo5 manruiber juacasnie migibagar belbenzam eledejim2 marjimcom
 -- natruipin luimotmar antbeacar ignareeva marmerzaf artmorfer margirmon 
--- fatfervaz josdeher margarvil14 alvfercen josrodgal7 fraferpoy 
+-- fatfervaz josdeher margarvil14 alvfercen josrodgal7 fraferpoy glovizcas
+-- felsuacor cescarde carmarcar5 congomgom monlagare antdursan joscasgom1
+-- criortcar natmarmar2 marlobrip albagucen 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
 prop_union_interseccion xs ys zs =
   iguales (union1 xs (interseccion ys zs))
@@ -268,7 +280,9 @@ prop_union_interseccion3 xs ys zs =
 -- beagongon1 cargonler roscargar albcercid margarflo5 manruiber
 -- juacasnie migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy
 -- marmerzaf artmorfer margirmon marjimcom fatfervaz josdeher
--- margarvil14 ignareeva alvfercen josrodgal7
+-- margarvil14 ignareeva alvfercen josrodgal7 glovizcas felsuacor cescarde
+-- carmarcar5 monlagare antdursan joscasgom1 albagucen criortcar
+-- natmarmar2 marlobrip 
 producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = [(x,y) | x <- xs, y <- ys]
 
@@ -282,7 +296,8 @@ producto xs ys = [(x,y) | x <- xs, y <- ys]
 -- beagongon1 cargonler juaorture roscargar albcercid margarflo5
 -- manruiber migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy 
 -- artmorfer margirmon marjimcom josdeher margarvil14 ignareeva alvfercen
--- josrodgal7 marmerzaf
+-- josrodgal7 marmerzaf glovizcas felsuacor cescarde carmarcar5 monlagare
+-- antdursan joscasgom1 albagucen natmarmar2
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
 prop_elementos_producto xs ys =
@@ -307,7 +322,8 @@ prop_elementos_producto xs ys =
 -- enrnarbej pabrabmon antmorper3 beagongon1 albcercid margarflo5 manruiber
 -- juacasnie eledejim2 natruipin luimotmar fraferpoy cargonler marmerzaf
 -- artmorfer margirmon marjimcom josdeher fatfervaz margarvil14 ignareeva
--- alvfercen
+-- alvfercen paumacpar glovizcas felsuacor cescarde congomgom antdursan
+-- joscasgom1 albagucen natmarmar2 
 subconjuntos :: [a] -> [[a]]
 subconjuntos [] = [[]] 
 subconjuntos (x:xs) = [x:c | c <- sc] ++ sc
@@ -348,7 +364,8 @@ subconjuntos3 xs = foldr (\x y -> [x:c | c <- y] ++ y) [[]] xs
 -- enrnarbej pabrabmon antmorper3 beagongon1 juaorture roscargar eliguivil 
 -- juacasnie albcercid margarflo5 manruiber eledejim2 luimotmar fraferpoy
 -- cargonler marmerzaf artmorfer margirmon marjimcom josdeher fatfervaz 
--- ignareeva alvfercen josrodgal7 margarvil14
+-- ignareeva alvfercen josrodgal7 margarvil14 paumacpar glovizcas felsuacor
+-- cescarde congomgom monlagare antdursan joscasgom1 albagucen natmarmar2
  
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
