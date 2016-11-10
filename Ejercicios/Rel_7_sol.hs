@@ -1,4 +1,4 @@
--- I1M 2016-17: Rel_7.hs (2 de noviembre de 2016)
+-- I1M 2016-17: Rel_7_sol.hs (2 de noviembre de 2016)
 -- Operaciones conjuntistas con listas.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
@@ -8,17 +8,13 @@
 -- Introducción                                                       --
 -- ---------------------------------------------------------------------
 
--- En estas relación se definen operaciones conjuntistas sobre
--- listas. Algunas de dichas operaciones están definidas en la librería
--- Data.List. El objetivo de esta relación es redefinirlas sin usar la
--- librería.
+-- En estas relación se definen operaciones conjuntistas sobre listas.
 
 -- ---------------------------------------------------------------------
 -- § Librerías auxiliares                                             --
 -- ---------------------------------------------------------------------
 
 import Test.QuickCheck
-import Data.List
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -30,42 +26,38 @@ import Data.List
 --    subconjunto [3,2,3] [2,5,6,5]  ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej congomgom juaorture pabrabmon antmorper3 marjimcom
--- beagongon1 margarflo5 antbeacar eledejim2 belbenzam fraferpoy
--- ignareeva marmerzaf artmorfer margirmon josdeher margarvil14
--- alvfercen glovizcas luimotmar felsuacor cescarde carmarcar5 
--- criortcar joscasgom1 natmarmar2 marlobrip monlagare antdursan
--- albagucen josjimgon2 
+-- 1ª definición (por comprensión)
 subconjunto :: Eq a => [a] -> [a] -> Bool
-subconjunto xs ys = and [x `elem` ys | x<- xs]
+subconjunto xs ys = 
+  [x | x <- xs, x `elem` ys] == xs
 
--- enrnarbej eliguivil paumacpar manruiber natruipin fatfervaz
-subconjunto2 :: Eq a => [a] -> [a] -> Bool
-subconjunto2 xs ys = all ( `elem` ys) xs
+-- 2ª definición (por recursión)
+subconjuntoR :: Eq a => [a] -> [a] -> Bool
+subconjuntoR [] _      = True
+subconjuntoR (x:xs) ys = x `elem` ys && subconjuntoR xs ys
 
--- enrnarbej congomgom albcercid
-subconjunto3 :: Eq a => [a] -> [a] -> Bool
-subconjunto3 [] _ = True
-subconjunto3 (x:xs) ys = x `elem` ys && subconjunto3 xs ys
+-- La propiedad de equivalencia es
+prop_subconjuntoR :: [Int] -> [Int] -> Bool
+prop_subconjuntoR xs ys =
+  subconjuntoR xs ys == subconjunto xs ys
 
--- enrnarbej
-subconjunto4 :: Eq a => [a] -> [a] -> Bool
-subconjunto4 xs ys = foldl' (\x y -> x && y `elem` ys) True xs
+-- La comprobación es
+--    ghci> quickCheck prop_subconjuntoR
+--    +++ OK, passed 100 tests.
 
--- pabrabmon cargonler roscargar juacasnie migibagar josdeher
-subconjunto5 :: Eq a => [a] -> [a] -> Bool
-subconjunto5 [] ys = True
-subconjunto5 (x:xs) ys
-  | elem x ys == True = subconjunto5 xs ys
-  | otherwise         = False
-
--- Comentario: La definición anterior se puede simplificar.
-
--- josrodgal7
-subconjunto6 :: Eq a => [a] -> [a] -> Bool
-subconjunto6 [] _      = True
-subconjunto6 (x:xs) ys = any (==x) ys && subconjunto xs ys
-
+-- 3ª definición (con all)
+subconjuntoA :: Eq a => [a] -> [a] -> Bool
+subconjuntoA xs ys = all (`elem` ys) xs
+ 
+-- La propiedad de equivalencia es
+prop_subconjuntoA :: [Int] -> [Int] -> Bool
+prop_subconjuntoA xs ys =
+  subconjunto xs ys == subconjuntoA xs ys  
+ 
+-- La comprobación es
+--    ghci> quickCheck prop_subconjuntoA
+--    OK, passed 100 tests.
+ 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
 --    iguales :: Eq a => [a] -> [a] -> Bool
@@ -77,23 +69,9 @@ subconjunto6 (x:xs) ys = any (==x) ys && subconjunto xs ys
 --    iguales [2,3] [4,5]      ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3
--- paumacpar marjimcom beagongon1 antbeacar cargonler roscargar
--- albcercid margarflo5 manruiber juacasnie migibagar eledejim2
--- belbenzam natruipin fraferpoy luimotmar ignareeva artmorfer margirmon 
--- josdeher margarvil14 alvfercen glovizcas josrodgal7 marmerzaf 
--- carmarcar5 antdursan criortcar joscasgom1 marlobrip natmarmar2
--- cescarde monlagare josjimgon2
 iguales :: Eq a => [a] -> [a] -> Bool
-iguales xs ys = subconjunto xs ys && subconjunto ys xs
-
--- fatfervaz
-iguales3 :: Eq a => [a] -> [a] -> Bool
-iguales3 xs ys =
-  foldl' (\x y -> x && y `elem` xs) True ys  &&
-  foldl' (\x y -> x && y `elem` ys) True xs
-
--- Comentario: La definición anterior se puede simplificar.
+iguales xs ys =
+    subconjunto xs ys && subconjunto ys xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.1. Definir la función
@@ -103,44 +81,24 @@ iguales3 xs ys =
 --    union [3,2,5] [5,7,3,4]  ==  [3,2,5,7,4]
 -- ---------------------------------------------------------------------
 
--- Nota (juaorture) la función unión ya existe en la librería Data.List
+-- 1ª definición (por comprensión)
+union :: Eq a => [a] -> [a] -> [a]
+union xs ys = xs ++ [y | y <- ys, y `notElem` xs]
 
--- enrnarbej juaorture congomgom antmorper3 paumacpar beagongon1
--- cargonler roscargar margarflo5 manruiber juacasnie migibagar
--- eledejim2 natruipin fraferpoy ignareeva fatfervaz margirmon joscasgom1
-union1 :: Eq a => [a] -> [a] -> [a]
-union1 xs ys = nub (xs ++ ys)
+-- 2ª definición (por recursión) 
+unionR :: Eq a => [a] -> [a] -> [a]
+unionR []     ys = ys
+unionR (x:xs) ys | x `elem` ys = union xs ys
+                 | otherwise   = x : union xs ys
 
--- eliguivil
-union2 :: Eq a => [a] -> [a] -> [a]
-union2 xs ys = sinRepeticiones (xs ++ ys)
+-- La propiedad de equivalencia es
+prop_union :: [Int] -> [Int] -> Bool
+prop_union xs ys =
+  union xs ys `iguales` unionR xs ys
 
-sinRepeticiones :: Eq a => [a] -> [a]
-sinRepeticiones [] = []
-sinRepeticiones (x:xs)
-  | elem    x xs = sinRepeticiones xs
-  | notElem x xs = x : sinRepeticiones xs
-
--- Comentario: La definición anterior se puede mejorar.
-
--- pabrabmon marjimcom belbenzam antbeacar luimotmar marmerzaf josdeher
--- margarvil14 alvfercen glovizcas josrodgal7 felsuacor cescarde 
--- antdursan joscasgom1 albagucen natmarmar2 marlobrip carmarcar5
--- monlagare 
-union3 :: Eq a => [a] -> [a] -> [a]
-union3 xs ys = [x | x <- xs, notElem x ys] ++ ys
-
--- albcercid
-union4 :: Eq a => [a] -> [a] -> [a]
-union4 xs ys = xs ++ unidos xs ys
-
-unidos xs [] = []
-unidos xs (y:ys) | y `elem` xs = unidos xs ys
-                 | otherwise   = y : unidos xs ys
-
--- artmorfer criortcar josjimgon2
-union5 :: Eq a => [a] -> [a] -> [a]
-union5 xs ys = xs ++ [y | y <- ys, notElem y xs]
+-- La comprobación es
+--    ghci> quickCheck prop_union
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Nota. En los ejercicios de comprobación de propiedades, cuando se
@@ -152,20 +110,14 @@ union5 xs ys = xs ++ [y | y <- ys, notElem y xs]
 -- Ejercicio 3.2. Comprobar con QuickCheck que la unión es conmutativa.
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3
--- paumacpar marjimcom beagongon1 cargonler roscargar albcercid
--- margarflo5 manruiber juacasnie migibagar eledejim2 belbenzam
--- natruipin luimotmar fraferpoy ignareeva marmerzaf antbeacar
--- artmorfer margirmon josdeher margarvil14 alvfercen glovizcas
--- josrodgal7 felsuacor cescarde carmarcar5 monlagare antdursan
--- criortcar joscasgom1 albagucen natmarmar2 marlobrip josjimgon2
 -- La propiedad es
 prop_union_conmutativa :: [Int] -> [Int] -> Bool
-prop_union_conmutativa xs ys = iguales (union1 xs ys) (union1 ys xs)
+prop_union_conmutativa xs ys =
+    union xs ys `iguales` union ys xs
 
 -- La comprobación es
--- Prelude> quickCheck prop_union_conmutativa
--- +++ OK, passed 100 tests.
+--    ghci> quickCheck prop_union_conmutativa
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.1. Definir la función
@@ -176,55 +128,25 @@ prop_union_conmutativa xs ys = iguales (union1 xs ys) (union1 ys xs)
 --    interseccion [3,2,5] [9,7,6,4]  ==  []
 -- ---------------------------------------------------------------------
 
--- enrnarbej congomgom cargonler roscargar margarflo5 natruipin ignareeva
--- carmarcar5 
+-- 1ª definición (por comprensión)
 interseccion :: Eq a => [a] -> [a] -> [a]
-interseccion xs ys = nub [ x | x <- xs , elem x ys]
+interseccion xs ys =
+  [x | x <- xs, x `elem` ys]
 
--- enrnarbej
-interseccion2 :: Eq a => [a] -> [a] -> [a]
-interseccion2 xs ys = filter (`elem` ys) (nub xs) 
+-- 2ª definición (por recursión):
+interseccionR :: Eq a => [a] -> [a] -> [a]
+interseccionR []     ys = []
+interseccionR (x:xs) ys | x `elem` ys = x : interseccionR xs ys
+                        | otherwise   = interseccionR xs ys
 
--- eliguivil juacasnie
-interseccion3 :: Eq a => [a] -> [a] -> [a]
-interseccion3 xs ys =
-  sinRepeticiones [x | x <- xs
-                     , x <- ys
-                     , elem x xs && elem x ys]
+-- La propiedad de equivalencia es
+prop_interseccion :: [Int] -> [Int] -> Bool
+prop_interseccion xs ys =
+  interseccion xs ys `iguales` interseccionR xs ys
 
--- Comentario: La definición anterior se puede mejorar. Por ejemplo,
---    λ> sum (interseccion3 [1..500] [1..500])
---    125250
---    (3.22 secs, 90,254,096 bytes)
---    λ> sum (interseccion' [1..500] [1..500])
---    125250
---    (0.01 secs, 0 bytes)
-
--- pabrabmon antmorper3 beagongon1 albcercid manruiber belbenzam
--- luimotmar eledejim2 marmerzaf antbeacar artmorfer margirmon
--- fraferpoy  marjimcom  josdeher margarvil14 alvfercen josrodgal7 
--- glovizcas felsuacor cescarde monlagare antdursan criortcar albagucen
--- marlobrip natmarmar2 josjimgon2
-interseccion5 :: Eq a => [a] -> [a] -> [a]
-interseccion5 xs ys = [x | x <- xs , x `elem` ys]
-
--- paumacpar fatfervaz 
-interseccion6 :: Eq a => [a] -> [a] -> [a]
-interseccion6 xs ys = nub (filter (`elem` ys) xs) 
-
--- migibagar
-interseccion7 :: Eq a => [a] -> [a] -> [a]
-interseccion7 xs [] = []
-interseccion7 [] xs = []
-interseccion7 (x:xs) ys
-  | elem x ys  =  x : interseccion7 xs ys
-  | otherwise  =  interseccion7 xs ys
-
--- Comentario: La definición anterior se puede simplificar.
-
--- joscascomg1
-interseccion8 :: Eq a => [a] -> [a] -> [a]
-interseccion8 xs ys = ys \\ (ys \\ xs)
+-- La comprobación es
+--    ghci> quickCheck prop_interseccion
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.2. Comprobar con QuickCheck si se cumple la siguiente
@@ -234,39 +156,23 @@ interseccion8 xs ys = ys \\ (ys \\ xs)
 -- se cumpla verificar el contraejemplo calculado por QuickCheck.
 -- ---------------------------------------------------------------------
 
--- enrnarbej pabrabmon antmorper3 beagongon1 cargonler roscargar albcercid 
--- margarflo5 manruiber juacasnie migibagar belbenzam eledejim2 marjimcom
--- natruipin luimotmar antbeacar ignareeva marmerzaf artmorfer margirmon 
--- fatfervaz josdeher margarvil14 alvfercen josrodgal7 fraferpoy glovizcas
--- felsuacor cescarde carmarcar5 congomgom monlagare antdursan joscasgom1
--- criortcar natmarmar2 marlobrip albagucen josjimgon2 
 prop_union_interseccion :: [Int] -> [Int] -> [Int] -> Bool
 prop_union_interseccion xs ys zs =
-  iguales (union1 xs (interseccion ys zs))
-          (interseccion (union1 xs ys) zs)
+  iguales (union xs (interseccion ys zs))
+          (interseccion (union xs ys) zs)
 
--- eliguivil
-prop_union_interseccion2 :: [Int] -> [Int] -> [Int] -> Bool
-prop_union_interseccion2 xs ys zs =
-  iguales (xs `union` (ys `interseccion` zs))
-          ((xs `union` ys) `interseccion` zs)
-
--- ContraEjemplo: [0] [] []
--- union1 [0] (interseccion [] []) = [0]
--- interseccion (union [0] []) [] = []
-
--- juaorture paumacpar 
-prop_union_interseccion3:: [Int] -> [Int] -> [Int] -> Bool
-prop_union_interseccion3 xs ys zs =
-  (xs `union` ( ys `interseccion` zs ) )
-  `iguales` (( xs `union`ys ) `interseccion` zs)
-
--- La comprobación es
---    *Main> quickCheck prop_union_interseccion
---    *** Failed! Falsifiable (after 5 tests and 2 shrinks): 
+-- La comprobación es 
+--    ghci> quickCheck prop_union_interseccion
+--    *** Failed! Falsifiable (after 3 tests and 2 shrinks): 
 --    [0]
 --    []
 --    []
+-- 
+-- Por tanto, la propiedad no se cumple y un contraejemplo es 
+--    A = [0], B = [] y C = []
+-- ya que entonces,
+--    A ∪ (B ∩ C) = [0] ∪ ([] ∩ []) = [0] ∪ [] = [0] 
+--    (A ∪ B) ∩ C = ([0] ∪ []) ∩ [] = [0] ∩ [] = []
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.1. Definir la función
@@ -276,15 +182,23 @@ prop_union_interseccion3 xs ys zs =
 --   producto [1,3] [2,4] == [(1,2),(1,4),(3,2),(3,4)]
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil juaorture congomgom pabrabmon antmorper3 paumacpar 
--- beagongon1 cargonler roscargar albcercid margarflo5 manruiber
--- juacasnie migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy
--- marmerzaf artmorfer margirmon marjimcom fatfervaz josdeher
--- margarvil14 ignareeva alvfercen josrodgal7 glovizcas felsuacor cescarde
--- carmarcar5 monlagare antdursan joscasgom1 albagucen criortcar
--- natmarmar2 marlobrip josjimgon2
+-- 1ª definición (por comprensión):
 producto :: [a] -> [a] -> [(a,a)]
 producto xs ys = [(x,y) | x <- xs, y <- ys]
+
+-- 2ª definición (por recursión):
+productoR :: [a] -> [a] -> [(a,a)]
+productoR []     _  = []
+productoR (x:xs) ys = [(x,y) | y <- ys] ++ productoR xs ys
+
+-- La propiedad de equivalencia es
+prop_producto :: [Int] -> [Int] -> Bool
+prop_producto xs ys =
+  producto xs ys `iguales` productoR xs ys
+
+-- La comprobación es
+--    ghci> quickCheck prop_producto
+--    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5.2. Comprobar con QuickCheck que el número de elementos
@@ -292,19 +206,13 @@ producto xs ys = [(x,y) | x <- xs, y <- ys]
 -- ys. 
 -- ---------------------------------------------------------------------
 
--- enrnarbej eliguivil congomgom pabrabmon antmorper3 paumacpar juacasnie
--- beagongon1 cargonler juaorture roscargar albcercid margarflo5
--- manruiber migibagar antbeacar belbenzam eledejim2 luimotmar fraferpoy 
--- artmorfer margirmon marjimcom josdeher margarvil14 ignareeva alvfercen
--- josrodgal7 marmerzaf glovizcas felsuacor cescarde carmarcar5 monlagare
--- antdursan joscasgom1 albagucen natmarmar2 josjimgon2
 -- La propiedad es
 prop_elementos_producto :: [Int] -> [Int] -> Bool
 prop_elementos_producto xs ys =
   length (producto xs ys) == length xs * length ys
 
 -- La comprobación es
---    Prelude> quickCheck prop_elementos_producto
+--    ghci> quickCheck prop_elementos_producto
 --    +++ OK, passed 100 tests.
 
 -- ---------------------------------------------------------------------
@@ -319,38 +227,16 @@ prop_elementos_producto xs ys =
 --       [2,3,4],  [2,3],  [2,4],  [2],  [3,4],  [3],  [4], []]
 -- ---------------------------------------------------------------------
 
--- enrnarbej pabrabmon antmorper3 beagongon1 albcercid margarflo5 manruiber
--- juacasnie eledejim2 natruipin luimotmar fraferpoy cargonler marmerzaf
--- artmorfer margirmon marjimcom josdeher fatfervaz margarvil14 ignareeva
--- alvfercen paumacpar glovizcas felsuacor cescarde congomgom antdursan
--- joscasgom1 albagucen natmarmar2 criortcar josjimgon2
 subconjuntos :: [a] -> [[a]]
-subconjuntos [] = [[]] 
-subconjuntos (x:xs) = [x:c | c <- sc] ++ sc
-  where sc = subconjuntos xs
+subconjuntos []     = [[]]
+subconjuntos (x:xs) = [x:ys | ys <- sub] ++ sub
+  where sub = subconjuntos xs  
 
--- eliguivil
-subconjuntos2 :: [a] -> [[a]]
-subconjuntos2 xs = [[]] ++ [[x] | x <- xs] ++ combinaciones' xs
-
-combinaciones' :: [a] -> [[a]]
-combinaciones' []     = []
-combinaciones' (x:xs) =
-  [x:[x'] | x' <- xs] ++
-  combinaciones' xs ++
-  [x:x' | x' <- combinaciones' xs]
-
--- Comentario: La definición anterior se puede mejorar. Por ejemplo,
---    λ> length (subconjuntos2 [1..20])
---    1048576
---    (3.11 secs, 2,113,305,128 bytes)
---    λ> length (subconjuntos' [1..20])
---    1048576
---    (0.30 secs, 156,905,208 bytes)
-
--- enrnarbej
-subconjuntos3 :: [a] -> [[a]]
-subconjuntos3 xs = foldr (\x y -> [x:c | c <- y] ++ y) [[]] xs
+-- Cambiando la comprensión por map se obtiene
+subconjuntos' :: [a] -> [[a]]
+subconjuntos' []     = [[]]
+subconjuntos' (x:xs) = sub ++ map (x:) sub
+  where sub = subconjuntos' xs  
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. Comprobar con QuickChek que el número de elementos de
@@ -361,16 +247,11 @@ subconjuntos3 xs = foldr (\x y -> [x:c | c <- y] ++ y) [[]] xs
 --    quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
 -- ---------------------------------------------------------------------
 
--- enrnarbej pabrabmon antmorper3 beagongon1 juaorture roscargar eliguivil 
--- juacasnie albcercid margarflo5 manruiber eledejim2 luimotmar fraferpoy
--- cargonler marmerzaf artmorfer margirmon marjimcom josdeher fatfervaz 
--- ignareeva alvfercen josrodgal7 margarvil14 paumacpar glovizcas felsuacor
--- cescarde congomgom monlagare antdursan joscasgom1 albagucen natmarmar2
--- criortcar josjimgon2
 -- La propiedad es
 prop_subconjuntos :: [Int] -> Bool
 prop_subconjuntos xs =
-  length (subconjuntos3 xs) == 2^(length xs)
+  length (subconjuntos xs) == 2 ^ length xs
 
--- Prelude> quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
--- +++ OK, passed 100 tests.
+-- La comprobación es
+--    ghci> quickCheckWith (stdArgs {maxSize=7}) prop_subconjuntos
+--    +++ OK, passed 100 tests.
