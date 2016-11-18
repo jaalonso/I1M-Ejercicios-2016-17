@@ -28,7 +28,7 @@ import Data.List
 --    segmentos odd  [1,2,0,4,9,6,4,5,7,2]  ==  [[1],[9],[5,7]]
 -- ---------------------------------------------------------------------
 
--- enrnarbej roscargar
+-- enrnarbej roscargar margirmon
 segmentos :: (a -> Bool) -> [a] -> [[a]]
 segmentos _ [] = []
 segmentos p (x:xs)
@@ -38,8 +38,9 @@ segmentos p (x:xs)
 -- antmorper3 cargonler ignareeva belbenzam pabrabmon joscasgom1 paumacpar 
 -- glovizcas josrodgal7 antbeacar manruiber criortcar eliguivil beagongon1 
 -- natmarmar2 josdeher felsuacor carmarcar5 fraferpoy cescarde fatfervaz 
--- albagucen marjimcom albcercid javcancif luimotmar congomgom eledejim2 
+-- albagucen marjimcom albcercid javcancif luimotmar congomgom eledejim2
 -- natruipin monlagare margarflo5 marmerzaf antdursan josjimgon2
+-- artmorfer margarvil14  juacasnie alvfercen antlopgom2
 segmentos2 :: (a -> Bool) -> [a] -> [[a]]
 segmentos2 p [] = []
 segmentos2 p (x:xs)
@@ -55,12 +56,12 @@ segmentos2 p (x:xs)
 --    relacionadosC (<) [2,3,1,9]                ==  False
 -- ---------------------------------------------------------------------
 
--- enrnarbej antmorper3 cargonler ignareeva belbenzam margarflo5
+-- enrnarbej antmorper3 cargonler ignareeva belbenzam margarflo5 juacasnie
 -- pabrabmon joscasgom1 antbeacar paumacpar glovizcas josrodgal7 manruiber 
 -- beagongon1 criortcar natmarmar2 josdeher felsuacor carmarcar5 fraferpoy
 -- cescarde fatfervaz albagucen marjimcom albcercid javcancif migibagar 
 -- luimotmar congomgom eledejim2 natruipin monlagare marmerzaf antdursan
--- josjimgon2 
+-- josjimgon2 artmorfer margirmon margarvil14 alvfercen antlopgom2
 relacionadosC :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC r xs = and [r x y | (x,y) <- zip xs (tail xs)]
 
@@ -84,15 +85,16 @@ relacionadosC2 r xs =
 -- ---------------------------------------------------------------------
 
 -- enrnarbej belbenzam margarflo5 josrodgal7 cescarde antbeacar migibagar
--- marmerzaf
+-- marmerzaf margirmon
 relacionadosR :: (a -> a -> Bool) -> [a] -> Bool
+relacionadosR _ []       = False
 relacionadosR _ [x]      = True
 relacionadosR r (x:y:xs) =  r x y && relacionadosR r (y:xs)
 
 -- Comentario: Falta el caso de lista vacía.
 
 -- juaorture, paumacpar carmarcar5 roscargar albcercid javcancif
--- luimotmar natruipin
+-- luimotmar natruipin margarvil14 antlopgom2
 relacionadosR2 :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosR2 _ []       = False
 relacionadosR2 r [x]      = True
@@ -111,8 +113,8 @@ relacionadosR3 r (x:xs) | r x (head xs) = relacionadosR3 r xs
 -- con el caso de la lista vacía.
 
 -- glovizcas antmorper3 manruiber beagongon1 criortcar natmarmar2 josjimgon2
--- fatfervaz albagucen marjimcom congomgom fraferpoy eledejim2 ignareeva
--- antdursan 
+-- fatfervaz albagucen marjimcom congomgom fraferpoy eledejim2 ignareeva 
+-- antdursan josdeher juacasnie alvfercen artmorfer
 relacionadosR4 r [] = False 
 relacionadosR4 r [x] = True
 relacionadosR4 r (x:y:xs) = r x y && relacionadosR r (y:xs)
@@ -135,7 +137,7 @@ relacionadosR5 r (x:xs) | xs == []      = True
 
 -- enrnarbej antmorper3 margarflo5 pabrabmon joscasgom1 paumacpar
 -- glovizcas manruiber beagongon1 natmarmar2 josdeher fatfervaz
--- congomgom marmerzaf josjimgon2
+-- congomgom marmerzaf josjimgon2 artmorfer juacasnie margirmon
 agrupa :: Eq a => [[a]] -> [[a]]
 agrupa xss
   | all ( /= []) xss && xss /= [] = map (head) xss : agrupa (map tail xss)
@@ -151,7 +153,7 @@ agrupa1 xss  = [aux n xss | n <- [0..minimum [length a | a <- xss]-1]]
 
 -- cescarde eliguivil felsuacor carmarcar5 antbeacar roscargar belbenzam 
 -- albagucen fraferpoy eledejim2 natruipin cargonler ignareeva
--- margarflo5 antdursan 
+-- margarflo5 antdursan criortcar alvfercen antlopgom2
 agrupa2 :: Eq a => [[a]] -> [[a]]
 agrupa2 [] = []
 agrupa2 xss | elem [] xss = []
@@ -169,6 +171,14 @@ agrupa4 [] = []
 agrupa4 xss = [map (!!x) xss | x <- [0..minimo xss - 1]]
    where minimo xss = minimum (map (length) xss)
 
+-- margarvil14
+agrupa5 :: Eq a => [[a]] -> [[a]]
+agrupa5 [] = []
+agrupa5 xss | [] `elem` xss = []
+            | otherwise     = primeros xss : agrupa (restos xss)
+  where primeros = map head
+        restos   = map tail
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Comprobar con QuickChek que la longitud de todos los
 -- elementos de (agrupa xs) es igual a la longitud de xs.
@@ -178,7 +188,7 @@ agrupa4 xss = [map (!!x) xss | x <- [0..minimo xss - 1]]
 -- paumacpar glovizcas margirmon natmarmar2 josdeher felsuacor cescarde
 -- roscargar carmarcar5 belbenzam albagucen luimotmar fraferpoy eledejim2
 -- congomgom natruipin cargonler margarflo5 ignareeva marmerzaf
--- beagongon1 josjimgon2 
+-- beagongon1 josjimgon2 artmorfer juacasnie criortcar antlopgom2
 prop_agrupa1 :: [[Int]] -> Bool
 prop_agrupa1 xss = length (agrupa xss) == length xss
 
@@ -188,7 +198,7 @@ prop_agrupa1 xss = length (agrupa xss) == length xss
 --    [[]]
 --    (0.08 secs, 33,689,688 bytes)
 
--- eliguivil albcercid
+-- eliguivil albcercid margarvil14 alvfercen
 prop_agrupa2 :: [[Int]] -> Bool
 prop_agrupa2 xss = all (==(length xss)) (map length (agrupa xss))
 
@@ -218,7 +228,9 @@ prop_agrupa3 xss = minimum [length xs | xs <- xss] == length (agrupa xss)
 -- eliguivil natmarmar2 criortcar josdeher felsuacor cescarde carmarcar5
 -- antbeacar albagucen albcercid fatfervaz luimotmar fraferpoy natruipin
 -- eledejim2 congomgom monlagare margarflo5 ignareeva marjimcom migibagar
--- marmerzaf antdursan josjimgon2
+-- marmerzaf antdursan josjimgon2 artmorfer juacasnie margarvil14 alvfercen
+-- antlopgom2
+
 concatR :: [[a]] -> [a]
 concatR []       = []
 concatR (xs:xss) = xs ++ concatR xss
@@ -237,9 +249,10 @@ concatP xss = foldr (\xs ys -> xs ++ ys) [] xss
 
 -- Comentario: La definición anterior se puede simplificar.
 
--- paumacpar glovizcas josrodgal7 margirmon manruiber beagongon1
+-- paumacpar glovizcas josrodgal7 margirmon manruiber beagongon1 juacasnie
 -- josdeher felsuacor cescarde antbeacar albagucen albcercid luimotmar 
--- fraferpoy natruipin congomgom monlagare ignareeva marjimcom josjimgon2
+-- fraferpoy natruipin congomgom monlagare ignareeva marjimcom josjimgon2 
+-- artmorfer margarvil14 antlopgom2
 concatP2 :: [[a]] -> [a]
 concatP2 xss = foldr (++) [] xss 
 
@@ -253,7 +266,6 @@ prop xss = concatP2 xss == concatP2' xss
 
 -- λ> quickCheck prop
 -- +++ OK, passed 100 tests.
--- λ> 
 
 -- juaorture antmorper3 migibagar
 concatP3 :: [[a]] -> [a]
@@ -262,7 +274,7 @@ concatP3 = foldr (\x y -> x ++ y ) []
 -- Comentario: La definición concatP3 se puede simplificar.
 
 -- eliguivil criortcar carmarcar5 fatfervaz eledejim2 margarflo5
--- antdursan 
+-- antdursan alvfercen
 concatP4 :: [[a]] -> [a]
 concatP4 = foldr (++) []
 
@@ -273,7 +285,7 @@ concatP4 = foldr (++) []
 
 -- enrnarbej cargonler belbenzam pabrabmon joscasgom1 paumacpar 
 -- juaorture cescarde roscargar antbeacar luimotmar fraferpoy monlagare
--- marmerzaf
+-- marmerzaf 
 
 -- La propiedad es
 prop_concat1 :: [[Int]] -> Bool
@@ -283,8 +295,8 @@ prop_concat1 xss = concatR xss == concatP xss
 
 -- antmmorper3 glovizcas josrodgal7 manruiber beagongon1 criortcar
 -- josdeher felsuacor carmarcar5 albagucen albcercid fatfervaz eledejim2 
--- natruipin congomgom margarflo5 ignareeva marjimcom migibagar
--- antdursan josjimgon2 
+-- natruipin congomgom margarflo5 ignareeva marjimcom migibagar artmorfer
+-- antdursan josjimgon2 juacasnie margirmon alvfercen antlopgom2
 prop_concat2 :: [[Int]] -> Bool
 prop_concat2 xss =
   concatR xss == concatP xss &&
@@ -299,6 +311,11 @@ prop_concat3 xss =
 -- Prelude> quickCheck prop_concat
 -- +++ OK, passed 100 tests.
 
+-- margarvil14
+prop_concat4 :: [[Int]] -> Bool
+prop_concat4 xss = concatR xss == y && concatP xss == y
+  where y = concat xss
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 4.4. Comprobar con QuickCheck que la longitud de 
 -- (concatP xss) es la suma de las longitudes de los elementos de xss.
@@ -306,7 +323,7 @@ prop_concat3 xss =
 
 -- enrnarbej cargonler pabrabmon paumacpar antmorper3 josrodgal7 beagongon1
 -- eliguivil carmarcar5 antbeacar albcercid fatfervaz monlagare marjimcom
--- marmerzaf antdursan josjimgon2
+-- marmerzaf antdursan josjimgon2 artmorfer margirmon margarvil14 criortcar
 -- La propiedad es
 prop_longConcat :: [[Int]] -> Bool
 prop_longConcat xss = length (concatP xss) == sum (map length xss)
@@ -317,8 +334,7 @@ prop_longConcat xss = length (concatP xss) == sum (map length xss)
 
 -- juaorture glovizcas manruiber josdeher felsuacor cescarde joscasgom1 
 -- roscargar belbenzam albagucen luimotmar fraferpoy natruipin eledejim2 
--- congomgom margarflo5 ignareeva migibagar
-
+-- congomgom margarflo5 ignareeva migibagar juacasnie alvfercen antlopgom2
 -- La propiedad es
 prop_longConcat1 :: [[Int]] -> Bool
 prop_longConcat1 xss = length (concat xss) == sum [length xs | xs <- xss]
@@ -339,7 +355,8 @@ prop_longConcat1 xss = length (concat xss) == sum [length xs | xs <- xss]
 -- margirmon manruiber carmarcar5 roscargar belbenzam albcercid luimotmar
 -- beagongon1 eliguivil josdeher felsuacor congomgom albagucen fatfervaz
 -- fraferpoy natruipin glovizcas cargonler monlagare margarflo5 ignareeva
--- marjimcom migibagar marmerzaf antdursan josjimgon2
+-- marjimcom migibagar marmerzaf antdursan josjimgon2 artmorfer juacasnie
+-- margarvil14 criortcar alvfercen antlopgom2
 filtraAplicaC :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaC f p xs = [f x | x <- xs, p x] 
 
@@ -359,7 +376,8 @@ filtraAplicaC2 f p xs = [f x | x <- filter p xs]
 -- margirmon manruiber beagongon1 eliguivil josdeher cescarde carmarcar5
 -- roscargar antbeacar congomgom belbenzam albagucen albcercid fatfervaz
 -- luimotmar eledejim2 natruipin glovizcas cargonler margarflo5 ignareeva
--- marjimcom migibagar marmerzaf antdursan josjimgon2
+-- marjimcom migibagar marmerzaf antdursan josjimgon2 artmorfer juacasnie
+-- margarvil14 criortcar alvfercen antlopgom2
 
 filtraAplicaMF :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaMF f p xs = map f (filter p xs)
@@ -376,7 +394,8 @@ filtraAplicaMF f p xs = map f (filter p xs)
 -- margirmon albcercid luimotmar manruiber beagongon1 eliguivil josdeher 
 -- cescarde carmarcar5 roscargar congomgom antbeacar belbenzam albagucen
 -- fraferpoy natruipin eledejim2 fatfervaz cargonler margarflo5 ignareeva
--- marjimcom migibagar marmerzaf antdursan josjimgon2
+-- marjimcom migibagar marmerzaf antdursan josjimgon2 artmorfer juacasnie
+-- margarvil14 criortcar alvfercen antlopgom2
 
 filtraAplicaR :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaR _ _ [] = []
@@ -402,8 +421,9 @@ filtraAplicaR1 f p (x:xs)
 
 -- enrnarbej pabrabmon paumacpar antmorper3 josrodgal7 manruiber beagongon1
 -- josdeher cescarde joscasgom1 carmarcar5 roscargar antbeacar belbenzam
--- albagucen congomgom eledejim2 natruipin fatfervaz glovizcas cargonler  
+-- albagucen congomgom eledejim2 natruipin fatfervaz glovizcas cargonler
 -- ignareeva marjimcom marmerzaf margarflo5 antdursan josjimgon2
+-- artmorfer alvfercen  juacasnie
 filtraAplicaP :: (a -> b) -> (a -> Bool) -> [a] -> [b] 
 filtraAplicaP f p xs = foldr ( \y ys -> (f y):ys) [] (filter p xs)
 
@@ -418,6 +438,12 @@ filtraAplicaP3 f p xs = foldr (\x y -> (f x):y) [] (aux p [] xs)
     aux p v [] = v
     aux p v (x:xs) | p x       = aux p (v++[x]) xs
                    | otherwise = aux p v xs
+
+-- margarvil14
+filtraAplicaP4 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+filtraAplicaP4 f p = foldr g []
+  where g x y | p x       = f x : y
+              | otherwise = y
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.1. Definir, mediante recursión, la función
@@ -447,7 +473,7 @@ maxi :: Ord a => a -> a -> a
 maxi a b | a > b     = a
          | otherwise = b
 
--- pabrabmon antmorper3 beagongon1 antbeacar
+-- pabrabmon antmorper3 beagongon1 antbeacar alvfercen
 maximumR3 :: Ord a => [a] -> a
 maximumR3 [x] = x
 maximumR3 (x:xs) | x > head xs = maximumR3 (x:tail xs)
@@ -488,6 +514,11 @@ maximumR8 (x:xs) | x > maximumR8 xs = x
 --    λ> maximumR8 [5]
 --    *** Exception: Non-exhaustive patterns in function maximumR8
 
+-- margarvil14
+maximumR9 :: Ord a => [a] -> a
+maximumR9 [x] = x
+maximumR9 (x:y:ys) = max x (maximumR (y:ys))
+
 -- ---------------------------------------------------------------------
 -- Ejercicio 6.2. La función de plegado foldr1 está definida por 
 --    foldr1 :: (a -> a -> a) -> [a] -> a
@@ -511,6 +542,6 @@ maximumP xs = foldr1 maxi xs
 
 -- antmorper3 eliguivil josdeher cescarde joscasgom1 roscargar albagucen
 -- albcercid eledejim2 congomgom paumacpar  margarflo5 fatfervaz ignareeva 
--- marjimcom beagongon1 antdursan josjimgon2
+-- marjimcom beagongon1 antdursan josjimgon2 margarvil14
 maximumP2 :: Ord a => [a] -> a
 maximumP2 = foldr1 max
