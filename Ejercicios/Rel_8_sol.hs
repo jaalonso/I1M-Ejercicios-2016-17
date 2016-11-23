@@ -40,11 +40,7 @@ segmentos p (x:xs)
 -- natmarmar2 josdeher felsuacor carmarcar5 fraferpoy cescarde fatfervaz 
 -- albagucen marjimcom albcercid javcancif luimotmar congomgom eledejim2
 -- natruipin monlagare margarflo5 marmerzaf antdursan josjimgon2
-<<<<<<< HEAD
 -- artmorfer margarvil14  juacasnie alvfercen antlopgom2 marlobrip
-=======
--- artmorfer margarvil14  juacasnie alvfercen antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 segmentos2 :: (a -> Bool) -> [a] -> [[a]]
 segmentos2 p [] = []
 segmentos2 p (x:xs)
@@ -65,11 +61,7 @@ segmentos2 p (x:xs)
 -- beagongon1 criortcar natmarmar2 josdeher felsuacor carmarcar5 fraferpoy
 -- cescarde fatfervaz albagucen marjimcom albcercid javcancif migibagar 
 -- luimotmar congomgom eledejim2 natruipin monlagare marmerzaf antdursan
-<<<<<<< HEAD
 -- josjimgon2 artmorfer margirmon margarvil14 alvfercen antlopgom2 marlobrip
-=======
--- josjimgon2 artmorfer margirmon margarvil14 alvfercen antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 relacionadosC :: (a -> a -> Bool) -> [a] -> Bool
 relacionadosC r xs = and [r x y | (x,y) <- zip xs (tail xs)]
 
@@ -122,11 +114,7 @@ relacionadosR3 r (x:xs) | r x (head xs) = relacionadosR3 r xs
 
 -- glovizcas antmorper3 manruiber beagongon1 criortcar natmarmar2 josjimgon2
 -- fatfervaz albagucen marjimcom congomgom fraferpoy eledejim2 ignareeva 
-<<<<<<< HEAD
 -- antdursan josdeher juacasnie alvfercen artmorfer marlobrip
-=======
--- antdursan josdeher juacasnie alvfercen artmorfer
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 relacionadosR4 r [] = False 
 relacionadosR4 r [x] = True
 relacionadosR4 r (x:y:xs) = r x y && relacionadosR r (y:xs)
@@ -149,11 +137,7 @@ relacionadosR5 r (x:xs) | xs == []      = True
 
 -- enrnarbej antmorper3 margarflo5 pabrabmon joscasgom1 paumacpar
 -- glovizcas manruiber beagongon1 natmarmar2 josdeher fatfervaz
-<<<<<<< HEAD
 -- congomgom marmerzaf josjimgon2 artmorfer juacasnie margirmon josrodgal7
-=======
--- congomgom marmerzaf josjimgon2 artmorfer juacasnie margirmon
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 agrupa :: Eq a => [[a]] -> [[a]]
 agrupa xss
   | all ( /= []) xss && xss /= [] = map (head) xss : agrupa (map tail xss)
@@ -169,11 +153,7 @@ agrupa1 xss  = [aux n xss | n <- [0..minimum [length a | a <- xss]-1]]
 
 -- cescarde eliguivil felsuacor carmarcar5 antbeacar roscargar belbenzam 
 -- albagucen fraferpoy eledejim2 natruipin cargonler ignareeva
-<<<<<<< HEAD
 -- margarflo5 antdursan criortcar alvfercen antlopgom2 marlobrip
-=======
--- margarflo5 antdursan criortcar alvfercen antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 agrupa2 :: Eq a => [[a]] -> [[a]]
 agrupa2 [] = []
 agrupa2 xss | elem [] xss = []
@@ -208,12 +188,8 @@ agrupa5 xss | [] `elem` xss = []
 -- paumacpar glovizcas margirmon natmarmar2 josdeher felsuacor cescarde
 -- roscargar carmarcar5 belbenzam albagucen luimotmar fraferpoy eledejim2
 -- congomgom natruipin cargonler margarflo5 ignareeva marmerzaf
-<<<<<<< HEAD
 -- beagongon1 josjimgon2 artmorfer juacasnie criortcar antlopgom2 josrodgal7
 -- marlobrip
-=======
--- beagongon1 josjimgon2 artmorfer juacasnie criortcar antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 prop_agrupa1 :: [[Int]] -> Bool
 prop_agrupa1 xss = length (agrupa xss) == length xss
 
@@ -254,11 +230,7 @@ prop_agrupa3 xss = minimum [length xs | xs <- xss] == length (agrupa xss)
 -- antbeacar albagucen albcercid fatfervaz luimotmar fraferpoy natruipin
 -- eledejim2 congomgom monlagare margarflo5 ignareeva marjimcom migibagar
 -- marmerzaf antdursan josjimgon2 artmorfer juacasnie margarvil14 alvfercen
-<<<<<<< HEAD
 -- antlopgom2 marlobrip
-=======
--- antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 
 concatR :: [[a]] -> [a]
 concatR []       = []
@@ -281,11 +253,7 @@ concatP xss = foldr (\xs ys -> xs ++ ys) [] xss
 -- paumacpar glovizcas josrodgal7 margirmon manruiber beagongon1 juacasnie
 -- josdeher felsuacor cescarde antbeacar albagucen albcercid luimotmar 
 -- fraferpoy natruipin congomgom monlagare ignareeva marjimcom josjimgon2 
-<<<<<<< HEAD
 -- artmorfer margarvil14 antlopgom2 natmarmar2 marlobrip
-=======
--- artmorfer margarvil14 antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 concatP2 :: [[a]] -> [a]
 concatP2 xss = foldr (++) [] xss 
 
@@ -329,11 +297,7 @@ prop_concat1 xss = concatR xss == concatP xss
 -- antmmorper3 glovizcas josrodgal7 manruiber beagongon1 criortcar
 -- josdeher felsuacor carmarcar5 albagucen albcercid fatfervaz eledejim2 
 -- natruipin congomgom margarflo5 ignareeva marjimcom migibagar artmorfer
-<<<<<<< HEAD
 -- antdursan josjimgon2 juacasnie margirmon alvfercen antlopgom2 natmarmar2
-=======
--- antdursan josjimgon2 juacasnie margirmon alvfercen antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 prop_concat2 :: [[Int]] -> Bool
 prop_concat2 xss =
   concatR xss == concatP xss &&
@@ -360,12 +324,8 @@ prop_concat4 xss = concatR xss == y && concatP xss == y
 
 -- enrnarbej cargonler pabrabmon paumacpar antmorper3 josrodgal7 beagongon1
 -- eliguivil carmarcar5 antbeacar albcercid fatfervaz monlagare marjimcom
-<<<<<<< HEAD
 -- marmerzaf antdursan josjimgon2 artmorfer margirmon margarvil14
 -- criortcar natmarmar2 marlobrip
-=======
--- marmerzaf antdursan josjimgon2 artmorfer margirmon margarvil14 criortcar
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 -- La propiedad es
 prop_longConcat :: [[Int]] -> Bool
 prop_longConcat xss = length (concatP xss) == sum (map length xss)
@@ -398,11 +358,7 @@ prop_longConcat1 xss = length (concat xss) == sum [length xs | xs <- xss]
 -- beagongon1 eliguivil josdeher felsuacor congomgom albagucen fatfervaz
 -- fraferpoy natruipin glovizcas cargonler monlagare margarflo5 ignareeva
 -- marjimcom migibagar marmerzaf antdursan josjimgon2 artmorfer juacasnie
-<<<<<<< HEAD
 -- margarvil14 criortcar alvfercen antlopgom2 marlobrip
-=======
--- margarvil14 criortcar alvfercen antlopgom2
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 filtraAplicaC :: (a -> b) -> (a -> Bool) -> [a] -> [b]
 filtraAplicaC f p xs = [f x | x <- xs, p x] 
 
@@ -469,11 +425,7 @@ filtraAplicaR1 f p (x:xs)
 -- josdeher cescarde joscasgom1 carmarcar5 roscargar antbeacar belbenzam
 -- albagucen congomgom eledejim2 natruipin fatfervaz glovizcas cargonler
 -- ignareeva marjimcom marmerzaf margarflo5 antdursan josjimgon2
-<<<<<<< HEAD
 -- artmorfer alvfercen  juacasnie marlobrip criortcar
-=======
--- artmorfer alvfercen  juacasnie
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
 filtraAplicaP :: (a -> b) -> (a -> Bool) -> [a] -> [b] 
 filtraAplicaP f p xs = foldr ( \y ys -> (f y):ys) [] (filter p xs)
 
@@ -523,7 +475,7 @@ maxi :: Ord a => a -> a -> a
 maxi a b | a > b     = a
          | otherwise = b
 
--- pabrabmon antmorper3 beagongon1 antbeacar alvfercen
+-- pabrabmon antmorper3 beagongon1 antbeacar alvfercen josrodgal7
 maximumR3 :: Ord a => [a] -> a
 maximumR3 [x] = x
 maximumR3 (x:xs) | x > head xs = maximumR3 (x:tail xs)
@@ -585,17 +537,13 @@ maximumR9 (x:y:ys) = max x (maximumR (y:ys))
 -- Nota: La función maximumP es equivalente a la predefinida maximum.
 -- ---------------------------------------------------------------------
 
-
 -- enrnarbej pabrabmon margirmon manruiber cargonler
 maximumP :: Ord a => [a] -> a
 maximumP xs = foldr1 maxi xs
 
 -- antmorper3 eliguivil josdeher cescarde joscasgom1 roscargar albagucen
--- albcercid eledejim2 congomgom paumacpar  margarflo5 fatfervaz ignareeva 
-<<<<<<< HEAD
--- marjimcom beagongon1 antdursan josjimgon2 margarvil14 criortcar
-=======
--- marjimcom beagongon1 antdursan josjimgon2 margarvil14
->>>>>>> ea19d6be03634e5b6a9a6b4789d311be55468692
+-- albcercid eledejim2 congomgom paumacpar antbeacar margarflo5
+-- fatfervaz ignareeva  marjimcom beagongon1 antdursan josjimgon2
+-- margarvil14 criortcar josrodgal7 
 maximumP2 :: Ord a => [a] -> a
 maximumP2 = foldr1 max
