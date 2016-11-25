@@ -101,7 +101,9 @@ ramaIzquierda (N1 x i d) = x : ramaIzquierda i
 balanceado :: Arbol1 a -> Bool
 balanceado H1         = True
 balanceado (N1 _ i d) = abs (numeroNodos i - numeroNodos d) <= 1 
-
+                        && balanceado i
+                        && balanceado d
+                        
 -- (numeroNodos a) es el número de nodos del árbol a. Por ejemplo,
 --    numeroNodos (N1 5 H1 (N1 3 H1 H1)) ==  2
 numeroNodos :: Arbol1 a -> Int
