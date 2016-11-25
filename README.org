@@ -18,3 +18,4 @@ clase) y las soluciones definitivas.
   plegados. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_8_sol.hs][solución]]). 
 + *Relación 9*: Tipos de datos algebraicos: Árboles binarios. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9.hs][Enunciado]] y
   [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9_sol.hs][solución]]).  
++ *Relación 10*: Tipos de datos algebraicos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10_sol.hs][solución]]).
