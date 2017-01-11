@@ -19,3 +19,11 @@ clase) y las soluciones definitivas.
 + *Relación 9*: Tipos de datos algebraicos: Árboles binarios. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9.hs][Enunciado]] y
   [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_9_sol.hs][solución]]).  
 + *Relación 10*: Tipos de datos algebraicos. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_10_sol.hs][solución]]).
++ *Relación 11*: Listas infinitas y evaluación perezosa. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11.hs][Enunciado]] y
+  [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_11_sol.hs][solución]]).
++ *Relación 12*: Aplicaciones de la programación funcional con listas
+  infinitas. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_12.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_12_sol.hs][solución]]).
++ *Relación 13*: El juego del nim y las funciones de entrada/salida. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_13.hs][Enunciado]]
+  y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_13_sol.hs][solución]]).
++ *Relación 14*: Cálculo del número pi mediante el método de
+  Montecarlo. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14_sol.hs][solución]]).
