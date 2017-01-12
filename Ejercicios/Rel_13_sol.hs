@@ -59,7 +59,7 @@ inicial =  [5,4,3,2,1]
 -- antdursan glovizcas antmorper3 josdeher eledejim2 pabrabmon natmarmar2 
 -- belbenzam fatfervaz cescarde criortcar marmerzaf fraferpoy artmorfer
 -- alvfercen margarvil14 natruipin congomgom carmarcar5 josrodgal7
--- beagongon1 margirmon manruiber antbeacar
+-- beagongon1 margirmon manruiber antbeacar margarflo5
 finalizado :: Tablero -> Bool
 finalizado t = all (== 0) t
 
@@ -81,6 +81,7 @@ finalizado2 t = t == replicate 5 0
 -- albcercid paumacpar marjimcom roscargar joscasgom1 antdursan glovizcas
 -- antmorper3 josdeher pabrabmon belbenzam criortcar fraferpoy alvfercen
 -- congomgom carmarcar5 beagongon1 margirmon manruiber antbeacar
+-- margarflo5 
 valida :: Tablero -> Int -> Int -> Bool
 valida t f n = t!!(f-1) >= n && n >= 1
 
@@ -151,7 +152,7 @@ jugada t f n = aux t (f-1) n
         aux (x:xs) f n | f < 0     = (x:xs)
                        | otherwise = x:aux xs (f-1) n
 
--- eliguivil josdeher fraferpoy natruipin congomgom margirmon antbeacar
+-- eliguivil josdeher fraferpoy natruipin congomgom margirmon antbeacar 
 jugada2 :: Tablero -> Int -> Int -> Tablero
 jugada2 (x:t) 1 n = (x-n) : t
 jugada2 (x:t) f n = x : jugada2 t (f-1) n
@@ -163,7 +164,7 @@ jugada4 t f n = [coger (x,y) | (x,y) <- zip t [1..]]
      coger (a,b) | b /= f    = a
                  | otherwise = a-n
 
--- glovizcas eledejim2 pabrabmon marmerzaf margarvil14 
+-- glovizcas eledejim2 pabrabmon marmerzaf margarvil14 margarflo5
 jugada5 :: Tablero -> Int -> Int -> Tablero
 jugada5 t f n = concat [take (f-1) t, [t!!(f-1) - n], drop f t ]
 
@@ -201,7 +202,7 @@ nuevaLinea3 = putStrLn []
 
 -- albcercid roscargar joscasgom1 ignareeva antdursan fraferpoy artmorfer
 -- alvfercen margarvil14 natruipin carmarcar5 beagongon1 natmarmar2
--- manruiber 
+-- manruiber margarflo5
 nuevaLinea4 :: IO ()
 nuevaLinea4 = do putStrLn []
 
@@ -218,7 +219,7 @@ nuevaLinea4 = do putStrLn []
 estrellas :: Int -> String
 estrellas n = concat $ replicate n "* "
                               
--- glovizcas antmorper3 fatfervaz margirmon
+-- glovizcas antmorper3 fatfervaz margirmon margarflo5
 estrellas3 :: Int -> String
 estrellas3 n = concat[ "* " | _ <- [1..n]]
 
@@ -257,6 +258,7 @@ estrellas6 n = '*' : ' ' : estrellas6 (n-1)
 -- ignareeva glovizcas antmorper3 josdeher eledejim2 pabrabmon fatfervaz
 -- marmerzaf alvfercen artmorfer fraferpoy margarvil14 natruipin juaorture
 -- criortcar congomgom carmarcar5 beagongon1 margirmon natmarmar2 manruiber
+-- margarflo5
 escribeFila :: Int -> Int -> IO ()
 escribeFila f n = do putStrLn ((show f) ++ ": " ++ estrellas n)  
 
@@ -285,7 +287,7 @@ escribeFila2 f n =  do putStr (show f ++ ": " ++ estrellas n ++ "\n")
 -- ignareeva glovizcas antmorper3 josdeher eledejim2 pabrabmon fatfervaz
 -- cescarde marmerzaf alvfercen fraferpoy artmorfer margarvil14 natruipin
 -- juaorture criortcar congomgom carmarcar5 josrodgal7 beagongon1
--- margirmon natmarmar2 manruiber 
+-- margirmon natmarmar2 manruiber margarflo5
 escribeTablero :: Tablero -> IO ()
 escribeTablero [a,b,c,d,e] = do escribeFila 1 a
                                 escribeFila 2 b
@@ -318,7 +320,7 @@ escribeTablero2 t =
 -- ---------------------------------------------------------------------
 
 -- albcercid roscargar joscasgom1 glovizcas pabrabmon artmorfer beagongon1 
--- natmarmar2 manruiber josrodgal7 
+-- natmarmar2 manruiber josrodgal7  margarflo5
 leeDigito :: String -> IO Int
 leeDigito xs = do
   putStr xs
@@ -381,7 +383,7 @@ leeDigito5 c = do
 -- albcercid eliguivil roscargar joscasgom1 antdursan marjimcom paumacpar
 -- ignareeva glovizcas josdeher pabrabmon fatfervaz eledejim2 cescarde
 -- alvfercen fraferpoy artmorfer juaorture criortcar congomgom carmarcar5
--- beagongon1 margirmon natmarmar2 manruiber josrodgal7 
+-- beagongon1 margirmon natmarmar2 manruiber josrodgal7 margarflo5
 siguiente :: Int -> Int
 siguiente 1 = 2
 siguiente 2 = 1
@@ -430,7 +432,7 @@ siguiente2 _ = error "es un juego por parejas, solo hay 2 jugadores"
 
 -- albcercid roscargar paumacpar josdeher pabrabmon eledejim2 alvfercen
 -- criortcar congomgom juaorture carmarcar5 beagongon1 margirmon natmarmar2 
--- manruiber josrodgal7 
+-- manruiber josrodgal7 antmorper3
 juego :: Tablero -> Int -> IO ()
 juego t j =
   if elem j [1,2]
@@ -601,6 +603,6 @@ nim = juego [5,4,3,2,1] 1
 
 -- antdursan ignareeva glovizcas antmorper3 josdeher eledejim2
 -- cescarde marmerzaf alvfercen congomgom juaorture carmarcar5
--- beagongon1 margirmon natmarmar2 manruiber
+-- beagongon1 margirmon natmarmar2 manruiber margarflo5
 nim2 :: IO ()
 nim2 = juego inicial 1
