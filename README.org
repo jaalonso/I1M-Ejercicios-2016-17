@@ -27,3 +27,4 @@ clase) y las soluciones definitivas.
   y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_13_sol.hs][solución]]).
 + *Relación 14*: Cálculo del número pi mediante el método de
   Montecarlo. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14_sol.hs][solución]]).
++ *Relación 15*: Vectores y matrices. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_15.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_15_sol.hs][solución]]).

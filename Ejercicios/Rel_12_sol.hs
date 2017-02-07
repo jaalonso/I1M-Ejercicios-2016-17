@@ -14,8 +14,6 @@
 -- + el problema de la bicicleta de Turing y
 -- + la sucesión de Golomb,
 
-import Test.QuickCheck
-
 -- ---------------------------------------------------------------------
 -- § Enumeración de los números enteros                               --
 -- ---------------------------------------------------------------------
@@ -30,84 +28,15 @@ import Test.QuickCheck
 --    take 10 enteros  ==  [0,-1,1,-2,2,-3,3,-4,4,-5]
 -- ---------------------------------------------------------------------
 
--- cescarde manruiber margarflo5 cargonler eledejim2 fatfervaz pabrabmon
--- migibagar natmarmar2 artmorfer josdeher monlagare alvfercen glovizcas
--- antmorper3 margirmon marjimcom margarvil14 belbenzam marlobrip
--- javcancif criortcar joscasgom1 ignareeva antbeacar
--- beagongon1 felsuacor carmarcar5 antdursan natruipin
+-- 1ª definición
 enteros :: [Int]
 enteros = 0 : concat [[-x,x] | x <- [1..]]
 
--- margarvil14
+-- 2ª definición
 enteros2 :: [Int]
 enteros2 = iterate siguiente 0
-  where siguiente x | x >= 0    = -x -1
-                    | otherwise = -x
-
--- fraferpoy cescarde pabrabmon
-enteros3 :: [Int]
-enteros3 = 0 : auxEnteros [1]
-  where auxEnteros [x] = (-x) : x : auxEnteros [x+1] 
-
--- Comentario: La definición anterior se puede simplificar.
-
--- albcercid
-enteros4 :: [Int]
-enteros4 = 0 : [biyeccion x | x <- [1..]]
-  where biyeccion x | odd x     = (-x) `div` 2
-                    | otherwise = x `div` 2
-
--- paumacpar roscargar
-enteros5 :: [Int]
-enteros5 = doblar [0..]
-
-doblar :: [Int] -> [Int]
-doblar [] = []
-doblar (x:xs) | x == 0    = 0 : doblar xs
-              | otherwise = -x : x : doblar xs
-
--- enrnarbej
-enteros6 :: [Int]
-enteros6 = intercala positivos negativos
-  where
-    intercala (x:xs) (y:ys) = x:y:intercala xs ys
-    positivos = 0   :[x+1 | x <- positivos]
-    negativos = (-1):[x-1 | x <- negativos]
-
--- eliguivil
-enteros7 :: [Int]
-enteros7 = [if odd n then n `div` 2
-                     else -(n `div` 2)
-           | n <- [1..]]
-
-enteros8 :: [Int]
-enteros8 = 0 : concat ([par a | a <- [1..]])
-  where par x = [-x,x]
-
--- juaorture
-enteros9 :: [Int]
-enteros9 =
-  0 : concat [deParALista a | a <- zip [-a | a <- [1..]] [1..]]
-  where deParALista :: (a,a) -> [a]
-        deParALista (a,b) = [a,b]
-
--- Equivalencia
-prop_equiv_enteros :: Int -> Property
-prop_equiv_enteros k =
-  k >= 0 ==>
-  all (==x) [ enteros2 !! k
-            , enteros3 !! k
-            , enteros4 !! k
-            , enteros5 !! k
-            , enteros6 !! k
-            , enteros7 !! k
-            , enteros8 !! k
-            , enteros9 !! k]
-  where x = enteros !! k
-
--- Comprobación
---    λ> quickCheck prop_equiv_enteros
---    +++ OK, passed 100 tests.
+    where siguiente x | x >= 0    = -x-1
+                      | otherwise = -x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1.2. Definir la función
@@ -117,101 +46,24 @@ prop_equiv_enteros k =
 --    posicion 2  ==  4
 -- ---------------------------------------------------------------------
 
--- margarvil14
+-- 1ª definición
 posicion :: Int -> Int
 posicion x = length (takeWhile (/=x) enteros)
 
--- paumacpar 
+-- 2ª definición
 posicion2 :: Int -> Int
-posicion2 y = posicionAux 0 y enteros
-  where posicionAux n 0 (x:xs) = 0
-        posicionAux n y (x:xs) | y == x    = n 
-                               | otherwise = posicionAux (n+1) y xs 
+posicion2 x = aux enteros 0
+    where aux (y:ys) n | x == y    = n
+                       | otherwise = aux ys (n+1)
 
--- fraferpoy fatfervaz monlagare glovizcas margarvil14 migibagar
--- felsuacor natruipin
+-- 3ª definición
 posicion3 :: Int -> Int
-posicion3 x = head [y | (x',y) <- zip enteros [0..]
-                      , x == x']
+posicion3 x = head [n | (n,y) <- zip [0..] enteros, y == x]
 
--- albcercid enrnarbej manruiber cargonler margarflo5 eledejim2
--- pabrabmon roscargar natmarmar2 artmorfer josdeher alvfercen eliguivil
--- antmorper3 margirmon marjimcom belbenzam marlobrip criortcar
--- joscasgom1 ignareeva beagongon1 carmarcar5 antdursan antbeacar 
+-- 4ª definición
 posicion4 :: Int -> Int
 posicion4 x | x >= 0    = 2*x
-            | otherwise = -2*x - 1
-
--- cescarde
-posicion5 :: Int -> Int
-posicion5 x | x >= 0 = 2*x+1
-            | x <  0 = 2*(-x)
-
--- Comentario: La definición 5 es incorrecta, porque empieza a contar
--- las posiciones en 1 en lugar de empezar en 0.
-
--- margarvil14
-posicion6 :: Int -> Int
-posicion6 x = aux enteros 0
-  where aux (y:ys) n | x == y    = n
-                     | otherwise = aux ys (n+1)
-
--- javcancif
-posicion7 :: Int -> Int
-posicion7 x | x >= 0    = 2*x
-            | otherwise = 2*(abs x) - 1
-
--- luimotmar
-posicion8 :: Int -> Int
-posicion8 x | x > 0 = length (takeWhile (/= (-x)) enteros8)
-            | x < 0 = length (takeWhile (/= (-x)) enteros8) + 2
-            | otherwise = 1
-
--- Comentario: La definición posicion8 es incorrecta. Por ejemplo,
---    λ> [posicion8 x | x <- take 9 enteros] 
---    [1,4,1,6,3,8,5,10,7]
-
--- juaorture
-posicion9 :: Int -> Int
-posicion9 x = head [a | a <- [0..]
-                      , enteros!!a == x]
-
--- Comentario: La definición posicion9 se puede mejorar.
-
-prop_equiv_posicion :: Int -> Bool
-prop_equiv_posicion k =
-  all (==x) [ posicion2 k
-            , posicion3 k
-            , posicion4 k
-            -- , posicion5 k
-            , posicion6 k
-            , posicion7 k
-            -- , posicion8 k
-            , posicion9 k]
-  where x = posicion k
-
--- Comparación de eficiencia
---    λ> posicion 30000
---    60000
---    (0.01 secs, 0 bytes)
---    λ> posicion2 30000
---    60000
---    (0.10 secs, 27,790,192 bytes)
---    λ> posicion3 30000
---    60000
---    (0.02 secs, 0 bytes)
---    λ> posicion4 30000
---    60000
---    (0.00 secs, 0 bytes)
---    λ> posicion6 30000
---    60000
---    (0.03 secs, 15,680,432 bytes)
---    λ> posicion7 30000
---    60000
---    (0.00 secs, 0 bytes)
---    λ> posicion9 30000
---    60000
---    (3.90 secs, 29,209,024 bytes)
+            | otherwise = 2*(-x)-1
 
 -- ---------------------------------------------------------------------
 -- § El problema de la bicicleta de Turing                            --
@@ -242,84 +94,13 @@ prop_equiv_posicion k =
 --    take 10 (eslabones 2 7 25)  ==  [2,9,16,23,5,12,19,1,8,15]
 -- ---------------------------------------------------------------------
 
--- albcercid cargonler margarflo5 artmorfer fraferpoy alvfercen
--- antmorper3 migibagar roscargar margarvil14 fatfervaz joscasgom1
--- ignareeva beagongon1 carmarcar5 antbeacar natruipin
 eslabones :: Int -> Int -> Int -> [Int]
-eslabones i d n = [mod (d*a + i) n | a <- [0..]]
+eslabones i d n = [(i+d*j) `mod` n | j <- [0..]]
 
--- paumacpar pabrabmon margirmon
+-- 2ª definición (con iterate):
 eslabones2 :: Int -> Int -> Int -> [Int]
-eslabones2 i d n = [mod k n | k <- iterate (+d) i]
+eslabones2 i d n = map (\x-> mod x n) (iterate (+d) i)
 
--- cescarde eledejim2 belbenzam felsuacor
-eslabones3 :: Int -> Int -> Int -> [Int]
-eslabones3 i d n | i >= n = eslabones3 (i-n) d n
-                 | i <  n = i : eslabones3 (i+d) d n
-
--- enrnarbej manruiber
-eslabones4 :: Int -> Int -> Int -> [Int]
-eslabones4 i d n = i : [(x + d) `mod` n | x <- eslabones i d n]
-
--- josdeher marlobrip criortcar
-eslabones5 :: Int -> Int -> Int -> [Int]
-eslabones5 i d n | i+d <  n = i : eslabones5  (i+d)    d n
-                 | i+d >= n = i : eslabones5 ((i+d)-n) d n
-
--- eliguivil
-eslabones6 :: Int -> Int -> Int -> [Int]
-eslabones6 i d n = i : eslabones ((i+d) `mod` n) d n
-
--- glovizcas
-eslabones7 :: Int -> Int -> Int -> [Int]
-eslabones7 i d n  | i + d < n = i : m
-                  | otherwise = (i `mod` n) : m
-  where m = eslabones (i+d) d n
-
--- marjimcom
-eslabones8 :: Int -> Int -> Int -> [Int]
-eslabones8 i d n = iterate f i
-  where f x = (x + d) `mod` n 
-
--- luimotmar
-eslabones9 :: Int -> Int -> Int -> [Int]
-eslabones9 i d n | i < n     = i : eslabones9 (i + d) d n
-                 | i == n    = eslabones9 0 d n
-                 | otherwise = eslabones9 (rem i n) d n 
-
--- juaorture
-eslabones10 :: Int -> Int -> Int -> [Int]
-eslabones10 i d n = i `mod` n : eslabones (i+d) d n 
-
--- antdursan
-eslabones11 :: Int -> Int -> Int -> [Int]
-eslabones11 i d n = i : auxEslabones i d n
-
-auxEslabones :: Int -> Int -> Int -> [Int]
-auxEslabones i d n | i+d >= n  = (i+d-n) : auxEslabones (i+d-n) d n
-                   | otherwise = (i+d) : auxEslabones (i+d) d n
-
--- Equivalencia
-prop_equiv_eslabones :: Int -> Int -> Int -> Int -> Bool
-prop_equiv_eslabones i d n k =
-  all (==x) [ (f i1 d1 n1) !! k1
-            | f <- [ eslabones2
-                   , eslabones3
-                   , eslabones4
-                   , eslabones5
-                   , eslabones6
-                   , eslabones7
-                   , eslabones8
-                   , eslabones9
-                   , eslabones10
-                   , eslabones11
-                   ]]
-  where i1 = 1 + abs i
-        d1 = 1 + i1 + abs d
-        n1 = 1 + d1 + abs n
-        k1 = abs k
-        x  = (eslabones i1 d1 n1) !! k1
-                        
 -- ---------------------------------------------------------------------
 -- Ejercicio 2.2. Definir la función
 --    numeroVueltas :: Int -> Int -> Int -> Int 
@@ -329,47 +110,8 @@ prop_equiv_eslabones i d n k =
 --    numeroVueltas 2 7 25  ==  14
 -- ---------------------------------------------------------------------
 
--- paumacpar cescarde enrnarbej cargonler manruiber eledejim2 pabrabmon 
--- margarflo5 artmorfer glovizcas margirmon marjimcom belbenzam margarvil14
--- marlobrip fatfervaz luimotmar ignareeva beagongon1 felsuacor
--- carmarcar5 antdursan  antbeacar natruipin
 numeroVueltas :: Int -> Int -> Int -> Int
-numeroVueltas i d n =
-  length (takeWhile (/=0) (eslabones i d n)) 
-
--- albcercid fraferpoy alvfercen antmorper3 roscargar joscasgom1
-numeroVueltas2 :: Int -> Int -> Int -> Int
-numeroVueltas2 i d n =
-  head [a | a <- [0..], mod (d*a + i) n == 0]
-
--- josdeher
-numeroVueltas3 :: Int -> Int -> Int -> Int
-numeroVueltas3 i d n =
-  head [y | (x,y) <- zip (eslabones5 i d n) [0..], x == 0 ]
-
--- eliguivil migibagar
-numeroVueltas4 :: Int -> Int -> Int -> Int
-numeroVueltas4 i d n =
-  length . takeWhile (/=0) $ eslabones i d n
-
--- juaorture
-numeroVueltas5 :: Int -> Int -> Int -> Int
-numeroVueltas5 i d n =
-  head [a | a <- [0..] , (eslabones i d n)!!a == 0]
-
--- Equivalencia
-prop_equiv_numeroVueltas :: Int -> Int -> Int -> Bool
-prop_equiv_numeroVueltas i d n =
-  all (== x) [ f i d n
-             | f <- [ numeroVueltas2
-                    , numeroVueltas3
-                    , numeroVueltas4
-                    , numeroVueltas5
-                   ]]
-  where x = numeroVueltas i d n
-
--- λ> prop_equiv_numeroVueltas 2 7 25
--- True
+numeroVueltas i d n = length (takeWhile (/=0) (eslabones i d n)) 
 
 -- ---------------------------------------------------------------------
 -- § La sucesión de Golomb                                            --
@@ -395,35 +137,8 @@ prop_equiv_numeroVueltas i d n =
 -- Indicación: Se puede usar la función sucGolomb del apartado 2.
 -- ---------------------------------------------------------------------
 
--- albcercid margarflo5 monlagare alvfercen roscargar marjimcom
--- eliguivil margarvil14 juaorture antbeacar 
 golomb :: Int -> Int
 golomb n = sucGolomb !! (n-1)
-
--- albcercid cescarde cargonler manruiber artmorfer josdeher paumacpar
--- eliguivil 
-golomb2 1 = 1
-golomb2 x = 1 + golomb2 (x - golomb2 (golomb2 (x-1)))
-
--- enrnarbej antmorper3 glovizcas belbenzam joscasgom1 beagongon1 antdursan
-golomb3 :: Int -> Int
-golomb3 1 = 1
-golomb3 2 = 2
-golomb3 n = sucGolomb3 !! (n-1)
-
---pabrabmon
-golomb4 :: Int -> Int
-golomb4 n = head (drop (n-1) sucGolomb)
-
--- margirmon
-golombLista :: [(Int,Int)]
-golombLista =
-  [(1,1),(2,2),(2,3)]
-  ++ zip (concat[replicate a b | (a,b) <- (drop 2 golombLista)]) [4..]
-
-golomb5 :: Int -> Int
-golomb5 x = head [fst (a,b) | (a,b) <- golombLista,
-                  b == x]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.2. Definir la función
@@ -434,36 +149,8 @@ golomb5 x = head [fst (a,b) | (a,b) <- golombLista,
 -- Indicación: Se puede usar la función subSucGolomb del apartado 3.
 -- ---------------------------------------------------------------------
 
--- enrnarbej josdeher antmorper3 glovizcas margarvil14 joscasgom1
--- beagongon1 antdursan antbeacar
 sucGolomb :: [Int]
 sucGolomb = subSucGolomb 1
-
--- albcercid pabrabmon margarflo5 roscargar marjimcom eliguivil
-sucGolomb2 :: [Int]
-sucGolomb2 = 1:2:serie
-serie = concat [replicate a b | (a,b) <- zip (1:serie) [2..]]
-
--- cescarde cargonler manruiber artmorfer belbenzam paumacpar natruipin
-sucGolomb3 :: [Int]
-sucGolomb3 = [golomb n | n <- [1..]]
-
--- monlagare alvfercen
-sucGolomb4 :: [Int]
-sucGolomb4 = 1 : xs
-  where xs = concat [replicate a b | (a,b) <- zip [2..] [2..]]
-
--- comentario de glovizcas: sucGolomb4 es incorrecta, ya que 3 se repite
--- dos veces (no tres), 4 se repite tres veces, 5 tres veces, 6
--- cuatro veces... 
-
--- margirmon
-sucGolomb5 :: [Int]
-sucGolomb5 = map fst golombLista
-
--- juaorture
-sucGolomb6 :: [Int]
-sucGolomb6 = 1 : 2 : 2 : concat [replicate (golomb a) a | a <- [3..]] 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3.3. Definir la función
@@ -479,19 +166,13 @@ subSucGolomb 1 = [1] ++ subSucGolomb 2
 subSucGolomb 2 = [2,2] ++ subSucGolomb 3
 subSucGolomb x = (replicate (golomb x) x) ++ subSucGolomb (x+1) 
 
--- albcercid cescarde cargonler manruiber pabrabmon margarflo5 alvfercen
--- margirmon roscargar marjimcom eliguivil paumacpar 
-subSucGolomb2 :: Int -> [Int]
-subSucGolomb2 x = dropWhile (/= x) sucGolomb
+-- Nota: La sucesión de Golomb puede definirse de forma más compacta
+-- como se muestra a continuación.
+sucGolomb2 :: [Int]
+sucGolomb2 = 1 : 2 : 2 : g 3
+    where g x      = replicate (golomb x) x ++ g (x+1) 
+          golomb n = sucGolomb !! (n-1)
 
--- enrnarbej josdeher antmorper3 joscasgom1 beagongon1 antdursan antbeacar
-subSucGolomb3 :: Int -> [Int]
-subSucGolomb3 n = concat [replicate (golomb3 x) x | x <- [n..]]
-
--- artmorfer glovizcas belbenzam natruipin
-subSucGolomb4 :: Int -> [Int]
-subSucGolomb4 x = filter (>= x) sucGolomb2
-
--- juaorture
-subSucGolomb5 :: Int -> [Int]
-subSucGolomb5 n = [golomb a | a <- [n..], golomb a >= n]
+sucGolomb3 :: [Int]
+sucGolomb3 = 1 : 2 : 2 : 
+              concat [replicate n k | (n,k) <-zip (drop 2 sucGolomb3) [3..]]

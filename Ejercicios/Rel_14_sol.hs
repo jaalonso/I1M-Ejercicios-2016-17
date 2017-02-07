@@ -4,9 +4,9 @@
 -- Universidad de Sevilla
 -- =====================================================================
 
-------------------------------------------------------------------------
+-- ---------------------------------------------------------------------
 -- § Introducción                                                     --
-------------------------------------------------------------------------
+-- ---------------------------------------------------------------------
 
 -- El objetivo de esta relación de ejercicios es el uso de los números
 -- aleatorios para calcular el número pi mediante el método de
@@ -20,7 +20,6 @@
 
 import System.Random
 import System.IO.Unsafe
-import Graphics.Gnuplot.Simple
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -48,8 +47,6 @@ aleatorio a b = unsafePerformIO $
 --    [3,7,7,5,7,7,5,8,6,4,7,2,8,8,2,8,7,6,5,5]
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar congomgom juaorture antmorper3 marjimcom
--- josrodgal7 
 aleatorios :: Random t => t -> t -> [t]
 aleatorios m n = aleatorio m n : aleatorios m n
 
@@ -64,21 +61,13 @@ aleatorios m n = aleatorio m n : aleatorios m n
 --     (0.5610432040657063,-0.7648360614536891)]
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar congomgom antmorper3 marjimcom josrodgal7
 puntosDelCuadrado :: [(Double,Double)]
-puntosDelCuadrado = zip (aleatorios (-1.0) 1.0) (aleatorios (-1.0) 1.0)  
+puntosDelCuadrado = zip (aleatorios (-1) 1) (aleatorios (-1) 1) 
 
--- juaorture
-puntosDelCuadrado2 :: [(Double,Double)]
-puntosDelCuadrado2 = [(x,y) | x <- aleatorios (-1) 1, y <- aleatorios (-1) 1] 
+puntosDelCuadrado2 :: Int -> [(Double,Double)]
+puntosDelCuadrado2 n =
+  take n (zip (aleatorios (-1) 1) (aleatorios (-1) 1))
 
--- Comentario: La primera coordenada es constante. Por ejemplo,
---    λ> mapM_ print (take 5 puntosDelCuadrado2)
---    (-0.9671986959078924,0.5884139668410833)
---    (-0.9671986959078924,-0.9803961883723866)
---    (-0.9671986959078924,5.565818394240751e-2)
---    (-0.9671986959078924,0.280043199439866)
---    (-0.9671986959078924,-0.4042062171348333)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 4. Definir la función
@@ -89,14 +78,9 @@ puntosDelCuadrado2 = [(x,y) | x <- aleatorios (-1) 1, y <- aleatorios (-1) 1]
 --    2
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar congomgom antmorper3 marjimcom josrodgal7
 puntosEnElCirculo :: [(Double,Double)] -> Int
-puntosEnElCirculo = length . filter (\(x,y) -> x^2+y^2 <= 1)
-
--- juaorture
-puntosEnElCirculo1 :: [(Double,Double)] -> Int
-puntosEnElCirculo1 xs = length [ (x,y) | (x,y) <- xs
-                                        , x^2 + y^2 <= 1]
+puntosEnElCirculo xs = length [(x,y) | (x,y) <- xs
+                                     , x^2+y^2 <= 1]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 5. Definir la función
@@ -112,15 +96,9 @@ puntosEnElCirculo1 xs = length [ (x,y) | (x,y) <- xs
 --    3.13484
 -- ---------------------------------------------------------------------
 
--- enrnarbej paumacpar congomgom juaorture antmorper3 marjimcom josrodgal7
 calculoDePi :: Int -> Double
-calculoDePi n =
-  4
-  * fromIntegral (puntosEnElCirculo (take n puntosDelCuadrado))
-  / fromIntegral n
+calculoDePi n = 4 * enCirculo / total
+    where xs        = take n puntosDelCuadrado
+          enCirculo = fromIntegral (puntosEnElCirculo xs)
+          total     = fromIntegral n
 
-
-grafica = 
-    plotLists [Key Nothing]
-              [[(n,calculoDePi n) | n <- [0,10..4000]]
-              ,[(n,pi) | n <- [0,10..4000]]]
