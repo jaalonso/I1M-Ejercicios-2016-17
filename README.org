@@ -28,3 +28,9 @@ clase) y las soluciones definitivas.
 + *Relación 14*: Cálculo del número pi mediante el método de
   Montecarlo. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_14_sol.hs][solución]]).
 + *Relación 15*: Vectores y matrices. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_15.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_15_sol.hs][solución]]).
++ *Relación 16*: Método de Gauss para triangularizar matrices. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_16.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_16_sol.hs][solución]]).
++ *Relación 17*: Vectores y matrices con las librerías. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_17_sol.hs][solución]]).
++ *Relación 18*: Cálculo numérico: Diferenciación y métodos de Herón y de
+  Newton. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18_sol.hs][solución]]). 
++ *Relación 19*: Estadística descriptiva. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19_sol.hs][solución]]).
++ *Relación 20*: Combinatoria. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20_sol.hs][solución]]).
