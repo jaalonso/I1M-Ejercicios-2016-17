@@ -7,10 +7,10 @@
 -- ---------------------------------------------------------------------
 -- Introducción                                                       --
 -- ---------------------------------------------------------------------
+
 -- El objetivo de esta relación es hacer ejercicios sobre vectores y
 -- matrices con el tipo de las tablas, definido en el módulo
--- Data.Array y explicado en el tema 18 cuyas transparencias se
--- encuentran en 
+-- Data.Array y explicado en el tema 18 que se encuentra en
 --    http://www.cs.us.es/~jalonso/cursos/i1m-16/temas/tema-18.html
  
 -- ---------------------------------------------------------------------
@@ -18,8 +18,6 @@
 -- ---------------------------------------------------------------------
 
 import Data.Array
-import Data.List
-import Test.QuickCheck
 
 -- ---------------------------------------------------------------------
 -- Tipos de los vectores y de las matrices                            --
@@ -45,14 +43,9 @@ type Matriz a = Array (Int,Int) a
 --    array (1,3) [(1,3),(2,2),(3,5)]
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie paumacpar
--- eliguivil juaorture antmorper3 josrodgal7 artmorfer eledejim2 josdeher
--- margarflo5 natruipin cescarde monlagare marlobrip marjimcom margarvil14
--- beagongon1 glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen 
--- luimotmar cargonler antdursan ignareeva belbenzam manruiber marmerzaf
--- margirmon congomgom antbeacar
 listaVector :: Num a => [a] -> Vector a
-listaVector xs = listArray (1,length xs) xs
+listaVector xs = listArray (1,n) xs
+    where n = length xs
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -64,21 +57,10 @@ listaVector xs = listArray (1,length xs) xs
 --                         ((2,1),2),((2,2),4),((2,3),7)]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar antmorper3 eliguivil marjimcom glovizcas
--- joscasgom1 luimotmar margirmon 
 listaMatriz :: Num a => [[a]] -> Matriz a
-listaMatriz xss =
-  listArray ((1,1),(length xss,length $ head xss)) (concat xss)
-
--- antlopgom2 fraferpoy juacasnie juaorture paumacpar josrodgal7 artmorfer
--- eledejim2 josdeher margarflo5 natruipin cescarde monlagare marlobrip
--- margarvil14 beagongon1 felsuacor fatfervaz pabrabmon alvfercen
--- cargonler antdursan ignareeva belbenzam manruiber marmerzaf congomgom
--- antbeacar
-listaMatriz2 :: Num a => [[a]] -> Matriz a
-listaMatriz2 xss = listArray ((1,1),(m,n)) (concat xss)
-  where m = length xss
-        n = length (head xss)
+listaMatriz xss = listArray ((1,1),(m,n)) (concat xss)
+    where m = length xss
+          n = length (head xss)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 3. Definir la función
@@ -88,12 +70,6 @@ listaMatriz2 xss = listArray ((1,1),(m,n)) (concat xss)
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie eliguivil
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- margarflo5 natruipin cescarde monlagare marlobrip marjimcom margarvil14
--- beagongon1 glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen 
--- luimotmar cargonler antdursan ignareeva belbenzam manruiber marmerzaf
--- margirmon congomgom antbeacar
 numFilas :: Num a => Matriz a -> Int
 numFilas = fst . snd . bounds
 
@@ -105,12 +81,6 @@ numFilas = fst . snd . bounds
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- margarflo5 natruipin cescarde monlagare marlobrip marjimcom margarvil14
--- beagongon1 glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen 
--- luimotmar cargonler antdursan ignareeva belbenzam manruiber marmerzaf
--- margirmon congomgom antbeacar
 numColumnas :: Num a => Matriz a -> Int
 numColumnas = snd . snd . bounds
 
@@ -121,17 +91,8 @@ numColumnas = snd . snd . bounds
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- margarflo5 natruipin monlagare marlobrip marjimcom beagongon1 felsuacor 
--- fatfervaz pabrabmon joscasgom1 alvfercen cargonler antdursan
--- ignareeva belbenzam manruiber marmerzaf margirmon  antbeacar
 dimension :: Num a => Matriz a -> (Int,Int)
 dimension = snd . bounds
-
--- cescarde margarvil14 glovizcas luimotmar congomgom
-dimension1 :: Num a => Matriz a -> (Int,Int)
-dimension1 p = (numFilas p, numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 6. Definir la función
@@ -142,14 +103,8 @@ dimension1 p = (numFilas p, numColumnas p)
 --    separa 3 [1..11]  ==  [[1,2,3],[4,5,6],[7,8,9],[10,11]]
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- natruipin cescarde monlagare marlobrip marjimcom margarvil14 beagongon1
--- glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen luimotmar 
--- cargonler antdursan ignareeva belbenzam manruiber marmerzaf margirmon
--- congomgom margarflo5 antbeacar
 separa :: Int -> [a] -> [[a]]
-separa n [] = []
+separa _ [] = []
 separa n xs = take n xs : separa n (drop n xs)
 
 -- ---------------------------------------------------------------------
@@ -165,14 +120,8 @@ separa n xs = take n xs : separa n (drop n xs)
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- natruipin cescarde monlagare marlobrip marjimcom margarvil14 beagongon1
--- glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen luimotmar 
--- cargonler antdursan ignareeva belbenzam manruiber marmerzaf margirmon
--- congomgom margarflo5 antbeacar
 matrizLista :: Num a => Matriz a -> [[a]]
-matrizLista p = separa (numColumnas p) (elems p) 
+matrizLista p = separa (numColumnas p) (elems p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -186,21 +135,8 @@ matrizLista p = separa (numColumnas p) (elems p)
 --    [3,2,5]
 -- ---------------------------------------------------------------------
 
--- albcercid antlopgom2 fraferpoy enrnarbej roscargar juacasnie antbeacar
--- juaorture paumacpar antmorper3 eliguivil josrodgal7 eledejim2 josdeher
--- natruipin cescarde monlagare marlobrip marjimcom margarvil14 beagongon1
--- glovizcas felsuacor fatfervaz pabrabmon joscasgom1 alvfercen cargonler 
--- ignareeva belbenzam manruiber marmerzaf margirmon congomgom margarflo5
 vectorLista :: Num a => Vector a -> [a]
-vectorLista = elems
-
--- luimotmar
-vectorLista2 :: Num a => Vector a -> [a]
-vectorLista2 w = concat (separa (length (elems w))
-                        (elems w) )
-
--- Comentario: La definición vectorLista2 se puede simplificar.
-
+vectorLista = elems 
 
 -- ---------------------------------------------------------------------
 -- Suma de matrices                                                   --
@@ -217,45 +153,17 @@ vectorLista2 w = concat (separa (length (elems w))
 --    [[9,7,3],[4,7,8]]
 -- ---------------------------------------------------------------------
 
--- albcercid fraferpoy enrnarbej roscargar juacasnie juaorture paumacpar
--- antmorper3 josrodgal7 eledejim2 natruipin  marjimcom margarvil14
--- beagongon1 antlopgom2 pabrabmon joscasgom1 alvfercen cargonler
--- belbenzam manruiber margirmon antbeacar
+-- 1ª definición
 sumaMatrices :: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices p q = listArray ((1,1),(m,n)) 
-                   [p!(i,j) + q!(i,j) | i <- [1..m], j <- [1..n]]
-  where (m,n) = dimension p
+sumaMatrices p q = 
+    array ((1,1),(m,n)) [((i,j),p!(i,j)+q!(i,j))  
+                        | i <- [1..m], j <- [1..n]]
+    where (m,n) = dimension p
 
--- eliguivil margarflo5
+-- 2ª definición
 sumaMatrices2 :: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices2 p q
-  | bounds p == bounds q =
-      listArray (bounds p)
-                [p!(i,j) + q!(i,j) | i <- [1..numFilas p],
-                                     j <- [1..numColumnas p]]
-  | otherwise = error "insumable"
-
--- josdeher cescarde marlobrip fatfervaz antdursan ignareeva congomgom
-sumaMatrices3 :: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices3 p q = array (bounds p) 
-                          [((i,j), p ! (i,j) + q ! (i,j)) 
-                          | i <- [1..m], j <- [1..n]]
-  where m = numFilas p
-        n = numColumnas p
-
--- cescarde monlagare glovizcas felsuacor marmerzaf
-sumaMatrices4 :: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices4 p q =
-  listArray (bounds p) (zipWith (+) (elems p) (elems q))
-
--- luimotmar
-sumaMatrices5 :: Num a => Matriz a -> Matriz a -> Matriz a
-sumaMatrices5 p q =
-  listaMatriz (separa (numColumnas p)
-                      (zipWith (+) (concat (matrizLista p))
-                                   (concat (matrizLista q))))
-
--- Comentario: La definición sumaMatrices5 se puede simplificar.
+sumaMatrices2 p q = 
+    listArray (bounds p) (zipWith (+) (elems p) (elems q))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -269,23 +177,9 @@ sumaMatrices5 p q =
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
--- albcercid fraferpoy enrnarbej roscargar juacasnie juaorture paumacpar
--- antmorper3 eliguivil josrodgal7 eledejim2 natruipin monlagare
--- marjimcom margarvil14 beagongon1 felsuacor fatfervaz antlopgom2
--- pabrabmon joscasgom1 cargonler ignareeva belbenzam manruiber
--- marmerzaf margirmon margarflo5 antbeacar
 filaMat :: Num a => Int -> Matriz a -> Vector a
-filaMat i p = listArray (1,n) [p!(i,j) | j <- [1..n]]
-  where n = numColumnas p
-
--- josdeher cescarde marlobrip glovizcas alvfercen antdursan congomgom
-filaMat2 :: Num a => Int -> Matriz a -> Vector a
-filaMat2 i p = array (1,n) [(j, p ! (i,j)) | j <- [1..n]]
-  where n = numColumnas p
-
--- luimotmar
-filaMat3 :: Num a => Int -> Matriz a -> Vector a
-filaMat3 i p = listaVector (head (drop (i-1) (matrizLista p)))
+filaMat i p = array (1,n) [(j,p!(i,j)) | j <- [1..n]]
+    where n = numColumnas p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -299,20 +193,9 @@ filaMat3 i p = listaVector (head (drop (i-1) (matrizLista p)))
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
--- albcercid fraferpoy enrnarbej roscargar juacasnie juaorture paumacpar
--- eliguivil antmorper3 josrodgal7 eledejim2 natruipin monlagare marjimcom
--- beagongon1 felsuacor fatfervaz antlopgom2 pabrabmon joscasgom1 luimotmar 
--- cargonler ignareeva belbenzam manruiber marmerzaf margirmon margarflo5
--- antbeacar
 columnaMat :: Num a => Int -> Matriz a -> Vector a
-columnaMat j p = listArray (1,n) [p!(i,j) | i <- [1..n]]
-  where n = numFilas p
-
--- josdeher cescarde marlobrip margarvil14 glovizcas alvfercen antdursan 
--- congomgom
-columnaMat2 :: Num a => Int -> Matriz a -> Vector a
-columnaMat2 j p = array (1,n) [(i, p ! (i,j)) | i <- [1..n]]
-  where n = numFilas p
+columnaMat j p = array (1,m) [(i,p!(i,j)) | i <- [1..m]]
+    where m = numFilas p
 
 -- ---------------------------------------------------------------------
 -- Producto de matrices                                               --
@@ -328,27 +211,15 @@ columnaMat2 j p = array (1,n) [(i, p ! (i,j)) | i <- [1..n]]
 --    110
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar juaorture paumacpar antmorper3 eliguivil
--- josrodgal7 marjimcom fatfervaz antlopgom2 pabrabmon joscasgom1 luimotmar 
--- cargonler margirmon margarflo5
+-- 1ª solución
 prodEscalar :: Num a => Vector a -> Vector a -> a
-prodEscalar v1 v2 = sum $ zipWith (*) (elems v1) (elems v2)
+prodEscalar v1 v2 = 
+    sum [i*j | (i,j) <- zip (elems v1) (elems v2)]
 
--- fraferpoy eledejim2 josdeher natruipin cescarde monlagare beagongon1
--- felsuacor alvfercen antdursan belbenzam manruiber marmerzaf congomgom
--- antbeacar
+-- 2ª solución
 prodEscalar2 :: Num a => Vector a -> Vector a -> a
-prodEscalar2 v1 v2 = sum (zipWith (*) (elems v1) (elems v2))
-
--- juacasnie marlobrip
-prodEscalar3 :: Num a => Vector a -> Vector a -> a
-prodEscalar3 v1 v2 = sum [(v1 ! i ) * (v2 ! i ) | i <- [1..n]]  
-  where n = length (vectorLista v1)
-
--- margarvil14
-prodEscalar4 :: Num a => Vector a -> Vector a -> a
-prodEscalar4 v1 v2 =
-  sum [i*j | (i,j) <- zip (elems v1) (elems v2)]
+prodEscalar2 v1 v2 = 
+    sum (zipWith (*) (elems v1) (elems v2))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -367,40 +238,13 @@ prodEscalar4 v1 v2 =
 --    [[26],[34]]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej fraferpoy roscargar juacasnie juaorture paumacpar
--- antmorper3 josrodgal7 natruipin cescarde monlagare marlobrip marjimcom
--- beagongon1 felsuacor antlopgom2 eledejim2 pabrabmon joscasgom1 cargonler
--- fatfervaz belbenzam manruiber margirmon margarflo5 antbeacar
-prodMatrices :: Num a => Matriz a -> Matriz a -> Matriz a
-prodMatrices p q =
-  listArray ((1,1),(m,n)) 
-            [prodEscalar (filaMat a p) (columnaMat b q) 
-            | a <- [1..m], b <- [1..n]]
-  where m = numFilas p
-        n = numColumnas q
-
--- eliguivil
-prodMatrices2 :: Num a => Matriz a -> Matriz a -> Matriz a
-prodMatrices2 p q
-    | numColumnas p == numFilas q =
-      listArray ((1,1),(numFilas p,numColumnas q))
-                [sum [p!(i,k) * q!(k,j) | k <- [1..numColumnas p]]
-                | i <- [1..numFilas p],
-                  j <- [1..numColumnas q]]
-    | otherwise = error "inmultiplicable"
-
--- josdeher margarvil14 antdursan congomgom
-prodMatrices3 :: Num a => Matriz a -> Matriz a -> Matriz a
-prodMatrices3 p q =
-  array ((1,1),(m,n)) 
-        [((i,j), prodEscalar (filaMat i p) (columnaMat j q)) 
-        | i <- [1..m], j <- [1..n]]
-  where m = numFilas p
-        n = numColumnas q
-
--- luimotmar
-filaMat4 :: Num a => Int -> Matriz a -> Vector a
-filaMat4 i p = listaVector (head (drop (i-1) (matrizLista p)))
+prodMatrices:: Num a => Matriz a -> Matriz a -> Matriz a
+prodMatrices p q = 
+    array ((1,1),(m,n))
+          [((i,j), prodEscalar (filaMat i p) (columnaMat j q)) |
+           i <- [1..m], j <- [1..n]]
+    where m = numFilas p
+          n = numColumnas q
 
 -- ---------------------------------------------------------------------
 -- Matriz identidad                                                   --
@@ -416,39 +260,12 @@ filaMat4 i p = listaVector (head (drop (i-1) (matrizLista p)))
 --                         ((3,1),0),((3,2),0),((3,3),1)]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar paumacpar antmorper3 juacasnie
--- cescarde monlagare marjimcom beagongon1 josrodgal7 antlopgom2
--- eledejim2 pabrabmon joscasgom1 luimotmar cargonler fatfervaz
--- belbenzam manruiber margirmon margarflo5 antbeacar
 identidad :: Num a => Int -> Matriz a
-identidad n = listArray ((1,1),(n,n)) [ t a b | a <- [1..n], b <- [1..n]]
-  where t a b | a == b    = 1
-              | otherwise = 0
-
--- juaorture antdursan felsuacor 
-identidad2 :: Num a => Int -> Matriz a
-identidad2 n =
-  array ((1,1),(n,n))
-        ([((i,i), 1) | i <- [1..n]] ++
-         [((i,j),0) | i <- [1..n], j <- [1..n], i /= j])
-
--- eliguivil marlobrip marmerzaf
-identidad3 :: Num a => Int -> Matriz a
-identidad3 n = listArray ((1,1),(n,n))
-               [if i == j
-                then 1
-                else 0 | i <- [1..n], j <- [1..n]] 
-
--- josdeher congomgom
-identidad4 :: Num a => Int -> Matriz a
-identidad4 n =
-  array ((1,1),(n,n)) 
-        [((i,j), if i == j then 1 else 0) | i <- [1..n], j <- [1..n]]
-
--- natruipin 
-identidad5 :: Num a => Int -> Matriz a
-identidad5 n = listArray ((1,1),(n,n)) (concat (replicate (n*n) ps))
-  where ps = 1 : replicate n 0
+identidad n =     
+    array ((1,1),(n,n))
+          [((i,j),f i j) | i <- [1..n], j <- [1..n]]
+    where f i j | i == j    = 1
+                | otherwise = 0
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 15. Definir la función
@@ -471,47 +288,10 @@ identidad5 n = listArray ((1,1),(n,n)) (concat (replicate (n*n) ps))
 q :: Matriz Int
 q = listArray ((1,1),(2,2)) [1,1,1,0] 
 
--- juaorture antmorper3 josdeher natruipin monlagare marjimcom beagongon1
--- marlobrip josrodgal7 antlopgom2 pabrabmon joscasgom1 luimotmar
--- cargonler antdursan felsuacor fatfervaz manruiber margirmon margarflo5
--- congomgom antbeacar
 potencia :: Num a => Matriz a -> Int -> Matriz a
-potencia p 0 = identidad (numFilas p)
+potencia p 0 = identidad n
+    where (_,(n,_)) = bounds p
 potencia p n = prodMatrices p (potencia p (n-1))
-
--- enrnarbej
-potencia2 :: Num a => Matriz a -> Int -> Matriz a
-potencia2 ms n =
-  foldl prodMatrices (identidad (numFilas ms)) (replicate n ms)
-
--- El primer valor de la n-ésima potencia de q coincide con el n-ésimo
--- término de la sucesión de Fibonacci: 
-fibs = 1:1:zipWith (+) fibs (tail fibs)
-
-prop_fibs n = n >= 0 ==> potencia q n ! (1,1) == fibs!!n
-
--- λ> quickCheck prop_fibs
--- +++ OK, passed 100 tests.
-
--- albcercid roscargar paumacpar juacasnie 
-potencia3 :: Num a => Matriz a -> Int -> Matriz a
-potencia3 p 0 = identidad (numFilas p)
-potencia3 p n = aux p p (n-1)
-  where aux p _ 0 = p
-        aux p q n = aux (prodMatrices p q) q (n-1)
-
--- eliguivil
-potencia4 :: Num a => Matriz a -> Int -> Matriz a
-potencia4 p n = aux p (identidad (numColumnas p)) n
-  where aux p q 0 = q
-        aux p q n = aux p (p `prodMatrices` q) (n-1)
-
--- cescarde
-potencia5 :: Num a => Matriz a -> Int -> Matriz a
-potencia5 p 1 = p
-potencia5 p n = prodMatrices (potencia p (n-1)) p
-
--- Comentario: Falta el caso de exponente 0.
 
 -- ---------------------------------------------------------------------
 -- Traspuestas                                                        --
@@ -530,32 +310,15 @@ potencia5 p n = prodMatrices (potencia p (n-1)) p
 --    [[5,3],[1,2],[0,6]]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej fraferpoy roscargar paumacpar antmorper3 eliguivil 
--- juacasnie cescarde natruipin monlagare  marjimcom margarvil14 beagongon1
--- marlobrip josrodgal7 antlopgom2 eledejim2 pabrabmon joscasgom1
--- luimotmar cargonler felsuacor fatfervaz belbenzam manruiber margirmon
--- congomgom antbeacar
-
 traspuesta :: Num a => Matriz a -> Matriz a
-traspuesta p =
-  listArray ((1,1),(n,m)) [ p!(i,j) | j <- [1..n], i <- [1..m]]
-  where (m,n) = dimension p
+traspuesta p = 
+    array ((1,1),(n,m))
+          [((i,j), p!(j,i)) | i <- [1..n], j <- [1..m]]
+    where (m,n) = dimension p
 
--- juaorture josdeher
-traspuesta2 :: Num a => Matriz a -> Matriz a
-traspuesta2 p = array ((1,1),(n,m)) [((j,i),x) | j <- [1..n]
-                                               , i <- [1..m]
-                                               , let x = p!(i,j)]
-  where n = numColumnas p
-        m = numFilas p
-
--- Comentario: La definición traspuesta2 se puede simplificar.
-
--- antdursan margarflo5
-traspuesta3 :: Num a => Matriz a -> Matriz a
-traspuesta3 p =
-  array ((1,1),(n,m)) [((i,j),p!(j,i)) | i <- [1..n], j <- [1..m]]
-  where (m,n) = dimension p
+-- ---------------------------------------------------------------------
+-- Submatriz                                                          --
+-- ---------------------------------------------------------------------
 
 -- ---------------------------------------------------------------------
 -- Tipos de matrices                                                  --
@@ -574,22 +337,8 @@ traspuesta3 p =
 --    True
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej fraferpoy roscargar paumacpar antmorper3
--- juacasnie marjimcom monlagare beagongon1 josrodgal7 antlopgom2 cargonler
--- pabrabmon joscasgom1 luimotmar manruiber margirmon margarflo5 antbeacar
 esCuadrada :: Num a => Matriz a -> Bool
-esCuadrada x = m == n
-  where (m,n) = dimension x
-
--- juaorture natruipin marlobrip
-esCuadrada2 :: Num a => Matriz a -> Bool
-esCuadrada2 x = fst y == snd y
-  where y = snd $ bounds x
-
--- eliguivil josdeher cescarde margarvil14 eledejim2 antdursan felsuacor
--- fatfervaz belbenzam congomgom
-esCuadrada3 :: Num a => Matriz a -> Bool
-esCuadrada3 x = numFilas x == numColumnas x
+esCuadrada x = numFilas x == numColumnas x
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función
@@ -604,22 +353,8 @@ esCuadrada3 x = numFilas x == numColumnas x
 --    False
 -- ---------------------------------------------------------------------    
 
--- albcercid enrnarbej fraferpoy roscargar paumacpar antmorper3 eliguivil
--- juacasnie josdeher cescarde natruipin marjimcom margarvil14 monlagare
--- marjimcom beagongon1 marlobrip josrodgal7 antlopgom2 eledejim2 pabrabmon
--- joscasgom1 luimotmar cargonler antdursan felsuacor fatfervaz
--- manruiber belbenzam margirmon margarflo5 congomgom antbeacar
 esSimetrica :: (Num a, Eq a) => Matriz a -> Bool
 esSimetrica x = x == traspuesta x
-
--- juaorture cescarde
-esSimetrica2 :: (Num a, Eq a) => Matriz a -> Bool
-esSimetrica2 x = and [x!(i,j) == x!(j,i) | i <- [1..n]
-                                         , j <- [1..m]]
-  where n = numFilas x
-        m = numColumnas x
-
--- Comentario: La definición esSimetrica2 se puede simplificar.
 
 -- ---------------------------------------------------------------------
 -- Diagonales de una matriz                                           --
@@ -637,18 +372,9 @@ esSimetrica2 x = and [x!(i,j) == x!(j,i) | i <- [1..n]
 --    [5,2]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar paumacpar antmorper3 eliguivil
--- natruipin monlagare marjimcom beagongon1 marlobrip josrodgal7
--- antlopgom2 pabrabmon joscasgom1 cargonler antdursan fatfervaz
--- manruiber belbenzam margirmon margarflo5 congomgom antbeacar
 diagonalPral :: Num a => Matriz a -> Vector a
-diagonalPral p = listArray (1,n) [p!(i,i) | i <- [1..n]]
-  where n = min (numFilas p) (numColumnas p)
-
--- juaorture juacasnie josdeher cescarde margarvil14 felsuacor
-diagonalPral2 :: Num a => Matriz a -> Vector a
-diagonalPral2 p = array (1,x) [(i,p!(i,i)) | i <- [1..x]]
-  where x = min (numFilas p) (numColumnas p)
+diagonalPral p = array (1,n) [(i,p!(i,i)) | i <- [1..n]]
+    where n = min (numFilas p) (numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 20. Definir la función
@@ -667,22 +393,9 @@ diagonalPral2 p = array (1,x) [(i,p!(i,i)) | i <- [1..x]]
 --    [3,1]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar antmorper3 eliguivil natruipin margarvil14
--- marjimcom beagongon1 josrodgal7 antlopgom2 pabrabmon joscasgom1
--- cargonler antdursan felsuacor manruiber belbenzam margirmon margarflo5
--- antbeacar congomgom fatfervaz
 diagonalSec :: Num a => Matriz a -> Vector a
-diagonalSec p =  listArray (1,t) [p!(i,t+1-i) | i <- [1..t]]
-  where t     = min m n
-        (m,n) = dimension p
-
--- juaorture paumacpar juacasnie josdeher cescarde
-diagonalSec2 :: Num a => Matriz a -> Vector a
-diagonalSec2 p = array (1,x) [(i, p!(i,j)) | i <- [1..x]
-                                           , let j = x - i + 1]
-  where x = min (numFilas p) (numColumnas p)
-
--- Comentario: La definición diagonalSec2 se puede simplificar.
+diagonalSec p = array (1,n) [(i,p!(i,n+1-i)) | i <- [1..n]]
+    where n = min (numFilas p) (numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Submatrices                                                        --
@@ -700,42 +413,15 @@ diagonalSec2 p = array (1,x) [(i, p!(i,j)) | i <- [1..x]
 --    [[5,1],[4,6]]
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar juaorture antmorper3 cescarde paumacpar 
--- marjimcom beagongon1 marlobrip josrodgal7 antlopgom2 pabrabmon
--- joscasgom1 cargonler antdursan manruiber belbenzam margirmon margarflo5
--- antbeacar congomgom fatfervaz
 submatriz :: Num a => Int -> Int -> Matriz a -> Matriz a
-submatriz i j p =
-  listArray ((1,1),(m-1,n-1)) [ p!(a,b) | a <- [1..m],
-                                          b <- [1..n],
-                                          a /= i,
-                                          b /= j]
-  where (m,n) = dimension p
-
--- eliguivil
-submatriz2 :: Num a => Int -> Int -> Matriz a -> Matriz a
-submatriz2 i j p = (elimCol j.elimFil i) p
-  where
-    elimFil k p = listArray ((1,1),(numFilas p -1,numColumnas p))
-                  (map snd $ filter (\((i,j),n) -> i /= k) (assocs p))
-    elimCol k p = listArray ((1,1),(numFilas p   ,numColumnas p -1))
-                  (map snd $ filter (\((i,j),n) -> j /= k) (assocs p))
-
--- juacasnie natruipin
-submatriz3 :: Num a => Int -> Int -> Matriz a -> Matriz a
-submatriz3 i j p = listArray ((1,1),(m-1,n-1)) 
-                   [p ! (k,l) | k <- [1..m]\\[i], l <- [1..n]\\[j]]
-  where m = numFilas p
-        n = numColumnas p
-
--- josdeher
-submatriz4 :: Num a => Int -> Int -> Matriz a -> Matriz a
-submatriz4 a b p =
-  array ((1,1),(m,n)) 
-        [((i,j), p! (if i < a then i else i+1, if j < b then j else j+1)) 
-        | i <- [1..m], j <- [1..n]]
-  where m = numFilas p - 1
-        n = numColumnas p - 1
+submatriz i j p = 
+    array ((1,1), (m-1,n -1))
+          [((k,l), p ! f k l) | k <- [1..m-1], l <- [1.. n-1]]
+    where (m,n) = dimension p
+          f k l | k < i  && l < j  = (k,l)
+                | k >= i && l < j  = (k+1,l)
+                | k < i  && l >= j = (k,l+1)
+                | otherwise        = (k+1,l+1)
 
 -- ---------------------------------------------------------------------
 -- Determinante                                                       --
@@ -754,32 +440,10 @@ submatriz4 a b p =
 --    -33.0
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej roscargar juaorture antmorper3 juacasnie josdeher
--- cescarde paumacpar marjimcom beagongon1 josrodgal7 antlopgom2
--- pabrabmon cargonler manruiber margirmon margarflo5 antbeacar congomgom
--- fatfervaz
-determinante :: Matriz Double -> Double
-determinante p
-  | n == 1    = head $ elems p
-  | otherwise = sum [(-1)^(i+1) * p!(i,1) * f i 1 p | i <- [1..n]]
-  where n       = numFilas p
-        f i j p = determinante $ submatriz i j p
-
--- eliguivil
-determinante2 :: Matriz Double -> Double
-determinante2 p
-  | esCuadrada p = det p
-  | otherwise    = error "Aún no me han enseñado a hacer determinantes de matrices no cuadradas"
-  where
-  det p 
-    | dimension p == (1,1) = head $ elems p
-    | otherwise = sum [p!(i,1) * det (submatriz i 1 p) * (-1.0)^(i+1) |
-                       i <- [1..numColumnas p]]
-
--- antdursan
-determinante3 :: Matriz Double -> Double
-determinante3 p
-  | n == 1 = head (elems p)
-  | otherwise = sum [(-1)^(j+1)*p!(1,j) * determinante3 (submatriz 1 j p)
-                    | j <- [1..n]]
-  where n = numColumnas p
+determinante:: Matriz Double -> Double
+determinante p 
+    | (m,n) == (1,1) = p!(1,1)
+    | otherwise = 
+        sum [((-1)^(i+1))*(p!(i,1))*determinante (submatriz i 1 p)
+             | i <- [1..m]]
+    where (_,(m,n)) = bounds p

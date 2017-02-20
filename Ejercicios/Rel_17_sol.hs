@@ -13,7 +13,7 @@
 -- Data.Vector y Data.Matrix. 
 --
 -- El manual, con ejemplos, de la librería de vectores de encuentra en
--- http://bit.ly/17Oq893 y el de matrices en http://bit.ly/17Oq9K5
+-- http://bit.ly/1PNZ6Br y el de matrices en http://bit.ly/1PNZ9ND
 --
 -- Para instalar las librerías basta escribir en la consola
 --    cabal update
@@ -49,13 +49,8 @@ import Data.Maybe
 --    fromList [3,2,5]
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 marmerzaf eliguivil antlopgom2
--- joscasgom1 juaorture roscargar natmarmar2 alvfercen congomgom belbenzam
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy beagongon1 cargonler margarvil14
 listaVector :: Num a => [a] -> V.Vector a
-listaVector = V.fromList
+listaVector = V.fromList 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 2. Definir la función
@@ -67,11 +62,6 @@ listaVector = V.fromList
 --    ( 2 4 7 )
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 marmerzaf eliguivil antlopgom2
--- joscasgom1 juaorture roscargar natmarmar2 alvfercen congomgom belbenzam
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy beagongon1 cargonler margarvil14
 listaMatriz :: Num a => [[a]] -> Matrix a
 listaMatriz = fromLists
 
@@ -83,11 +73,6 @@ listaMatriz = fromLists
 --    numFilas (listaMatriz [[1,3,5],[2,4,7]])  ==  2
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 marmerzaf eliguivil antlopgom2
--- joscasgom1 juaorture roscargar natmarmar2 alvfercen congomgom belbenzam
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy beagongon1 cargonler margarvil14
 numFilas :: Num a => Matrix a -> Int
 numFilas = nrows
 
@@ -99,12 +84,7 @@ numFilas = nrows
 --    numColumnas (listaMatriz [[1,3,5],[2,4,7]])  ==  3
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 marmerzaf eliguivil antlopgom2
--- joscasgom1 juaorture roscargar natmarmar2 alvfercen congomgom belbenzam
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy margarvil14 beagongon1 cargonler
-numColumnas :: Num a => Matrix a -> Int
+numColumnas:: Num a => Matrix a -> Int
 numColumnas = ncols
 
 -- ---------------------------------------------------------------------
@@ -114,17 +94,8 @@ numColumnas = ncols
 --    dimension (listaMatriz [[1,3,5],[2,4,7]])  ==  (2,3)
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 antlopgom2 joscasgom1 roscargar
--- congomgom fatfervaz ignareeva felsuacor margarflo5 manruiber
--- antbeacar fraferpoy beagongon1 cargonler
 dimension :: Num a => Matrix a -> (Int,Int)
-dimension p = (numFilas p, numColumnas p)
-
--- marmerzaf juaorture natmarmar2 alvfercen belbenzam josdeher
--- margarvil14 
-dimension2 :: Num a => Matrix a -> (Int,Int)
-dimension2 p = (nrows p, ncols p)
+dimension p = (nrows p, ncols p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 7. Definir la función
@@ -139,17 +110,8 @@ dimension2 p = (nrows p, ncols p)
 --    [[5,1,0],[3,2,6]]
 -- ---------------------------------------------------------------------
 
--- cescarde monlagare antmorper3 eliguivil juaorture natmarmar2 alvfercen
--- marmerzaf fatfervaz ignareeva josdeher margarflo5 manruiber
--- beagongon1 cargonler 
 matrizLista :: Num a => Matrix a -> [[a]]
 matrizLista = toLists
-
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- pabrabmon antlopgom2 joscasgom1 roscargar congomgom belbenzam
--- felsuacor fraferpoy antbeacar margarvil14
-matrizLista1 :: Num a => Matrix a -> [[a]]
-matrizLista1 p = toLists p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 8. Definir la función
@@ -163,11 +125,6 @@ matrizLista1 p = toLists p
 --    [3,2,5]
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 glovizcas enrnarbej
--- cescarde monlagare pabrabmon antmorper3 eliguivil antlopgom2 joscasgom1 
--- juaorture roscargar natmarmar2 alvfercen marmerzaf congomgom belbenzam
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy beagongon1 cargonler margarvil14
 vectorLista :: Num a => V.Vector a -> [a]
 vectorLista = V.toList
 
@@ -187,16 +144,8 @@ vectorLista = V.toList
 --    ( 4 7 8 )
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 enrnarbej 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil roscargar
--- antlopgom2 joscasgom1 juaorture natmarmar2 alvfercen marmerzaf congomgom
--- fatfervaz ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- fraferpoy 
--- beagongon1 cargonler margarvil14
 sumaMatrices :: Num a => Matrix a -> Matrix a -> Matrix a
-sumaMatrices p q = p + q
-
--- Comentario: La definición sumaMatrices se puede simplificar.
+sumaMatrices = (+)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. Definir la función
@@ -210,23 +159,8 @@ sumaMatrices p q = p + q
 --    [3,2,6]
 -- ---------------------------------------------------------------------
 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil
--- joscasgom1 juaorture natmarmar2 alvfercen marmerzaf fatfervaz
--- ignareeva felsuacor josdeher margarflo5 manruiber antbeacar 
--- beagongon1 cargonler margarvil14
 filaMat :: Num a => Int -> Matrix a -> V.Vector a
 filaMat = getRow
-
--- albcercid 
-filaMat2 :: Num a => Int -> Matrix a -> V.Vector a
-filaMat2 i p = listaVector (toLists p !! (i-1))
-
--- marjimcom marlobrip paumacpar eledejim2 enrnarbej antlopgom2 roscargar
--- congomgom fraferpoy
-filaMat3 :: Num a => Int -> Matrix a -> V.Vector a
-filaMat3 i p = getRow i p
-
--- Comentario de enrnarbej: se puede simplificar
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Definir la función
@@ -240,23 +174,8 @@ filaMat3 i p = getRow i p
 --    [1,2,5]
 -- ---------------------------------------------------------------------
 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil
--- jocasgom1 juaorture natmarmar2 alvfercen marmerzaf fatfervaz
--- ignareeva felsuacor josdeher margarflo5 manruiber antbeacar
--- beagongon1 cargonler margarvil14
 columnaMat :: Num a => Int -> Matrix a -> V.Vector a
 columnaMat = getCol
-
--- albcercid
-columnaMat2 :: Num a => Int -> Matrix a -> V.Vector a
-columnaMat2 j p = listaVector (map (!!(j-1)) (toLists p))
-
--- marjimcom marlobrip paumacpar eledejim2 enrnarbej antlopgom2 roscargar
--- congomgom fraferpoy
-columnaMat23 :: Num a => Int -> Matrix a -> V.Vector a
-columnaMat23 j p = getCol j p
-
--- Comentario de enrnarbej: Se puede simplificar
 
 -- ---------------------------------------------------------------------
 -- Producto de matrices                                               --
@@ -272,29 +191,8 @@ columnaMat23 j p = getCol j p
 --    110
 -- ---------------------------------------------------------------------
 
--- paumacpar eledejim2 glovizcas antmorper3 joscasgom1 alvfercen congomgom
--- felsuacor marlobrip marmerzaf  josdeher margarflo5 manruiber
--- antbeacar cargonler margarvil14 
 prodEscalar :: Num a => V.Vector a -> V.Vector a -> a
-prodEscalar v1 v2 = sum (V.zipWith (*) v1 v2)
-
--- albcercid marjimcom cescarde monlagare pabrabmon eliguivil antlopgom2 
--- roscargar natmarmar2 ignareeva fatfervaz fraferpoy beagongon1
-
-prodEscalar3 :: Num a => V.Vector a -> V.Vector a -> a
-prodEscalar3 v1 v2 = sum $ zipWith (*) (vectorLista v1) (vectorLista v2)
-
--- enrnarbej
-prodEscalar4 :: Num a => V.Vector a -> V.Vector a -> a
-prodEscalar4 v1 v2 = (head.head.toLists) (rowVector v1 * colVector v2)
-
--- juaorture
-prodEscalar5 :: Num a => V.Vector a -> V.Vector a -> a
-prodEscalar5 v1 v2 =
-  head $ head $ toLists $
-  fromLists [V.toList v1] * transpose (fromLists [V.toList v2])
-
--- juaorture : Comentario, se puede simplificar a la definición 4.
+prodEscalar v1 v2 = V.sum (V.zipWith (*) v1 v2) 
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 13. Definir la función
@@ -311,19 +209,8 @@ prodEscalar5 v1 v2 =
 --    ( 34 )
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 enrnarbej monlagare
--- glovizcas pabrabmon antmorper3 eliguivil antlopgom2 joscasgom1 juaorture 
--- roscargar natmarmar2 alvfercen marmerzaf congomgom fatfervaz felsuacor
--- margarflo5 manruiber antbeacar fraferpoy beagongon1 cargonler
--- margarvil14 
-prodMatrices :: Num a => Matrix a -> Matrix a -> Matrix a
-prodMatrices p q = p*q
-
--- Comentario: La definición prodMatrices se puede simplificar.
-
--- cescarde josdeher
-prodMatrices2 :: Num a => Matrix a -> Matrix a -> Matrix a
-prodMatrices2 = multStd
+prodMatrices:: Num a => Matrix a -> Matrix a -> Matrix a
+prodMatrices = (*)
 
 -- ---------------------------------------------------------------------
 -- Traspuestas y simétricas                                           --
@@ -340,11 +227,6 @@ prodMatrices2 = multStd
 --    ( 0 6 )
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 enrnarbej 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil
--- antlopgom2 joscasgom1 juaorture roscargar natmarmar2 alvfercen
--- marmerzaf congomgom fatfervaz felsuacor josdeher margarflo5 manruiber  
--- antbeacar fraferpoy beagongon1 cargonler margarvil14
 traspuesta :: Num a => Matrix a -> Matrix a
 traspuesta = transpose
 
@@ -361,21 +243,8 @@ traspuesta = transpose
 --    True
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom enrnarbej cescarde antlopgom2 joscasgom1
--- juaorture roscargar fatfervaz margarflo5 manruiber antbeacar fraferpoy
--- beagongon1 cargonler
 esCuadrada :: Num a => Matrix a -> Bool
-esCuadrada p = n == m
-  where (n,m) = dimension p
-
--- marlobrip paumacpar eledejim2 monlagare glovizcas pabrabmon antmorper3 
--- eliguivil congomgom felsuacor
-esCuadrada2 :: Num a => Matrix a -> Bool
-esCuadrada2 p = numColumnas p == numFilas p
-
--- natmarmar2 alvfercen marmerzaf josdeher margarvil14
-esCuadrada3 :: Num a => Matrix a -> Bool
-esCuadrada3 p = nrows p == ncols p
+esCuadrada p = nrows p == ncols p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 16. Definir la función
@@ -390,13 +259,8 @@ esCuadrada3 p = nrows p == ncols p
 --    False
 -- ---------------------------------------------------------------------    
 
--- albcercid marjimcom marlobrip paumacpar eledejim2 enrnarbej  roscargar
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil
--- antlopgom2 joscasgom1 juaorture natmarmar2 alvfercen marmerzaf fatfervaz
--- congomgom felsuacor josdeher margarflo5 manruiber antbeacar fraferpoy
--- beagongon1 cargonler margarvil14
 esSimetrica :: (Num a, Eq a) => Matrix a -> Bool
-esSimetrica x = traspuesta x == x
+esSimetrica x = x == transpose x
 
 -- ---------------------------------------------------------------------
 -- Diagonales de una matriz                                           --
@@ -412,17 +276,8 @@ esSimetrica x = traspuesta x == x
 --    fromList [5,2]
 -- ---------------------------------------------------------------------
 
--- paumacpar eledejim2 enrnarbej cescarde monlagare glovizcas pabrabmon
--- antmorper3 marlobrip eliguivil joscasgom1 juaorture natmarmar2 alvfercen
--- marmerzaf fatfervaz congomgom felsuacor josdeher margarflo5 manruiber
--- antbeacar fraferpoy beagongon1 antlopgom2 cargonler margarvil14
 diagonalPral :: Num a => Matrix a -> V.Vector a
 diagonalPral = getDiag
-
--- albcercid marjimcom roscargar
-diagonalPral2 :: Num a => Matrix a -> V.Vector a
-diagonalPral2 p = listaVector [ p!(i,i) | i <- [1..n] ]
-  where n = min (numFilas p) (numColumnas p)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 18. Definir la función
@@ -439,36 +294,9 @@ diagonalPral2 p = listaVector [ p!(i,i) | i <- [1..n] ]
 --    fromList [1,2]
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom monlagare pabrabmon eliguivil joscasgom1 roscargar
--- congomgom josdeher cescarde antlopgom2 cargonler
 diagonalSec :: Num a => Matrix a -> V.Vector a
-diagonalSec p =  listaVector [p!(i,t+1-i) | i <- [1..t]]
-  where t     = min m n
-        (m,n) = dimension p
-
--- paumacpar eledejim2 enrnarbej antmorper3 natmarmar2 fatfervaz
--- margarflo5 manruiber antbeacar beagongon1
-diagonalSec2 :: Num a => Matrix a -> V.Vector a
-diagonalSec2 p = diagonalPral (switchCols 1 m p)
-  where m = min (numFilas p) (numColumnas p)
-
--- Comentario de Josdeher: Las funciones diagonalSec y diagonalSec2 no
--- son equivalentes 
---    let p = listaMatriz [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
---    diagonalSec p  =   fromList [3,6,9,12]
---    diagonalSec2 p =   fromList [3,5,10,12]
---
---    λ> let p = listaMatriz [[0,1,2,3],[4,5,6,7],[8,9,10,11],[12,13,14,15]]
---    λ> p
---    (  0  1  2  3 )
---    (  4  5  6  7 )
---    (  8  9 10 11 )
---    ( 12 13 14 15 )
---    
---    λ> diagonalSec p
---    [3,6,9,12]
---    λ> diagonalSec2 p
---    [3,5,10,12]
+diagonalSec p = V.fromList [p!(i,n+1-i) | i <- [1..n]]
+    where n = min (nrows p) (ncols p)
 
 -- ---------------------------------------------------------------------
 -- Submatrices                                                        --
@@ -485,11 +313,6 @@ diagonalSec2 p = diagonalPral (switchCols 1 m p)
 --    ( 4 6 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom paumacpar eledejim2 enrnarbej 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil roscargar
--- joscasgom1 juaorture natmarmar2 alvfercen marmerzaf fatfervaz congomgom
--- josdeher margarflo5 manruiber antbeacar fraferpoy beagongon1
--- antlopgom2 cargonler margarvil14 
 submatriz :: Num a => Int -> Int -> Matrix a -> Matrix a
 submatriz = minorMatrix
 
@@ -509,11 +332,6 @@ submatriz = minorMatrix
 --    ( 5 1 0 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom paumacpar eledejim2 enrnarbej 
--- cescarde monlagare glovizcas pabrabmon antmorper3 eliguivil
--- joscasgom1 juaorture roscargar natmarmar2 alvfercen marmerzaf fatfervaz
--- congomgom josdeher margarflo5 manruiber antbeacar fraferpoy
--- beagongon1 antlopgom2 cargonler margarvil14
 intercambiaFilas :: Num a => Int -> Int -> Matrix a -> Matrix a
 intercambiaFilas = switchRows
 
@@ -529,11 +347,6 @@ intercambiaFilas = switchRows
 --    ( 9 6 4 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom eledejim2 enrnarbej cescarde monlagare
--- glovizcas pabrabmon antmorper3 eliguivil joscasgom1 juaorture roscargar
--- paumacpar natmarmar2 alvfercen marmerzaf fatfervaz congomgom josdeher
--- margarflo5 manruiber antbeacar fraferpoy beagongon1 antlopgom2
--- cargonler margarvil14 
 intercambiaColumnas :: Num a => Int -> Int -> Matrix a -> Matrix a
 intercambiaColumnas = switchCols
 
@@ -549,10 +362,6 @@ intercambiaColumnas = switchCols
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom eledejim2 enrnarbej cescarde monnlagare
--- glovizcas pabrabmon antmorper3 eliguivil joscasgom1 juaorture roscargar
--- paumacpar natmarmar2 alvfercen marmerzaf fatfervaz congomgom josdeher
--- margarflo5 manruiber antbeacar beagongon1 antlopgom2 cargonler margarvil14
 multFilaPor :: Num a => Int -> a -> Matrix a -> Matrix a
 multFilaPor k x p = scaleRow x k p
 
@@ -560,7 +369,7 @@ multFilaPor k x p = scaleRow x k p
 -- Ejercicio 23. Definir la función
 --    sumaFilaFila :: Num a => Int -> Int -> Matrix a -> Matrix a
 -- tal que (sumaFilaFila k l p) es la matriz obtenida sumando la fila l
--- a la fila k d la matriz p. Por ejemplo,
+-- a la fila k de la matriz p. Por ejemplo,
 --    ghci> let p = listaMatriz [[5,1,0],[3,2,6],[4,6,9]]
 --    ghci> sumaFilaFila 2 3 p
 --    (  5  1  0 )
@@ -568,10 +377,6 @@ multFilaPor k x p = scaleRow x k p
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom eledejim2 enrnarbej cescarde monlagare
--- glovizcas pabrabmon antmorper3 eliguivil joscasgom1 juaorture roscargar
--- paumacpar marmerzaf fatfervaz congomgom josdeher margarflo5 manruiber
--- antbeacar beagongon1 antlopgom2 cargonler margarvil14
 sumaFilaFila :: Num a => Int -> Int -> Matrix a -> Matrix a
 sumaFilaFila k l p = combineRows k 1 l p
 
@@ -587,10 +392,6 @@ sumaFilaFila k l p = combineRows k 1 l p
 --    (  4  6  9 )
 -- ---------------------------------------------------------------------
 
--- albcercid marlobrip marjimcom eledejim2 enrnarbej cescarde monlagare
--- roscargar glovizcas pabrabmon antmorper3 eliguivil joscasgom1
--- juaorture paumacpar marmerzaf fatfervaz congomgom josdeher margarflo5
--- manruiber antbeacar beagongon1 antlopgom2 cargonler margarvil14
 sumaFilaPor :: Num a => Int -> Int -> a -> Matrix a -> Matrix a
 sumaFilaPor k l x p = combineRows k x l p
 
@@ -613,28 +414,17 @@ sumaFilaPor k l x p = combineRows k x l p
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom cescarde monlagare antmorper3 joscasgom1
--- marlobrip roscargar paumacpar marmerzaf josdeher congomgom
--- margarflo5 manruiber antbeacar beagongon1 antlopgom2 cargonler
--- margarvil14 
+-- 1ª definición
 buscaIndiceDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
-buscaIndiceDesde p j i
-  | null t    = Nothing
-  | otherwise = Just (head t)
-  where t = [ k | k <- [i..numFilas p], p!(k,j) /= 0]
+buscaIndiceDesde p j i 
+    | null xs   = Nothing
+    | otherwise = Just (head xs)
+    where xs = [k | k <- [i..nrows p], p!(k,j) /= 0]
 
--- enrnarbej pabrabmon glovizcas
+-- 2ª definición (con listToMaybe http://bit.ly/212iSgl)
 buscaIndiceDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
 buscaIndiceDesde2 p j i =
-  (V.find (i<=) . fmap (+1) . V.findIndices (/=0) . getCol j) p
-
--- eliguivil
-buscaIndiceDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe Int
-buscaIndiceDesde3 p j i
-  | null t    = Nothing
-  | otherwise = Just (fromJust t + i)
-  where
-    t = V.findIndex (/=0) (V.drop (i-1) (getCol j p))
+    listToMaybe [k | k <- [i..nrows p], p!(k,j) /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 26. Definir la función
@@ -649,34 +439,18 @@ buscaIndiceDesde3 p j i
 --    ghci> buscaPivoteDesde q 3 2
 --    Nothing
 -- ---------------------------------------------------------------------
-  
--- albcercid marjimcom cescarde monlagare antmorper3 joscasgom1 roscargar
--- paumacpar marmerzaf josdeher congomgom margarflo5 manruiber antbeacar
--- antlopgom2 cargonler
+
+-- 1ª definición
 buscaPivoteDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
-buscaPivoteDesde p j i
-  | null t    = Nothing
-  | otherwise = Just (head t)
-  where t = [ p!(k,j) | k <- [i..numFilas p], p!(k,j) /= 0]
+buscaPivoteDesde p j i 
+    | null xs   = Nothing
+    | otherwise = Just (head xs)
+    where xs = [y | k <- [i..nrows p], let y = p!(k,j), y /= 0]
 
--- enrnarbej pabrabmon glovizcas
+-- 2ª definición (con listToMaybe http://bit.ly/212iSgl)
 buscaPivoteDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
-buscaPivoteDesde2 p j i = (\k -> p!(k,j)) <$> buscaIndiceDesde2 p j i
-
--- eliguivil margarvil14
-buscaPivoteDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
-buscaPivoteDesde3 p j i
-  | null k = Nothing
-  | otherwise = Just (getElem (fromJust k) j p)
-  where
-    k = buscaIndiceDesde p j i
-
--- marlobrip
-buscaPivoteDesde4 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Maybe a
-buscaPivoteDesde4 p j i
-  | null w    = Nothing
-  | otherwise = Just (p! (minimum w,j))
-  where w = [k | k <- [i..numFilas p], p ! (k,j) /=0]   
+buscaPivoteDesde2 p j i = 
+    listToMaybe [y | k <- [i..nrows p], let y = p!(k,j), y /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 27. Definir la función
@@ -693,31 +467,9 @@ buscaPivoteDesde4 p j i
 --    False
 -- ---------------------------------------------------------------------
 
--- albcercid cescarde monlagare glovizcas eliguivil joscasgom1 roscargar
--- paumacpar  marmerzaf josdeher congomgom manruiber antbeacar cargonler
 anuladaColumnaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde p j i = Nothing == buscaIndiceDesde p j (i+1)
-
--- enrnarbej pabrabmon antmorper3
-anuladaColumnaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde2 p j i = (all (==0) . V.drop i . getCol j) p
-
--- marjimcom margarflo5
-anuladaColumnaDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde3 p j i = and [p!(t,j) == 0 | t <- [i+1..m]]
- where m = nrows p
-
--- marlobrip
-anuladaColumnaDesde4 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde4 p j i
-  | null w   = True
-  | otherwise = False
-  where w = [p! (x,j) | x <- [i+1..numFilas p],  (p! (x,j))/= 0]
-
--- antlopgom2
-anuladaColumnaDesde5 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-anuladaColumnaDesde5 p j i =
-  all (==0) [p!(a,j) | a <- [i+1..numFilas p]] 
+anuladaColumnaDesde p j i = 
+    buscaIndiceDesde p j (i+1) == Nothing
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 28. Definir la función
@@ -731,28 +483,12 @@ anuladaColumnaDesde5 p j i =
 --    [[2.0,3.0,1.0],[5.0,0.0,5.0],[4.0,0.0,7.0]]
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom joscasgom1 roscargar marmerzaf
 anulaEltoColumnaDesde :: (Fractional a, Eq a) => 
                          Matrix a -> Int -> Int -> Matrix a
-anulaEltoColumnaDesde p j i
-  | q == Nothing = p
-  | otherwise = sumaFilaPor t i x p
-  where t = unJust q
-        x = -(p!(t,j))/(p!(i,j))
-        unJust (Just a) = a
-        q = buscaIndiceDesde p j (i+1)
-
--- enrnarbej cescarde pabrabmon glovizcas antmorper3 paumacpar josdeher
--- congomgom margarflo5 manruiber cargonler antlopgom2
-anulaEltoColumnaDesde2 :: (Fractional a, Eq a) => 
-                         Matrix a -> Int -> Int -> Matrix a
-anulaEltoColumnaDesde2 p j i
-  | anuladaColumnaDesde p j i = p
-  | otherwise = combineRows a x i p
-  where
-    Just a = buscaIndiceDesde p j (i+1)
-    Just b = buscaPivoteDesde p j (i+1)
-    x = (-1)*b/(p!(i,j))
+anulaEltoColumnaDesde p j i = 
+    sumaFilaPor l i (-(p!(l,j)/a)) p
+    where Just l = buscaIndiceDesde p j (i+1)
+          a      = p!(i,j)
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 29. Definir la función
@@ -770,23 +506,11 @@ anulaEltoColumnaDesde2 p j i
 --    [[4 % 1,5 % 1],[0 % 1,1 % 1],[0 % 1,5 % 2]]
 -- ---------------------------------------------------------------------
 
--- albcercid marjimcom cescarde pabrabmon glovizcas antmorper3 eliguivil
--- roscargar josdeher congomgom margarflo5 manruiber cargonler antlopgom2
 anulaColumnaDesde :: (Fractional a, Eq a) => 
                      Matrix a -> Int -> Int -> Matrix a
 anulaColumnaDesde p j i
-  | q == Nothing = p
-  | otherwise    = anulaColumnaDesde x j i
-  where x = anulaEltoColumnaDesde p j i
-        q = buscaIndiceDesde p j (i+1)
-
--- enrnarbej paumacpar
-anulaColumnaDesde2 :: (Fractional a, Eq a) => 
-                     Matrix a -> Int -> Int -> Matrix a
-anulaColumnaDesde2 p j i =
-  until (\k -> anuladaColumnaDesde k j i)
-        (\k -> anulaEltoColumnaDesde k j i)
-        p
+    | anuladaColumnaDesde p j i = p
+    | otherwise = anulaColumnaDesde (anulaEltoColumnaDesde p j i) j i 
 
 -- ---------------------------------------------------------------------
 -- Algoritmo de Gauss para triangularizar matrices                    --
@@ -803,27 +527,9 @@ anulaColumnaDesde2 p j i =
 --    [5]
 -- ---------------------------------------------------------------------
 
--- albcercid cescarde monlagare marjimcom pabrabmon glovizcas antmorper3
--- eliguivil roscargar paumacpar josdeher congomgom manruiber cargonler
 elementosNoNulosColDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
-elementosNoNulosColDesde p j i =
-  vectorLista $ V.filter (/=0) (V.drop (i-1) (columnaMat j p))
-
--- enrnarbej
-elementosNoNulosColDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
-elementosNoNulosColDesde2 p j i =
-   ( V.toList 
-   . fmap (\k -> cv V.! (k-1))
-   . V.dropWhile (<i)
-   . fmap (+1)
-   . V.findIndices (/=0))
-   cv
-  where cv = getCol j p
-
--- antlopgom2
-elementosNoNulosColDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> [a]
-elementosNoNulosColDesde3 p j i =
-  [p!(a,j) | a <- [i..numFilas p], p!(a,j) /= 0]
+elementosNoNulosColDesde p j i = 
+    [y | k <- [i..nrows p], let y = p!(k,j), y /= 0]
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 31. Definir la función
@@ -839,31 +545,19 @@ elementosNoNulosColDesde3 p j i =
 --    False
 --    ghci> let q = listaMatriz [[3,2,5],[5,7,0],[6,0,0]]
 --    ghci> existeColNoNulaDesde q 2 2
+--    True
 -- ---------------------------------------------------------------------
   
--- albcercid enrnarbej cescarde monlagare marjimcom pabrabmon glovizcas
--- antmorper3 roscargar paumacpar marmerzaf josdeher congomgom manruiber
--- cargonler 
 existeColNoNulaDesde :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-existeColNoNulaDesde p j i = submatrix i m j n p /= zero (m-i+1) (n-j+1)
-  where (m,n) = dimension p
+existeColNoNulaDesde p j i = 
+    or [not (null (elementosNoNulosColDesde p l i)) | l <- [j..n]]
+    where n = numColumnas p
 
--- eliguivil
-
+-- 2ª solución
 existeColNoNulaDesde2 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-existeColNoNulaDesde2 p j i =
-  all (/=0) $ submatrix i (nrows p -1) j (ncols p -1) p
-
--- Comentario: En lugar de
---    all (/=0)
--- se puede usar
---    notElem 0
-
--- antlopgom2
-existeColNoNulaDesde3 :: (Num a, Eq a) => Matrix a -> Int -> Int -> Bool
-existeColNoNulaDesde3 p j i
-  | elementosNoNulosColDesde p j i == [] = False
-  | otherwise                            = True
+existeColNoNulaDesde2 p j i = 
+    submatrix i m j n p /= zero (m-i+1) (n-j+1)
+    where (m,n) = dimension p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 32. Definir la función
@@ -883,24 +577,23 @@ existeColNoNulaDesde3 p j i
 --    Nothing
 -- ---------------------------------------------------------------------
 
--- albcercid cescarde monlagare marjimcom pabrabmon glovizcas antmorper3
--- eliguivil roscargar paumacpar marmerzaf congomgom manruiber cargonler
+-- 1ª definición
 menorIndiceColNoNulaDesde :: (Num a, Eq a) => 
                              Matrix a -> Int -> Int -> Maybe Int
-menorIndiceColNoNulaDesde p j i
-  | not t = Just j
-  | j == numColumnas p = Nothing
-  | otherwise = menorIndiceColNoNulaDesde p (j+1) i
-  where t = anuladaColumnaDesde p j (i-1)
+menorIndiceColNoNulaDesde p j i 
+    | null js   = Nothing
+    | otherwise = Just (head js)
+    where n  = numColumnas p
+          js = [j' | j' <- [j..n], 
+                     not (null (elementosNoNulosColDesde p j' i))]
 
--- enrnarbej josdeher
+-- 2ª definición (con listToMaybe http://bit.ly/212iSgl)
 menorIndiceColNoNulaDesde2 :: (Num a, Eq a) => 
-                             Matrix a -> Int -> Int -> Maybe Int
-menorIndiceColNoNulaDesde2 p j i
-  | not (existeColNoNulaDesde p j i) = Nothing
-  | otherwise                        = Just x
-  where x = head [y | y <- [j..ncols p]
-                    , not (null (elementosNoNulosColDesde p y i))]
+                              Matrix a -> Int -> Int -> Maybe Int
+menorIndiceColNoNulaDesde2 p j i =
+    listToMaybe [j' | j' <- [j..n], 
+                      not (null (elementosNoNulosColDesde p j' i))]
+    where n  = numColumnas p
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 33. Definir la función
@@ -931,19 +624,16 @@ menorIndiceColNoNulaDesde2 p j i
 --    ( 2.0 0.0 1.0 )
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej cescarde pabrabmon marjimcom glovizcas antmorper3
--- eliguivil roscargar paumacpar marmerzaf josdeher congomgom manruiber
--- cargonler 
 gaussAux :: (Fractional a, Eq a) => Matrix a -> Int -> Int -> Matrix a
-gaussAux p i j | (m,n) == (i,j) || not (existeColNoNulaDesde p j i) = p
-               | otherwise = gaussAux p' (i+1) (j+1)
-  where (m,n) = dimension p
-        j' = unJust (menorIndiceColNoNulaDesde p j i)
-        unJust (Just a) = a
-        p1 = switchCols j j' p
-        i' = head [ a | a <- [i..m], p1!(a,j) /= 0]
-        p2 = switchRows i i' p1
-        p' = anulaColumnaDesde p2 j i
+gaussAux p i j 
+    | dimension p == (i,j)             = p                        -- 1
+    | not (existeColNoNulaDesde p j i) = p                        -- 2  
+    | otherwise                        = gaussAux p' (i+1) (j+1)  -- 3
+    where Just j' = menorIndiceColNoNulaDesde p j i               -- 3.1 
+          p1      = intercambiaColumnas j j' p                    -- 3.2
+          Just i' = buscaIndiceDesde p1 j i                       -- 3.3
+          p2      = intercambiaFilas i i' p1                      -- 3.4
+          p'      = anulaColumnaDesde p2 j i                      -- 3.5
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 34. Definir la función
@@ -967,9 +657,6 @@ gaussAux p i j | (m,n) == (i,j) || not (existeColNoNulaDesde p j i) = p
 --    ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej cescarde pabrabmon marjimcom glovizcas antmorper3
--- eliguivil roscargar paumacpar marmerzaf josdeher congomgom manruiber
--- cargonler 
 gauss :: (Fractional a, Eq a) => Matrix a -> Matrix a
 gauss p = gaussAux p 1 1
 
@@ -1007,25 +694,18 @@ gauss p = gaussAux p 1 1
 --       ( 0.0 0.0 0.0 ))
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej cescarde pabrabmon marjimcom glovizcas antmorper3 
--- eliguivil roscargar paumacpar marmerzaf josdeher congomgom manruiber
--- cargonler 
 gaussCAux :: (Fractional a, Eq a) => 
              Matrix a -> Int -> Int -> Int -> (Int,Matrix a)
-gaussCAux p i j c
-  | (m,n) == (i,j) || not (existeColNoNulaDesde p j i) = (c,p)
-  | otherwise = gaussCAux p' (i+1) (j+1) (c + x + y)
-  where (m,n) = dimension p
-        j' = unJust (menorIndiceColNoNulaDesde p j i)
-        unJust (Just a) = a
-        p1 = switchCols j j' p
-        i' = head [ a | a <- [i..m], p1!(a,j) /= 0]
-        p2 = switchRows i i' p1
-        p' = anulaColumnaDesde p2 j i
-        x | i == i' = 0
-          | otherwise = 1
-        y | j == j' = 0
-          | otherwise = 1
+gaussCAux p i j c 
+    | dimension p == (i,j)             = (c,p)                        -- 1
+    | not (existeColNoNulaDesde p j i) = (c,p)                        -- 2  
+    | otherwise                        = gaussCAux p' (i+1) (j+1) c'  -- 3
+    where Just j' = menorIndiceColNoNulaDesde p j i                   -- 3.1 
+          p1      = switchCols j j' p                                 -- 3.2
+          Just i' = buscaIndiceDesde p1 j i                           -- 3.3
+          p2      = switchRows i i' p1                                -- 3.4
+          p'      = anulaColumnaDesde p2 j i                          -- 3.5
+          c'      = c + signum (abs (j-j')) + signum (abs (i-i'))
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 36. Definir la función
@@ -1040,8 +720,6 @@ gaussCAux p i j c
 --        ( 0.0 0.0 0.0 )
 -- ---------------------------------------------------------------------
 
--- albcercid enrnarbej cescarde pabrabmon marjimcom glovizcas antmorper3
--- eliguivil roscargar paumacpar josdeher congomgom manruiber cargonler
 gaussC :: (Fractional a, Eq a) => Matrix a -> (Int,Matrix a)
 gaussC p = gaussCAux p 1 1 0
 
@@ -1054,21 +732,6 @@ gaussC p = gaussCAux p 1 1 0
 --    2.0
 -- ---------------------------------------------------------------------
 
--- albcercid cescarde monlagare pabrabmon marjimcom glovizcas antmorper3
--- eliguivil roscargar paumacpar marmerzaf fatfervaz congomgom manruiber
--- cargonler 
 determinante :: (Fractional a, Eq a) => Matrix a -> a
-determinante = detLaplace
-
--- enrnarbej
-
-determinante2 :: (Fractional a, Eq a) => Matrix a -> a
-determinante2 p = (-1)^n * (product . diagonalPral) m
-  where
-    (n,m) = gaussC p
-
--- josdeher
-
-determinante3 :: (Fractional a, Eq a) => Matrix a -> a
-determinante3 p = (-1)^n * diagProd m
-   where (n,m) = gaussC p
+determinante p = (-1)^c * V.product (getDiag p')
+    where (c,p') = gaussC p
