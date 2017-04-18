@@ -34,3 +34,12 @@ clase) y las soluciones definitivas.
   Newton. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_18_sol.hs][solución]]). 
 + *Relación 19*: Estadística descriptiva. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_19_sol.hs][solución]]).
 + *Relación 20*: Combinatoria. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_20_sol.hs][solución]]).
++ *Relación 21*: Cálculo numérico en Maxima: Diferenciación y métodos de Herón
+  y de Newton. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_21_sol.hs][solución]]). 
++ *Relación 22*: Ecuaciones con factoriales. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_22_sol.hs][solución]]). 
++ *Relación 23*: El TAD de las pilas. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_23.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_23_sol.hs][solución]]).
++ *Relación 24*: Relaciones binarias homogéneas con la librería Data.Set. 
+  ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_24_sol.hs][solución]]).
++ *Relación 25*: Operaciones con el TAD de polinomios. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_25.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_25_sol.hs][solución]]).
++ *Relación 26*: División y factorización de polinomios mediante la regla de
+  Ruffini. ([[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26.hs][Enunciado]] y [[https://github.com/jaalonso/I1M-Ejercicios/blob/master/Ejercicios/Rel_26_sol.hs][solución]]).
