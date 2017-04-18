@@ -1,4 +1,4 @@
--- I1M 2015-16: Relación 34 (22 de abril de 2016) 
+-- I1M 2015-16: Relación 26 (19 de abril de 2017) 
 -- División y factorización de polinomios mediante la regla de Ruffini
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
