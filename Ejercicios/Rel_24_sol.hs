@@ -1,4 +1,4 @@
--- I1M 2016-17: Relación 23 (23 de marzo de 2017)
+-- I1M 2016-17: Relación 24 (23 de marzo de 2017)
 -- Relaciones binarias homogéneas con la librería Data.Set.
 -- Departamento de Ciencias de la Computación e I.A.
 -- Universidad de Sevilla
